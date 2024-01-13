@@ -1937,6 +1937,18 @@ diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/s
 +#endif
 +
 +#endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LOONG64_LINUX_SYSCALLS_H_
+diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc
+--- b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-01-11 23:22:58.822640049 +0800
++++ a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-01-14 01:39:54.097702720 +0800
+@@ -38,7 +38,7 @@
+     case __NR_sched_setscheduler:
+     case __NR_sysinfo:
+     case __NR_uname:
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_readlink:
+     case __NR_stat:
+ #endif
 diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/sandbox/policy/linux/bpf_gpu_policy_linux.cc a/sandbox/policy/linux/bpf_gpu_policy_linux.cc
 --- b/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-01-11 23:22:58.822640049 +0800
 +++ a/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-01-14 01:27:42.210378182 +0800
@@ -1963,12 +1975,12 @@ diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/s
      case __NR_getdents64:
 diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/sandbox/policy/linux/sandbox_linux.cc a/sandbox/policy/linux/sandbox_linux.cc
 --- b/sandbox/policy/linux/sandbox_linux.cc	2024-01-11 23:22:58.826640215 +0800
-+++ a/sandbox/policy/linux/sandbox_linux.cc	2024-01-14 01:30:09.499221411 +0800
++++ a/sandbox/policy/linux/sandbox_linux.cc	2024-01-14 01:39:07.559390158 +0800
 @@ -558,7 +558,11 @@
    const bpf_dsl::ResultExpr handle_via_broker =
        bpf_dsl::Trap(syscall_broker::BrokerClient::SIGSYS_Handler,
                      broker_process_->GetBrokerClientSignalBased());
-+#if defined(__loongarch__)
++#if !defined(__loongarch__)
    if (sysno == __NR_fstatat_default) {
 +#else
 +  if (false) {
