@@ -9,6 +9,18 @@ diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/b
 +    libs = [ ":libffi.a" ]
    }
  }
+diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/sandbox/features.gni a/sandbox/features.gni
+--- b/sandbox/features.gni	2024-01-11 23:22:58.802639216 +0800
++++ a/sandbox/features.gni	2024-01-14 01:31:40.134332171 +0800
+@@ -9,7 +9,7 @@
+ use_seccomp_bpf = (is_linux || is_chromeos || is_android) &&
+                   (current_cpu == "x86" || current_cpu == "x64" ||
+                    current_cpu == "arm" || current_cpu == "arm64" ||
+-                   current_cpu == "mipsel" || current_cpu == "mips64el")
++                   current_cpu == "mipsel" || current_cpu == "mips64el" || current_cpu == "loong64")
+ 
+ # SSBD (Speculative Store Bypass Disable) is a mitigation of Spectre Variant 4.
+ # As Spectre Variant 4 can be mitigated by site isolation, opt-out SSBD on site
 diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h
 --- b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-11 23:22:58.806639382 +0800
 +++ a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-12 10:46:39.512355354 +0800
@@ -1925,6 +1937,45 @@ diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/s
 +#endif
 +
 +#endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LOONG64_LINUX_SYSCALLS_H_
+diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/sandbox/policy/linux/bpf_gpu_policy_linux.cc a/sandbox/policy/linux/bpf_gpu_policy_linux.cc
+--- b/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-01-11 23:22:58.822640049 +0800
++++ a/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-01-14 01:27:42.210378182 +0800
+@@ -73,7 +73,7 @@
+     (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
+     case __NR_ftruncate64:
+ #endif
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_getdents:
+ #endif
+     case __NR_getdents64:
+diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/sandbox/policy/linux/bpf_network_policy_linux.cc a/sandbox/policy/linux/bpf_network_policy_linux.cc
+--- b/sandbox/policy/linux/bpf_network_policy_linux.cc	2024-01-11 23:22:58.826640215 +0800
++++ a/sandbox/policy/linux/bpf_network_policy_linux.cc	2024-01-14 01:28:40.726259949 +0800
+@@ -255,7 +255,7 @@
+     case __NR_fdatasync:
+     case __NR_fsync:
+     case __NR_mremap:
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_getdents:
+ #endif
+     case __NR_getdents64:
+diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/sandbox/policy/linux/sandbox_linux.cc a/sandbox/policy/linux/sandbox_linux.cc
+--- b/sandbox/policy/linux/sandbox_linux.cc	2024-01-11 23:22:58.826640215 +0800
++++ a/sandbox/policy/linux/sandbox_linux.cc	2024-01-14 01:30:09.499221411 +0800
+@@ -558,7 +558,11 @@
+   const bpf_dsl::ResultExpr handle_via_broker =
+       bpf_dsl::Trap(syscall_broker::BrokerClient::SIGSYS_Handler,
+                     broker_process_->GetBrokerClientSignalBased());
++#if defined(__loongarch__)
+   if (sysno == __NR_fstatat_default) {
++#else
++  if (false) {
++#endif
+     // This may be an fstatat(fd, "", stat_buf, AT_EMPTY_PATH), which should be
+     // rewritten as fstat(fd, stat_buf). This should be consistent with how the
+     // baseline policy handles fstatat().
 diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/skia/BUILD.gn a/skia/BUILD.gn
 --- b/skia/BUILD.gn	2024-01-11 23:22:59.262658362 +0800
 +++ a/skia/BUILD.gn	2024-01-11 23:36:29.633272805 +0800
