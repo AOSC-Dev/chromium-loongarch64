@@ -2500,7 +2500,7 @@ diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/t
  declare_args() {
 diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn
 --- b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-11 23:24:56.459369202 +0800
-+++ a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-13 23:49:33.877603708 +0800
++++ a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-14 00:48:06.792549726 +0800
 @@ -97,6 +97,7 @@
    "llvm/include/",
    "llvm/lib/Target/AArch64/",
@@ -2526,7 +2526,15 @@ diff '--color=auto' -x out -x __pycache__ -N --unidirectional-new-file -u -r b/t
    } else if (current_cpu == "x86" || current_cpu == "x64") {
      deps += [ ":swiftshader_llvm_x86" ]
    } else {
-@@ -1691,3 +1695,33 @@
+@@ -274,6 +278,7 @@
+     "llvm/lib/Analysis/PtrUseVisitor.cpp",
+     "llvm/lib/Analysis/RegionInfo.cpp",
+     "llvm/lib/Analysis/RegionPass.cpp",
++    "llvm/lib/Analysis/RegionPrinter.cpp",
+     "llvm/lib/Analysis/ReplayInlineAdvisor.cpp",
+     "llvm/lib/Analysis/ScalarEvolution.cpp",
+     "llvm/lib/Analysis/ScalarEvolutionAliasAnalysis.cpp",
+@@ -1691,3 +1696,33 @@
      "llvm/lib/Transforms/IPO/BarrierNoopPass.cpp",
    ]
  }
