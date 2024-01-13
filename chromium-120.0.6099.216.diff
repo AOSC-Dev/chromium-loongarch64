@@ -1,0 +1,1457 @@
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h
+--- b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-11 23:22:58.806639382 +0800
++++ a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-12 10:46:39.512355354 +0800
+@@ -56,6 +56,13 @@
+ #define MAX_PUBLIC_SYSCALL __NR_syscalls
+ #define MAX_SYSCALL MAX_PUBLIC_SYSCALL
+ 
++#elif defined(__loongarch__)
++
++#include <asm-generic/unistd.h>
++#define MIN_SYSCALL 0u
++#define MAX_PUBLIC_SYSCALL __NR_syscalls
++#define MAX_SYSCALL MAX_PUBLIC_SYSCALL
++
+ #else
+ #error "Unsupported architecture"
+ #endif
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/bpf_dsl/seccomp_macros.h a/sandbox/linux/bpf_dsl/seccomp_macros.h
+--- b/sandbox/linux/bpf_dsl/seccomp_macros.h	2024-01-11 23:22:58.806639382 +0800
++++ a/sandbox/linux/bpf_dsl/seccomp_macros.h	2024-01-12 10:37:37.987433690 +0800
+@@ -343,6 +343,47 @@
+ #define SECCOMP_PT_PARM4(_regs) (_regs).regs[3]
+ #define SECCOMP_PT_PARM5(_regs) (_regs).regs[4]
+ #define SECCOMP_PT_PARM6(_regs) (_regs).regs[5]
++
++#elif defined(__loongarch__)
++struct regs_struct {
++  unsigned long long regs[32];
++  unsigned long long pc;
++};
++
++#define SECCOMP_ARCH AUDIT_ARCH_LOONGARCH64
++
++#define SECCOMP_REG(_ctx, _reg) ((_ctx)->uc_mcontext.__gregs[_reg])
++
++#define SECCOMP_RESULT(_ctx) SECCOMP_REG(_ctx, 4)
++#define SECCOMP_SYSCALL(_ctx) SECCOMP_REG(_ctx, 11)
++#define SECCOMP_IP(_ctx) (_ctx)->uc_mcontext.__pc
++#define SECCOMP_PARM1(_ctx) SECCOMP_REG(_ctx, 4)
++#define SECCOMP_PARM2(_ctx) SECCOMP_REG(_ctx, 5)
++#define SECCOMP_PARM3(_ctx) SECCOMP_REG(_ctx, 6)
++#define SECCOMP_PARM4(_ctx) SECCOMP_REG(_ctx, 7)
++#define SECCOMP_PARM5(_ctx) SECCOMP_REG(_ctx, 8)
++#define SECCOMP_PARM6(_ctx) SECCOMP_REG(_ctx, 9)
++
++#define SECCOMP_NR_IDX (offsetof(struct arch_seccomp_data, nr))
++#define SECCOMP_ARCH_IDX (offsetof(struct arch_seccomp_data, arch))
++#define SECCOMP_IP_MSB_IDX \
++  (offsetof(struct arch_seccomp_data, instruction_pointer) + 4)
++#define SECCOMP_IP_LSB_IDX \
++  (offsetof(struct arch_seccomp_data, instruction_pointer) + 0)
++#define SECCOMP_ARG_MSB_IDX(nr) \
++  (offsetof(struct arch_seccomp_data, args) + 8 * (nr) + 4)
++#define SECCOMP_ARG_LSB_IDX(nr) \
++  (offsetof(struct arch_seccomp_data, args) + 8 * (nr) + 0)
++
++#define SECCOMP_PT_RESULT(_regs) (_regs).regs[4]
++#define SECCOMP_PT_SYSCALL(_regs) (_regs).regs[11]
++#define SECCOMP_PT_IP(_regs) (_regs).pc
++#define SECCOMP_PT_PARM1(_regs) (_regs).regs[4]
++#define SECCOMP_PT_PARM2(_regs) (_regs).regs[5]
++#define SECCOMP_PT_PARM3(_regs) (_regs).regs[6]
++#define SECCOMP_PT_PARM4(_regs) (_regs).regs[7]
++#define SECCOMP_PT_PARM5(_regs) (_regs).regs[8]
++#define SECCOMP_PT_PARM6(_regs) (_regs).regs[9]
+ #else
+ #error Unsupported target platform
+ 
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/seccomp-bpf/syscall.cc a/sandbox/linux/seccomp-bpf/syscall.cc
+--- b/sandbox/linux/seccomp-bpf/syscall.cc	2024-01-11 23:22:58.806639382 +0800
++++ a/sandbox/linux/seccomp-bpf/syscall.cc	2024-01-12 10:45:52.033105359 +0800
+@@ -18,7 +18,7 @@
+ namespace {
+ 
+ #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM_FAMILY) || \
+-    defined(ARCH_CPU_MIPS_FAMILY)
++    defined(ARCH_CPU_MIPS_FAMILY) || defined(ARCH_CPU_LOONGARCH_FAMILY)
+ // Number that's not currently used by any Linux kernel ABIs.
+ const int kInvalidSyscallNumber = 0x351d3;
+ #else
+@@ -308,6 +308,27 @@
+     "2:ret\n"
+     ".cfi_endproc\n"
+     ".size SyscallAsm, .-SyscallAsm\n"
++#elif defined(__loongarch__)
++    ".text\n"
++    ".align 2\n"
++    ".type SyscallAsm, %function\n"
++    "SyscallAsm:\n"
++    ".cfi_startproc\n"
++    "bge $a0, $zero, 1f\n"
++    "la.pcrel $a0, 2f\n"
++    "b 2f\n"
++    "1:ld.d $a5, $a6, 40\n"
++    "ld.d $a4, $a6, 32\n"
++    "ld.d $a3, $a6, 24\n"
++    "ld.d $a2, $a6, 16\n"
++    "ld.d $a1, $a6, 8\n"
++    "move $a7, $a0\n"
++    "ld.d $a0, $a6, 0\n"
++    // Enter the kernel
++    "syscall 0\n"
++    "2:ret\n"
++    ".cfi_endproc\n"
++    ".size SyscallAsm, .-SyscallAsm\n"
+ #endif
+     );  // asm
+ 
+@@ -425,6 +446,18 @@
+     ret = inout;
+   }
+ 
++#elif defined(__loongarch__)
++  intptr_t ret;
++  {
++    register intptr_t inout __asm__("$r4") = nr;
++    register const intptr_t* data __asm__("$r10") = args;
++    asm volatile("bl SyscallAsm\n"
++                 : "=r"(inout)
++                 : "0"(inout), "r"(data)
++                 : "memory", "$r5", "$r6", "$r7", "$r8", "$r9", "$r11", "$r1");
++    ret = inout;
++  }
++
+ #else
+ #error "Unimplemented architecture"
+ #endif
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
+--- b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-11 23:22:58.810639549 +0800
++++ a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-12 10:39:54.405756131 +0800
+@@ -193,7 +193,7 @@
+     return RestrictFcntlCommands();
+ #endif
+ 
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+   // fork() is never used as a system call (clone() is used instead), but we
+   // have seen it in fallback code on Android.
+   if (sysno == __NR_fork) {
+@@ -305,9 +305,11 @@
+   // The fstatat syscalls are file system syscalls, which will be denied below
+   // with fs_denied_errno. However some allowed fstat syscalls are rewritten by
+   // libc implementations to fstatat syscalls, and we need to rewrite them back.
++#if !defined(__loongarch__)
+   if (sysno == __NR_fstatat_default) {
+     return RewriteFstatatSIGSYS(fs_denied_errno);
+   }
++#endif
+ 
+   // The statx syscall is a filesystem syscall, which will be denied below with
+   // fs_denied_errno. However, on some platforms, glibc will default to statx
+@@ -366,7 +368,7 @@
+   // Allow creating pipes, but don't allow weird flags to pipe2().
+   // O_NOTIFICATION_PIPE (== O_EXCL) can be used to create
+   // "notification pipes", which are rarely used.
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+   if (sysno == __NR_pipe) {
+     return Allow();
+   }
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
+--- b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2024-01-11 23:22:58.810639549 +0800
++++ a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2024-01-12 10:35:16.883626622 +0800
+@@ -354,6 +354,7 @@
+ 
+ intptr_t SIGSYSFstatatHandler(const struct arch_seccomp_data& args,
+                               void* fs_denied_errno) {
++#if !defined(__loongarch__)
+   if (args.nr == __NR_fstatat_default) {
+     if (*reinterpret_cast<const char*>(args.args[1]) == '\0' &&
+         args.args[3] == static_cast<uint64_t>(AT_EMPTY_PATH)) {
+@@ -362,6 +363,7 @@
+     }
+     return -reinterpret_cast<intptr_t>(fs_denied_errno);
+   }
++#endif
+ 
+   CrashSIGSYS_Handler(args, fs_denied_errno);
+ 
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
+--- b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-11 23:22:58.810639549 +0800
++++ a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-12 10:54:05.479538216 +0800
+@@ -37,7 +37,7 @@
+ 
+ #if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) && \
+     !defined(__arm__) && !defined(__aarch64__) &&             \
+-    !defined(PTRACE_GET_THREAD_AREA)
++    !defined(PTRACE_GET_THREAD_AREA) && !defined(__loongarch__)
+ // Also include asm/ptrace-abi.h since ptrace.h in older libc (for instance
+ // the one in Ubuntu 16.04 LTS) is missing PTRACE_GET_THREAD_AREA.
+ // asm/ptrace-abi.h doesn't exist on arm32 and PTRACE_GET_THREAD_AREA isn't
+@@ -460,8 +460,11 @@
+   return Switch(request)
+       .Cases({
+ #if !defined(__aarch64__)
+-                 PTRACE_GETREGS, PTRACE_GETFPREGS, PTRACE_GET_THREAD_AREA,
++                 PTRACE_GETREGS, PTRACE_GETFPREGS,
+                  PTRACE_GETREGSET,
++#if !defined(__loongarch__)
++                 PTRACE_GET_THREAD_AREA,
++#endif
+ #endif
+ #if defined(__arm__)
+                  PTRACE_GETVFPREGS,
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
+--- b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-11 23:22:58.810639549 +0800
++++ a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-12 10:52:56.532703190 +0800
+@@ -103,7 +103,7 @@
+ // Both EPERM and ENOENT are valid errno unless otherwise noted in comment.
+ bool SyscallSets::IsFileSystem(int sysno) {
+   switch (sysno) {
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_access:  // EPERM not a valid errno.
+     case __NR_chmod:
+     case __NR_chown:
+@@ -161,7 +161,9 @@
+ #endif
+     case __NR_openat:
+     case __NR_readlinkat:
++#if !defined(__loongarch__)
+     case __NR_renameat:
++#endif
+     case __NR_renameat2:
+ #if defined(__i386__) || defined(__arm__) || \
+     (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
+@@ -211,7 +213,9 @@
+ 
+ bool SyscallSets::IsAllowedFileSystemAccessViaFd(int sysno) {
+   switch (sysno) {
++#if !defined(__loongarch__)
+     case __NR_fstat:
++#endif
+     case __NR_ftruncate:
+ #if defined(__i386__) || defined(__arm__) || \
+     (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
+@@ -260,7 +264,7 @@
+ #if defined(__i386__) || defined(__arm__)
+     case __NR_fchown32:
+ #endif
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_getdents:    // EPERM not a valid errno.
+ #endif
+     case __NR_getdents64:  // EPERM not a valid errno.
+@@ -339,7 +343,7 @@
+ bool SyscallSets::IsProcessGroupOrSession(int sysno) {
+   switch (sysno) {
+     case __NR_setpgid:
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_getpgrp:
+ #endif
+     case __NR_setsid:
+@@ -373,7 +377,7 @@
+     case __NR_rt_sigqueueinfo:
+     case __NR_rt_sigsuspend:
+     case __NR_rt_tgsigqueueinfo:
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_signalfd:
+ #endif
+     case __NR_signalfd4:
+@@ -397,7 +401,7 @@
+   switch (sysno) {
+     case __NR_close:
+     case __NR_dup:
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_dup2:
+ #endif
+     case __NR_dup3:
+@@ -441,7 +445,7 @@
+       return true;
+     case __NR_clone:  // Should be parameter-restricted.
+     case __NR_setns:  // Privileged.
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_fork:
+ #endif
+ #if defined(__i386__) || defined(__x86_64__)
+@@ -452,7 +456,7 @@
+ #endif
+     case __NR_set_tid_address:
+     case __NR_unshare:
+-#if !defined(__mips__) && !defined(__aarch64__)
++#if !defined(__mips__) && !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_vfork:
+ #endif
+     default:
+@@ -477,7 +481,7 @@
+ 
+ bool SyscallSets::IsAllowedEpoll(int sysno) {
+   switch (sysno) {
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_epoll_create:
+     case __NR_epoll_wait:
+ #endif
+@@ -586,7 +590,7 @@
+     (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
+     case __NR__llseek:
+ #endif
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_poll:
+ #endif
+     case __NR_ppoll:
+@@ -671,7 +675,7 @@
+ bool SyscallSets::IsAllowedBasicScheduler(int sysno) {
+   switch (sysno) {
+     case __NR_sched_yield:
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_pause:
+ #endif
+     case __NR_nanosleep:
+@@ -803,7 +807,9 @@
+     case __NR_getrusage:
+     case __NR_personality:  // Can change its personality as well.
+     case __NR_prlimit64:    // Like setrlimit / getrlimit.
++#if !defined(__loongarch__)
+     case __NR_setrlimit:
++#endif
+     case __NR_times:
+       return true;
+     default:
+@@ -825,7 +831,7 @@
+ 
+ bool SyscallSets::IsGlobalSystemStatus(int sysno) {
+   switch (sysno) {
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR__sysctl:
+     case __NR_sysfs:
+ #endif
+@@ -843,7 +849,7 @@
+ 
+ bool SyscallSets::IsEventFd(int sysno) {
+   switch (sysno) {
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_eventfd:
+ #endif
+     case __NR_eventfd2:
+@@ -895,7 +901,7 @@
+ }
+ 
+ #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
+-    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS))
++    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS)) || defined(__loongarch__)
+ bool SyscallSets::IsSystemVSemaphores(int sysno) {
+   switch (sysno) {
+     case __NR_semctl:
+@@ -915,7 +921,7 @@
+ 
+ #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
+     defined(__aarch64__) ||                                         \
+-    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS))
++    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS)) || defined(__loongarch__)
+ // These give a lot of ambient authority and bypass the setuid sandbox.
+ bool SyscallSets::IsSystemVSharedMemory(int sysno) {
+   switch (sysno) {
+@@ -931,7 +937,7 @@
+ #endif
+ 
+ #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
+-    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS))
++    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS)) || defined(__loongarch__)
+ bool SyscallSets::IsSystemVMessageQueue(int sysno) {
+   switch (sysno) {
+     case __NR_msgctl:
+@@ -962,7 +968,7 @@
+ 
+ bool SyscallSets::IsAnySystemV(int sysno) {
+ #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
+-    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS))
++    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS)) || defined(__loongarch__)
+   return IsSystemVMessageQueue(sysno) || IsSystemVSemaphores(sysno) ||
+          IsSystemVSharedMemory(sysno);
+ #elif defined(__i386__) || \
+@@ -999,7 +1005,7 @@
+ bool SyscallSets::IsInotify(int sysno) {
+   switch (sysno) {
+     case __NR_inotify_add_watch:
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_inotify_init:
+ #endif
+     case __NR_inotify_init1:
+@@ -1137,7 +1143,7 @@
+ #if defined(__x86_64__)
+     case __NR_tuxcall:
+ #endif
+-#if !defined(__aarch64__)
++#if !defined(__aarch64__) && !defined(__loongarch__)
+     case __NR_vserver:
+ #endif
+       return true;
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h
+--- b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2024-01-11 23:22:58.810639549 +0800
++++ a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2024-01-12 10:52:34.908743591 +0800
+@@ -79,18 +79,18 @@
+   static bool IsAsyncIo(int sysno);
+   static bool IsKeyManagement(int sysno);
+ #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
+-    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS))
++    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS)) || defined(__loongarch__)
+   static bool IsSystemVSemaphores(int sysno);
+ #endif
+ #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
+     defined(__aarch64__) ||                                         \
+-    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS))
++    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS)) || defined(__loongarch__)
+   // These give a lot of ambient authority and bypass the setuid sandbox.
+   static bool IsSystemVSharedMemory(int sysno);
+ #endif
+ 
+ #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
+-    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS))
++    (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_64_BITS)) || defined(__loongarch__)
+   static bool IsSystemVMessageQueue(int sysno);
+ #endif
+ 
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/services/credentials.cc a/sandbox/linux/services/credentials.cc
+--- b/sandbox/linux/services/credentials.cc	2024-01-11 23:22:58.810639549 +0800
++++ a/sandbox/linux/services/credentials.cc	2024-01-12 10:54:53.494393598 +0800
+@@ -80,7 +80,7 @@
+   pid_t pid = -1;
+   alignas(16) char stack_buf[PTHREAD_STACK_MIN];
+ #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM_FAMILY) || \
+-    defined(ARCH_CPU_MIPS_FAMILY)
++    defined(ARCH_CPU_MIPS_FAMILY) || defined(ARCH_CPU_LOONGARCH_FAMILY)
+   // The stack grows downward.
+   void* stack = stack_buf + sizeof(stack_buf);
+ #else
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/services/syscall_wrappers.cc a/sandbox/linux/services/syscall_wrappers.cc
+--- b/sandbox/linux/services/syscall_wrappers.cc	2024-01-11 23:22:58.810639549 +0800
++++ a/sandbox/linux/services/syscall_wrappers.cc	2024-01-12 10:31:29.914912028 +0800
+@@ -5,6 +5,7 @@
+ #include "sandbox/linux/services/syscall_wrappers.h"
+ 
+ #include <fcntl.h>
++#include <linux/stat.h>
+ #include <pthread.h>
+ #include <sched.h>
+ #include <setjmp.h>
+@@ -163,9 +164,53 @@
+   return sigaction(signum, act, oldact);
+ }
+ 
++// follow glibc __cp_stat64_statx
++void statx_to_stat(struct kernel_stat* to, struct kernel_statx* from) {
++  memset(to, 0, sizeof(struct kernel_stat));
++  to->st_dev = ((from->stx_dev_minor & 0xff) | (from->stx_dev_major << 8) |
++                ((from->stx_dev_minor & ~0xff) << 12));
++  to->st_rdev = ((from->stx_rdev_minor & 0xff) | (from->stx_rdev_major << 8) |
++                 ((from->stx_rdev_minor & ~0xff) << 12));
++  to->st_ino = from->stx_ino;
++  to->st_mode = from->stx_mode;
++  to->st_nlink = from->stx_nlink;
++  to->st_uid = from->stx_uid;
++  to->st_gid = from->stx_gid;
++  to->st_atime_ = from->stx_atime.tv_sec;
++  to->st_atime_nsec_ = from->stx_atime.tv_nsec;
++  to->st_mtime_ = from->stx_mtime.tv_sec;
++  to->st_mtime_nsec_ = from->stx_mtime.tv_nsec;
++  to->st_ctime_ = from->stx_ctime.tv_sec;
++  to->st_ctime_nsec_ = from->stx_ctime.tv_nsec;
++  to->st_size = from->stx_size;
++  to->st_blocks = from->stx_blocks;
++  to->st_blksize = from->stx_blksize;
++}
++
++int sys_statx(int fd,
++              const char* path,
++              int flags,
++              unsigned int mask,
++              struct kernel_statx* statx_buf) {
++#if defined(__NR_statx)
++  int res = syscall(__NR_statx, fd, path, flags, mask, statx_buf);
++  if (res == 0)
++    MSAN_UNPOISON(statx_buf, sizeof(*statx_buf));
++  return res;
++#else  // defined(__NR_statx)
++  RAW_CHECK(false);
++  return -ENOSYS;
++#endif
++}
++
+ int sys_stat(const char* path, struct kernel_stat* stat_buf) {
+   int res;
+-#if !defined(__NR_stat)
++#if defined(__NR_statx)
++  kernel_statx statx_buf;
++  res = syscall(__NR_statx, AT_FDCWD, path, AT_NO_AUTOMOUNT, STATX_BASIC_STATS, &statx_buf);
++  if (res == 0)
++    statx_to_stat(stat_buf, &statx_buf);
++#elif !defined(__NR_stat)
+   res = syscall(__NR_newfstatat, AT_FDCWD, path, stat_buf, 0);
+ #else
+   res = syscall(__NR_stat, path, stat_buf);
+@@ -177,7 +222,12 @@
+ 
+ int sys_lstat(const char* path, struct kernel_stat* stat_buf) {
+   int res;
+-#if !defined(__NR_lstat)
++#if defined(__NR_statx)
++  kernel_statx statx_buf;
++  res = syscall(__NR_statx, AT_FDCWD, path, AT_NO_AUTOMOUNT | AT_SYMLINK_NOFOLLOW, STATX_BASIC_STATS, &statx_buf);
++  if (res == 0)
++    statx_to_stat(stat_buf, &statx_buf);
++#elif !defined(__NR_lstat)
+   res = syscall(__NR_newfstatat, AT_FDCWD, path, stat_buf, AT_SYMLINK_NOFOLLOW);
+ #else
+   res = syscall(__NR_lstat, path, stat_buf);
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/services/syscall_wrappers.h a/sandbox/linux/services/syscall_wrappers.h
+--- b/sandbox/linux/services/syscall_wrappers.h	2024-01-11 23:22:58.810639549 +0800
++++ a/sandbox/linux/services/syscall_wrappers.h	2024-01-12 10:30:02.867999118 +0800
+@@ -19,6 +19,7 @@
+ struct cap_data;
+ struct kernel_stat;
+ struct kernel_stat64;
++struct kernel_statx;
+ 
+ namespace sandbox {
+ 
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/syscall_broker/broker_process.cc a/sandbox/linux/syscall_broker/broker_process.cc
+--- b/sandbox/linux/syscall_broker/broker_process.cc	2024-01-11 23:22:58.814639715 +0800
++++ a/sandbox/linux/syscall_broker/broker_process.cc	2024-01-12 10:34:14.834680346 +0800
+@@ -122,44 +122,46 @@
+   // and are default disabled in Android. So, we should refuse to broker them
+   // to be consistent with the platform's restrictions.
+   switch (sysno) {
+-#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID)
++#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID) && !defined(__loongarch__)
+     case __NR_access:
+ #endif
+     case __NR_faccessat:
+     case __NR_faccessat2:
+       return !fast_check || policy_->allowed_command_set.test(COMMAND_ACCESS);
+ 
+-#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID)
++#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID) && !defined(__loongarch__)
+     case __NR_mkdir:
+ #endif
+     case __NR_mkdirat:
+       return !fast_check || policy_->allowed_command_set.test(COMMAND_MKDIR);
+ 
+-#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID)
++#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID) && !defined(__loongarch__)
+     case __NR_open:
+ #endif
+     case __NR_openat:
+       return !fast_check || policy_->allowed_command_set.test(COMMAND_OPEN);
+ 
+-#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID)
++#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID) && !defined(__loongarch__)
+     case __NR_readlink:
+ #endif
+     case __NR_readlinkat:
+       return !fast_check || policy_->allowed_command_set.test(COMMAND_READLINK);
+ 
+-#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID)
++#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID) && !defined(__loongarch__)
+     case __NR_rename:
+ #endif
++#if !defined(__loongarch__)
+     case __NR_renameat:
++#endif
+     case __NR_renameat2:
+       return !fast_check || policy_->allowed_command_set.test(COMMAND_RENAME);
+ 
+-#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID)
++#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID) && !defined(__loongarch__)
+     case __NR_rmdir:
+       return !fast_check || policy_->allowed_command_set.test(COMMAND_RMDIR);
+ #endif
+ 
+-#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID)
++#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID) && !defined(__loongarch__)
+     case __NR_stat:
+     case __NR_lstat:
+ #endif
+@@ -184,7 +186,7 @@
+       return !fast_check || policy_->allowed_command_set.test(COMMAND_STAT);
+ #endif
+ 
+-#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID)
++#if !defined(__aarch64__) && !BUILDFLAG(IS_ANDROID) && !defined(__loongarch__)
+     case __NR_unlink:
+       return !fast_check || policy_->allowed_command_set.test(COMMAND_UNLINK);
+ #endif
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/system_headers/linux_seccomp.h a/sandbox/linux/system_headers/linux_seccomp.h
+--- b/sandbox/linux/system_headers/linux_seccomp.h	2024-01-11 23:22:58.818639882 +0800
++++ a/sandbox/linux/system_headers/linux_seccomp.h	2024-01-12 10:38:43.332184312 +0800
+@@ -39,6 +39,10 @@
+ #define EM_AARCH64 183
+ #endif
+ 
++#ifndef EM_LOONGARCH64
++#define EM_LOONGARCH64 258
++#endif
++
+ #ifndef __AUDIT_ARCH_64BIT
+ #define __AUDIT_ARCH_64BIT 0x80000000
+ #endif
+@@ -71,6 +75,10 @@
+ #define AUDIT_ARCH_AARCH64 (EM_AARCH64 | __AUDIT_ARCH_64BIT | __AUDIT_ARCH_LE)
+ #endif
+ 
++#ifndef AUDIT_ARCH_LOONGARCH64
++#define AUDIT_ARCH_LOONGARCH64 (EM_LOONGARCH64 | __AUDIT_ARCH_64BIT | __AUDIT_ARCH_LE)
++#endif
++
+ // For prctl.h
+ #ifndef PR_SET_SECCOMP
+ #define PR_SET_SECCOMP               22
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/system_headers/linux_signal.h a/sandbox/linux/system_headers/linux_signal.h
+--- b/sandbox/linux/system_headers/linux_signal.h	2024-01-11 23:22:58.818639882 +0800
++++ a/sandbox/linux/system_headers/linux_signal.h	2024-01-12 10:01:48.402578845 +0800
+@@ -13,7 +13,7 @@
+ // (not undefined, but defined different values and in different memory
+ // layouts). So, fill the gap here.
+ #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
+-    defined(__aarch64__)
++    defined(__aarch64__) || defined(__loongarch__)
+ 
+ #define LINUX_SIGHUP 1
+ #define LINUX_SIGINT 2
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/system_headers/linux_stat.h a/sandbox/linux/system_headers/linux_stat.h
+--- b/sandbox/linux/system_headers/linux_stat.h	2024-01-11 23:22:58.818639882 +0800
++++ a/sandbox/linux/system_headers/linux_stat.h	2024-01-12 10:25:10.794044887 +0800
+@@ -150,7 +150,7 @@
+   int st_blocks;
+   int st_pad4[14];
+ };
+-#elif defined(__aarch64__)
++#elif defined(__aarch64__) || defined(__loongarch__)
+ struct kernel_stat {
+   unsigned long st_dev;
+   unsigned long st_ino;
+@@ -175,6 +175,42 @@
+ };
+ #endif
+ 
++#if defined(__loongarch__)
++// from linux include/uapi/linux/stat.h
++struct kernel_statx_timestamp {
++  long tv_sec;
++  unsigned int tv_nsec;
++  int __reserved;
++};
++
++struct kernel_statx {
++  unsigned int stx_mask;
++  unsigned int stx_blksize;
++  unsigned long stx_attributes;
++  unsigned int stx_nlink;
++  unsigned int stx_uid;
++  unsigned int stx_gid;
++  unsigned short stx_mode;
++  unsigned short __spare0[1];
++  unsigned long stx_ino;
++  unsigned long stx_size;
++  unsigned long stx_blocks;
++  unsigned long stx_attributes_mask;
++  struct kernel_statx_timestamp stx_atime;
++  struct kernel_statx_timestamp stx_btime;
++  struct kernel_statx_timestamp stx_ctime;
++  struct kernel_statx_timestamp stx_mtime;
++  unsigned int stx_rdev_major;
++  unsigned int stx_rdev_minor;
++  unsigned int stx_dev_major;
++  unsigned int stx_dev_minor;
++  unsigned long stx_mnt_id;
++  unsigned int stx_dio_mem_align;
++  unsigned int stx_dio_offset_align;
++  unsigned long __spare3[12];
++};
++#endif
++
+ #if !defined(AT_EMPTY_PATH)
+ #define AT_EMPTY_PATH 0x1000
+ #endif
+@@ -207,8 +243,14 @@
+ #define __NR_fstatat_default __NR_newfstatat
+ #define __NR_fstat_default __NR_fstat
+ 
++#elif defined(__NR_statx)
++
++namespace sandbox {
++using default_stat_struct = struct kernel_statx;
++}  // namespace sandbox
++
+ #else
+-#error "one of fstatat64 and newfstatat must be defined"
++#error "one of fstatat64, newfstatat and statx must be defined"
+ #endif
+ 
+ #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LINUX_STAT_H_
+diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/system_headers/linux_syscalls.h a/sandbox/linux/system_headers/linux_syscalls.h
+--- b/sandbox/linux/system_headers/linux_syscalls.h	2024-01-11 23:22:58.818639882 +0800
++++ a/sandbox/linux/system_headers/linux_syscalls.h	2024-01-12 10:13:40.572370287 +0800
+@@ -35,5 +35,9 @@
+ #include "sandbox/linux/system_headers/arm64_linux_syscalls.h"
+ #endif
+ 
++#if defined(__loongarch__)
++#include "sandbox/linux/system_headers/loong64_linux_syscalls.h"
++#endif
++
+ #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LINUX_SYSCALLS_H_
+ 
+Only in a/sandbox/linux/system_headers: loong64_linux_syscalls.h
+diff '--color=auto' -x out -x __pycache__ -u -r b/skia/BUILD.gn a/skia/BUILD.gn
+--- b/skia/BUILD.gn	2024-01-11 23:22:59.262658362 +0800
++++ a/skia/BUILD.gn	2024-01-11 23:36:29.633272805 +0800
+@@ -789,6 +789,8 @@
+     # Conditional and empty body needed to avoid assert() below.
+   } else if (current_cpu == "riscv64") {
+     # Conditional and empty body needed to avoid assert() below.
++  } else if (current_cpu == "loong64") {
++    # Conditional and empty body needed to avoid assert() below.
+   } else {
+     assert(false, "Unknown cpu target")
+   }
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/blink/renderer/core/BUILD.gn a/third_party/blink/renderer/core/BUILD.gn
+--- b/third_party/blink/renderer/core/BUILD.gn	2024-01-11 23:23:13.563250834 +0800
++++ a/third_party/blink/renderer/core/BUILD.gn	2024-01-11 23:37:33.025391345 +0800
+@@ -1677,7 +1677,8 @@
+   python_path_root = "${root_out_dir}/pyproto"
+   python_path_proto = "${python_path_root}/third_party/blink/renderer/core/lcp_critical_path_predictor"
+ 
+-  mnemonic = "ELOC_PROTO"
++  # Assignment had no effect
++  #mnemonic = "ELOC_PROTO"
+ 
+   source_dir = "lcp_critical_path_predictor/test_proto"
+   sources = rebase_path([ "lcp_image_id.asciipb" ], "", source_dir)
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/boringssl/src/include/openssl/target.h a/third_party/boringssl/src/include/openssl/target.h
+--- b/third_party/boringssl/src/include/openssl/target.h	2024-01-11 23:23:16.955390605 +0800
++++ a/third_party/boringssl/src/include/openssl/target.h	2024-01-11 23:42:28.238969418 +0800
+@@ -54,6 +54,8 @@
+ #define OPENSSL_32_BIT
+ #elif defined(__myriad2__)
+ #define OPENSSL_32_BIT
++#elif defined(__loongarch__) && __SIZEOF_POINTER__ == 8
++#define OPENSSL_64_BIT
+ #else
+ // Note BoringSSL only supports standard 32-bit and 64-bit two's-complement,
+ // little-endian architectures. Functions will not produce the correct answer
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc
+--- b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-01-11 23:23:20.299528111 +0800
++++ a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-01-12 11:39:39.227478653 +0800
+@@ -177,6 +177,8 @@
+   static constexpr char kCPU[] = "mips64";
+ #elif defined(ARCH_CPU_RISCV64)
+   static constexpr char kCPU[] = "riscv64";
++#elif defined(ARCH_CPU_LOONGARCH64)
++  static constexpr char kCPU[] = "loong64";
+ #else
+ #error define kCPU for this CPU
+ #endif
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/snapshot/capture_memory.cc a/third_party/crashpad/crashpad/snapshot/capture_memory.cc
+--- b/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2024-01-11 23:23:20.307528440 +0800
++++ a/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2024-01-12 11:38:57.458774565 +0800
+@@ -122,6 +122,11 @@
+   for (size_t i = 0; i < std::size(context.riscv64->regs); ++i) {
+     MaybeCaptureMemoryAround(delegate, context.riscv64->regs[i]);
+   }
++#elif defined(ARCH_CPU_LOONGARCH64)
++  MaybeCaptureMemoryAround(delegate, context.loong64->csr_era);
++  for (size_t i = 0; i < std::size(context.loong64->regs); ++i) {
++    MaybeCaptureMemoryAround(delegate, context.loong64->regs[i]);
++  }
+ #else
+ #error Port.
+ #endif
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/snapshot/cpu_architecture.h a/third_party/crashpad/crashpad/snapshot/cpu_architecture.h
+--- b/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2024-01-11 23:23:20.307528440 +0800
++++ a/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2024-01-12 11:46:39.319337612 +0800
+@@ -47,6 +47,9 @@
+ 
+   //! \brief 64-bit RISC-V.
+   kCPUArchitectureRISCV64,
++
++  //! \brief 64-bit LOONGARCH.
++  kCPUArchitectureLOONG64,
+ };
+ 
+ }  // namespace crashpad
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/snapshot/cpu_context.h a/third_party/crashpad/crashpad/snapshot/cpu_context.h
+--- b/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-11 23:23:20.307528440 +0800
++++ a/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-12 11:44:52.678212503 +0800
+@@ -371,6 +371,16 @@
+   uint32_t fcsr;
+ };
+ 
++//! \brief A context structure carrying LOONG64 CPU state.
++struct CPUContextLOONG64 {
++  uint64_t regs[32];
++  uint64_t csr_era;
++
++  uint64_t fpregs[32];
++  uint64_t fcc;
++  uint32_t fcsr;
++};
++
+ //! \brief A context structure capable of carrying the context of any supported
+ //!     CPU architecture.
+ struct CPUContext {
+@@ -412,6 +422,7 @@
+     CPUContextMIPS* mipsel;
+     CPUContextMIPS64* mips64;
+     CPUContextRISCV64* riscv64;
++    CPUContextLOONG64* loong64;
+   };
+ };
+ 
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
+--- b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-11 23:23:20.315528768 +0800
++++ a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-12 11:52:42.925144430 +0800
+@@ -281,6 +281,22 @@
+   context->fcsr = float_context.fcsr;
+ }
+ 
++#elif defined(ARCH_CPU_LOONGARCH64)
++
++void InitializeCPUContextLOONG64(const ThreadContext::t64_t& thread_context,
++                                 const FloatContext::f64_t& float_context,
++                                 CPUContextLOONG64* context) {
++  static_assert(sizeof(context->regs) == sizeof(thread_context.regs));
++  memcpy(context->regs, thread_context.regs, sizeof(context->regs));
++
++  context->csr_era = thread_context.csr_era;
++
++  static_assert(sizeof(context->fpregs) == sizeof(float_context.fpregs));
++  memcpy(context->fpregs, float_context.fpregs, sizeof(context->fpregs));
++  context->fcc = float_context.fcc;
++  context->fcsr = float_context.fcsr;
++}
++
+ #endif  // ARCH_CPU_X86_FAMILY
+ 
+ }  // namespace internal
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h
+--- b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-11 23:23:20.315528768 +0800
++++ a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-12 11:53:37.619129826 +0800
+@@ -188,6 +188,20 @@
+ 
+ #endif  // ARCH_CPU_RISCV64 || DOXYGEN
+ 
++#if defined(ARCH_CPU_LOONGARCH64) || DOXYGEN
++
++//! \brief Initializes a CPUContextLOONG64 structure from native context
++//!     structures on Linux.
++//!
++//! \param[in] thread_context The native thread context.
++//! \param[in] float_context The native float context.
++//! \param[out] context The CPUContextLOONG64 structure to initialize.
++void InitializeCPUContextLOONG64(const ThreadContext::t64_t& thread_context,
++                                 const FloatContext::f64_t& float_context,
++                                 CPUContextLOONG64* context);
++
++#endif  // ARCH_CPU_LOONGARCH64 || DOXYGEN
++
+ }  // namespace internal
+ }  // namespace crashpad
+ 
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc
+--- b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-11 23:23:20.315528768 +0800
++++ a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-12 18:02:36.351662622 +0800
+@@ -15,6 +15,7 @@
+ #include "snapshot/linux/exception_snapshot_linux.h"
+ 
+ #include <signal.h>
++#include <cstring>
+ 
+ #include "base/logging.h"
+ #include "snapshot/linux/capture_memory_delegate_linux.h"
+@@ -367,6 +368,46 @@
+   return internal::ReadContext(reader, context_address, context_.riscv64);
+ }
+ 
++#elif defined(ARCH_CPU_LOONGARCH64)
++
++static bool ReadContext(ProcessReaderLinux* reader,
++                        LinuxVMAddress context_address,
++                        typename ContextTraits64::CPUContext* dest_context) {
++  const ProcessMemory* memory = reader->Memory();
++
++  LinuxVMAddress mcontext_address = context_address +
++                                 offsetof(UContext<ContextTraits64>, mcontext);
++
++  MContext64 mcontext;
++  if (!memory->Read(mcontext_address, sizeof(mcontext), &mcontext)) {
++    LOG(ERROR) << "Couldn't read mcontext";
++    return false;
++  }
++
++  typename ContextTraits64::SignalThreadContext thread_context;
++  memcpy(thread_context.regs, mcontext.regs, sizeof(mcontext.regs));
++  thread_context.csr_era = mcontext.pc;
++  thread_context.orig_a0 = 0;
++  thread_context.csr_badv = 0;
++
++  typename ContextTraits64::SignalFloatContext fp_context;
++  // TODO: handle fp context
++
++  InitializeCPUContextLOONG64(thread_context, fp_context, dest_context);
++
++  return true;
++}
++
++template <>
++bool ExceptionSnapshotLinux::ReadContext<ContextTraits64>(
++    ProcessReaderLinux* reader,
++    LinuxVMAddress context_address) {
++  context_.architecture = kCPUArchitectureLOONG64;
++  context_.loong64 = &context_union_.loong64;
++
++  return internal::ReadContext(reader, context_address, context_.loong64);
++}
++
+ #endif  // ARCH_CPU_X86_FAMILY
+ 
+ bool ExceptionSnapshotLinux::Initialize(
+@@ -397,7 +438,7 @@
+       return false;
+     }
+   } else {
+-#if !defined(ARCH_CPU_RISCV64)
++#if !defined(ARCH_CPU_RISCV64) && !defined(ARCH_CPU_LOONGARCH64)
+     if (!ReadContext<ContextTraits32>(process_reader, context_address) ||
+         !ReadSiginfo<Traits32>(process_reader, siginfo_address)) {
+       return false;
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h
+--- b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2024-01-11 23:23:20.315528768 +0800
++++ a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2024-01-12 18:00:54.645543305 +0800
+@@ -91,6 +91,8 @@
+     CPUContextMIPS64 mips64;
+ #elif defined(ARCH_CPU_RISCV64)
+     CPUContextRISCV64 riscv64;
++#elif defined(ARCH_CPU_LOONGARCH64)
++    CPUContextLOONG64 loong64;
+ #endif
+   } context_union_;
+   CPUContext context_;
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc a/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc
+--- b/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2024-01-11 23:23:20.315528768 +0800
++++ a/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2024-01-12 11:41:36.653354163 +0800
+@@ -129,6 +129,8 @@
+                                     : thread_info.thread_context.t32.regs[29];
+ #elif defined(ARCH_CPU_RISCV64)
+   stack_pointer = thread_info.thread_context.t64.regs[1];
++#elif defined(ARCH_CPU_LOONGARCH64)
++  stack_pointer = thread_info.thread_context.t64.regs[3];
+ #else
+ #error Port.
+ #endif
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h
+--- b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-11 23:23:20.315528768 +0800
++++ a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-12 18:02:32.508582700 +0800
+@@ -456,6 +456,45 @@
+                   offsetof(ucontext_t, uc_mcontext.__fpregs),
+               "context offset mismatch");
+ 
++#elif defined(ARCH_CPU_LOONGARCH64)
++
++struct ContextTraits64 : public Traits64 {
++  using SignalThreadContext = ThreadContext::t64_t;
++  using SignalFloatContext = FloatContext::f64_t;
++  using CPUContext = CPUContextLOONG64;
++};
++
++// See asm/sigcontext.h
++struct MContext64 {
++  uint64_t pc;
++  uint64_t regs[32];
++  uint32_t flags;
++  uint32_t padding;
++  uint64_t extcontext[0] __attribute__((__aligned__(16)));
++};
++
++// See asm/ucontext.h
++template <typename Traits>
++struct UContext {
++  typename Traits::ULong flags;
++  typename Traits::Address link;
++  SignalStack<Traits> stack;
++  Sigset<Traits> sigmask;
++  char alignment_padding_[8];
++  char padding[128 - sizeof(Sigset<Traits>)];
++  MContext64 mcontext;
++};
++
++static_assert(offsetof(UContext<ContextTraits64>, mcontext) ==
++                  offsetof(ucontext_t, uc_mcontext),
++              "context offset mismatch");
++static_assert(offsetof(UContext<ContextTraits64>, mcontext.regs) ==
++                  offsetof(ucontext_t, uc_mcontext.__gregs),
++              "context offset mismatch");
++static_assert(offsetof(UContext<ContextTraits64>, mcontext.extcontext) ==
++                  offsetof(ucontext_t, uc_mcontext.__extcontext),
++              "context offset mismatch");
++
+ #else
+ #error Port.
+ #endif  // ARCH_CPU_X86_FAMILY
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc
+--- b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2024-01-11 23:23:20.315528768 +0800
++++ a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2024-01-12 11:40:40.867481009 +0800
+@@ -208,6 +208,8 @@
+                                     : kCPUArchitectureMIPSEL;
+ #elif defined(ARCH_CPU_RISCV64)
+   return kCPUArchitectureRISCV64;
++#elif defined(ARCH_CPU_LOONGARCH64)
++  return kCPUArchitectureLOONG64;
+ #else
+ #error port to your architecture
+ #endif
+@@ -226,6 +228,9 @@
+ #elif defined(ARCH_CPU_RISCV64)
+   // Not implemented
+   return 0;
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
++  // Not implemented
++  return 0;
+ #else
+ #error port to your architecture
+ #endif
+@@ -249,6 +254,9 @@
+ #elif defined(ARCH_CPU_RISCV64)
+   // Not implemented
+   return std::string();
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
++  // Not implemented
++  return std::string();
+ #else
+ #error port to your architecture
+ #endif
+@@ -385,6 +393,9 @@
+ #elif defined(ARCH_CPU_RISCV64)
+   // Not implemented
+   return false;
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
++  // Not implemented
++  return false;
+ #else
+ #error Port.
+ #endif  // ARCH_CPU_X86_FAMILY
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc
+--- b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2024-01-11 23:23:20.315528768 +0800
++++ a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2024-01-12 11:40:13.844046690 +0800
+@@ -196,6 +196,12 @@
+   InitializeCPUContextRISCV64(thread.thread_info.thread_context.t64,
+                               thread.thread_info.float_context.f64,
+                               context_.riscv64);
++#elif defined(ARCH_CPU_LOONGARCH64)
++  context_.architecture = kCPUArchitectureLOONG64;
++  context_.loong64 = &context_union_.loong64;
++  InitializeCPUContextLOONG64(thread.thread_info.thread_context.t64,
++                              thread.thread_info.float_context.f64,
++                              context_.loong64);
+ #else
+ #error Port.
+ #endif
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h
+--- b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2024-01-11 23:23:20.315528768 +0800
++++ a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2024-01-12 11:04:50.789264469 +0800
+@@ -76,6 +76,8 @@
+     CPUContextMIPS64 mips64;
+ #elif defined(ARCH_CPU_RISCV64)
+     CPUContextRISCV64 riscv64;
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
++    CPUContextLOONG64 loong64;
+ #else
+ #error Port.
+ #endif  // ARCH_CPU_X86_FAMILY
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/util/linux/ptracer.cc a/third_party/crashpad/crashpad/util/linux/ptracer.cc
+--- b/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-01-11 23:23:20.347530083 +0800
++++ a/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-01-12 11:55:59.325058448 +0800
+@@ -430,6 +430,37 @@
+   return true;
+ }
+ 
++#elif defined(ARCH_CPU_LOONGARCH64)
++
++bool GetFloatingPointRegisters64(pid_t tid,
++                                 FloatContext* context,
++                                 bool can_log) {
++  iovec iov;
++  iov.iov_base = context;
++  iov.iov_len = sizeof(*context);
++  if (ptrace(
++          PTRACE_GETREGSET, tid, reinterpret_cast<void*>(NT_PRFPREG), &iov) !=
++      0) {
++    PLOG_IF(ERROR, can_log) << "ptrace";
++    return false;
++  }
++  if (iov.iov_len != sizeof(context->f64)) {
++    LOG_IF(ERROR, can_log) << "Unexpected registers size " << iov.iov_len
++                           << " != " << sizeof(context->f64);
++    return false;
++  }
++  return true;
++}
++
++bool GetThreadArea64(pid_t tid,
++                     const ThreadContext& context,
++                     LinuxVMAddress* address,
++                     bool can_log) {
++  // Thread pointer register
++  *address = context.t64.regs[2];
++  return true;
++}
++
+ #else
+ #error Port.
+ #endif  // ARCH_CPU_X86_FAMILY
+@@ -534,7 +565,7 @@
+                            can_log_);
+   }
+ 
+-#if !defined(ARCH_CPU_RISCV64)
++#if !defined(ARCH_CPU_RISCV64) && !defined(ARCH_CPU_LOONGARCH64)
+   return GetGeneralPurposeRegisters32(tid, &info->thread_context, can_log_) &&
+          GetFloatingPointRegisters32(tid, &info->float_context, can_log_) &&
+          GetThreadArea32(tid,
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/util/linux/thread_info.h a/third_party/crashpad/crashpad/util/linux/thread_info.h
+--- b/third_party/crashpad/crashpad/util/linux/thread_info.h	2024-01-11 23:23:20.347530083 +0800
++++ a/third_party/crashpad/crashpad/util/linux/thread_info.h	2024-01-12 11:08:06.063927127 +0800
+@@ -87,6 +87,8 @@
+     uint32_t padding1_;
+ #elif defined(ARCH_CPU_RISCV64)
+     // 32 bit RISC-V not supported
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
++    // 32 bit LoongArch not supported
+ #else
+ #error Port.
+ #endif  // ARCH_CPU_X86_FAMILY
+@@ -144,13 +146,20 @@
+     // Reflects user_regs_struct in asm/ptrace.h.
+     uint64_t pc;
+     uint64_t regs[31];
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
++    // Reflects user_regs_struct in sys/user.h.
++    uint64_t regs[32];
++    uint64_t orig_a0;
++    uint64_t csr_era;
++    uint64_t csr_badv;
++    uint64_t reserved[10];
+ #else
+ #error Port.
+ #endif  // ARCH_CPU_X86_FAMILY
+   } t64;
+ 
+ #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM64) || \
+-    defined(ARCH_CPU_RISCV64)
++    defined(ARCH_CPU_RISCV64) || defined(ARCH_CPU_LOONGARCH_FAMILY)
+   using NativeThreadContext = user_regs_struct;
+ #elif defined(ARCH_CPU_ARMEL)
+   using NativeThreadContext = user_regs;
+@@ -233,6 +242,8 @@
+     uint32_t fpu_id;
+ #elif defined(ARCH_CPU_RISCV64)
+     // 32 bit RISC-V not supported
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
++    // 32 bit LoongArch not supported
+ #else
+ #error Port.
+ #endif  // ARCH_CPU_X86_FAMILY
+@@ -271,6 +282,11 @@
+     // Reflects __riscv_d_ext_state in asm/ptrace.h
+     uint64_t fpregs[32];
+     uint64_t fcsr;
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
++    // Reflects user_fp_struct in sys/user.h
++    uint64_t fpregs[32];
++    uint64_t fcc;
++    uint32_t fcsr;
+ #else
+ #error Port.
+ #endif  // ARCH_CPU_X86_FAMILY
+@@ -302,6 +318,8 @@
+ // No appropriate floating point context native type for available MIPS.
+ #elif defined(ARCH_CPU_RISCV64)
+   static_assert(sizeof(f64) == sizeof(__riscv_d_ext_state), "Size mismatch");
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
++  static_assert(sizeof(f64) == sizeof(user_fp_struct), "Size mismatch");
+ #else
+ #error Port.
+ #endif  // ARCH_CPU_X86
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc a/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc
+--- b/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2024-01-11 23:23:20.359530576 +0800
++++ a/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2024-01-12 11:42:45.248388565 +0800
+@@ -239,6 +239,8 @@
+ #endif
+ #elif defined (ARCH_CPU_RISCV64)
+     static constexpr char arch[] = "riscv64";
++#elif defined (ARCH_CPU_LOONGARCH64)
++    static constexpr char arch[] = "loong64";
+ #else
+ #error Port
+ #endif
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/material_color_utilities/src/cpp/palettes/tones.cc a/third_party/material_color_utilities/src/cpp/palettes/tones.cc
+--- b/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-01-11 23:24:03.845293755 +0800
++++ a/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-01-12 00:04:16.292095599 +0800
+@@ -18,6 +18,7 @@
+ 
+ #include "cpp/cam/cam.h"
+ #include "cpp/cam/hct.h"
++#include <math.h>
+ 
+ namespace material_color_utilities {
+ 
+Only in a/third_party/node/linux: node-linux-x64
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/perfetto/include/perfetto/base/status.h a/third_party/perfetto/include/perfetto/base/status.h
+--- b/third_party/perfetto/include/perfetto/base/status.h	2024-01-11 23:24:06.261390407 +0800
++++ a/third_party/perfetto/include/perfetto/base/status.h	2024-01-12 12:04:15.061969383 +0800
+@@ -109,7 +109,7 @@
+   return Status();
+ }
+ 
+-PERFETTO_PRINTF_FORMAT(1, 2) Status ErrStatus(const char* format, ...);
++PERFETTO_EXPORT_COMPONENT PERFETTO_PRINTF_FORMAT(1, 2) Status ErrStatus(const char* format, ...);
+ 
+ }  // namespace base
+ }  // namespace perfetto
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/protobuf/src/google/protobuf/repeated_ptr_field.h a/third_party/protobuf/src/google/protobuf/repeated_ptr_field.h
+--- b/third_party/protobuf/src/google/protobuf/repeated_ptr_field.h	2024-01-11 23:24:07.733449230 +0800
++++ a/third_party/protobuf/src/google/protobuf/repeated_ptr_field.h	2024-01-12 01:42:40.089865173 +0800
+@@ -847,7 +847,7 @@
+ // RepeatedPtrField is like RepeatedField, but used for repeated strings or
+ // Messages.
+ template <typename Element>
+-class RepeatedPtrField final : private internal::RepeatedPtrFieldBase {
++class PROTOBUF_EXPORT RepeatedPtrField final : private internal::RepeatedPtrFieldBase {
+ 
+  public:
+   constexpr RepeatedPtrField();
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/ruy/src/ruy/profiler/instrumentation.cc a/third_party/ruy/src/ruy/profiler/instrumentation.cc
+--- b/third_party/ruy/src/ruy/profiler/instrumentation.cc	2024-01-11 23:24:48.375054190 +0800
++++ a/third_party/ruy/src/ruy/profiler/instrumentation.cc	2024-01-12 00:07:14.058048230 +0800
+@@ -18,6 +18,7 @@
+ #ifdef RUY_PROFILER
+ 
+ #include <cstring>
++#include <string>
+ 
+ namespace ruy {
+ namespace profiler {
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/ruy/src/ruy/profiler/instrumentation.h a/third_party/ruy/src/ruy/profiler/instrumentation.h
+--- b/third_party/ruy/src/ruy/profiler/instrumentation.h	2024-01-11 23:24:48.375054190 +0800
++++ a/third_party/ruy/src/ruy/profiler/instrumentation.h	2024-01-12 00:07:36.621516610 +0800
+@@ -20,6 +20,7 @@
+ #include <cstdio>
+ #include <mutex>
+ #include <vector>
++#include <string>
+ #endif
+ 
+ namespace ruy {
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/src/Reactor/BUILD.gn a/third_party/swiftshader/src/Reactor/BUILD.gn
+--- b/third_party/swiftshader/src/Reactor/BUILD.gn	2024-01-11 23:24:51.351170316 +0800
++++ a/third_party/swiftshader/src/Reactor/BUILD.gn	2024-01-11 23:39:04.318443452 +0800
+@@ -307,7 +307,7 @@
+ 
+ if (supports_llvm) {
+   swiftshader_source_set("swiftshader_llvm_reactor") {
+-    llvm_dir = "../../third_party/llvm-10.0"
++    llvm_dir = "../../third_party/llvm-16.0"
+ 
+     deps = [
+       ":swiftshader_reactor_base",
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/src/Reactor/reactor.gni a/third_party/swiftshader/src/Reactor/reactor.gni
+--- b/third_party/swiftshader/src/Reactor/reactor.gni	2024-01-11 23:24:51.355170472 +0800
++++ a/third_party/swiftshader/src/Reactor/reactor.gni	2024-01-11 23:38:30.881325551 +0800
+@@ -10,7 +10,7 @@
+ 
+ declare_args() {
+   # Subzero doesn't support ARM64, MIPS64, PPC64, and RISCV64 (only x86 and ARMv7a).
+-  supports_subzero = current_cpu != "arm64" && current_cpu != "mips64el" && current_cpu != "ppc64" && current_cpu != "riscv64"
++  supports_subzero = current_cpu != "arm64" && current_cpu != "mips64el" && current_cpu != "ppc64" && current_cpu != "riscv64" && current_cpu != "loong64"
+ }
+ 
+ declare_args() {
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn
+--- b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-11 23:24:56.459369202 +0800
++++ a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-11 23:39:36.418761730 +0800
+@@ -168,6 +168,8 @@
+     deps += [ ":swiftshader_llvm_ppc" ]
+   } else if (current_cpu == "riscv64") {
+     deps += [ ":swiftshader_llvm_riscv64" ]
++  } else if (current_cpu == "loong64") {
++    deps += [ ":swiftshader_llvm_loong64" ]
+   } else if (current_cpu == "x86" || current_cpu == "x64") {
+     deps += [ ":swiftshader_llvm_x86" ]
+   } else {
+@@ -1691,3 +1693,8 @@
+     "llvm/lib/Transforms/IPO/BarrierNoopPass.cpp",
+   ]
+ }
++
++swiftshader_llvm_source_set("swiftshader_llvm_loong64") {
++  sources = [
++  ]
++}
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def
+--- b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2024-01-11 23:24:56.827383511 +0800
++++ a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2024-01-12 00:29:45.557201228 +0800
+@@ -42,6 +42,9 @@
+ #if defined(__riscv)
+ LLVM_ASM_PARSER(RISCV)
+ #endif
++#if defined(__loongarch__)
++LLVM_ASM_PARSER(LoongArch)
++#endif
+ 
+ 
+ #undef LLVM_ASM_PARSER
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def
+--- b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def	2024-01-11 23:24:56.827383511 +0800
++++ a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def	2024-01-12 00:29:57.372263535 +0800
+@@ -42,6 +42,9 @@
+ #if defined(__riscv)
+ LLVM_ASM_PRINTER(RISCV)
+ #endif
++#if defined(__loongarch__)
++LLVM_ASM_PRINTER(LoongArch)
++#endif
+ 
+ 
+ #undef LLVM_ASM_PRINTER
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def
+--- b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def	2024-01-11 23:24:56.827383511 +0800
++++ a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def	2024-01-12 00:30:07.625317570 +0800
+@@ -42,6 +42,9 @@
+ #if defined(__riscv)
+ LLVM_DISASSEMBLER(RISCV)
+ #endif
++#if defined(__loongarch__)
++LLVM_DISASSEMBLER(LoongArch)
++#endif
+ 
+ 
+ #undef LLVM_DISASSEMBLER
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h
+--- b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h	2024-01-11 23:24:56.827383511 +0800
++++ a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h	2024-01-12 00:13:52.660400380 +0800
+@@ -45,6 +45,8 @@
+ #define LLVM_DEFAULT_TARGET_TRIPLE "powerpc64le-unknown-linux-gnu"
+ #elif defined(__riscv)
+ #define LLVM_DEFAULT_TARGET_TRIPLE "riscv64-unknown-linux-gnu"
++#elif defined(__loongarch__)
++#define LLVM_DEFAULT_TARGET_TRIPLE "loongarch64-unknown-linux-gnu"
+ #else
+ #error "unknown architecture"
+ #endif
+@@ -72,6 +74,8 @@
+ #define LLVM_HOST_TRIPLE "powerpc64le-unknown-linux-gnu"
+ #elif defined(__riscv)
+ #define LLVM_HOST_TRIPLE "riscv64-unknown-linux-gnu"
++#elif defined(__loongarch__)
++#define LLVM_HOST_TRIPLE "loongarch64-unknown-linux-gnu"
+ #else
+ #error "unknown architecture"
+ #endif
+@@ -89,6 +93,8 @@
+ #define LLVM_NATIVE_ARCH PowerPC
+ #elif defined(__riscv)
+ #define LLVM_NATIVE_ARCH RISCV
++#elif defined(__loongarch__)
++#define LLVM_NATIVE_ARCH LoongArch
+ #else
+ #error "unknown architecture"
+ #endif
+@@ -106,6 +112,8 @@
+ #define LLVM_NATIVE_ASMPARSER LLVMInitializePowerPCAsmParser
+ #elif defined(__riscv)
+ #define LLVM_NATIVE_ASMPARSER LLVMInitializeRISCVAsmParser
++#elif defined(__loongarch__)
++#define LLVM_NATIVE_ASMPARSER LLVMInitializeLoongArchAsmParser
+ #else
+ #error "unknown architecture"
+ #endif
+@@ -123,6 +131,8 @@
+ #define LLVM_NATIVE_ASMPRINTER LLVMInitializePowerPCAsmPrinter
+ #elif defined(__riscv)
+ #define LLVM_NATIVE_ASMPRINTER LLVMInitializeRISCVAsmPrinter
++#elif defined(__loongarch__)
++#define LLVM_NATIVE_ASMPRINTER LLVMInitializeLoongArchAsmPrinter
+ #else
+ #error "unknown architecture"
+ #endif
+@@ -140,6 +150,8 @@
+ #define LLVM_NATIVE_DISASSEMBLER LLVMInitializePowerPCDisassembler
+ #elif defined(__riscv)
+ #define LLVM_NATIVE_DISASSEMBLER LLVMInitializeRISCVDisassembler
++#elif defined(__loongarch__)
++#define LLVM_NATIVE_DISASSEMBLER LLVMInitializeLoongArchDisassembler
+ #else
+ #error "unknown architecture"
+ #endif
+@@ -157,6 +169,8 @@
+ #define LLVM_NATIVE_TARGET LLVMInitializePowerPCTarget
+ #elif defined(__riscv)
+ #define LLVM_NATIVE_TARGET LLVMInitializeRISCVTarget
++#elif defined(__loongarch__)
++#define LLVM_NATIVE_TARGET LLVMInitializeLoongArchTarget
+ #else
+ #error "unknown architecture"
+ #endif
+@@ -174,6 +188,8 @@
+ #define LLVM_NATIVE_TARGETINFO LLVMInitializePowerPCTargetInfo
+ #elif defined(__riscv)
+ #define LLVM_NATIVE_TARGETINFO LLVMInitializeRISCVTargetInfo
++#elif defined(__loongarch__)
++#define LLVM_NATIVE_TARGETINFO LLVMInitializeLoongArchTargetInfo
+ #else
+ #error "unknown architecture"
+ #endif
+@@ -191,6 +207,8 @@
+ #define LLVM_NATIVE_TARGETMC LLVMInitializePowerPCTargetMC
+ #elif defined(__riscv)
+ #define LLVM_NATIVE_TARGETMC LLVMInitializeRISCVTargetMC
++#elif defined(__loongarch__)
++#define LLVM_NATIVE_TARGETMC LLVMInitializeLoongArchTargetMC
+ #else
+ #error "unknown architecture"
+ #endif
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def
+--- b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def	2024-01-11 23:24:56.827383511 +0800
++++ a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def	2024-01-12 00:23:34.800207265 +0800
+@@ -41,6 +41,9 @@
+ #if defined(__riscv)
+ LLVM_TARGET(RISCV)
+ #endif
++#if defined(__loongarch__)
++LLVM_TARGET(LoongArch)
++#endif
+ 
+ 
+ #undef LLVM_TARGET
+diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/third_party/llvm-16.0/llvm/lib/Transforms/IPO/AttributorAttributes.cpp a/third_party/swiftshader/third_party/llvm-16.0/llvm/lib/Transforms/IPO/AttributorAttributes.cpp
+--- b/third_party/swiftshader/third_party/llvm-16.0/llvm/lib/Transforms/IPO/AttributorAttributes.cpp	2024-01-11 23:24:59.635492590 +0800
++++ a/third_party/swiftshader/third_party/llvm-16.0/llvm/lib/Transforms/IPO/AttributorAttributes.cpp	2024-01-12 01:17:18.178785793 +0800
+@@ -3494,7 +3494,7 @@
+ struct CachedReachabilityAA : public BaseTy {
+   using RQITy = ReachabilityQueryInfo<ToTy>;
+ 
+-  CachedReachabilityAA<BaseTy, ToTy>(const IRPosition &IRP, Attributor &A)
++  CachedReachabilityAA(const IRPosition &IRP, Attributor &A)
+       : BaseTy(IRP, A) {}
+ 
+   /// See AbstractAttribute::isQueryAA.
