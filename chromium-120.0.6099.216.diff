@@ -1,3 +1,14 @@
+diff '--color=auto' -x out -x __pycache__ -u -r b/build/config/linux/libffi/BUILD.gn a/build/config/linux/libffi/BUILD.gn
+--- b/build/config/linux/libffi/BUILD.gn	2024-01-11 23:22:43.794011484 +0800
++++ a/build/config/linux/libffi/BUILD.gn	2024-01-12 18:20:49.725077165 +0800
+@@ -19,6 +19,6 @@
+   }
+ } else {
+   config("libffi") {
+-    libs = [ ":libffi_pic.a" ]
++    libs = [ ":libffi.a" ]
+   }
+ }
 diff '--color=auto' -x out -x __pycache__ -u -r b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h
 --- b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-11 23:22:58.806639382 +0800
 +++ a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-12 10:46:39.512355354 +0800
@@ -1288,8 +1299,16 @@ diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/src/Re
  declare_args() {
 diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn
 --- b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-11 23:24:56.459369202 +0800
-+++ a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-11 23:39:36.418761730 +0800
-@@ -168,6 +168,8 @@
++++ a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-13 23:30:12.089895855 +0800
+@@ -106,6 +106,7 @@
+   "configs/common/lib/IR/",
+   "configs/common/lib/Target/AArch64/",
+   "configs/common/lib/Target/ARM/",
++  "configs/common/lib/Target/LoongArch/",
+   "configs/common/lib/Target/Mips/",
+   "configs/common/lib/Target/PowerPC/",
+   "configs/common/lib/Target/RISCV/",
+@@ -168,6 +169,8 @@
      deps += [ ":swiftshader_llvm_ppc" ]
    } else if (current_cpu == "riscv64") {
      deps += [ ":swiftshader_llvm_riscv64" ]
@@ -1298,15 +1317,41 @@ diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/third_
    } else if (current_cpu == "x86" || current_cpu == "x64") {
      deps += [ ":swiftshader_llvm_x86" ]
    } else {
-@@ -1691,3 +1693,8 @@
+@@ -1691,3 +1694,33 @@
      "llvm/lib/Transforms/IPO/BarrierNoopPass.cpp",
    ]
  }
 +
 +swiftshader_llvm_source_set("swiftshader_llvm_loong64") {
 +  sources = [
++    "llvm/lib/Target/LoongArch/AsmParser/LoongArchAsmParser.cpp",
++    "llvm/lib/Target/LoongArch/Disassembler/LoongArchDisassembler.cpp",
++    "llvm/lib/Target/LoongArch/LoongArchAsmPrinter.cpp",
++    "llvm/lib/Target/LoongArch/LoongArchExpandAtomicPseudoInsts.cpp",
++    "llvm/lib/Target/LoongArch/LoongArchExpandPseudoInsts.cpp",
++    "llvm/lib/Target/LoongArch/LoongArchFrameLowering.cpp",
++    "llvm/lib/Target/LoongArch/LoongArchInstrInfo.cpp",
++    "llvm/lib/Target/LoongArch/LoongArchISelDAGToDAG.cpp",
++    "llvm/lib/Target/LoongArch/LoongArchISelLowering.cpp",
++    "llvm/lib/Target/LoongArch/LoongArchMCInstLower.cpp",
++    "llvm/lib/Target/LoongArch/LoongArchRegisterInfo.cpp",
++    "llvm/lib/Target/LoongArch/LoongArchSubtarget.cpp",
++    "llvm/lib/Target/LoongArch/LoongArchTargetMachine.cpp",
++    "llvm/lib/Target/LoongArch/MCTargetDesc/LoongArchAsmBackend.cpp",
++    "llvm/lib/Target/LoongArch/MCTargetDesc/LoongArchBaseInfo.cpp",
++    "llvm/lib/Target/LoongArch/MCTargetDesc/LoongArchELFObjectWriter.cpp",
++    "llvm/lib/Target/LoongArch/MCTargetDesc/LoongArchELFStreamer.cpp",
++    "llvm/lib/Target/LoongArch/MCTargetDesc/LoongArchInstPrinter.cpp",
++    "llvm/lib/Target/LoongArch/MCTargetDesc/LoongArchMatInt.cpp",
++    "llvm/lib/Target/LoongArch/MCTargetDesc/LoongArchMCAsmInfo.cpp",
++    "llvm/lib/Target/LoongArch/MCTargetDesc/LoongArchMCCodeEmitter.cpp",
++    "llvm/lib/Target/LoongArch/MCTargetDesc/LoongArchMCExpr.cpp",
++    "llvm/lib/Target/LoongArch/MCTargetDesc/LoongArchMCTargetDesc.cpp",
++    "llvm/lib/Target/LoongArch/MCTargetDesc/LoongArchTargetStreamer.cpp",
++    "llvm/lib/Target/LoongArch/TargetInfo/LoongArchTargetInfo.cpp",
 +  ]
 +}
+Only in a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target: LoongArch
 diff '--color=auto' -x out -x __pycache__ -u -r b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def
 --- b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2024-01-11 23:24:56.827383511 +0800
 +++ a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2024-01-12 00:29:45.557201228 +0800
