@@ -2000,6 +2000,17 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/skia/BUILD.gn b/skia/BUILD.
    } else {
      assert(false, "Unknown cpu target")
    }
+diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/public/web/web_local_frame_client.h b/third_party/blink/public/web/web_local_frame_client.h
+--- a/third_party/blink/public/web/web_local_frame_client.h	2024-01-10 08:14:01.253888800 +0800
++++ b/third_party/blink/public/web/web_local_frame_client.h	2024-01-14 08:39:27.887971264 +0800
+@@ -69,6 +69,7 @@
+ #include "third_party/blink/public/platform/modules/service_worker/web_service_worker_provider.h"
+ #include "third_party/blink/public/platform/resource_load_info_notifier_wrapper.h"
+ #include "third_party/blink/public/platform/url_loader_throttle_provider.h"
++#include "third_party/blink/public/platform/web_background_resource_fetch_assets.h"
+ #include "third_party/blink/public/platform/web_common.h"
+ #include "third_party/blink/public/platform/web_content_security_policy_struct.h"
+ #include "third_party/blink/public/platform/web_content_settings_client.h"
 diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/core/BUILD.gn b/third_party/blink/renderer/core/BUILD.gn
 --- a/third_party/blink/renderer/core/BUILD.gn	2024-01-10 08:14:01.405902400 +0800
 +++ b/third_party/blink/renderer/core/BUILD.gn	2024-01-14 02:07:01.035111924 +0800
@@ -2013,6 +2024,28 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/
  
    source_dir = "lcp_critical_path_predictor/test_proto"
    sources = rebase_path([ "lcp_image_id.asciipb" ], "", source_dir)
+diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/core/frame/local_frame.h b/third_party/blink/renderer/core/frame/local_frame.h
+--- a/third_party/blink/renderer/core/frame/local_frame.h	2024-01-10 08:14:01.933949000 +0800
++++ b/third_party/blink/renderer/core/frame/local_frame.h	2024-01-14 08:35:32.082447490 +0800
+@@ -67,6 +67,7 @@
+ #include "third_party/blink/public/mojom/script/script_evaluation_params.mojom-blink-forward.h"
+ #include "third_party/blink/public/mojom/use_counter/metrics/web_feature.mojom-blink-forward.h"
+ #include "third_party/blink/public/platform/task_type.h"
++#include "third_party/blink/public/platform/web_background_resource_fetch_assets.h"
+ #include "third_party/blink/public/platform/web_vector.h"
+ #include "third_party/blink/public/web/web_script_execution_callback.h"
+ #include "third_party/blink/renderer/core/core_export.h"
+diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/core/frame/local_frame_client.h b/third_party/blink/renderer/core/frame/local_frame_client.h
+--- a/third_party/blink/renderer/core/frame/local_frame_client.h	2024-01-10 08:14:01.933949000 +0800
++++ b/third_party/blink/renderer/core/frame/local_frame_client.h	2024-01-14 08:36:03.201780628 +0800
+@@ -56,6 +56,7 @@
+ #include "third_party/blink/public/mojom/portal/portal.mojom-blink-forward.h"
+ #include "third_party/blink/public/platform/child_url_loader_factory_bundle.h"
+ #include "third_party/blink/public/platform/scheduler/web_scoped_virtual_time_pauser.h"
++#include "third_party/blink/public/platform/web_background_resource_fetch_assets.h"
+ #include "third_party/blink/public/platform/web_content_settings_client.h"
+ #include "third_party/blink/public/platform/web_effective_connection_type.h"
+ #include "third_party/blink/public/platform/web_worker_fetch_context.h"
 diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/boringssl/src/include/openssl/target.h b/third_party/boringssl/src/include/openssl/target.h
 --- a/third_party/boringssl/src/include/openssl/target.h	2024-01-10 08:14:38.565187700 +0800
 +++ b/third_party/boringssl/src/include/openssl/target.h	2024-01-14 02:07:01.036111926 +0800
