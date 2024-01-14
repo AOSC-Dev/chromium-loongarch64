@@ -245,7 +245,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-h
                   PTRACE_GETVFPREGS,
 diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-10 08:13:59.141702200 +0800
-+++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-14 12:29:39.545640085 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-14 12:36:10.553820460 +0800
 @@ -103,7 +103,7 @@
  // Both EPERM and ENOENT are valid errno unless otherwise noted in comment.
  bool SyscallSets::IsFileSystem(int sysno) {
@@ -412,15 +412,6 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-h
      case __NR_migrate_pages:
  #endif
      case __NR_move_pages:
-@@ -790,7 +796,7 @@
-   switch (sysno) {
-     case __NR_acct:  // Privileged.
- #if defined(__i386__) || defined(__x86_64__) || defined(__mips__) || \
--    defined(__aarch64__)
-+    defined(__aarch64__) || defined(__loongarch__)
-     case __NR_getrlimit:
- #endif
- #if defined(__i386__) || defined(__arm__)
 @@ -803,7 +809,9 @@
      case __NR_getrusage:
      case __NR_personality:  // Can change its personality as well.
