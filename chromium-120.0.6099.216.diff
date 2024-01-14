@@ -294,7 +294,7 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/sec
                   PTRACE_GETVFPREGS,
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-10 08:13:59.141702200 +0800
-+++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-14 12:36:10.553820460 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-14 17:58:36.746544012 +0800
 @@ -103,7 +103,7 @@
  // Both EPERM and ENOENT are valid errno unless otherwise noted in comment.
  bool SyscallSets::IsFileSystem(int sysno) {
@@ -362,7 +362,7 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/sec
      case __NR_signalfd:
  #endif
      case __NR_signalfd4:
-@@ -397,7 +403,7 @@
+@@ -397,12 +403,12 @@
    switch (sysno) {
      case __NR_close:
      case __NR_dup:
@@ -371,6 +371,12 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/sec
      case __NR_dup2:
  #endif
      case __NR_dup3:
+ #if defined(__x86_64__) || defined(__arm__) || defined(__mips__) || \
+-    defined(__aarch64__)
++    defined(__aarch64__) || defined(__loongarch__)
+     case __NR_shutdown:
+ #endif
+       return true;
 @@ -441,7 +447,7 @@
        return true;
      case __NR_clone:  // Should be parameter-restricted.
@@ -582,7 +588,7 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/ser
  #else
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/services/syscall_wrappers.cc b/sandbox/linux/services/syscall_wrappers.cc
 --- a/sandbox/linux/services/syscall_wrappers.cc	2024-01-10 08:13:59.145702600 +0800
-+++ b/sandbox/linux/services/syscall_wrappers.cc	2024-01-14 02:07:01.029111915 +0800
++++ b/sandbox/linux/services/syscall_wrappers.cc	2024-01-14 17:31:54.276353428 +0800
 @@ -5,6 +5,7 @@
  #include "sandbox/linux/services/syscall_wrappers.h"
  
@@ -591,6 +597,15 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/ser
  #include <pthread.h>
  #include <sched.h>
  #include <setjmp.h>
+@@ -58,7 +59,7 @@
+   if (ctid) MSAN_UNPOISON(ctid, sizeof(*ctid));
+   // See kernel/fork.c in Linux. There is different ordering of sys_clone
+   // parameters depending on CONFIG_CLONE_BACKWARDS* configuration options.
+-#if defined(ARCH_CPU_X86_64)
++#if defined(ARCH_CPU_X86_64) || defined(ARCH_CPU_LOONGARCH_FAMILY)
+   return syscall(__NR_clone, flags, child_stack, ptid, ctid, tls);
+ #elif defined(ARCH_CPU_X86) || defined(ARCH_CPU_ARM_FAMILY) || \
+     defined(ARCH_CPU_MIPS_FAMILY)
 @@ -163,9 +164,53 @@
    return sigaction(signum, act, oldact);
  }
@@ -662,7 +677,7 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/ser
    res = syscall(__NR_lstat, path, stat_buf);
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/services/syscall_wrappers.h b/sandbox/linux/services/syscall_wrappers.h
 --- a/sandbox/linux/services/syscall_wrappers.h	2024-01-10 08:13:59.145702600 +0800
-+++ b/sandbox/linux/services/syscall_wrappers.h	2024-01-14 02:07:01.029111915 +0800
++++ b/sandbox/linux/services/syscall_wrappers.h	2024-01-14 17:40:35.568957479 +0800
 @@ -19,6 +19,7 @@
  struct cap_data;
  struct kernel_stat;
@@ -671,6 +686,98 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/ser
  
  namespace sandbox {
  
+@@ -91,6 +92,7 @@
+ // architectures, with the same capabilities as stat() and lstat().
+ SANDBOX_EXPORT int sys_stat(const char* path, struct kernel_stat* stat_buf);
+ SANDBOX_EXPORT int sys_lstat(const char* path, struct kernel_stat* stat_buf);
++SANDBOX_EXPORT int sys_statx(int fd, const char* path, int flags, unsigned int mask, struct kernel_statx* statx_buf);
+ 
+ // Takes care of unpoisoning |stat_buf| for MSAN. Check-fails if fstatat64() is
+ // not a supported syscall on the current platform.
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_client.cc b/sandbox/linux/syscall_broker/broker_client.cc
+--- a/sandbox/linux/syscall_broker/broker_client.cc	2024-01-10 08:13:59.149702800 +0800
++++ b/sandbox/linux/syscall_broker/broker_client.cc	2024-01-14 17:38:49.017673596 +0800
+@@ -193,6 +193,21 @@
+                            sizeof(*sb));
+ }
+ 
++int BrokerClient::Statx(const char* pathname,
++                         bool follow_links,
++                         struct kernel_statx* sb) const {
++  if (!pathname || !sb)
++    return -EFAULT;
++
++  if (fast_check_in_client_ &&
++      !CommandStatIsSafe(policy_->allowed_command_set,
++                         *policy_->file_permissions, pathname)) {
++    return -policy_->file_permissions->denied_errno();
++  }
++  return StatFamilySyscall(COMMAND_STATX, pathname, follow_links, sb,
++                           sizeof(*sb));
++}
++
+ int BrokerClient::Unlink(const char* path) const {
+   if (!path)
+     return -EFAULT;
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_client.h b/sandbox/linux/syscall_broker/broker_client.h
+--- a/sandbox/linux/syscall_broker/broker_client.h	2024-01-10 08:13:59.149702800 +0800
++++ b/sandbox/linux/syscall_broker/broker_client.h	2024-01-14 17:59:14.907929384 +0800
+@@ -67,6 +67,9 @@
+   int Stat64(const char* pathname,
+              bool follow_links,
+              struct kernel_stat64* sb) const override;
++  int Statx(const char* pathname,
++             bool follow_links,
++             struct kernel_statx* sb) const override;
+   int Unlink(const char* unlink) const override;
+   int InotifyAddWatch(int fd,
+                       const char* pathname,
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_command.h b/sandbox/linux/syscall_broker/broker_command.h
+--- a/sandbox/linux/syscall_broker/broker_command.h	2024-01-10 08:13:59.149702800 +0800
++++ b/sandbox/linux/syscall_broker/broker_command.h	2024-01-14 17:39:06.549391230 +0800
+@@ -42,6 +42,7 @@
+   COMMAND_RMDIR,
+   COMMAND_STAT,
+   COMMAND_STAT64,
++  COMMAND_STATX,
+   COMMAND_UNLINK,
+   COMMAND_INOTIFY_ADD_WATCH,
+ 
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_host.cc b/sandbox/linux/syscall_broker/broker_host.cc
+--- a/sandbox/linux/syscall_broker/broker_host.cc	2024-01-10 08:13:59.149702800 +0800
++++ b/sandbox/linux/syscall_broker/broker_host.cc	2024-01-14 17:47:10.315599682 +0800
+@@ -299,6 +299,21 @@
+     RAW_CHECK(reply->AddIntToMessage(0));
+     RAW_CHECK(
+         reply->AddDataToMessage(reinterpret_cast<char*>(&sb), sizeof(sb)));
++#elif defined(__loongarch__)
++    // handle COMMAND_STATX
++    DCHECK(command_type == COMMAND_STATX);
++    struct kernel_statx sb;
++
++    int sts = sandbox::sys_statx(AT_FDCWD, file_to_access,
++                                     follow_links ? 0 : AT_SYMLINK_NOFOLLOW,
++				     STATX_BASIC_STATS, &sb);
++    if (sts < 0) {
++      RAW_CHECK(reply->AddIntToMessage(-errno));
++      return;
++    }
++    RAW_CHECK(reply->AddIntToMessage(0));
++    RAW_CHECK(
++        reply->AddDataToMessage(reinterpret_cast<char*>(&sb), sizeof(sb)));
+ #else  // defined(__NR_fstatat64)
+     // We should not reach here on 64-bit systems, as the *stat*64() are only
+     // necessary on 32-bit.
+@@ -438,7 +453,8 @@
+       break;
+     }
+     case COMMAND_STAT:
+-    case COMMAND_STAT64: {
++    case COMMAND_STAT64:
++    case COMMAND_STATX: {
+       const char* requested_filename;
+       if (!message->ReadString(&requested_filename)) {
+         return false;
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_process.cc b/sandbox/linux/syscall_broker/broker_process.cc
 --- a/sandbox/linux/syscall_broker/broker_process.cc	2024-01-10 08:13:59.149702800 +0800
 +++ b/sandbox/linux/syscall_broker/broker_process.cc	2024-01-14 02:07:01.030111916 +0800
@@ -737,6 +844,34 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/sys
      case __NR_unlink:
        return !fast_check || policy_->allowed_command_set.test(COMMAND_UNLINK);
  #endif
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.cc b/sandbox/linux/syscall_broker/syscall_dispatcher.cc
+--- a/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-10 08:13:59.149702800 +0800
++++ b/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-14 17:48:33.441260859 +0800
+@@ -169,6 +169,11 @@
+       return Stat64(reinterpret_cast<const char*>(args.args[0]), true,
+                     reinterpret_cast<struct kernel_stat64*>(args.args[1]));
+ #endif
++#if defined(__NR_statx)
++    case __NR_statx:
++      return Statx(reinterpret_cast<const char*>(args.args[0]), true,
++                    reinterpret_cast<struct kernel_statx*>(args.args[1]));
++#endif
+ #if defined(__NR_lstat)
+     case __NR_lstat:
+       // See https://crbug.com/847096
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.h b/sandbox/linux/syscall_broker/syscall_dispatcher.h
+--- a/sandbox/linux/syscall_broker/syscall_dispatcher.h	2024-01-10 08:13:59.149702800 +0800
++++ b/sandbox/linux/syscall_broker/syscall_dispatcher.h	2024-01-14 17:41:48.442783772 +0800
+@@ -49,6 +49,9 @@
+   virtual int Stat64(const char* pathname,
+                      bool follow_links,
+                      struct kernel_stat64* sb) const = 0;
++  virtual int Statx(const char* pathname,
++                     bool follow_links,
++                     struct kernel_statx* sb) const = 0;
+ 
+   // Emulates unlink()/unlinkat().
+   virtual int Unlink(const char* unlink) const = 0;
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/system_headers/linux_seccomp.h b/sandbox/linux/system_headers/linux_seccomp.h
 --- a/sandbox/linux/system_headers/linux_seccomp.h	2024-01-10 08:13:59.153703200 +0800
 +++ b/sandbox/linux/system_headers/linux_seccomp.h	2024-01-14 02:07:01.030111916 +0800
@@ -2060,6 +2195,22 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/sys
 +#endif
 +
 +#endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LOONG64_LINUX_SYSCALLS_H_
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_broker_policy_linux.cc b/sandbox/policy/linux/bpf_broker_policy_linux.cc
+--- a/sandbox/policy/linux/bpf_broker_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
++++ b/sandbox/policy/linux/bpf_broker_policy_linux.cc	2024-01-14 17:43:12.876423882 +0800
+@@ -87,6 +87,12 @@
+         return Allow();
+       break;
+ #endif
++#if defined(__NR_statx)
++    case __NR_statx:
++      if (allowed_command_set_.test(syscall_broker::COMMAND_STAT))
++        return Allow();
++      break;
++#endif
+ #if defined(__NR_lstat)
+     case __NR_lstat:
+       if (allowed_command_set_.test(syscall_broker::COMMAND_STAT))
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc
 --- a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
 +++ b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-01-14 02:07:01.033111921 +0800
@@ -2357,6 +2508,190 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/borin
  #else
  // Note BoringSSL only supports standard 32-bit and 64-bit two's-complement,
  // little-endian architectures. Functions will not produce the correct answer
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/client/crashpad_client_linux.cc b/third_party/crashpad/crashpad/client/crashpad_client_linux.cc
+--- a/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2024-01-10 08:14:22.947806800 +0800
++++ b/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2024-01-14 17:49:30.314344860 +0800
+@@ -729,6 +729,10 @@
+   memset(context->uc_mcontext.__reserved,
+          0,
+          sizeof(context->uc_mcontext.__reserved));
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
++  memset(context->uc_mcontext.__extcontext,
++         0,
++         sizeof(struct sctx_info));
+ #endif
+ 
+   siginfo_t siginfo;
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context.h b/third_party/crashpad/crashpad/minidump/minidump_context.h
+--- a/third_party/crashpad/crashpad/minidump/minidump_context.h	2024-01-10 08:14:22.967808700 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_context.h	2024-01-14 17:50:44.478150376 +0800
+@@ -687,6 +687,56 @@
+   uint32_t fcsr;
+ };
+ 
++//! \brief LOONG64-specifc flags for MinidumpContextLOONG64::context_flags.
++//! Based on minidump_cpu_loong64.h from breakpad
++enum MinidumpContextLOONG64Flags : uint32_t {
++  //! \brief Identifies the context structure as LOONG64.
++  kMinidumpContextLOONG64 = 0x00800000,
++
++  //! \brief Indicates the validity of integer registers.
++  //!
++  //! Registers `0`-`31`, `csr_era` are valid.
++  kMinidumpContextLOONG64Integer = kMinidumpContextLOONG64 | 0x00000002,
++
++  //! \brief Indicates the validity of floating point registers.
++  //!
++  //! Floating point registers `0`-`31`, `fcsr` and `fcc` are valid
++  kMinidumpContextLOONG64FloatingPoint = kMinidumpContextLOONG64 | 0x00000004,
++
++  //! \brief Indicates the validity of all registers.
++  kMinidumpContextLOONG64All = kMinidumpContextLOONG64Integer |
++                              kMinidumpContextLOONG64FloatingPoint,
++};
++
++//! \brief A LOONG64 CPU context (register state) carried in a minidump file.
++struct MinidumpContextLOONG64 {
++  uint64_t context_flags;
++
++  //! \brief General purpose registers.
++  uint64_t regs[32];
++
++  //! \brief csr_era registers.
++  uint64_t csr_era;
++
++  //! \brief FPU registers.
++  union {
++    struct {
++      float _fp_fregs;
++      uint32_t _fp_pad;
++    } fregs[32];
++    double dregs[32];
++  } fpregs;
++
++  //! \brief Floating-point status and control register.
++  uint64_t fcc;
++
++  //! \brief Floating-point control and status register.
++  uint32_t fcsr;
++
++  //! \brief padding
++  uint32_t _pad;
++};
++
+ }  // namespace crashpad
+ 
+ #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_H_
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc
+--- a/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2024-01-10 08:14:22.967808700 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2024-01-14 17:51:36.813307465 +0800
+@@ -110,6 +110,13 @@
+       break;
+     }
+ 
++    case kCPUArchitectureLOONG64: {
++      context = std::make_unique<MinidumpContextLOONG64Writer>();
++      reinterpret_cast<MinidumpContextLOONG64Writer*>(context.get())
++          ->InitializeFromSnapshot(context_snapshot->loong64);
++      break;
++    }
++
+     default: {
+       LOG(ERROR) << "unknown context architecture "
+                  << context_snapshot->architecture;
+@@ -601,5 +608,44 @@
+   DCHECK_GE(state(), kStateFrozen);
+   return sizeof(context_);
+ }
++
++MinidumpContextLOONG64Writer::MinidumpContextLOONG64Writer()
++    : MinidumpContextWriter(), context_() {
++  context_.context_flags = kMinidumpContextLOONG64;
++}
++
++MinidumpContextLOONG64Writer::~MinidumpContextLOONG64Writer() = default;
++
++void MinidumpContextLOONG64Writer::InitializeFromSnapshot(
++    const CPUContextLOONG64* context_snapshot) {
++  DCHECK_EQ(state(), kStateMutable);
++  DCHECK_EQ(context_.context_flags, kMinidumpContextLOONG64);
++
++  context_.context_flags = kMinidumpContextLOONG64All;
++
++  static_assert(sizeof(context_.regs) == sizeof(context_snapshot->regs),
++                "GPRs size mismatch");
++  memcpy(context_.regs, context_snapshot->regs, sizeof(context_.regs));
++  context_.csr_era = context_snapshot->csr_era;
++
++  static_assert(sizeof(context_.fpregs) == sizeof(context_snapshot->fpregs),
++                "FPRs size mismatch");
++  memcpy(context_.fpregs.dregs,
++         context_snapshot->fpregs.dregs,
++         sizeof(context_.fpregs.dregs));
++  context_.fcsr = context_snapshot->fcsr;
++  context_.fcc = context_snapshot->fcc;
++}
++
++bool MinidumpContextLOONG64Writer::WriteObject(
++    FileWriterInterface* file_writer) {
++  DCHECK_EQ(state(), kStateWritable);
++  return file_writer->Write(&context_, sizeof(context_));
++}
++
++size_t MinidumpContextLOONG64Writer::ContextSize() const {
++  DCHECK_GE(state(), kStateFrozen);
++  return sizeof(context_);
++}
+ 
+ }  // namespace crashpad
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context_writer.h b/third_party/crashpad/crashpad/minidump/minidump_context_writer.h
+--- a/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2024-01-10 08:14:22.967808700 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2024-01-14 18:01:11.699048344 +0800
+@@ -413,6 +413,44 @@
+   MinidumpContextRISCV64 context_;
+ };
+ 
++//! \brief The writer for a MinidumpContextLOONG64 structure in a minidump file.
++class MinidumpContextLOONG64Writer final : public MinidumpContextWriter {
++ public:
++  MinidumpContextLOONG64Writer();
++  ~MinidumpContextLOONG64Writer() override;
++
++  //! \brief Initializes the MinidumpContextLOONGARCH based on \a context_snapshot.
++  //!
++  //! \param[in] context_snapshot The context snapshot to use as source data.
++  //!
++  //! \note Valid in #kStateMutable. No mutation of context() may be done before
++  //!     calling this method, and it is not normally necessary to alter
++  //!     context() after calling this method.
++  void InitializeFromSnapshot(const CPUContextLOONG64* context_snapshot);
++
++  //! \brief Returns a pointer to the context structure that this object will
++  //!     write.
++  //!
++  //! \attention This returns a non-`const` pointer to this object’s private
++  //!     data so that a caller can populate the context structure directly.
++  //!     This is done because providing setter interfaces to each field in the
++  //!     context structure would be unwieldy and cumbersome. Care must be taken
++  //!     to populate the context structure correctly. The context structure
++  //!     must only be modified while this object is in the #kStateMutable
++  //!     state.
++  MinidumpContextLOONG64* context() { return &context_; }
++
++ protected:
++  // MinidumpWritable:
++  bool WriteObject(FileWriterInterface* file_writer) override;
++
++  // MinidumpContextWriter:
++  size_t ContextSize() const override;
++
++ private:
++  MinidumpContextLOONG64 context_;
++};
++
+ }  // namespace crashpad
+ 
+ #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_WRITER_H_
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc
 --- a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-01-10 08:14:22.971809100 +0800
 +++ b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-01-14 02:07:01.036111926 +0800
@@ -2399,8 +2734,8 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crash
  }  // namespace crashpad
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_context.h b/third_party/crashpad/crashpad/snapshot/cpu_context.h
 --- a/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-10 08:14:22.975809300 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-14 02:07:01.038111929 +0800
-@@ -371,6 +371,16 @@
++++ b/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-14 18:02:31.278766632 +0800
+@@ -371,6 +371,22 @@
    uint32_t fcsr;
  };
  
@@ -2409,7 +2744,13 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crash
 +  uint64_t regs[32];
 +  uint64_t csr_era;
 +
-+  uint64_t fpregs[32];
++  union {
++    double dregs[32];
++    struct {
++      float _fp_fregs;
++      uint32_t _fp_pad;
++    } fregs[32];
++  } fpregs;
 +  uint64_t fcc;
 +  uint32_t fcsr;
 +};
@@ -2417,7 +2758,7 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crash
  //! \brief A context structure capable of carrying the context of any supported
  //!     CPU architecture.
  struct CPUContext {
-@@ -412,6 +422,7 @@
+@@ -412,6 +428,7 @@
      CPUContextMIPS* mipsel;
      CPUContextMIPS64* mips64;
      CPUContextRISCV64* riscv64;
@@ -2427,25 +2768,43 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crash
  
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
 --- a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-14 02:07:01.038111929 +0800
-@@ -281,6 +281,22 @@
++++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-14 17:53:25.958549570 +0800
+@@ -281,6 +281,40 @@
    context->fcsr = float_context.fcsr;
  }
  
 +#elif defined(ARCH_CPU_LOONGARCH64)
 +
-+void InitializeCPUContextLOONG64(const ThreadContext::t64_t& thread_context,
-+                                 const FloatContext::f64_t& float_context,
-+                                 CPUContextLOONG64* context) {
-+  static_assert(sizeof(context->regs) == sizeof(thread_context.regs));
++void InitializeCPUContextLOONG64_NoFloatingPoint(
++    const ThreadContext::t64_t& thread_context,
++    CPUContextLOONG64* context) {
++  static_assert(sizeof(context->regs) == sizeof(thread_context.regs),
++                "gpr context size mismtach");
 +  memcpy(context->regs, thread_context.regs, sizeof(context->regs));
-+
 +  context->csr_era = thread_context.csr_era;
 +
-+  static_assert(sizeof(context->fpregs) == sizeof(float_context.fpregs));
-+  memcpy(context->fpregs, float_context.fpregs, sizeof(context->fpregs));
++  memset(&context->fpregs, 0, sizeof(context->fpregs));
++  context->fcc = 0;
++  context->fcsr = 0;
++}
++
++void InitializeCPUContextLOONG64_OnlyFPU(
++    const FloatContext::f64_t& float_context,
++    CPUContextLOONG64* context) {
++  static_assert(sizeof(context->fpregs) == sizeof(float_context.fpregs),
++                "fpu context size mismatch");
++  memcpy(&context->fpregs, &float_context.fpregs, sizeof(context->fpregs));
 +  context->fcc = float_context.fcc;
 +  context->fcsr = float_context.fcsr;
++}
++
++void InitializeCPUContextLOONG64(
++    const ThreadContext::t64_t& thread_context,
++    const FloatContext::f64_t& float_context,
++    CPUContextLOONG64* context) {
++  InitializeCPUContextLOONG64_NoFloatingPoint(thread_context, context);
++
++  InitializeCPUContextLOONG64_OnlyFPU(float_context, context);
 +}
 +
  #endif  // ARCH_CPU_X86_FAMILY
@@ -2453,22 +2812,47 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crash
  }  // namespace internal
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h
 --- a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-14 02:07:01.038111929 +0800
-@@ -188,6 +188,20 @@
++++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-14 17:53:48.119192650 +0800
+@@ -188,6 +188,45 @@
  
  #endif  // ARCH_CPU_RISCV64 || DOXYGEN
  
 +#if defined(ARCH_CPU_LOONGARCH64) || DOXYGEN
 +
++//! \brief Initializes GPR state in a CPUContextLOONG64 from a native context
++//!     structure on Linux.
++//!
++//! Floating point state is initialized to zero.
++//!
++//! \param[in] thread_context The native thread context.
++//! \param[out] context The CPUContextLOONG64 structure to initialize.
++void InitializeCPUContextLOONG64_NoFloatingPoint(
++    const ThreadContext::t64_t& thread_context,
++    CPUContextLOONG64* context);
++//! \brief Initializes FPU state in a CPUContextLOONG64 from a native fpu
++//!     signal context structure on Linux.
++//!
++//! General purpose registers are not initialized.
++//!
++//! \param[in] float_context The native fpu context.
++//! \param[out] context The CPUContextLOONG64 structure to initialize.
++void InitializeCPUContextLOONG64_OnlyFPU(
++    const FloatContext::f64_t& float_context,
++    CPUContextLOONG64* context);
 +//! \brief Initializes a CPUContextLOONG64 structure from native context
 +//!     structures on Linux.
++//!
++//! This function has template specializations for LOONG64 architecture
++//! contexts, using ContextTraits32 or ContextTraits64 as template parameter,
++//! respectively.
 +//!
 +//! \param[in] thread_context The native thread context.
 +//! \param[in] float_context The native float context.
 +//! \param[out] context The CPUContextLOONG64 structure to initialize.
-+void InitializeCPUContextLOONG64(const ThreadContext::t64_t& thread_context,
-+                                 const FloatContext::f64_t& float_context,
-+                                 CPUContextLOONG64* context);
++void InitializeCPUContextLOONG64(
++    const ThreadContext::t64_t& thread_context,
++    const FloatContext::f64_t& float_context,
++    CPUContextLOONG64* context);
 +
 +#endif  // ARCH_CPU_LOONGARCH64 || DOXYGEN
 +
@@ -2477,7 +2861,7 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crash
  
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc
 --- a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-14 02:07:01.039111931 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-14 18:06:30.840908240 +0800
 @@ -15,6 +15,7 @@
  #include "snapshot/linux/exception_snapshot_linux.h"
  
@@ -2486,7 +2870,7 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crash
  
  #include "base/logging.h"
  #include "snapshot/linux/capture_memory_delegate_linux.h"
-@@ -367,6 +368,46 @@
+@@ -367,6 +368,77 @@
    return internal::ReadContext(reader, context_address, context_.riscv64);
  }
  
@@ -2496,28 +2880,59 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crash
 +                        LinuxVMAddress context_address,
 +                        typename ContextTraits64::CPUContext* dest_context) {
 +  const ProcessMemory* memory = reader->Memory();
-+
-+  LinuxVMAddress mcontext_address = context_address +
++  LinuxVMAddress gregs_address = context_address +
 +                                 offsetof(UContext<ContextTraits64>, mcontext);
-+
-+  MContext64 mcontext;
-+  if (!memory->Read(mcontext_address, sizeof(mcontext), &mcontext)) {
-+    LOG(ERROR) << "Couldn't read mcontext";
++  ThreadContext::t64_t thread_context;
++  ContextTraits64::MContext mcontext;
++  if (!memory->Read(gregs_address, sizeof(mcontext), &mcontext)) {
++    LOG(ERROR) << "Couldn't read gregs";
 +    return false;
 +  }
-+
-+  typename ContextTraits64::SignalThreadContext thread_context;
-+  memcpy(thread_context.regs, mcontext.regs, sizeof(mcontext.regs));
++  static_assert(sizeof(thread_context.regs) == sizeof(mcontext.gregs),
++                "gpr context size mismtach");
++  memcpy(thread_context.regs, mcontext.gregs, sizeof(mcontext.gregs));
 +  thread_context.csr_era = mcontext.pc;
 +  thread_context.orig_a0 = 0;
 +  thread_context.csr_badv = 0;
-+
-+  typename ContextTraits64::SignalFloatContext fp_context;
-+  // TODO: handle fp context
-+
-+  InitializeCPUContextLOONG64(thread_context, fp_context, dest_context);
-+
-+  return true;
++  InitializeCPUContextLOONG64_NoFloatingPoint(thread_context, dest_context);
++  LinuxVMAddress reserved_address =
++        context_address + offsetof(UContext<ContextTraits64>, mcontext.extcontext);
++  if ((reserved_address & 15) != 0) {
++    LOG(ERROR) << "invalid alignment 0x" << std::hex << reserved_address;
++    return false;
++   }
++  constexpr VMSize kMaxContextSpace = 4096;
++  ProcessMemoryRange range;
++  if (!range.Initialize(memory, true, reserved_address, kMaxContextSpace)) {
++    return false;
++  }
++  do {
++    struct sctx_info head;
++    if (!range.Read(reserved_address, sizeof(head), &head)) {
++      LOG(ERROR) << "missing context terminator";
++      return false;
++    }
++    reserved_address += sizeof(head);
++    switch (head.magic) {
++      case FPU_CTX_MAGIC:
++        if (head.size != sizeof(struct fpu_context) + sizeof(head)) {
++          LOG(ERROR) << "unexpected fpu context size " << head.size;
++          return false;
++        }
++        FloatContext::f64_t fpucontext;
++        if (!range.Read(reserved_address, sizeof(fpucontext), &fpucontext)) {
++          LOG(ERROR) << "Couldn't read fpu " << head.size;
++          return false;
++        }
++        InitializeCPUContextLOONG64_OnlyFPU(fpucontext, dest_context);
++        return true;
++      case 0:
++        return true;
++      default:
++        LOG(ERROR) << "invalid magic number 0x" << std::hex << head.magic;
++        return false;
++    }
++  } while (true);
 +}
 +
 +template <>
@@ -2533,7 +2948,7 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crash
  #endif  // ARCH_CPU_X86_FAMILY
  
  bool ExceptionSnapshotLinux::Initialize(
-@@ -397,7 +438,7 @@
+@@ -397,7 +469,7 @@
        return false;
      }
    } else {
@@ -2568,26 +2983,27 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crash
  #endif
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h
 --- a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-14 02:07:01.040111932 +0800
-@@ -456,6 +456,45 @@
++++ b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-14 17:56:30.598575754 +0800
+@@ -456,6 +456,46 @@
                    offsetof(ucontext_t, uc_mcontext.__fpregs),
                "context offset mismatch");
  
 +#elif defined(ARCH_CPU_LOONGARCH64)
 +
-+struct ContextTraits64 : public Traits64 {
-+  using SignalThreadContext = ThreadContext::t64_t;
-+  using SignalFloatContext = FloatContext::f64_t;
-+  using CPUContext = CPUContextLOONG64;
-+};
-+
 +// See asm/sigcontext.h
 +struct MContext64 {
 +  uint64_t pc;
-+  uint64_t regs[32];
++  uint64_t gregs[32];
 +  uint32_t flags;
 +  uint32_t padding;
 +  uint64_t extcontext[0] __attribute__((__aligned__(16)));
++};
++
++struct ContextTraits64 : public Traits64 {
++  using MContext = MContext64;
++  using SignalThreadContext = ThreadContext::t64_t;
++  using SignalFloatContext = FloatContext::f64_t;
++  using CPUContext = CPUContextLOONG64;
 +};
 +
 +// See asm/ucontext.h
@@ -2605,7 +3021,7 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crash
 +static_assert(offsetof(UContext<ContextTraits64>, mcontext) ==
 +                  offsetof(ucontext_t, uc_mcontext),
 +              "context offset mismatch");
-+static_assert(offsetof(UContext<ContextTraits64>, mcontext.regs) ==
++static_assert(offsetof(UContext<ContextTraits64>, mcontext.gregs) ==
 +                  offsetof(ucontext_t, uc_mcontext.__gregs),
 +              "context offset mismatch");
 +static_assert(offsetof(UContext<ContextTraits64>, mcontext.extcontext) ==
