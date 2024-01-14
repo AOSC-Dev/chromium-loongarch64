@@ -2123,6 +2123,18 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/skia/BUILD.gn b/s
    } else {
      assert(false, "Unknown cpu target")
    }
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/common/interest_group/auction_config_mojom_traits.cc b/third_party/blink/common/interest_group/auction_config_mojom_traits.cc
+--- a/third_party/blink/common/interest_group/auction_config_mojom_traits.cc	2024-01-10 08:14:00.505822700 +0800
++++ b/third_party/blink/common/interest_group/auction_config_mojom_traits.cc	2024-01-14 15:56:13.494835968 +0800
+@@ -2,6 +2,8 @@
+ // Use of this source code is governed by a BSD-style license that can be
+ // found in the LICENSE file.
+ 
++#pragma GCC visibility push(default)
++
+ #include "third_party/blink/public/common/interest_group/auction_config_mojom_traits.h"
+ 
+ #include <string>
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/public/web/web_local_frame_client.h b/third_party/blink/public/web/web_local_frame_client.h
 --- a/third_party/blink/public/web/web_local_frame_client.h	2024-01-10 08:14:01.253888800 +0800
 +++ b/third_party/blink/public/web/web_local_frame_client.h	2024-01-14 08:39:27.887971264 +0800
