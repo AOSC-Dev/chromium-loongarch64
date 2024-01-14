@@ -2,7 +2,7 @@
 
 Attempt to port chromium to loongarch64.
 
-Status: can launch, but crashes easily.
+Status: working! Although debug build can trigger raw_ptr bugs.
 
 Based on:
 
