@@ -57,6 +57,8 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/build/nocompile.gni b/build
  
          # No need to generate an object file for nocompile tests.
          "-Xclang",
+Binary files a/chrome/build/pgo_profiles/chrome-linux-6099-1701798922-d4c2e2b63ef7ac7755f4bcd1deb8e214078c9410.profdata and b/chrome/build/pgo_profiles/chrome-linux-6099-1701798922-d4c2e2b63ef7ac7755f4bcd1deb8e214078c9410.profdata differ
+Binary files a/net/data/cache_tests/dirty_entry3/index and b/net/data/cache_tests/dirty_entry3/index differ
 diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/features.gni b/sandbox/features.gni
 --- a/sandbox/features.gni	2024-01-10 08:13:59.137701700 +0800
 +++ b/sandbox/features.gni	2024-01-14 02:07:01.024111907 +0800
@@ -2122,6 +2124,51 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/skia/BUILD.gn b/skia/BUILD.
    } else {
      assert(false, "Unknown cpu target")
    }
+diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/angle/third_party/VK-GL-CTS/src/android/cts/main/vk-master/pipeline/shader-object-unlinked-spirv.txt b/third_party/angle/third_party/VK-GL-CTS/src/android/cts/main/vk-master/pipeline/shader-object-unlinked-spirv.txt
+--- a/third_party/angle/third_party/VK-GL-CTS/src/android/cts/main/vk-master/pipeline/shader-object-unlinked-spirv.txt	2024-01-10 08:15:58.524257200 +0800
++++ b/third_party/angle/third_party/VK-GL-CTS/src/android/cts/main/vk-master/pipeline/shader-object-unlinked-spirv.txt	2024-01-14 02:04:36.382881407 +0800
+@@ -82430,30 +82430,30 @@
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32_sfloat.count_8.size.pipeline_protected_access_443x1_array_of_6
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32_sfloat.count_8.size.pipeline_protected_access_pipeline_protected_flag_512x1_array_of_6
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32_sfloat.count_8.size.pipeline_protected_access_pipeline_protected_flag_443x1_array_of_6
+-dEQP-VK.pipeline.shader_object_unlinkee_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.1x1_array_of_3
+-dEQP-VK.pipeline.shaeer_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uin4.count_1.size.1x1_array_of_6
+-dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g72b32a32_uint.count_1.size.2x1_array_of_3
++dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.1x1_array_of_3
++dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.1x1_array_of_6
++dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.2x1_array_of_3
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.2x1_array_of_6
+-dEQP-VK.pipeline.shader_object_unlinked_spirv.imáge.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.32x1_array_of_3
+-dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.3"x1_array_of_6
++dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.32x1_array_of_3
++dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.32x1_array_of_6
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.128x1_array_of_3
+-dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocatIon.sampling]type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.128x1_array_of_6
+-dEQP-VK.pipeline.shader_obêect_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.512x1_array_of_3
++dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.128x1_array_of_6
++dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.512x1_array_of_3
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.512x1_array_of_6
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.3x1_array_of_3
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.3x1_array_of_6
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.13x1_array_of_3
+-dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.formAt.r32g32b32a32_uint.count_1.size.13x1_array_of_6
++dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.13x1_array_of_6
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.127x1_array_of_3
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.127x1_array_of_6
+-dEQP-VK.pipeline.sha$er_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.443x1_array_of_3
++dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.443x1_array_of_3
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.443x1_array_of_6
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.pipeline_protected_access_1x1_array_of_3
+-dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uinv.count_1.size.pipeline_protected_access_1x1_array_of_6
++dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.pipeline_protected_access_1x1_array_of_6
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.pipeline_protected_access_2x1_array_of_3
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.pipeline_protected_access_2x1_array_of_6
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.pipeline_protected_access_32x1_array_of_3
+-dEQP-VK.pipeline.shader_object_unlinked_spirv*image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.pipeline_protected_access_32x1_array_of_6
++dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.pipeline_protected_access_32x1_array_of_6
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.pipeline_protected_access_128x1_array_of_3
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.pipeline_protected_access_128x1_array_of_6
+ dEQP-VK.pipeline.shader_object_unlinked_spirv.image.suballocation.sampling_type.combined.view_type.1d_array.format.r32g32b32a32_uint.count_1.size.pipeline_protected_access_512x1_array_of_3
 diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/public/web/web_local_frame_client.h b/third_party/blink/public/web/web_local_frame_client.h
 --- a/third_party/blink/public/web/web_local_frame_client.h	2024-01-10 08:14:01.253888800 +0800
 +++ b/third_party/blink/public/web/web_local_frame_client.h	2024-01-14 08:39:27.887971264 +0800
@@ -2170,16 +2217,15 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/
  #include "third_party/blink/public/platform/web_worker_fetch_context.h"
 diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc
 --- a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc	2024-01-10 08:14:02.766022700 +0800
-+++ b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc	2024-01-14 14:28:00.695560412 +0800
-@@ -74,7 +74,7 @@
- #undef DOMTYPEDARRAY_DEFINE_WRAPPERTYPEINFO
++++ b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc	2024-01-14 15:36:56.918647686 +0800
+@@ -2,6 +2,7 @@
+ // Use of this source code is governed by a BSD-style license that can be
+ // found in the LICENSE file.
  
- #define DOMTYPEDARRAY_EXPLICITLY_INSTANTIATE(val_t, Type, clamped) \
--  template class CORE_TEMPLATE_EXPORT                              \
-+  template class __attribute__((visibility("default"))) CORE_TEMPLATE_EXPORT                              \
-       DOMTypedArray<val_t, v8::Type##Array, clamped>;
- DOMTYPEDARRAY_FOREACH_VIEW_TYPE(DOMTYPEDARRAY_EXPLICITLY_INSTANTIATE)
- #undef DOMTYPEDARRAY_EXPLICITLY_INSTANTIATE
++#pragma GCC visibility push(default)
+ #include "third_party/blink/renderer/core/typed_arrays/dom_typed_array.h"
+ 
+ #include "third_party/blink/renderer/bindings/core/v8/to_v8_traits.h"
 diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h
 --- a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h	2024-01-10 08:14:02.766022700 +0800
 +++ b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h	2024-01-14 13:12:22.016036154 +0800
