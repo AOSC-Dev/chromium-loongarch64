@@ -946,16 +946,19 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  #endif
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.cc b/sandbox/linux/syscall_broker/syscall_dispatcher.cc
 --- a/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-10 08:13:59.149702800 +0800
-+++ b/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-14 23:09:03.884774464 +0800
-@@ -169,6 +169,16 @@ int SyscallDispatcher::DispatchSyscall(c
++++ b/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-14 23:30:07.150188231 +0800
+@@ -169,6 +169,19 @@ int SyscallDispatcher::DispatchSyscall(c
        return Stat64(reinterpret_cast<const char*>(args.args[0]), true,
                      reinterpret_cast<struct kernel_stat64*>(args.args[1]));
  #endif
 +#if defined(__NR_statx)
 +    case __NR_statx:
++      // we have ensured that the statx does not have AT_EMPTY_PATH in HandleViaBroker()
++      // so this is stat/lstat instead of fstat
 +      // see PerformStatat
-+      if (static_cast<int>(args.args[0]) != AT_FDCWD)
++      if (static_cast<int>(args.args[0]) != AT_FDCWD) {
 +        return -EPERM;
++      }
 +
 +      return Statx(reinterpret_cast<const char*>(args.args[1]),
 +		   !(static_cast<int>(args.args[2]) & AT_SYMLINK_NOFOLLOW),
@@ -2350,19 +2353,31 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy
      case __NR_getdents64:
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/sandbox_linux.cc b/sandbox/policy/linux/sandbox_linux.cc
 --- a/sandbox/policy/linux/sandbox_linux.cc	2024-01-10 08:13:59.157703600 +0800
-+++ b/sandbox/policy/linux/sandbox_linux.cc	2024-01-14 02:07:01.034111923 +0800
-@@ -558,7 +558,11 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
++++ b/sandbox/policy/linux/sandbox_linux.cc	2024-01-14 23:41:50.186495415 +0800
+@@ -558,6 +558,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
    const bpf_dsl::ResultExpr handle_via_broker =
        bpf_dsl::Trap(syscall_broker::BrokerClient::SIGSYS_Handler,
                      broker_process_->GetBrokerClientSignalBased());
 +#if !defined(__loongarch__)
    if (sysno == __NR_fstatat_default) {
-+#else
-+  if (false) {
-+#endif
      // This may be an fstatat(fd, "", stat_buf, AT_EMPTY_PATH), which should be
      // rewritten as fstat(fd, stat_buf). This should be consistent with how the
-     // baseline policy handles fstatat().
+@@ -568,6 +569,15 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+     return bpf_dsl::If((flags & AT_EMPTY_PATH) == AT_EMPTY_PATH,
+                        RewriteFstatatSIGSYS(BPFBasePolicy::GetFSDeniedErrno()))
+         .Else(handle_via_broker);
++#else
++  if (sysno == __NR_statx) {
++    // This may be a statx(fd, "", AT_EMPTY_PATH, mask, statx_buf), and we allow it.
++    // Otherwise, we expect a statx(AT_FDCWD, path, flags, mask, statx_buf).
++    const bpf_dsl::Arg<int> flags(2);
++    return bpf_dsl::If((flags & AT_EMPTY_PATH) == AT_EMPTY_PATH,
++                       bpf_dsl::Allow())
++        .Else(handle_via_broker);
++#endif
+   } else {
+     return handle_via_broker;
+   }
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/skia/BUILD.gn b/skia/BUILD.gn
 --- a/skia/BUILD.gn	2024-01-10 08:13:59.485732600 +0800
 +++ b/skia/BUILD.gn	2024-01-14 02:07:01.035111924 +0800
