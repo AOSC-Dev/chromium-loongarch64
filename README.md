@@ -2,6 +2,8 @@
 
 Attempt to port chromium to loongarch64.
 
+Status: can launch, but crashes easily.
+
 Based on:
 
 - [loongson/electron](https://github.com/loongson/electron/)
