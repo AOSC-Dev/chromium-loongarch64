@@ -995,8 +995,8 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/sys
  
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/system_headers/loong64_linux_syscalls.h b/sandbox/linux/system_headers/loong64_linux_syscalls.h
 --- a/sandbox/linux/system_headers/loong64_linux_syscalls.h	1970-01-01 08:00:00.000000000 +0800
-+++ b/sandbox/linux/system_headers/loong64_linux_syscalls.h	2024-01-14 02:07:01.032111919 +0800
-@@ -0,0 +1,1198 @@
++++ b/sandbox/linux/system_headers/loong64_linux_syscalls.h	2024-01-14 18:49:55.372959597 +0800
+@@ -0,0 +1,1194 @@
 +// Copyright 2023 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -2178,10 +2178,6 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/sys
 +#define __NR_mount_setattr 442
 +#endif
 +
-+#if !defined(__NR_quotactl_path)
-+#define __NR_quotactl_path 443
-+#endif
-+
 +#if !defined(__NR_landlock_create_ruleset)
 +#define __NR_landlock_create_ruleset 444
 +#endif
@@ -3101,6 +3097,40 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crash
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc b/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc
+--- a/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2024-01-10 08:14:22.991810800 +0800
++++ b/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2024-01-14 18:16:07.364622738 +0800
+@@ -293,6 +293,30 @@
+     memcpy(&context_.riscv64->fpregs, &src->fpregs, sizeof(src->fpregs));
+ 
+     context_.riscv64->fcsr = src->fcsr;
++  } else if (context_.architecture ==
++             CPUArchitecture::kCPUArchitectureLOONG64) {
++    context_memory_.resize(sizeof(CPUContextLOONG64));
++    context_.loong64 =
++        reinterpret_cast<CPUContextLOONG64*>(context_memory_.data());
++    const MinidumpContextLOONG64* src =
++        reinterpret_cast<const MinidumpContextLOONG64*>(minidump_context.data());
++    if (minidump_context.size() < sizeof(MinidumpContextLOONG64)) {
++      return false;
++    }
++
++    if (!(src->context_flags & kMinidumpContextLOONG64)) {
++      return false;
++    }
++
++    for (size_t i = 0; i < std::size(src->regs); i++) {
++      context_.loong64->regs[i] = src->regs[i];
++    }
++
++    context_.loong64->csr_era = src->csr_era;
++    context_.loong64->fcsr = src->fcsr;
++    context_.loong64->fcc = src->fcc;
++
++    memcpy(&context_.loong64->fpregs, &src->fpregs, sizeof(src->fpregs));
+   } else {
+     // Architecture is listed as "unknown".
+     DLOG(ERROR) << "Unknown architecture";
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/util/linux/ptracer.cc b/third_party/crashpad/crashpad/util/linux/ptracer.cc
 --- a/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-01-10 08:14:23.019813300 +0800
 +++ b/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-01-14 02:07:01.042111935 +0800
