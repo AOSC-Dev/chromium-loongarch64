@@ -1,3 +1,28 @@
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/base/allocator/partition_allocator/partition_alloc.gni b/base/allocator/partition_allocator/partition_alloc.gni
+--- a/base/allocator/partition_allocator/partition_alloc.gni	2024-01-10 08:13:23.438545500 +0800
++++ b/base/allocator/partition_allocator/partition_alloc.gni	2024-01-14 18:57:20.065797365 +0800
+@@ -212,7 +212,7 @@
+ pcscan_stack_supported =
+     use_starscan &&
+     (current_cpu == "x64" || current_cpu == "x86" || current_cpu == "arm" ||
+-     current_cpu == "arm64" || current_cpu == "riscv64")
++     current_cpu == "arm64" || current_cpu == "riscv64" || current_cpu == "loong64")
+ 
+ # We want to provide assertions that guard against inconsistent build
+ # args, but there is no point in having them fire if we're not building
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn
+--- a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2024-01-10 08:13:23.438545500 +0800
++++ b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2024-01-14 18:57:55.828221374 +0800
+@@ -277,6 +277,9 @@
+     } else if (current_cpu == "riscv64") {
+       assert(pcscan_stack_supported)
+       sources += [ "starscan/stack/asm/riscv64/push_registers_asm.cc" ]
++    } else if (current_cpu == "loong64") {
++      assert(pcscan_stack_supported)
++      sources += [ "starscan/stack/asm/loong64/push_registers_asm.cc" ]
+     } else {
+       # To support a trampoline for another arch, please refer to v8/src/heap/base.
+       assert(!pcscan_stack_supported)
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h b/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h
 --- a/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h	2024-01-10 08:13:23.454547000 +0800
 +++ b/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h	2024-01-14 15:02:40.519000884 +0800
@@ -10,6 +35,59 @@ diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/base/allocator/pa
      integer.i = 0;
      // Internally, SafeSprintf expects to represent nulls as integers whose
      // width is equal to sizeof(NULL), which is not necessarily equal to
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc b/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc
+--- a/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc	1970-01-01 08:00:00.000000000 +0800
++++ b/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc	2024-01-14 19:03:11.790132486 +0800
+@@ -0,0 +1,49 @@
++// Copyright 2023 The Chromium Authors
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++// Push all callee-saved registers to get them on the stack for conservative
++// stack scanning.
++//
++// See asm/x64/push_registers_asm.cc for why the function is not generated
++// using clang.
++//
++// Calling convention source:
++// https://loongson.github.io/LoongArch-Documentation/LoongArch-ELF-ABI-EN.html
++asm(".global PAPushAllRegistersAndIterateStack             \n"
++    ".type PAPushAllRegistersAndIterateStack, %function    \n"
++    ".hidden PAPushAllRegistersAndIterateStack             \n"
++    "PAPushAllRegistersAndIterateStack:                    \n"
++    // Push all callee-saved registers and save return address.
++    "  addi.d $sp, $sp, -96                              \n"
++    // Save return address.
++    "  st.d $ra, $sp, 88                                 \n"
++    // sp is callee-saved.
++    "  st.d $sp, $sp, 80                                 \n"
++    // s0-s9 are callee-saved.
++    "  st.d $s9, $sp, 72                                 \n"
++    "  sd d $s8, $sp, 64                                 \n"
++    "  sd d $s7, $sp, 56                                 \n"
++    "  sd d $s6, $sp, 48                                 \n"
++    "  sd d $s5, $sp, 40                                 \n"
++    "  sd d $s4, $sp, 32                                 \n"
++    "  sd d $s3, $sp, 24                                 \n"
++    "  sd d $s2, $sp, 16                                 \n"
++    "  sd d $s1, $sp, 8                                  \n"
++    "  sd d $s0, $sp, 0                                  \n"
++    // Maintain frame pointer(fp is s9).
++    "  move $fp, $sp                                     \n"
++    // Pass 1st parameter (a0) unchanged (Stack*).
++    // Pass 2nd parameter (a1) unchanged (StackVisitor*).
++    // Save 3rd parameter (a2; IterateStackCallback) to a3.
++    "  move $a3, $a2                                     \n"
++    // Pass 3rd parameter as sp (stack pointer).
++    "  move $a2, $sp                                     \n"
++    // Call the callback.
++    "  jirl $ra, $a3, 0                                  \n"
++    // Load return address.
++    "  ld.d $ra, $sp, 88                                 \n"
++    // Restore frame pointer.
++    "  ld.d $fp, $sp, 72                                 \n"
++    "  addi.d $sp, $sp, 96                               \n"
++    "  jr $ra                                            \n");
 diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
 --- a/build/config/compiler/BUILD.gn	2024-01-10 08:13:24.074601700 +0800
 +++ b/build/config/compiler/BUILD.gn	2024-01-14 15:01:25.630010525 +0800
