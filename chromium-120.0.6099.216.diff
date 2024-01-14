@@ -289,7 +289,7 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  #endif
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-10 08:13:59.141702200 +0800
-+++ b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-14 12:26:52.823857617 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-14 23:53:50.312395109 +0800
 @@ -193,7 +193,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
      return RestrictFcntlCommands();
  #endif
@@ -317,18 +317,22 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
    if (sysno == __NR_socketpair) {
      // Only allow AF_UNIX, PF_UNIX. Crash if anything else is seen.
      static_assert(AF_UNIX == PF_UNIX,
-@@ -305,9 +305,11 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+@@ -302,6 +302,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+     return Allow();
+   }
+ 
++#if !defined(__loongarch__)
    // The fstatat syscalls are file system syscalls, which will be denied below
    // with fs_denied_errno. However some allowed fstat syscalls are rewritten by
    // libc implementations to fstatat syscalls, and we need to rewrite them back.
-+#if !defined(__loongarch__)
-   if (sysno == __NR_fstatat_default) {
-     return RewriteFstatatSIGSYS(fs_denied_errno);
+@@ -319,6 +320,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+     return If(mask == STATX_BASIC_STATS, Error(ENOSYS))
+         .Else(Error(fs_denied_errno));
    }
 +#endif
  
-   // The statx syscall is a filesystem syscall, which will be denied below with
-   // fs_denied_errno. However, on some platforms, glibc will default to statx
+   if (SyscallSets::IsFileSystem(sysno) ||
+       SyscallSets::IsCurrentDirectory(sysno)) {
 @@ -366,7 +368,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
    // Allow creating pipes, but don't allow weird flags to pipe2().
    // O_NOTIFICATION_PIPE (== O_EXCL) can be used to create
