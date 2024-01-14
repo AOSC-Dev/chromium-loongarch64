@@ -946,15 +946,20 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  #endif
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.cc b/sandbox/linux/syscall_broker/syscall_dispatcher.cc
 --- a/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-10 08:13:59.149702800 +0800
-+++ b/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-14 17:48:33.441260859 +0800
-@@ -169,6 +169,11 @@ int SyscallDispatcher::DispatchSyscall(c
++++ b/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-14 23:09:03.884774464 +0800
+@@ -169,6 +169,16 @@ int SyscallDispatcher::DispatchSyscall(c
        return Stat64(reinterpret_cast<const char*>(args.args[0]), true,
                      reinterpret_cast<struct kernel_stat64*>(args.args[1]));
  #endif
 +#if defined(__NR_statx)
 +    case __NR_statx:
-+      return Statx(reinterpret_cast<const char*>(args.args[0]), true,
-+                    reinterpret_cast<struct kernel_statx*>(args.args[1]));
++      // see PerformStatat
++      if (static_cast<int>(args.args[0]) != AT_FDCWD)
++        return -EPERM;
++
++      return Statx(reinterpret_cast<const char*>(args.args[1]),
++		   !(static_cast<int>(args.args[2]) & AT_SYMLINK_NOFOLLOW),
++                   reinterpret_cast<struct kernel_statx*>(args.args[4]));
 +#endif
  #if defined(__NR_lstat)
      case __NR_lstat:
