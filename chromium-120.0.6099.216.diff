@@ -1,4 +1,4 @@
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h b/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h b/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h
 --- a/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h	2024-01-10 08:13:23.454547000 +0800
 +++ b/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h	2024-01-14 15:02:40.519000884 +0800
 @@ -184,7 +184,7 @@
@@ -10,7 +10,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/base/allocator/partition_al
      integer.i = 0;
      // Internally, SafeSprintf expects to represent nulls as integers whose
      // width is equal to sizeof(NULL), which is not necessarily equal to
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
 --- a/build/config/compiler/BUILD.gn	2024-01-10 08:13:24.074601700 +0800
 +++ b/build/config/compiler/BUILD.gn	2024-01-14 15:01:25.630010525 +0800
 @@ -621,10 +621,10 @@
@@ -28,7 +28,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/build/config/compiler/BUILD
        if (use_thin_lto && is_a_target_toolchain) {
          if (is_win) {
            ldflags += [ "-mllvm:-split-threshold-for-reg-with-hint=0" ]
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/build/config/linux/libffi/BUILD.gn b/build/config/linux/libffi/BUILD.gn
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/build/config/linux/libffi/BUILD.gn b/build/config/linux/libffi/BUILD.gn
 --- a/build/config/linux/libffi/BUILD.gn	2024-01-10 08:13:24.082602500 +0800
 +++ b/build/config/linux/libffi/BUILD.gn	2024-01-14 02:07:01.023111905 +0800
 @@ -19,6 +19,6 @@
@@ -39,7 +39,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/build/config/linux/libffi/B
 +    libs = [ ":libffi.a" ]
    }
  }
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/build/nocompile.gni b/build/nocompile.gni
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/build/nocompile.gni b/build/nocompile.gni
 --- a/build/nocompile.gni	2024-01-10 08:13:24.110605000 +0800
 +++ b/build/nocompile.gni	2024-01-14 15:00:35.475182521 +0800
 @@ -115,10 +115,10 @@
@@ -58,7 +58,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/build/nocompile.gni b/build
          # No need to generate an object file for nocompile tests.
          "-Xclang",
 Binary files a/net/data/cache_tests/dirty_entry3/index and b/net/data/cache_tests/dirty_entry3/index differ
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/features.gni b/sandbox/features.gni
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/features.gni b/sandbox/features.gni
 --- a/sandbox/features.gni	2024-01-10 08:13:59.137701700 +0800
 +++ b/sandbox/features.gni	2024-01-14 02:07:01.024111907 +0800
 @@ -9,7 +9,7 @@
@@ -70,7 +70,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/features.gni b/sand
  
  # SSBD (Speculative Store Bypass Disable) is a mitigation of Spectre Variant 4.
  # As Spectre Variant 4 can be mitigated by site isolation, opt-out SSBD on site
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h
 --- a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-10 08:13:59.137701700 +0800
 +++ b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-14 02:07:01.024111907 +0800
 @@ -56,6 +56,13 @@
@@ -87,7 +87,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/bpf_dsl/linux
  #else
  #error "Unsupported architecture"
  #endif
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/bpf_dsl/seccomp_macros.h b/sandbox/linux/bpf_dsl/seccomp_macros.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/bpf_dsl/seccomp_macros.h b/sandbox/linux/bpf_dsl/seccomp_macros.h
 --- a/sandbox/linux/bpf_dsl/seccomp_macros.h	2024-01-10 08:13:59.141702200 +0800
 +++ b/sandbox/linux/bpf_dsl/seccomp_macros.h	2024-01-14 02:07:01.025111908 +0800
 @@ -343,6 +343,47 @@
@@ -138,7 +138,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/bpf_dsl/secco
  #else
  #error Unsupported target platform
  
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf/syscall.cc b/sandbox/linux/seccomp-bpf/syscall.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf/syscall.cc b/sandbox/linux/seccomp-bpf/syscall.cc
 --- a/sandbox/linux/seccomp-bpf/syscall.cc	2024-01-10 08:13:59.145702600 +0800
 +++ b/sandbox/linux/seccomp-bpf/syscall.cc	2024-01-14 02:07:01.025111908 +0800
 @@ -18,7 +18,7 @@
@@ -197,7 +197,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf/s
  #else
  #error "Unimplemented architecture"
  #endif
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-10 08:13:59.141702200 +0800
 +++ b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-14 12:26:52.823857617 +0800
 @@ -193,7 +193,7 @@
@@ -248,7 +248,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-h
    if (sysno == __NR_pipe) {
      return Allow();
    }
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2024-01-10 08:13:59.141702200 +0800
 +++ b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2024-01-14 02:07:01.026111910 +0800
 @@ -354,6 +354,7 @@
@@ -267,7 +267,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-h
  
    CrashSIGSYS_Handler(args, fs_denied_errno);
  
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-10 08:13:59.141702200 +0800
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-14 02:07:01.027111911 +0800
 @@ -37,7 +37,7 @@
@@ -292,7 +292,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-h
  #endif
  #if defined(__arm__)
                   PTRACE_GETVFPREGS,
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-10 08:13:59.141702200 +0800
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-14 12:36:10.553820460 +0800
 @@ -103,7 +103,7 @@
@@ -543,7 +543,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-h
      case __NR_vserver:
  #endif
        return true;
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2024-01-10 08:13:59.141702200 +0800
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2024-01-14 02:07:01.028111913 +0800
 @@ -79,18 +79,18 @@
@@ -568,7 +568,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/seccomp-bpf-h
    static bool IsSystemVMessageQueue(int sysno);
  #endif
  
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/services/credentials.cc b/sandbox/linux/services/credentials.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/services/credentials.cc b/sandbox/linux/services/credentials.cc
 --- a/sandbox/linux/services/credentials.cc	2024-01-10 08:13:59.145702600 +0800
 +++ b/sandbox/linux/services/credentials.cc	2024-01-14 02:07:01.029111915 +0800
 @@ -80,7 +80,7 @@
@@ -580,7 +580,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/services/cred
    // The stack grows downward.
    void* stack = stack_buf + sizeof(stack_buf);
  #else
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/services/syscall_wrappers.cc b/sandbox/linux/services/syscall_wrappers.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/services/syscall_wrappers.cc b/sandbox/linux/services/syscall_wrappers.cc
 --- a/sandbox/linux/services/syscall_wrappers.cc	2024-01-10 08:13:59.145702600 +0800
 +++ b/sandbox/linux/services/syscall_wrappers.cc	2024-01-14 02:07:01.029111915 +0800
 @@ -5,6 +5,7 @@
@@ -660,7 +660,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/services/sysc
    res = syscall(__NR_newfstatat, AT_FDCWD, path, stat_buf, AT_SYMLINK_NOFOLLOW);
  #else
    res = syscall(__NR_lstat, path, stat_buf);
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/services/syscall_wrappers.h b/sandbox/linux/services/syscall_wrappers.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/services/syscall_wrappers.h b/sandbox/linux/services/syscall_wrappers.h
 --- a/sandbox/linux/services/syscall_wrappers.h	2024-01-10 08:13:59.145702600 +0800
 +++ b/sandbox/linux/services/syscall_wrappers.h	2024-01-14 02:07:01.029111915 +0800
 @@ -19,6 +19,7 @@
@@ -671,7 +671,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/services/sysc
  
  namespace sandbox {
  
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/syscall_broker/broker_process.cc b/sandbox/linux/syscall_broker/broker_process.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_process.cc b/sandbox/linux/syscall_broker/broker_process.cc
 --- a/sandbox/linux/syscall_broker/broker_process.cc	2024-01-10 08:13:59.149702800 +0800
 +++ b/sandbox/linux/syscall_broker/broker_process.cc	2024-01-14 02:07:01.030111916 +0800
 @@ -122,44 +122,46 @@
@@ -737,7 +737,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/syscall_broke
      case __NR_unlink:
        return !fast_check || policy_->allowed_command_set.test(COMMAND_UNLINK);
  #endif
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/system_headers/linux_seccomp.h b/sandbox/linux/system_headers/linux_seccomp.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/system_headers/linux_seccomp.h b/sandbox/linux/system_headers/linux_seccomp.h
 --- a/sandbox/linux/system_headers/linux_seccomp.h	2024-01-10 08:13:59.153703200 +0800
 +++ b/sandbox/linux/system_headers/linux_seccomp.h	2024-01-14 02:07:01.030111916 +0800
 @@ -39,6 +39,10 @@
@@ -762,7 +762,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/system_header
  // For prctl.h
  #ifndef PR_SET_SECCOMP
  #define PR_SET_SECCOMP               22
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/system_headers/linux_signal.h b/sandbox/linux/system_headers/linux_signal.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/system_headers/linux_signal.h b/sandbox/linux/system_headers/linux_signal.h
 --- a/sandbox/linux/system_headers/linux_signal.h	2024-01-10 08:13:59.153703200 +0800
 +++ b/sandbox/linux/system_headers/linux_signal.h	2024-01-14 02:07:01.031111918 +0800
 @@ -13,7 +13,7 @@
@@ -774,7 +774,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/system_header
  
  #define LINUX_SIGHUP 1
  #define LINUX_SIGINT 2
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/system_headers/linux_stat.h b/sandbox/linux/system_headers/linux_stat.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/system_headers/linux_stat.h b/sandbox/linux/system_headers/linux_stat.h
 --- a/sandbox/linux/system_headers/linux_stat.h	2024-01-10 08:13:59.153703200 +0800
 +++ b/sandbox/linux/system_headers/linux_stat.h	2024-01-14 02:07:01.031111918 +0800
 @@ -150,7 +150,7 @@
@@ -845,7 +845,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/system_header
  #endif
  
  #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LINUX_STAT_H_
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/system_headers/linux_syscalls.h b/sandbox/linux/system_headers/linux_syscalls.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/system_headers/linux_syscalls.h b/sandbox/linux/system_headers/linux_syscalls.h
 --- a/sandbox/linux/system_headers/linux_syscalls.h	2024-01-10 08:13:59.153703200 +0800
 +++ b/sandbox/linux/system_headers/linux_syscalls.h	2024-01-14 02:07:01.031111918 +0800
 @@ -35,5 +35,9 @@
@@ -858,7 +858,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/system_header
 +
  #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LINUX_SYSCALLS_H_
  
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/system_headers/loong64_linux_syscalls.h b/sandbox/linux/system_headers/loong64_linux_syscalls.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/system_headers/loong64_linux_syscalls.h b/sandbox/linux/system_headers/loong64_linux_syscalls.h
 --- a/sandbox/linux/system_headers/loong64_linux_syscalls.h	1970-01-01 08:00:00.000000000 +0800
 +++ b/sandbox/linux/system_headers/loong64_linux_syscalls.h	2024-01-14 02:07:01.032111919 +0800
 @@ -0,0 +1,1198 @@
@@ -2060,7 +2060,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/linux/system_header
 +#endif
 +
 +#endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LOONG64_LINUX_SYSCALLS_H_
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc
 --- a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
 +++ b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-01-14 02:07:01.033111921 +0800
 @@ -38,7 +38,7 @@
@@ -2072,7 +2072,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/policy/linux/bpf_cr
      case __NR_readlink:
      case __NR_stat:
  #endif
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/policy/linux/bpf_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_gpu_policy_linux.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_gpu_policy_linux.cc
 --- a/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
 +++ b/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-01-14 02:07:01.033111921 +0800
 @@ -73,7 +73,7 @@
@@ -2084,7 +2084,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/policy/linux/bpf_gp
      case __NR_getdents:
  #endif
      case __NR_getdents64:
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/policy/linux/bpf_network_policy_linux.cc b/sandbox/policy/linux/bpf_network_policy_linux.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_network_policy_linux.cc b/sandbox/policy/linux/bpf_network_policy_linux.cc
 --- a/sandbox/policy/linux/bpf_network_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
 +++ b/sandbox/policy/linux/bpf_network_policy_linux.cc	2024-01-14 02:07:01.033111921 +0800
 @@ -255,7 +255,7 @@
@@ -2096,7 +2096,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/policy/linux/bpf_ne
      case __NR_getdents:
  #endif
      case __NR_getdents64:
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/policy/linux/sandbox_linux.cc b/sandbox/policy/linux/sandbox_linux.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/sandbox_linux.cc b/sandbox/policy/linux/sandbox_linux.cc
 --- a/sandbox/policy/linux/sandbox_linux.cc	2024-01-10 08:13:59.157703600 +0800
 +++ b/sandbox/policy/linux/sandbox_linux.cc	2024-01-14 02:07:01.034111923 +0800
 @@ -558,7 +558,11 @@
@@ -2111,7 +2111,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/policy/linux/sandbo
      // This may be an fstatat(fd, "", stat_buf, AT_EMPTY_PATH), which should be
      // rewritten as fstat(fd, stat_buf). This should be consistent with how the
      // baseline policy handles fstatat().
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/skia/BUILD.gn b/skia/BUILD.gn
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/skia/BUILD.gn b/skia/BUILD.gn
 --- a/skia/BUILD.gn	2024-01-10 08:13:59.485732600 +0800
 +++ b/skia/BUILD.gn	2024-01-14 02:07:01.035111924 +0800
 @@ -789,6 +789,8 @@
@@ -2123,7 +2123,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/skia/BUILD.gn b/skia/BUILD.
    } else {
      assert(false, "Unknown cpu target")
    }
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/public/web/web_local_frame_client.h b/third_party/blink/public/web/web_local_frame_client.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/public/web/web_local_frame_client.h b/third_party/blink/public/web/web_local_frame_client.h
 --- a/third_party/blink/public/web/web_local_frame_client.h	2024-01-10 08:14:01.253888800 +0800
 +++ b/third_party/blink/public/web/web_local_frame_client.h	2024-01-14 08:39:27.887971264 +0800
 @@ -69,6 +69,7 @@
@@ -2134,7 +2134,19 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/public/we
  #include "third_party/blink/public/platform/web_common.h"
  #include "third_party/blink/public/platform/web_content_security_policy_struct.h"
  #include "third_party/blink/public/platform/web_content_settings_client.h"
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/core/BUILD.gn b/third_party/blink/renderer/core/BUILD.gn
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/bindings/core/v8/native_value_traits_buffer_sources.cc b/third_party/blink/renderer/bindings/core/v8/native_value_traits_buffer_sources.cc
+--- a/third_party/blink/renderer/bindings/core/v8/native_value_traits_buffer_sources.cc	2024-01-10 08:14:01.269890300 +0800
++++ b/third_party/blink/renderer/bindings/core/v8/native_value_traits_buffer_sources.cc	2024-01-14 15:47:39.953144078 +0800
+@@ -2,6 +2,8 @@
+ // Use of this source code is governed by a BSD-style license that can be
+ // found in the LICENSE file.
+ 
++#pragma GCC visibility push(default)
++
+ #include "third_party/blink/public/common/features.h"
+ #include "third_party/blink/renderer/bindings/core/v8/native_value_traits_impl.h"
+ #include "third_party/blink/renderer/core/core_export.h"
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/core/BUILD.gn b/third_party/blink/renderer/core/BUILD.gn
 --- a/third_party/blink/renderer/core/BUILD.gn	2024-01-10 08:14:01.405902400 +0800
 +++ b/third_party/blink/renderer/core/BUILD.gn	2024-01-14 02:07:01.035111924 +0800
 @@ -1677,7 +1677,8 @@
@@ -2147,7 +2159,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/
  
    source_dir = "lcp_critical_path_predictor/test_proto"
    sources = rebase_path([ "lcp_image_id.asciipb" ], "", source_dir)
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/core/frame/local_frame.h b/third_party/blink/renderer/core/frame/local_frame.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/core/frame/local_frame.h b/third_party/blink/renderer/core/frame/local_frame.h
 --- a/third_party/blink/renderer/core/frame/local_frame.h	2024-01-10 08:14:01.933949000 +0800
 +++ b/third_party/blink/renderer/core/frame/local_frame.h	2024-01-14 08:35:32.082447490 +0800
 @@ -67,6 +67,7 @@
@@ -2158,7 +2170,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/
  #include "third_party/blink/public/platform/web_vector.h"
  #include "third_party/blink/public/web/web_script_execution_callback.h"
  #include "third_party/blink/renderer/core/core_export.h"
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/core/frame/local_frame_client.h b/third_party/blink/renderer/core/frame/local_frame_client.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/core/frame/local_frame_client.h b/third_party/blink/renderer/core/frame/local_frame_client.h
 --- a/third_party/blink/renderer/core/frame/local_frame_client.h	2024-01-10 08:14:01.933949000 +0800
 +++ b/third_party/blink/renderer/core/frame/local_frame_client.h	2024-01-14 08:36:03.201780628 +0800
 @@ -56,6 +56,7 @@
@@ -2169,7 +2181,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/
  #include "third_party/blink/public/platform/web_content_settings_client.h"
  #include "third_party/blink/public/platform/web_effective_connection_type.h"
  #include "third_party/blink/public/platform/web_worker_fetch_context.h"
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc
 --- a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc	2024-01-10 08:14:02.766022700 +0800
 +++ b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc	2024-01-14 15:36:56.918647686 +0800
 @@ -2,6 +2,7 @@
@@ -2180,7 +2192,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/
  #include "third_party/blink/renderer/core/typed_arrays/dom_typed_array.h"
  
  #include "third_party/blink/renderer/bindings/core/v8/to_v8_traits.h"
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h
 --- a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h	2024-01-10 08:14:02.766022700 +0800
 +++ b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h	2024-01-14 13:12:22.016036154 +0800
 @@ -12,7 +12,7 @@
@@ -2192,7 +2204,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/
    typedef DOMTypedArray<T, V8TypedArray, clamped> ThisType;
    DEFINE_WRAPPERTYPEINFO();
    static const WrapperTypeInfo wrapper_type_info_body_;
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
 --- a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-01-10 08:14:03.362075300 +0800
 +++ b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-01-14 11:49:01.188570947 +0800
 @@ -91,19 +91,19 @@
@@ -2321,7 +2333,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/
  
      bgra_01 = __lsx_vpickev_b(bgra_1, bgra_0);
      bgra_23 = __lsx_vpickev_b(bgra_3, bgra_2);
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/boringssl/src/include/openssl/target.h b/third_party/boringssl/src/include/openssl/target.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/boringssl/src/include/openssl/target.h b/third_party/boringssl/src/include/openssl/target.h
 --- a/third_party/boringssl/src/include/openssl/target.h	2024-01-10 08:14:38.565187700 +0800
 +++ b/third_party/boringssl/src/include/openssl/target.h	2024-01-14 02:07:01.036111926 +0800
 @@ -54,6 +54,8 @@
@@ -2333,7 +2345,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/boringssl/src/i
  #else
  // Note BoringSSL only supports standard 32-bit and 64-bit two's-complement,
  // little-endian architectures. Functions will not produce the correct answer
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc
 --- a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-01-10 08:14:22.971809100 +0800
 +++ b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-01-14 02:07:01.036111926 +0800
 @@ -177,6 +177,8 @@
@@ -2345,7 +2357,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  #else
  #error define kCPU for this CPU
  #endif
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/snapshot/capture_memory.cc b/third_party/crashpad/crashpad/snapshot/capture_memory.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/capture_memory.cc b/third_party/crashpad/crashpad/snapshot/capture_memory.cc
 --- a/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2024-01-10 08:14:22.975809300 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2024-01-14 02:07:01.037111927 +0800
 @@ -122,6 +122,11 @@
@@ -2360,7 +2372,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  #else
  #error Port.
  #endif
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_architecture.h b/third_party/crashpad/crashpad/snapshot/cpu_architecture.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_architecture.h b/third_party/crashpad/crashpad/snapshot/cpu_architecture.h
 --- a/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2024-01-10 08:14:22.975809300 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2024-01-14 02:07:01.037111927 +0800
 @@ -47,6 +47,9 @@
@@ -2373,7 +2385,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  };
  
  }  // namespace crashpad
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_context.h b/third_party/crashpad/crashpad/snapshot/cpu_context.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_context.h b/third_party/crashpad/crashpad/snapshot/cpu_context.h
 --- a/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-10 08:14:22.975809300 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-14 02:07:01.038111929 +0800
 @@ -371,6 +371,16 @@
@@ -2401,7 +2413,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
    };
  };
  
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
 --- a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-10 08:14:22.983810200 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-14 02:07:01.038111929 +0800
 @@ -281,6 +281,22 @@
@@ -2427,7 +2439,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  #endif  // ARCH_CPU_X86_FAMILY
  
  }  // namespace internal
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h
 --- a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-10 08:14:22.983810200 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-14 02:07:01.038111929 +0800
 @@ -188,6 +188,20 @@
@@ -2451,7 +2463,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  }  // namespace internal
  }  // namespace crashpad
  
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc
 --- a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-10 08:14:22.983810200 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-14 02:07:01.039111931 +0800
 @@ -15,6 +15,7 @@
@@ -2518,7 +2530,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
      if (!ReadContext<ContextTraits32>(process_reader, context_address) ||
          !ReadSiginfo<Traits32>(process_reader, siginfo_address)) {
        return false;
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h
 --- a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2024-01-10 08:14:22.983810200 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2024-01-14 02:07:01.039111931 +0800
 @@ -91,6 +91,8 @@
@@ -2530,7 +2542,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  #endif
    } context_union_;
    CPUContext context_;
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc
 --- a/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2024-01-10 08:14:22.983810200 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2024-01-14 02:07:01.040111932 +0800
 @@ -129,6 +129,8 @@
@@ -2542,7 +2554,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  #else
  #error Port.
  #endif
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h
 --- a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-10 08:14:22.983810200 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-14 02:07:01.040111932 +0800
 @@ -456,6 +456,45 @@
@@ -2591,7 +2603,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc
 --- a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2024-01-10 08:14:22.983810200 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2024-01-14 02:07:01.041111934 +0800
 @@ -208,6 +208,8 @@
@@ -2633,7 +2645,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc
 --- a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2024-01-10 08:14:22.983810200 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2024-01-14 02:07:01.041111934 +0800
 @@ -196,6 +196,12 @@
@@ -2649,7 +2661,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  #else
  #error Port.
  #endif
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h
 --- a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2024-01-10 08:14:22.983810200 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2024-01-14 02:07:01.041111934 +0800
 @@ -76,6 +76,8 @@
@@ -2661,7 +2673,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/util/linux/ptracer.cc b/third_party/crashpad/crashpad/util/linux/ptracer.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/util/linux/ptracer.cc b/third_party/crashpad/crashpad/util/linux/ptracer.cc
 --- a/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-01-10 08:14:23.019813300 +0800
 +++ b/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-01-14 02:07:01.042111935 +0800
 @@ -430,6 +430,37 @@
@@ -2711,7 +2723,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
    return GetGeneralPurposeRegisters32(tid, &info->thread_context, can_log_) &&
           GetFloatingPointRegisters32(tid, &info->float_context, can_log_) &&
           GetThreadArea32(tid,
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/util/linux/thread_info.h b/third_party/crashpad/crashpad/util/linux/thread_info.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/util/linux/thread_info.h b/third_party/crashpad/crashpad/util/linux/thread_info.h
 --- a/third_party/crashpad/crashpad/util/linux/thread_info.h	2024-01-10 08:14:23.019813300 +0800
 +++ b/third_party/crashpad/crashpad/util/linux/thread_info.h	2024-01-14 02:07:01.042111935 +0800
 @@ -87,6 +87,8 @@
@@ -2775,7 +2787,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  #else
  #error Port.
  #endif  // ARCH_CPU_X86
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc b/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc b/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc
 --- a/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2024-01-10 08:14:23.031814300 +0800
 +++ b/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2024-01-14 02:07:01.043111937 +0800
 @@ -239,6 +239,8 @@
@@ -2787,7 +2799,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/crashpad/crashp
  #else
  #error Port
  #endif
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/material_color_utilities/src/cpp/palettes/tones.cc b/third_party/material_color_utilities/src/cpp/palettes/tones.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/material_color_utilities/src/cpp/palettes/tones.cc b/third_party/material_color_utilities/src/cpp/palettes/tones.cc
 --- a/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-01-10 08:14:45.369789400 +0800
 +++ b/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-01-14 02:07:01.043111937 +0800
 @@ -18,6 +18,7 @@
@@ -2798,7 +2810,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/material_color_
  
  namespace material_color_utilities {
  
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/perfetto/include/perfetto/base/status.h b/third_party/perfetto/include/perfetto/base/status.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/perfetto/include/perfetto/base/status.h b/third_party/perfetto/include/perfetto/base/status.h
 --- a/third_party/perfetto/include/perfetto/base/status.h	2024-01-10 08:15:29.981733800 +0800
 +++ b/third_party/perfetto/include/perfetto/base/status.h	2024-01-14 02:07:01.044111939 +0800
 @@ -109,7 +109,7 @@
@@ -2810,7 +2822,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/perfetto/includ
  
  }  // namespace base
  }  // namespace perfetto
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/protobuf/src/google/protobuf/repeated_ptr_field.h b/third_party/protobuf/src/google/protobuf/repeated_ptr_field.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/protobuf/src/google/protobuf/repeated_ptr_field.h b/third_party/protobuf/src/google/protobuf/repeated_ptr_field.h
 --- a/third_party/protobuf/src/google/protobuf/repeated_ptr_field.h	2024-01-10 08:14:24.859976000 +0800
 +++ b/third_party/protobuf/src/google/protobuf/repeated_ptr_field.h	2024-01-14 02:07:01.045111940 +0800
 @@ -847,7 +847,7 @@
@@ -2822,7 +2834,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/protobuf/src/go
  
   public:
    constexpr RepeatedPtrField();
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/ruy/src/ruy/profiler/instrumentation.cc b/third_party/ruy/src/ruy/profiler/instrumentation.cc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/ruy/src/ruy/profiler/instrumentation.cc b/third_party/ruy/src/ruy/profiler/instrumentation.cc
 --- a/third_party/ruy/src/ruy/profiler/instrumentation.cc	2024-01-10 08:14:49.106119600 +0800
 +++ b/third_party/ruy/src/ruy/profiler/instrumentation.cc	2024-01-14 02:07:01.046111942 +0800
 @@ -18,6 +18,7 @@
@@ -2833,7 +2845,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/ruy/src/ruy/pro
  
  namespace ruy {
  namespace profiler {
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/ruy/src/ruy/profiler/instrumentation.h b/third_party/ruy/src/ruy/profiler/instrumentation.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/ruy/src/ruy/profiler/instrumentation.h b/third_party/ruy/src/ruy/profiler/instrumentation.h
 --- a/third_party/ruy/src/ruy/profiler/instrumentation.h	2024-01-10 08:14:49.106119600 +0800
 +++ b/third_party/ruy/src/ruy/profiler/instrumentation.h	2024-01-14 02:07:01.046111942 +0800
 @@ -20,6 +20,7 @@
@@ -2844,7 +2856,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/ruy/src/ruy/pro
  #endif
  
  namespace ruy {
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/src/Reactor/BUILD.gn b/third_party/swiftshader/src/Reactor/BUILD.gn
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/src/Reactor/BUILD.gn b/third_party/swiftshader/src/Reactor/BUILD.gn
 --- a/third_party/swiftshader/src/Reactor/BUILD.gn	2024-01-10 08:14:49.318138400 +0800
 +++ b/third_party/swiftshader/src/Reactor/BUILD.gn	2024-01-14 02:07:01.046111942 +0800
 @@ -307,7 +307,7 @@
@@ -2856,7 +2868,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/src
  
      deps = [
        ":swiftshader_reactor_base",
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/src/Reactor/reactor.gni b/third_party/swiftshader/src/Reactor/reactor.gni
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/src/Reactor/reactor.gni b/third_party/swiftshader/src/Reactor/reactor.gni
 --- a/third_party/swiftshader/src/Reactor/reactor.gni	2024-01-10 08:14:49.370143200 +0800
 +++ b/third_party/swiftshader/src/Reactor/reactor.gni	2024-01-14 02:07:01.047111943 +0800
 @@ -10,7 +10,7 @@
@@ -2868,7 +2880,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/src
  }
  
  declare_args() {
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn
 --- a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-10 08:14:54.166567000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-14 02:07:01.048111945 +0800
 @@ -97,6 +97,7 @@
@@ -2938,7 +2950,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
 +    "llvm/lib/Target/LoongArch/TargetInfo/LoongArchTargetInfo.cpp",
 +  ]
 +}
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc	1970-01-01 08:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc	2024-01-14 02:07:01.052111951 +0800
 @@ -0,0 +1,2353 @@
@@ -5295,7 +5307,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
 +
 +#endif // GET_MNEMONIC_CHECKER
 +
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc	1970-01-01 08:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc	2024-01-14 02:07:01.054111954 +0800
 @@ -0,0 +1,2204 @@
@@ -7503,7 +7515,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
 +}
 +
 +#endif // PRINT_ALIAS_INSTR
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc	1970-01-01 08:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc	2024-01-14 02:07:01.064111970 +0800
 @@ -0,0 +1,10214 @@
@@ -17721,7 +17733,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
 +#ifdef GET_DAGISEL_BODY
 +#undef GET_DAGISEL_BODY
 +#endif
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc	1970-01-01 08:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc	2024-01-14 02:07:01.068111977 +0800
 @@ -0,0 +1,1911 @@
@@ -19636,7 +19648,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
 +
 +
 +} // end namespace llvm
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc	1970-01-01 08:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc	2024-01-14 02:07:01.074111986 +0800
 @@ -0,0 +1,5980 @@
@@ -25620,7 +25632,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
 +} // end namespace llvm
 +#endif // ENABLE_INSTR_PREDICATE_VERIFIER
 +
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc	1970-01-01 08:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc	2024-01-14 02:07:01.076111990 +0800
 @@ -0,0 +1,1743 @@
@@ -27367,7 +27379,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
 +  return Value;
 +}
 +
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc	1970-01-01 08:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc	2024-01-14 02:07:01.077111991 +0800
 @@ -0,0 +1,166 @@
@@ -27537,7 +27549,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
 +  return true;
 +}
 +
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc	1970-01-01 08:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc	2024-01-14 02:07:01.078111993 +0800
 @@ -0,0 +1,1676 @@
@@ -29217,7 +29229,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
 +
 +#endif // GET_REGINFO_TARGET_DESC
 +
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc	1970-01-01 08:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc	2024-01-14 02:07:01.079111994 +0800
 @@ -0,0 +1,261 @@
@@ -29482,7 +29494,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
 +
 +#endif // GET_STIPREDICATE_DEFS_FOR_MC_ANALYSIS
 +
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2024-01-10 08:14:55.130652400 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2024-01-14 02:07:01.079111994 +0800
 @@ -42,6 +42,9 @@
@@ -29495,7 +29507,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
  
  
  #undef LLVM_ASM_PARSER
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def	2024-01-10 08:14:55.130652400 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def	2024-01-14 02:07:01.080111996 +0800
 @@ -42,6 +42,9 @@
@@ -29508,7 +29520,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
  
  
  #undef LLVM_ASM_PRINTER
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def	2024-01-10 08:14:55.130652400 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def	2024-01-14 02:07:01.080111996 +0800
 @@ -42,6 +42,9 @@
@@ -29521,7 +29533,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
  
  
  #undef LLVM_DISASSEMBLER
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def	2024-01-10 08:14:55.130652400 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def	2024-01-14 02:07:01.081111998 +0800
 @@ -41,6 +41,9 @@
@@ -29534,7 +29546,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
  
  
  #undef LLVM_TARGET
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h	2024-01-10 08:14:55.130652400 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h	2024-01-14 02:07:01.081111998 +0800
 @@ -45,6 +45,8 @@
@@ -29618,7 +29630,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
  #else
  #error "unknown architecture"
  #endif
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/llvm/lib/Transforms/IPO/AttributorAttributes.cpp b/third_party/swiftshader/third_party/llvm-16.0/llvm/lib/Transforms/IPO/AttributorAttributes.cpp
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/llvm/lib/Transforms/IPO/AttributorAttributes.cpp b/third_party/swiftshader/third_party/llvm-16.0/llvm/lib/Transforms/IPO/AttributorAttributes.cpp
 --- a/third_party/swiftshader/third_party/llvm-16.0/llvm/lib/Transforms/IPO/AttributorAttributes.cpp	2024-01-10 08:14:56.274753600 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/llvm/lib/Transforms/IPO/AttributorAttributes.cpp	2024-01-14 02:07:01.084112002 +0800
 @@ -3494,7 +3494,7 @@
@@ -29630,7 +29642,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/swiftshader/thi
        : BaseTy(IRP, A) {}
  
    /// See AbstractAttribute::isQueryAA.
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/webrtc/api/stats/rtc_stats.h b/third_party/webrtc/api/stats/rtc_stats.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/webrtc/api/stats/rtc_stats.h b/third_party/webrtc/api/stats/rtc_stats.h
 --- a/third_party/webrtc/api/stats/rtc_stats.h	2024-01-10 08:15:33.726064700 +0800
 +++ b/third_party/webrtc/api/stats/rtc_stats.h	2024-01-14 13:07:30.149915734 +0800
 @@ -275,7 +275,7 @@
@@ -29642,7 +29654,7 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/webrtc/api/stat
   public:
    explicit RTCStatsMember(const char* name)
        : RTCStatsMemberInterface(name), value_() {}
-diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/webrtc/rtc_base/string_encode.h b/third_party/webrtc/rtc_base/string_encode.h
+diff '--color=auto' -X chromium-loongarch64/exclude -N -u -r a/third_party/webrtc/rtc_base/string_encode.h b/third_party/webrtc/rtc_base/string_encode.h
 --- a/third_party/webrtc/rtc_base/string_encode.h	2024-01-10 08:15:35.558226800 +0800
 +++ b/third_party/webrtc/rtc_base/string_encode.h	2024-01-14 12:50:11.399810174 +0800
 @@ -64,7 +64,7 @@
