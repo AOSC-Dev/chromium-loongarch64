@@ -1,3 +1,33 @@
+diff '--color=auto' -x out -x __pycache__ -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h b/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h
+--- a/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h	2024-01-10 08:13:23.454547000 +0800
++++ b/base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h	2024-01-14 15:02:40.519000884 +0800
+@@ -184,7 +184,7 @@
+   //
+   // Warning: don't just do Arg(NULL) here because in some libcs, NULL is an
+   // alias for nullptr!
+-  Arg(nullptr_t p) : type(INT) {
++  Arg(std::nullptr_t p) : type(INT) {
+     integer.i = 0;
+     // Internally, SafeSprintf expects to represent nulls as integers whose
+     // width is equal to sizeof(NULL), which is not necessarily equal to
+diff '--color=auto' -x out -x __pycache__ -N -u -r a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
+--- a/build/config/compiler/BUILD.gn	2024-01-10 08:13:24.074601700 +0800
++++ b/build/config/compiler/BUILD.gn	2024-01-14 15:01:25.630010525 +0800
+@@ -621,10 +621,10 @@
+     # TODO(crbug.com/1491036): This isn't supported by Cronet's mainline llvm version.
+     if (default_toolchain != "//build/toolchain/cros:target" &&
+         !llvm_android_mainline) {
+-      cflags += [
+-        "-mllvm",
+-        "-split-threshold-for-reg-with-hint=0",
+-      ]
++      # cflags += [
++      #   "-mllvm",
++      #   "-split-threshold-for-reg-with-hint=0",
++      # ]
+       if (use_thin_lto && is_a_target_toolchain) {
+         if (is_win) {
+           ldflags += [ "-mllvm:-split-threshold-for-reg-with-hint=0" ]
 diff '--color=auto' -x out -x __pycache__ -N -u -r a/build/config/linux/libffi/BUILD.gn b/build/config/linux/libffi/BUILD.gn
 --- a/build/config/linux/libffi/BUILD.gn	2024-01-10 08:13:24.082602500 +0800
 +++ b/build/config/linux/libffi/BUILD.gn	2024-01-14 02:07:01.023111905 +0800
@@ -9,6 +39,24 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/build/config/linux/libffi/B
 +    libs = [ ":libffi.a" ]
    }
  }
+diff '--color=auto' -x out -x __pycache__ -N -u -r a/build/nocompile.gni b/build/nocompile.gni
+--- a/build/nocompile.gni	2024-01-10 08:13:24.110605000 +0800
++++ b/build/nocompile.gni	2024-01-14 15:00:35.475182521 +0800
+@@ -115,10 +115,10 @@
+         rebased_obj_path,
+         rebased_depfile_path,
+         "--",
+-        "{{cflags}}",
+-        "{{cflags_cc}}",
+-        "{{defines}}",
+-        "{{include_dirs}}",
++        # "{{cflags}}",
++        # "{{cflags_cc}}",
++        # "{{defines}}",
++        # "{{include_dirs}}",
+ 
+         # No need to generate an object file for nocompile tests.
+         "-Xclang",
 diff '--color=auto' -x out -x __pycache__ -N -u -r a/sandbox/features.gni b/sandbox/features.gni
 --- a/sandbox/features.gni	2024-01-10 08:13:59.137701700 +0800
 +++ b/sandbox/features.gni	2024-01-14 02:07:01.024111907 +0800
@@ -2120,6 +2168,18 @@ diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/
  #include "third_party/blink/public/platform/web_content_settings_client.h"
  #include "third_party/blink/public/platform/web_effective_connection_type.h"
  #include "third_party/blink/public/platform/web_worker_fetch_context.h"
+diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc
+--- a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc	2024-01-10 08:14:02.766022700 +0800
++++ b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.cc	2024-01-14 14:28:00.695560412 +0800
+@@ -74,7 +74,7 @@
+ #undef DOMTYPEDARRAY_DEFINE_WRAPPERTYPEINFO
+ 
+ #define DOMTYPEDARRAY_EXPLICITLY_INSTANTIATE(val_t, Type, clamped) \
+-  template class CORE_TEMPLATE_EXPORT                              \
++  template class __attribute__((visibility("default"))) CORE_TEMPLATE_EXPORT                              \
+       DOMTypedArray<val_t, v8::Type##Array, clamped>;
+ DOMTYPEDARRAY_FOREACH_VIEW_TYPE(DOMTYPEDARRAY_EXPLICITLY_INSTANTIATE)
+ #undef DOMTYPEDARRAY_EXPLICITLY_INSTANTIATE
 diff '--color=auto' -x out -x __pycache__ -N -u -r a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h
 --- a/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h	2024-01-10 08:14:02.766022700 +0800
 +++ b/third_party/blink/renderer/core/typed_arrays/dom_typed_array.h	2024-01-14 13:12:22.016036154 +0800
