@@ -3503,6 +3503,18 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #else
  #error Port
  #endif
+diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/libvpx/BUILD.gn b/third_party/libvpx/BUILD.gn
+--- a/third_party/libvpx/BUILD.gn	2024-01-10 08:14:24.003900300 +0800
++++ b/third_party/libvpx/BUILD.gn	2024-01-15 09:02:07.751304076 +0800
+@@ -516,7 +516,7 @@ static_library("libvpx") {
+     deps += [ ":libvpx_assembly_arm" ]
+   }
+   if (current_cpu == "loong64") {
+-    deps += [ ":libvpx_loongarch_lsx" ]
++    # deps += [ ":libvpx_loongarch_lsx" ]
+   }
+ 
+   public_configs = [ ":libvpx_external_config" ]
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/material_color_utilities/src/cpp/palettes/tones.cc b/third_party/material_color_utilities/src/cpp/palettes/tones.cc
 --- a/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-01-10 08:14:45.369789400 +0800
 +++ b/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-01-14 02:07:01.043111937 +0800
