@@ -16,20 +16,24 @@ with open(f"chromium-{version}.diff", "r") as f:
         path = patch[1].split(" ")[1].split("\t")[0][2:]
 
         # classify
+        # https://src.fedoraproject.org/rpms/chromium/tree/rawhide
         if path in [
             "base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h",
             "third_party/blink/renderer/core/paint/fragment_data_iterator.h",
         ]:
-            clazz = "Fedora-chromium-120-nullptr_t-without-namespace-std.patch"
+            clazz = "Fedora-chromium-120-nullptr_t-without-namespace-std"
         elif path in ["third_party/blink/renderer/core/BUILD.gn"]:
-            clazz = "Fedora-chromium-117-mnemonic-error.patch"
+            clazz = "Fedora-chromium-117-mnemonic-error"
         elif path in ["build/config/compiler/BUILD.gn"]:
-            clazz = "Fedora-chromium-120-split-threshold-for-reg-with-hint.patch"
+            clazz = "Fedora-chromium-120-split-threshold-for-reg-with-hint"
         elif path in [
             "third_party/material_color_utilities/src/cpp/palettes/tones.cc",
             "third_party/ruy/src/ruy/profiler/instrumentation.h",
         ]:
-            clazz = "Fedora-chromium-120-missing-header-files.patch"
+            clazz = "Fedora-chromium-120-missing-header-files"
+        elif path in ["optional"]:
+            # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/absl-optional.patch?ref_type=heads
+            clazz = "Debian-absl-optional"
         elif path in [
             "build/nocompile.gni",
             "third_party/libvpx/BUILD.gn",
