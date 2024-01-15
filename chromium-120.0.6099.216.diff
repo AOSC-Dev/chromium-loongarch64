@@ -2641,7 +2641,16 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/bl
      bgra_23 = __lsx_vpickev_b(bgra_3, bgra_2);
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc b/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc
 --- a/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc	2024-01-10 08:14:03.374076400 +0800
-+++ b/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc	2024-01-15 17:14:01.120694184 +0800
++++ b/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc	2024-01-15 18:34:31.518083495 +0800
+@@ -13,7 +13,7 @@
+ #include "build/build_config.h"
+ #include "third_party/blink/public/platform/platform.h"
+ #include "third_party/blink/renderer/platform/graphics/cpu/arm/webgl_image_conversion_neon.h"
+-#include "third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h"
++// #include "third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h"
+ #include "third_party/blink/renderer/platform/graphics/cpu/mips/webgl_image_conversion_msa.h"
+ #include "third_party/blink/renderer/platform/graphics/cpu/x86/webgl_image_conversion_sse.h"
+ #include "third_party/blink/renderer/platform/graphics/image_observer.h"
 @@ -904,10 +904,6 @@ void Unpack<WebGLImageConversion::kDataF
    simd::unpackOneRowOfBGRA8LittleToRGBA8MSA(source32, destination32,
                                              pixels_per_row);
