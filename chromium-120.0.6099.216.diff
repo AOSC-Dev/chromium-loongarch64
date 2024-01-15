@@ -3598,7 +3598,7 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
  declare_args() {
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn
 --- a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-10 08:14:54.166567000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-14 02:07:01.048111945 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-15 10:48:47.048306245 +0800
 @@ -97,6 +97,7 @@ llvm_include_dirs = [
    "llvm/include/",
    "llvm/lib/Target/AArch64/",
@@ -3632,7 +3632,15 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
      "llvm/lib/Analysis/ReplayInlineAdvisor.cpp",
      "llvm/lib/Analysis/ScalarEvolution.cpp",
      "llvm/lib/Analysis/ScalarEvolutionAliasAnalysis.cpp",
-@@ -1691,3 +1696,33 @@ swiftshader_llvm_source_set("swiftshader
+@@ -774,6 +779,7 @@ swiftshader_llvm_source_set("swiftshader
+     "llvm/lib/MC/MCDXContainerStreamer.cpp",
+     "llvm/lib/MC/MCDXContainerWriter.cpp",
+     "llvm/lib/MC/MCDisassembler/MCRelocationInfo.cpp",
++    "llvm/lib/MC/MCDisassembler/MCDisassembler.cpp",
+     "llvm/lib/MC/MCDwarf.cpp",
+     "llvm/lib/MC/MCELFObjectTargetWriter.cpp",
+     "llvm/lib/MC/MCELFStreamer.cpp",
+@@ -1691,3 +1697,33 @@ swiftshader_llvm_source_set("swiftshader
      "llvm/lib/Transforms/IPO/BarrierNoopPass.cpp",
    ]
  }
