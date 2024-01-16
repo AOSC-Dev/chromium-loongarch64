@@ -34,6 +34,8 @@ with open(f"chromium-{version}.diff", "r") as f:
         elif path in ["optional"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/absl-optional.patch?ref_type=heads
             clazz = "Debian-absl-optional"
+        elif path in ["build/config/linux/libffi/BUILD.gn"]:
+            clazz = "AOSC"
         elif path in [
             "build/nocompile.gni",
             "third_party/libvpx/BUILD.gn",

@@ -76,17 +76,6 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/allocator
 +    "  ld.d $fp, $sp, 72                                 \n"
 +    "  addi.d $sp, $sp, 96                               \n"
 +    "  jr $ra                                            \n");
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/build/config/linux/libffi/BUILD.gn b/build/config/linux/libffi/BUILD.gn
---- a/build/config/linux/libffi/BUILD.gn	2024-01-10 08:13:24.082602500 +0800
-+++ b/build/config/linux/libffi/BUILD.gn	2024-01-14 02:07:01.023111905 +0800
-@@ -19,6 +19,6 @@ if (use_system_libffi) {
-   }
- } else {
-   config("libffi") {
--    libs = [ ":libffi_pic.a" ]
-+    libs = [ ":libffi.a" ]
-   }
- }
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
 --- a/content/common/user_agent.cc	2024-01-10 08:13:48.904797000 +0800
 +++ b/content/common/user_agent.cc	2024-01-14 19:09:46.897768875 +0800
