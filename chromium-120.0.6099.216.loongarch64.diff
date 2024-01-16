@@ -76,6 +76,18 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/allocator
 +    "  ld.d $fp, $sp, 72                                 \n"
 +    "  addi.d $sp, $sp, 96                               \n"
 +    "  jr $ra                                            \n");
+diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/system/sys_info.cc b/base/system/sys_info.cc
+--- a/base/system/sys_info.cc	2024-01-10 08:13:23.798577300 +0800
++++ b/base/system/sys_info.cc	2024-01-16 13:29:59.838682856 +0800
+@@ -255,6 +255,8 @@ std::string SysInfo::ProcessCPUArchitect
+   return "ARM";
+ #elif defined(ARCH_CPU_ARM64)
+   return "ARM_64";
++#elif defined(ARCH_CPU_LOONGARCH64)
++  return "LOONGARCH_64";
+ #else
+   return std::string();
+ #endif
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
 --- a/content/common/user_agent.cc	2024-01-10 08:13:48.904797000 +0800
 +++ b/content/common/user_agent.cc	2024-01-14 19:09:46.897768875 +0800
@@ -3350,3 +3362,13 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #else
  #error Port
  #endif
+diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/libgav1/options.gni b/third_party/libgav1/options.gni
+--- a/third_party/libgav1/options.gni	2024-01-10 08:14:23.915892600 +0800
++++ b/third_party/libgav1/options.gni	2024-01-16 13:35:16.788106390 +0800
+@@ -9,5 +9,5 @@ declare_args() {
+   use_libgav1_parser =
+       (is_chromeos || is_linux || is_win || is_apple) &&
+       (target_cpu == "x86" || target_cpu == "x64" || target_cpu == "arm" ||
+-       target_cpu == "arm64" || target_cpu == "ppc64")
++       target_cpu == "arm64" || target_cpu == "ppc64" || target_cpu == "loong64")
+ }

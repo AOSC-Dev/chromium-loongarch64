@@ -18,7 +18,7 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/build/nocompil
          "-Xclang",
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/platform/BUILD.gn b/third_party/blink/renderer/platform/BUILD.gn
 --- a/third_party/blink/renderer/platform/BUILD.gn	2024-01-10 08:14:03.274067400 +0800
-+++ b/third_party/blink/renderer/platform/BUILD.gn	2024-01-15 17:13:29.794490617 +0800
++++ b/third_party/blink/renderer/platform/BUILD.gn	2024-01-16 13:43:17.191779741 +0800
 @@ -881,7 +881,7 @@ component("platform") {
      "graphics/compositor_mutator_client.cc",
      "graphics/compositor_mutator_client.h",
@@ -28,17 +28,16 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/bl
      "graphics/cpu/mips/webgl_image_conversion_msa.h",
      "graphics/cpu/x86/webgl_image_conversion_sse.h",
      "graphics/crossfade_generated_image.cc",
-@@ -1597,8 +1597,8 @@ component("platform") {
- 
-   if (current_cpu == "loong64") {
-     cflags = [
--      "-mlsx",
--      "-flax-vector-conversions",
-+      # "-mlsx",
-+      # "-flax-vector-conversions",
-     ]
+@@ -1595,7 +1595,8 @@ component("platform") {
+     }
    }
  
+-  if (current_cpu == "loong64") {
++  # clang 17 does not support lsx
++  if (current_cpu == "loong64" && !is_clang) {
+     cflags = [
+       "-mlsx",
+       "-flax-vector-conversions",
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc b/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc
 --- a/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc	2024-01-10 08:14:03.374076400 +0800
 +++ b/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc	2024-01-15 18:34:31.518083495 +0800
@@ -116,13 +115,14 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/bl
      uint8_t source_r =
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/libvpx/BUILD.gn b/third_party/libvpx/BUILD.gn
 --- a/third_party/libvpx/BUILD.gn	2024-01-10 08:14:24.003900300 +0800
-+++ b/third_party/libvpx/BUILD.gn	2024-01-15 09:02:07.751304076 +0800
-@@ -516,7 +516,7 @@ static_library("libvpx") {
++++ b/third_party/libvpx/BUILD.gn	2024-01-16 13:36:20.203591291 +0800
+@@ -515,7 +515,8 @@ static_library("libvpx") {
+   if (current_cpu == "arm" && arm_assembly_sources != []) {
      deps += [ ":libvpx_assembly_arm" ]
    }
-   if (current_cpu == "loong64") {
--    deps += [ ":libvpx_loongarch_lsx" ]
-+    # deps += [ ":libvpx_loongarch_lsx" ]
+-  if (current_cpu == "loong64") {
++  # clang 17 does not support lsx
++  if (current_cpu == "loong64" && !is_clang) {
+     deps += [ ":libvpx_loongarch_lsx" ]
    }
  
-   public_configs = [ ":libvpx_external_config" ]

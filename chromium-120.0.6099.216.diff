@@ -88,6 +88,18 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/allocator
 +    "  ld.d $fp, $sp, 72                                 \n"
 +    "  addi.d $sp, $sp, 96                               \n"
 +    "  jr $ra                                            \n");
+diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/system/sys_info.cc b/base/system/sys_info.cc
+--- a/base/system/sys_info.cc	2024-01-10 08:13:23.798577300 +0800
++++ b/base/system/sys_info.cc	2024-01-16 13:29:59.838682856 +0800
+@@ -255,6 +255,8 @@ std::string SysInfo::ProcessCPUArchitect
+   return "ARM";
+ #elif defined(ARCH_CPU_ARM64)
+   return "ARM_64";
++#elif defined(ARCH_CPU_LOONGARCH64)
++  return "LOONGARCH_64";
+ #else
+   return std::string();
+ #endif
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
 --- a/build/config/compiler/BUILD.gn	2024-01-10 08:13:24.074601700 +0800
 +++ b/build/config/compiler/BUILD.gn	2024-01-14 15:01:25.630010525 +0800
@@ -4053,7 +4065,7 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/bl
    static const WrapperTypeInfo wrapper_type_info_body_;
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/platform/BUILD.gn b/third_party/blink/renderer/platform/BUILD.gn
 --- a/third_party/blink/renderer/platform/BUILD.gn	2024-01-10 08:14:03.274067400 +0800
-+++ b/third_party/blink/renderer/platform/BUILD.gn	2024-01-15 17:13:29.794490617 +0800
++++ b/third_party/blink/renderer/platform/BUILD.gn	2024-01-16 13:43:17.191779741 +0800
 @@ -881,7 +881,7 @@ component("platform") {
      "graphics/compositor_mutator_client.cc",
      "graphics/compositor_mutator_client.h",
@@ -4063,17 +4075,16 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/bl
      "graphics/cpu/mips/webgl_image_conversion_msa.h",
      "graphics/cpu/x86/webgl_image_conversion_sse.h",
      "graphics/crossfade_generated_image.cc",
-@@ -1597,8 +1597,8 @@ component("platform") {
- 
-   if (current_cpu == "loong64") {
-     cflags = [
--      "-mlsx",
--      "-flax-vector-conversions",
-+      # "-mlsx",
-+      # "-flax-vector-conversions",
-     ]
+@@ -1595,7 +1595,8 @@ component("platform") {
+     }
    }
  
+-  if (current_cpu == "loong64") {
++  # clang 17 does not support lsx
++  if (current_cpu == "loong64" && !is_clang) {
+     cflags = [
+       "-mlsx",
+       "-flax-vector-conversions",
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
 --- a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-01-10 08:14:03.362075300 +0800
 +++ b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-01-14 11:49:01.188570947 +0800
@@ -5165,18 +5176,29 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #else
  #error Port
  #endif
+diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/libgav1/options.gni b/third_party/libgav1/options.gni
+--- a/third_party/libgav1/options.gni	2024-01-10 08:14:23.915892600 +0800
++++ b/third_party/libgav1/options.gni	2024-01-16 13:35:16.788106390 +0800
+@@ -9,5 +9,5 @@ declare_args() {
+   use_libgav1_parser =
+       (is_chromeos || is_linux || is_win || is_apple) &&
+       (target_cpu == "x86" || target_cpu == "x64" || target_cpu == "arm" ||
+-       target_cpu == "arm64" || target_cpu == "ppc64")
++       target_cpu == "arm64" || target_cpu == "ppc64" || target_cpu == "loong64")
+ }
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/libvpx/BUILD.gn b/third_party/libvpx/BUILD.gn
 --- a/third_party/libvpx/BUILD.gn	2024-01-10 08:14:24.003900300 +0800
-+++ b/third_party/libvpx/BUILD.gn	2024-01-15 09:02:07.751304076 +0800
-@@ -516,7 +516,7 @@ static_library("libvpx") {
++++ b/third_party/libvpx/BUILD.gn	2024-01-16 13:36:20.203591291 +0800
+@@ -515,7 +515,8 @@ static_library("libvpx") {
+   if (current_cpu == "arm" && arm_assembly_sources != []) {
      deps += [ ":libvpx_assembly_arm" ]
    }
-   if (current_cpu == "loong64") {
--    deps += [ ":libvpx_loongarch_lsx" ]
-+    # deps += [ ":libvpx_loongarch_lsx" ]
+-  if (current_cpu == "loong64") {
++  # clang 17 does not support lsx
++  if (current_cpu == "loong64" && !is_clang) {
+     deps += [ ":libvpx_loongarch_lsx" ]
    }
  
-   public_configs = [ ":libvpx_external_config" ]
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/material_color_utilities/src/cpp/palettes/tones.cc b/third_party/material_color_utilities/src/cpp/palettes/tones.cc
 --- a/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-01-10 08:14:45.369789400 +0800
 +++ b/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-01-14 02:07:01.043111937 +0800
