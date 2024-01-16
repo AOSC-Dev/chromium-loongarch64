@@ -65,6 +65,10 @@ with open(f"chromium-{version}.diff", "r") as f:
             clazz = "gcc"
         elif path.startswith("third_party/swiftshader/"):
             clazz = "swiftshader"
+        elif path.startswith("sandbox/"):
+            clazz = "loongarch64-sandbox"
+        elif path.startswith("third_party/crashpad/"):
+            clazz = "loongarch64-crashpad"
         else:
             clazz = "loongarch64"
 
