@@ -36,6 +36,8 @@ with open(f"chromium-{version}.diff", "r") as f:
             clazz = "Debian-absl-optional"
         elif path in ["build/config/linux/libffi/BUILD.gn"]:
             clazz = "AOSC"
+        elif path in ["third_party/devtools-frontend/src/scripts/build/rollup.config.js"]:
+            clazz = "rollup"
         elif path in [
             "build/nocompile.gni",
             "third_party/libvpx/BUILD.gn",

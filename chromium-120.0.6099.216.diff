@@ -5176,6 +5176,26 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #else
  #error Port
  #endif
+diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/devtools-frontend/src/scripts/build/rollup.config.js b/third_party/devtools-frontend/src/scripts/build/rollup.config.js
+--- a/third_party/devtools-frontend/src/scripts/build/rollup.config.js	2024-01-10 08:15:34.514134400 +0800
++++ b/third_party/devtools-frontend/src/scripts/build/rollup.config.js	2024-01-16 14:15:06.683380366 +0800
+@@ -19,11 +19,11 @@ export default commandLineArgs => ({
+     sourcemap: Boolean(commandLineArgs.configSourcemaps),
+   }],
+   plugins: [
+-    terser({
+-      compress: {
+-        pure_funcs: commandLineArgs.configDCHECK ? ['Platform.DCHECK'] : [],
+-      },
+-    }),
++    // terser({
++    //   compress: {
++    //     pure_funcs: commandLineArgs.configDCHECK ? ['Platform.DCHECK'] : [],
++    //   },
++    // }),
+     {
+       name: 'devtools-plugin',
+       resolveId(source, importer) {
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/libgav1/options.gni b/third_party/libgav1/options.gni
 --- a/third_party/libgav1/options.gni	2024-01-10 08:14:23.915892600 +0800
 +++ b/third_party/libgav1/options.gni	2024-01-16 13:35:16.788106390 +0800
@@ -5198,6 +5218,63 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/li
 +  if (current_cpu == "loong64" && !is_clang) {
      deps += [ ":libvpx_loongarch_lsx" ]
    }
+ 
+diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h b/third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h
+--- a/third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h	2024-01-10 08:14:24.019901800 +0800
++++ b/third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h	2024-01-16 22:07:23.006946539 +0800
+@@ -444,53 +444,21 @@ static void setup_rtcd_internal(void) {
+ 
+   (void)flags;
+   vp8_block_error = vp8_block_error_c;
+-  if (flags & HAS_LSX)
+-    vp8_block_error = vp8_block_error_lsx;
+   vp8_dc_only_idct_add = vp8_dc_only_idct_add_c;
+-  if (flags & HAS_LSX)
+-    vp8_dc_only_idct_add = vp8_dc_only_idct_add_lsx;
+   vp8_dequant_idct_add_uv_block = vp8_dequant_idct_add_uv_block_c;
+-  if (flags & HAS_LSX)
+-    vp8_dequant_idct_add_uv_block = vp8_dequant_idct_add_uv_block_lsx;
+   vp8_dequant_idct_add_y_block = vp8_dequant_idct_add_y_block_c;
+-  if (flags & HAS_LSX)
+-    vp8_dequant_idct_add_y_block = vp8_dequant_idct_add_y_block_lsx;
+   vp8_diamond_search_sad = vp8_diamond_search_sad_c;
+-  if (flags & HAS_LSX)
+-    vp8_diamond_search_sad = vp8_diamond_search_sadx4;
+   vp8_loop_filter_bh = vp8_loop_filter_bh_c;
+-  if (flags & HAS_LSX)
+-    vp8_loop_filter_bh = vp8_loop_filter_bh_lsx;
+   vp8_loop_filter_bv = vp8_loop_filter_bv_c;
+-  if (flags & HAS_LSX)
+-    vp8_loop_filter_bv = vp8_loop_filter_bv_lsx;
+   vp8_loop_filter_mbh = vp8_loop_filter_mbh_c;
+-  if (flags & HAS_LSX)
+-    vp8_loop_filter_mbh = vp8_loop_filter_mbh_lsx;
+   vp8_loop_filter_mbv = vp8_loop_filter_mbv_c;
+-  if (flags & HAS_LSX)
+-    vp8_loop_filter_mbv = vp8_loop_filter_mbv_lsx;
+   vp8_mbblock_error = vp8_mbblock_error_c;
+-  if (flags & HAS_LSX)
+-    vp8_mbblock_error = vp8_mbblock_error_lsx;
+   vp8_regular_quantize_b = vp8_regular_quantize_b_c;
+-  if (flags & HAS_LSX)
+-    vp8_regular_quantize_b = vp8_regular_quantize_b_lsx;
+   vp8_short_fdct4x4 = vp8_short_fdct4x4_c;
+-  if (flags & HAS_LSX)
+-    vp8_short_fdct4x4 = vp8_short_fdct4x4_lsx;
+   vp8_short_fdct8x4 = vp8_short_fdct8x4_c;
+-  if (flags & HAS_LSX)
+-    vp8_short_fdct8x4 = vp8_short_fdct8x4_lsx;
+   vp8_sixtap_predict16x16 = vp8_sixtap_predict16x16_c;
+-  if (flags & HAS_LSX)
+-    vp8_sixtap_predict16x16 = vp8_sixtap_predict16x16_lsx;
+   vp8_sixtap_predict4x4 = vp8_sixtap_predict4x4_c;
+-  if (flags & HAS_LSX)
+-    vp8_sixtap_predict4x4 = vp8_sixtap_predict4x4_lsx;
+   vp8_sixtap_predict8x8 = vp8_sixtap_predict8x8_c;
+-  if (flags & HAS_LSX)
+-    vp8_sixtap_predict8x8 = vp8_sixtap_predict8x8_lsx;
+ }
+ #endif
  
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/material_color_utilities/src/cpp/palettes/tones.cc b/third_party/material_color_utilities/src/cpp/palettes/tones.cc
 --- a/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-01-10 08:14:45.369789400 +0800
