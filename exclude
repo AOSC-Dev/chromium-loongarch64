@@ -3,3 +3,4 @@ __pycache__
 node
 shader-object-unlinked-spirv.txt
 *.profdata
+index
