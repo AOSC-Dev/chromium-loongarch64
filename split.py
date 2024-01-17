@@ -73,6 +73,8 @@ with open(f"chromium-{version}.diff", "r") as f:
             clazz = "loongarch64-crashpad"
         elif path.startswith("third_party/dav1d/"):
             clazz = "loongarch64-dav1d"
+        elif path.startswith("third_party/ffmpeg/"):
+            clazz = "loongarch64-ffmpeg"
         else:
             clazz = "loongarch64"
 
