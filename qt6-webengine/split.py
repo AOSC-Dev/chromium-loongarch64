@@ -20,6 +20,8 @@ with open(f"qt6-{version}.diff", "r") as f:
             clazz = "loongarch64-ffmpeg"
         elif path.startswith("qtwebengine/src/3rdparty/chromium/sandbox/"):
             clazz = "loongarch64-sandbox"
+        elif path.startswith("qtwebengine/src/3rdparty/chromium/third_party/crashpad/"):
+            clazz = "loongarch64-crashpad"
         else:
             clazz = "loongarch64"
 
