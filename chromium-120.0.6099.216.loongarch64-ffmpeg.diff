@@ -6101,7 +6101,7 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/ff
 +#endif /* AVUTIL_FFVERSION_H */
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/ffmpeg/ffmpeg_generated.gni b/third_party/ffmpeg/ffmpeg_generated.gni
 --- a/third_party/ffmpeg/ffmpeg_generated.gni	2024-01-10 08:14:43.437618500 +0800
-+++ b/third_party/ffmpeg/ffmpeg_generated.gni	2024-01-17 19:10:41.045883227 +0800
++++ b/third_party/ffmpeg/ffmpeg_generated.gni	2024-01-17 21:14:13.903115641 +0800
 @@ -269,7 +269,7 @@ if ((is_apple && ffmpeg_branding == "Chr
    ]
  }
@@ -6125,7 +6125,7 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/ff
 +    "libavcodec/loongarch/videodsp_init.c",
 +    "libavcodec/loongarch/h264_intrapred_init_loongarch.c",
 +    "libavcodec/loongarch/hpeldsp_init_loongarch.c",
-+     ]
++  ]
 +}
 +
  if ((is_android && current_cpu == "arm" && arm_use_neon) || (use_linux_config && current_cpu == "arm" && arm_use_neon) || (use_linux_config && current_cpu == "arm")) {
