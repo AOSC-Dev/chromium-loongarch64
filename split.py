@@ -43,6 +43,8 @@ with open(f"chromium-{version}.diff", "r") as f:
             "third_party/libvpx/BUILD.gn",
             "third_party/blink/renderer/platform/BUILD.gn",
             "third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc",
+            "third_party/libvpx/source/config/linux/loongarch/vpx_dsp_rtcd.h",
+            "third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h",
         ]:
             clazz = "clang"
         elif path in [
