@@ -102,22 +102,32 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/system/sy
  #endif
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
 --- a/build/config/compiler/BUILD.gn	2024-01-10 08:13:24.074601700 +0800
-+++ b/build/config/compiler/BUILD.gn	2024-01-14 15:01:25.630010525 +0800
-@@ -621,10 +621,10 @@ config("compiler") {
-     # TODO(crbug.com/1491036): This isn't supported by Cronet's mainline llvm version.
-     if (default_toolchain != "//build/toolchain/cros:target" &&
-         !llvm_android_mainline) {
++++ b/build/config/compiler/BUILD.gn	2024-01-17 21:39:58.428510619 +0800
+@@ -616,24 +616,6 @@ config("compiler") {
+       }
+     }
+ 
+-    # TODO(crbug.com/1488374): This causes binary size growth and potentially
+-    # other problems.
+-    # TODO(crbug.com/1491036): This isn't supported by Cronet's mainline llvm version.
+-    if (default_toolchain != "//build/toolchain/cros:target" &&
+-        !llvm_android_mainline) {
 -      cflags += [
 -        "-mllvm",
 -        "-split-threshold-for-reg-with-hint=0",
 -      ]
-+      # cflags += [
-+      #   "-mllvm",
-+      #   "-split-threshold-for-reg-with-hint=0",
-+      # ]
-       if (use_thin_lto && is_a_target_toolchain) {
-         if (is_win) {
-           ldflags += [ "-mllvm:-split-threshold-for-reg-with-hint=0" ]
+-      if (use_thin_lto && is_a_target_toolchain) {
+-        if (is_win) {
+-          ldflags += [ "-mllvm:-split-threshold-for-reg-with-hint=0" ]
+-        } else {
+-          ldflags += [ "-Wl,-mllvm,-split-threshold-for-reg-with-hint=0" ]
+-        }
+-      }
+-    }
+-
+     # TODO(crbug.com/1235145): Investigate why/if this should be needed.
+     if (is_win) {
+       cflags += [ "/clang:-ffp-contract=off" ]
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/build/config/linux/libffi/BUILD.gn b/build/config/linux/libffi/BUILD.gn
 --- a/build/config/linux/libffi/BUILD.gn	2024-01-10 08:13:24.082602500 +0800
 +++ b/build/config/linux/libffi/BUILD.gn	2024-01-14 02:07:01.023111905 +0800
@@ -3995,17 +4005,16 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/bl
  #include "third_party/blink/renderer/core/core_export.h"
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/core/BUILD.gn b/third_party/blink/renderer/core/BUILD.gn
 --- a/third_party/blink/renderer/core/BUILD.gn	2024-01-10 08:14:01.405902400 +0800
-+++ b/third_party/blink/renderer/core/BUILD.gn	2024-01-14 02:07:01.035111924 +0800
-@@ -1677,7 +1677,8 @@ action_foreach("element_locator_test_pro
++++ b/third_party/blink/renderer/core/BUILD.gn	2024-01-17 21:40:29.816815066 +0800
+@@ -1677,8 +1677,6 @@ action_foreach("element_locator_test_pro
    python_path_root = "${root_out_dir}/pyproto"
    python_path_proto = "${python_path_root}/third_party/blink/renderer/core/lcp_critical_path_predictor"
  
 -  mnemonic = "ELOC_PROTO"
-+  # Assignment had no effect
-+  #mnemonic = "ELOC_PROTO"
- 
+-
    source_dir = "lcp_critical_path_predictor/test_proto"
    sources = rebase_path([ "lcp_image_id.asciipb" ], "", source_dir)
+ 
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/core/frame/local_frame.h b/third_party/blink/renderer/core/frame/local_frame.h
 --- a/third_party/blink/renderer/core/frame/local_frame.h	2024-01-10 08:14:01.933949000 +0800
 +++ b/third_party/blink/renderer/core/frame/local_frame.h	2024-01-14 08:35:32.082447490 +0800

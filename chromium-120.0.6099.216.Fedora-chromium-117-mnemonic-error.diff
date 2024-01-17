@@ -1,13 +1,12 @@
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/core/BUILD.gn b/third_party/blink/renderer/core/BUILD.gn
 --- a/third_party/blink/renderer/core/BUILD.gn	2024-01-10 08:14:01.405902400 +0800
-+++ b/third_party/blink/renderer/core/BUILD.gn	2024-01-14 02:07:01.035111924 +0800
-@@ -1677,7 +1677,8 @@ action_foreach("element_locator_test_pro
++++ b/third_party/blink/renderer/core/BUILD.gn	2024-01-17 21:40:29.816815066 +0800
+@@ -1677,8 +1677,6 @@ action_foreach("element_locator_test_pro
    python_path_root = "${root_out_dir}/pyproto"
    python_path_proto = "${python_path_root}/third_party/blink/renderer/core/lcp_critical_path_predictor"
  
 -  mnemonic = "ELOC_PROTO"
-+  # Assignment had no effect
-+  #mnemonic = "ELOC_PROTO"
- 
+-
    source_dir = "lcp_critical_path_predictor/test_proto"
    sources = rebase_path([ "lcp_image_id.asciipb" ], "", source_dir)
+ 
