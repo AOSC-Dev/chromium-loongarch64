@@ -2939,3 +2939,26 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
 +#define AV_HAVE_BIGENDIAN 0
 +#define AV_HAVE_FAST_UNALIGNED 1
 +#endif /* AVUTIL_AVCONFIG_H */
+diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/ffmpeg_generated.gni b/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/ffmpeg_generated.gni
+--- a/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/ffmpeg_generated.gni	2023-05-16 18:32:24.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/ffmpeg_generated.gni	2024-01-18 11:06:24.502307494 +0800
+@@ -414,6 +414,19 @@ if ((is_mac && current_cpu == "x64" && f
+   ]
+ }
+ 
++if ((use_linux_config && current_cpu == "loong64")) {
++  ffmpeg_c_sources += [
++    "libavutil/loongarch/cpu.c",
++    "libavcodec/loongarch/vp8dsp_init_loongarch.c",
++    "libavcodec/loongarch/h264chroma_init_loongarch.c",
++    "libavcodec/loongarch/h264dsp_init_loongarch.c",
++    "libavcodec/loongarch/h264qpel_init_loongarch.c",
++    "libavcodec/loongarch/videodsp_init.c",
++    "libavcodec/loongarch/h264_intrapred_init_loongarch.c",
++    "libavcodec/loongarch/hpeldsp_init_loongarch.c",
++  ]
++}
++
+ if ((is_android && current_cpu == "arm" && arm_use_neon) || (use_linux_config && current_cpu == "arm" && arm_use_neon) || (use_linux_config && current_cpu == "arm")) {
+   ffmpeg_c_sources += [
+     "libavcodec/arm/fft_init_arm.c",
