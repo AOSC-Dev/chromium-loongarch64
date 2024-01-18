@@ -2153,6 +2153,17 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
 +#endif
 +
 +#endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LOONG64_LINUX_SYSCALLS_H_
+diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_audio_policy_linux.cc b/sandbox/policy/linux/bpf_audio_policy_linux.cc
+--- a/sandbox/policy/linux/bpf_audio_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
++++ b/sandbox/policy/linux/bpf_audio_policy_linux.cc	2024-01-18 10:48:20.306148888 +0800
+@@ -85,6 +85,7 @@ ResultExpr AudioProcessPolicy::EvaluateS
+       return Switch(op & ~(FUTEX_PRIVATE_FLAG | FUTEX_CLOCK_REALTIME))
+           .Cases({FUTEX_CMP_REQUEUE,
+                   FUTEX_LOCK_PI,
++                  FUTEX_LOCK_PI2,
+                   FUTEX_UNLOCK_PI,
+                   FUTEX_WAIT,
+                   FUTEX_WAIT_BITSET,
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_broker_policy_linux.cc b/sandbox/policy/linux/bpf_broker_policy_linux.cc
 --- a/sandbox/policy/linux/bpf_broker_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
 +++ b/sandbox/policy/linux/bpf_broker_policy_linux.cc	2024-01-14 17:43:12.876423882 +0800
