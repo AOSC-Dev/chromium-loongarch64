@@ -22,6 +22,8 @@ with open(f"qt6-{version}.diff", "r") as f:
             clazz = "loongarch64-sandbox"
         elif path.startswith("qtwebengine/src/3rdparty/chromium/third_party/crashpad/"):
             clazz = "loongarch64-crashpad"
+        elif path.startswith("qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/"):
+            clazz = "rollup"
         else:
             clazz = "loongarch64"
 

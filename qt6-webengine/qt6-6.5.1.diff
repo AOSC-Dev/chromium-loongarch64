@@ -3185,6 +3185,26 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error Port
  #endif
+diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/src/scripts/build/rollup.config.js b/qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/src/scripts/build/rollup.config.js
+--- a/qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/src/scripts/build/rollup.config.js	2023-05-16 18:32:24.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/src/scripts/build/rollup.config.js	2024-01-18 15:27:58.872381221 +0800
+@@ -52,11 +52,11 @@ export default commandLineArgs => ({
+         },
+       },
+     }),
+-    terser({
+-      compress: {
+-        pure_funcs: commandLineArgs.configDCHECK ? ['Platform.DCHECK'] : [],
+-      },
+-    }),
++    // terser({
++    //   compress: {
++    //     pure_funcs: commandLineArgs.configDCHECK ? ['Platform.DCHECK'] : [],
++    //   },
++    // }),
+     {
+       name: 'devtools-plugin',
+       resolveId(source, importer) {
 diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h b/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h
 --- a/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h	1970-01-01 08:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h	2024-01-18 12:46:57.308766317 +0800
