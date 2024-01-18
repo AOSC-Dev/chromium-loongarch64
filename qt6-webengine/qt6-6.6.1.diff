@@ -673,7 +673,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  // not a supported syscall on the current platform.
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc
 --- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc	2023-11-21 00:08:07.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc	2024-01-18 23:11:22.543745189 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc	2024-01-19 00:58:08.085546731 +0800
 @@ -193,6 +193,21 @@ int BrokerClient::Stat64(const char* pat
                             sizeof(*sb));
  }
@@ -685,9 +685,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 +    return -EFAULT;
 +
 +  if (fast_check_in_client_ &&
-+      !CommandStatIsSafe(policy_.allowed_command_set, *policy_.file_permissions,
-+                         pathname, nullptr)) {
-+    return -policy_.file_permissions->denied_errno();
++      !CommandStatIsSafe(policy_->allowed_command_set,
++                         *policy_->file_permissions, pathname)) {
++    return -policy_->file_permissions->denied_errno();
 +  }
 +  return StatFamilySyscall(COMMAND_STATX, pathname, follow_links, sb,
 +                           sizeof(*sb));
@@ -9200,7 +9200,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  if ((is_android && current_cpu == "arm" && arm_use_neon) || (use_linux_config && current_cpu == "arm" && arm_use_neon) || (use_linux_config && current_cpu == "arm")) {
    ffmpeg_c_sources += [
      "libavcodec/arm/fft_init_arm.c",
-Binary files a/qtwebengine/src/3rdparty/chromium/third_party/libgav1/.options.gni.swp and b/qtwebengine/src/3rdparty/chromium/third_party/libgav1/.options.gni.swp differ
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni b/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni
 --- a/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni	2023-11-21 00:08:07.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni	2024-01-19 00:38:48.727174533 +0800

@@ -5991,4 +5991,3 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  if ((is_android && current_cpu == "arm" && arm_use_neon) || (use_linux_config && current_cpu == "arm" && arm_use_neon) || (use_linux_config && current_cpu == "arm")) {
    ffmpeg_c_sources += [
      "libavcodec/arm/fft_init_arm.c",
-Binary files a/qtwebengine/src/3rdparty/chromium/third_party/libgav1/.options.gni.swp and b/qtwebengine/src/3rdparty/chromium/third_party/libgav1/.options.gni.swp differ
