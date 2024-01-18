@@ -19,6 +19,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
          elseif(hostArch IN_LIST list32)
              set(${result} "${hostArch}" PARENT_SCOPE)
          else()
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni b/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni
+--- a/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni	2024-01-19 00:38:20.266846266 +0800
+@@ -14,7 +14,7 @@ if (is_apple) {
+ if (is_nacl) {
+   # NaCl targets don't use 64-bit pointers.
+   has_64_bit_pointers = false
+-} else if (current_cpu == "x64" || current_cpu == "arm64") {
++} else if (current_cpu == "x64" || current_cpu == "arm64" || current_cpu == "loong64") {
+   has_64_bit_pointers = true
+ } else if (current_cpu == "x86" || current_cpu == "arm") {
+   has_64_bit_pointers = false
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn b/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn
 --- a/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn	2023-11-21 00:08:07.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn	2024-01-18 23:11:22.552745309 +0800
@@ -43,6 +55,16 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #elif defined(__pnacl__)
  #define OPENSSL_32_BIT
  #define OPENSSL_PNACL
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni b/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni
+--- a/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni	2024-01-19 00:38:48.727174533 +0800
+@@ -9,5 +9,5 @@ declare_args() {
+   use_libgav1_parser =
+       (is_chromeos || is_linux || is_win) &&
+       (target_cpu == "x86" || target_cpu == "x64" || target_cpu == "arm" ||
+-       target_cpu == "arm64" || target_cpu == "ppc64")
++       target_cpu == "arm64" || target_cpu == "ppc64" || target_cpu == "loong64")
+ }
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn
 --- a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn	2023-11-21 00:08:07.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn	2024-01-18 23:11:22.579745669 +0800
