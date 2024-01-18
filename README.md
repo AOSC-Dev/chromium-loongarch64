@@ -2,11 +2,11 @@
 
 Attempt to port chromium to loongarch64.
 
-Whole diff: `chromium-VER.diff`.
+Whole diff: `chromium/chromium-VER.diff`.
 
-Partial diff: `chromium-VER.*.diff`, they are extracted from the whole diff.
+Partial diff: `chromium/chromium-VER.*.diff`, they are extracted from the whole diff.
 
-Status: working! Although debug build can trigger raw_ptr bugs.
+Status: working!
 
 Based on:
 
