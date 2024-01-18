@@ -1937,7 +1937,7 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-10 08:13:59.141702200 +0800
-+++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-14 02:07:01.027111911 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-18 10:59:33.428000137 +0800
 @@ -37,7 +37,7 @@
  
  #if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) && \
@@ -1947,6 +1947,15 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  // Also include asm/ptrace-abi.h since ptrace.h in older libc (for instance
  // the one in Ubuntu 16.04 LTS) is missing PTRACE_GET_THREAD_AREA.
  // asm/ptrace-abi.h doesn't exist on arm32 and PTRACE_GET_THREAD_AREA isn't
+@@ -347,7 +347,7 @@ ResultExpr RestrictFutex() {
+       .Cases({FUTEX_WAIT, FUTEX_WAKE, FUTEX_REQUEUE, FUTEX_CMP_REQUEUE,
+ #if BUILDFLAG(ENABLE_MUTEX_PRIORITY_INHERITANCE)
+               // Enable priority-inheritance operations.
+-              FUTEX_LOCK_PI, FUTEX_UNLOCK_PI, FUTEX_TRYLOCK_PI,
++              FUTEX_LOCK_PI, FUTEX_LOCK_PI2, FUTEX_UNLOCK_PI, FUTEX_TRYLOCK_PI,
+               FUTEX_WAIT_REQUEUE_PI, FUTEX_CMP_REQUEUE_PI,
+ #endif  // BUILDFLAG(ENABLE_MUTEX_PRIORITY_INHERITANCE)
+               FUTEX_WAKE_OP, FUTEX_WAIT_BITSET, FUTEX_WAKE_BITSET},
 @@ -460,8 +460,11 @@ ResultExpr RestrictPtrace() {
    return Switch(request)
        .Cases({
@@ -3940,6 +3949,18 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy
      case __NR_getdents:
  #endif
      case __NR_getdents64:
+diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc
+--- a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
++++ b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2024-01-18 10:59:53.754377729 +0800
+@@ -37,7 +37,7 @@ ResultExpr ScreenAIProcessPolicy::Evalua
+       const Arg<int> op(1);
+       return Switch(op & FUTEX_CMD_MASK)
+           .Cases(
+-              {FUTEX_CMP_REQUEUE, FUTEX_LOCK_PI, FUTEX_UNLOCK_PI, FUTEX_WAIT,
++              {FUTEX_CMP_REQUEUE, FUTEX_LOCK_PI, FUTEX_LOCK_PI2, FUTEX_UNLOCK_PI, FUTEX_WAIT,
+                FUTEX_WAIT_BITSET, FUTEX_WAKE},
+               Allow())
+           // Sending ENOSYS tells the Futex backend to use another approach if
 diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/sandbox_linux.cc b/sandbox/policy/linux/sandbox_linux.cc
 --- a/sandbox/policy/linux/sandbox_linux.cc	2024-01-10 08:13:59.157703600 +0800
 +++ b/sandbox/policy/linux/sandbox_linux.cc	2024-01-14 23:41:50.186495415 +0800
