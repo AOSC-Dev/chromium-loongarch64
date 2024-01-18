@@ -1,6 +1,6 @@
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/features.gni b/sandbox/features.gni
---- a/sandbox/features.gni	2024-01-10 08:13:59.137701700 +0800
-+++ b/sandbox/features.gni	2024-01-14 02:07:01.024111907 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/features.gni b/sandbox/features.gni
+--- a/sandbox/features.gni	2024-01-17 04:55:43.609754600 +0800
++++ b/sandbox/features.gni	2024-01-18 23:00:17.854626406 +0800
 @@ -9,7 +9,7 @@
  use_seccomp_bpf = (is_linux || is_chromeos || is_android) &&
                    (current_cpu == "x86" || current_cpu == "x64" ||
@@ -10,9 +10,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/featur
  
  # SSBD (Speculative Store Bypass Disable) is a mitigation of Spectre Variant 4.
  # As Spectre Variant 4 can be mitigated by site isolation, opt-out SSBD on site
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h
---- a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-10 08:13:59.137701700 +0800
-+++ b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-14 02:07:01.024111907 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h
+--- a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-17 04:55:43.613755000 +0800
++++ b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-18 23:00:17.854626406 +0800
 @@ -56,6 +56,13 @@
  #define MAX_PUBLIC_SYSCALL __NR_syscalls
  #define MAX_SYSCALL MAX_PUBLIC_SYSCALL
@@ -27,9 +27,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  #else
  #error "Unsupported architecture"
  #endif
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/bpf_dsl/seccomp_macros.h b/sandbox/linux/bpf_dsl/seccomp_macros.h
---- a/sandbox/linux/bpf_dsl/seccomp_macros.h	2024-01-10 08:13:59.141702200 +0800
-+++ b/sandbox/linux/bpf_dsl/seccomp_macros.h	2024-01-14 02:07:01.025111908 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/bpf_dsl/seccomp_macros.h b/sandbox/linux/bpf_dsl/seccomp_macros.h
+--- a/sandbox/linux/bpf_dsl/seccomp_macros.h	2024-01-17 04:55:43.613755000 +0800
++++ b/sandbox/linux/bpf_dsl/seccomp_macros.h	2024-01-18 23:00:17.855626424 +0800
 @@ -343,6 +343,47 @@ struct regs_struct {
  #define SECCOMP_PT_PARM4(_regs) (_regs).regs[3]
  #define SECCOMP_PT_PARM5(_regs) (_regs).regs[4]
@@ -78,9 +78,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  #else
  #error Unsupported target platform
  
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf/syscall.cc b/sandbox/linux/seccomp-bpf/syscall.cc
---- a/sandbox/linux/seccomp-bpf/syscall.cc	2024-01-10 08:13:59.145702600 +0800
-+++ b/sandbox/linux/seccomp-bpf/syscall.cc	2024-01-14 02:07:01.025111908 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf/syscall.cc b/sandbox/linux/seccomp-bpf/syscall.cc
+--- a/sandbox/linux/seccomp-bpf/syscall.cc	2024-01-17 04:55:43.617755400 +0800
++++ b/sandbox/linux/seccomp-bpf/syscall.cc	2024-01-18 23:00:17.856626442 +0800
 @@ -18,7 +18,7 @@ namespace sandbox {
  namespace {
  
@@ -137,9 +137,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  #else
  #error "Unimplemented architecture"
  #endif
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
---- a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-10 08:13:59.141702200 +0800
-+++ b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-14 23:53:50.312395109 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
+--- a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-17 04:55:43.617755400 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-18 23:00:17.856626442 +0800
 @@ -193,7 +193,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
      return RestrictFcntlCommands();
  #endif
@@ -192,9 +192,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
    if (sysno == __NR_pipe) {
      return Allow();
    }
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
---- a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2024-01-10 08:13:59.141702200 +0800
-+++ b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2024-01-14 02:07:01.026111910 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
+--- a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2024-01-17 04:55:43.617755400 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2024-01-18 23:00:17.857626460 +0800
 @@ -354,6 +354,7 @@ intptr_t SIGSYSSchedHandler(const struct
  
  intptr_t SIGSYSFstatatHandler(const struct arch_seccomp_data& args,
@@ -211,9 +211,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  
    CrashSIGSYS_Handler(args, fs_denied_errno);
  
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
---- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-10 08:13:59.141702200 +0800
-+++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-18 10:59:33.428000137 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
+--- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-17 04:55:43.617755400 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-18 23:00:17.857626460 +0800
 @@ -37,7 +37,7 @@
  
  #if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) && \
@@ -245,9 +245,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  #endif
  #if defined(__arm__)
                   PTRACE_GETVFPREGS,
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
---- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-10 08:13:59.141702200 +0800
-+++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-14 17:58:36.746544012 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
+--- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-17 04:55:43.617755400 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-18 23:00:17.858626478 +0800
 @@ -103,7 +103,7 @@ bool SyscallSets::IsUmask(int sysno) {
  // Both EPERM and ENOENT are valid errno unless otherwise noted in comment.
  bool SyscallSets::IsFileSystem(int sysno) {
@@ -502,9 +502,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
      case __NR_vserver:
  #endif
        return true;
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h
---- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2024-01-10 08:13:59.141702200 +0800
-+++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2024-01-14 02:07:01.028111913 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h
+--- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2024-01-17 04:55:43.617755400 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2024-01-18 23:00:17.858626478 +0800
 @@ -79,18 +79,18 @@ class SANDBOX_EXPORT SyscallSets {
    static bool IsAsyncIo(int sysno);
    static bool IsKeyManagement(int sysno);
@@ -527,9 +527,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
    static bool IsSystemVMessageQueue(int sysno);
  #endif
  
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/services/credentials.cc b/sandbox/linux/services/credentials.cc
---- a/sandbox/linux/services/credentials.cc	2024-01-10 08:13:59.145702600 +0800
-+++ b/sandbox/linux/services/credentials.cc	2024-01-14 02:07:01.029111915 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/services/credentials.cc b/sandbox/linux/services/credentials.cc
+--- a/sandbox/linux/services/credentials.cc	2024-01-17 04:55:43.621755600 +0800
++++ b/sandbox/linux/services/credentials.cc	2024-01-18 23:00:17.859626496 +0800
 @@ -80,7 +80,7 @@ bool ChrootToSafeEmptyDir() {
    pid_t pid = -1;
    alignas(16) char stack_buf[PTHREAD_STACK_MIN];
@@ -539,9 +539,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
    // The stack grows downward.
    void* stack = stack_buf + sizeof(stack_buf);
  #else
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/services/syscall_wrappers.cc b/sandbox/linux/services/syscall_wrappers.cc
---- a/sandbox/linux/services/syscall_wrappers.cc	2024-01-10 08:13:59.145702600 +0800
-+++ b/sandbox/linux/services/syscall_wrappers.cc	2024-01-14 17:31:54.276353428 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/services/syscall_wrappers.cc b/sandbox/linux/services/syscall_wrappers.cc
+--- a/sandbox/linux/services/syscall_wrappers.cc	2024-01-17 04:55:43.621755600 +0800
++++ b/sandbox/linux/services/syscall_wrappers.cc	2024-01-18 23:00:17.859626496 +0800
 @@ -5,6 +5,7 @@
  #include "sandbox/linux/services/syscall_wrappers.h"
  
@@ -628,9 +628,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
    res = syscall(__NR_newfstatat, AT_FDCWD, path, stat_buf, AT_SYMLINK_NOFOLLOW);
  #else
    res = syscall(__NR_lstat, path, stat_buf);
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/services/syscall_wrappers.h b/sandbox/linux/services/syscall_wrappers.h
---- a/sandbox/linux/services/syscall_wrappers.h	2024-01-10 08:13:59.145702600 +0800
-+++ b/sandbox/linux/services/syscall_wrappers.h	2024-01-14 17:40:35.568957479 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/services/syscall_wrappers.h b/sandbox/linux/services/syscall_wrappers.h
+--- a/sandbox/linux/services/syscall_wrappers.h	2024-01-17 04:55:43.621755600 +0800
++++ b/sandbox/linux/services/syscall_wrappers.h	2024-01-18 23:00:17.860626515 +0800
 @@ -19,6 +19,7 @@ struct cap_hdr;
  struct cap_data;
  struct kernel_stat;
@@ -647,9 +647,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  
  // Takes care of unpoisoning |stat_buf| for MSAN. Check-fails if fstatat64() is
  // not a supported syscall on the current platform.
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_client.cc b/sandbox/linux/syscall_broker/broker_client.cc
---- a/sandbox/linux/syscall_broker/broker_client.cc	2024-01-10 08:13:59.149702800 +0800
-+++ b/sandbox/linux/syscall_broker/broker_client.cc	2024-01-14 17:38:49.017673596 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_client.cc b/sandbox/linux/syscall_broker/broker_client.cc
+--- a/sandbox/linux/syscall_broker/broker_client.cc	2024-01-17 04:55:43.621755600 +0800
++++ b/sandbox/linux/syscall_broker/broker_client.cc	2024-01-18 23:00:17.860626515 +0800
 @@ -193,6 +193,21 @@ int BrokerClient::Stat64(const char* pat
                             sizeof(*sb));
  }
@@ -672,9 +672,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  int BrokerClient::Unlink(const char* path) const {
    if (!path)
      return -EFAULT;
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_client.h b/sandbox/linux/syscall_broker/broker_client.h
---- a/sandbox/linux/syscall_broker/broker_client.h	2024-01-10 08:13:59.149702800 +0800
-+++ b/sandbox/linux/syscall_broker/broker_client.h	2024-01-14 17:59:14.907929384 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_client.h b/sandbox/linux/syscall_broker/broker_client.h
+--- a/sandbox/linux/syscall_broker/broker_client.h	2024-01-17 04:55:43.621755600 +0800
++++ b/sandbox/linux/syscall_broker/broker_client.h	2024-01-18 23:00:17.861626533 +0800
 @@ -67,6 +67,9 @@ class SANDBOX_EXPORT BrokerClient : publ
    int Stat64(const char* pathname,
               bool follow_links,
@@ -685,9 +685,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
    int Unlink(const char* unlink) const override;
    int InotifyAddWatch(int fd,
                        const char* pathname,
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_command.h b/sandbox/linux/syscall_broker/broker_command.h
---- a/sandbox/linux/syscall_broker/broker_command.h	2024-01-10 08:13:59.149702800 +0800
-+++ b/sandbox/linux/syscall_broker/broker_command.h	2024-01-14 17:39:06.549391230 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_command.h b/sandbox/linux/syscall_broker/broker_command.h
+--- a/sandbox/linux/syscall_broker/broker_command.h	2024-01-17 04:55:43.621755600 +0800
++++ b/sandbox/linux/syscall_broker/broker_command.h	2024-01-18 23:00:17.861626533 +0800
 @@ -42,6 +42,7 @@ enum BrokerCommand {
    COMMAND_RMDIR,
    COMMAND_STAT,
@@ -696,9 +696,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
    COMMAND_UNLINK,
    COMMAND_INOTIFY_ADD_WATCH,
  
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_host.cc b/sandbox/linux/syscall_broker/broker_host.cc
---- a/sandbox/linux/syscall_broker/broker_host.cc	2024-01-10 08:13:59.149702800 +0800
-+++ b/sandbox/linux/syscall_broker/broker_host.cc	2024-01-14 17:47:10.315599682 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_host.cc b/sandbox/linux/syscall_broker/broker_host.cc
+--- a/sandbox/linux/syscall_broker/broker_host.cc	2024-01-17 04:55:43.625756000 +0800
++++ b/sandbox/linux/syscall_broker/broker_host.cc	2024-01-18 23:00:17.861626533 +0800
 @@ -299,6 +299,21 @@ void BrokerHost::StatFileForIPC(BrokerCo
      RAW_CHECK(reply->AddIntToMessage(0));
      RAW_CHECK(
@@ -731,9 +731,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
        const char* requested_filename;
        if (!message->ReadString(&requested_filename)) {
          return false;
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_process.cc b/sandbox/linux/syscall_broker/broker_process.cc
---- a/sandbox/linux/syscall_broker/broker_process.cc	2024-01-10 08:13:59.149702800 +0800
-+++ b/sandbox/linux/syscall_broker/broker_process.cc	2024-01-14 20:20:19.929955108 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_process.cc b/sandbox/linux/syscall_broker/broker_process.cc
+--- a/sandbox/linux/syscall_broker/broker_process.cc	2024-01-17 04:55:43.625756000 +0800
++++ b/sandbox/linux/syscall_broker/broker_process.cc	2024-01-18 23:00:17.862626551 +0800
 @@ -122,44 +122,46 @@ bool BrokerProcess::IsSyscallBrokerable(
    // and are default disabled in Android. So, we should refuse to broker them
    // to be consistent with the platform's restrictions.
@@ -807,9 +807,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
      case __NR_unlink:
        return !fast_check || policy_->allowed_command_set.test(COMMAND_UNLINK);
  #endif
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.cc b/sandbox/linux/syscall_broker/syscall_dispatcher.cc
---- a/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-10 08:13:59.149702800 +0800
-+++ b/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-14 23:30:07.150188231 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.cc b/sandbox/linux/syscall_broker/syscall_dispatcher.cc
+--- a/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-17 04:55:43.625756000 +0800
++++ b/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-18 23:00:17.862626551 +0800
 @@ -169,6 +169,19 @@ int SyscallDispatcher::DispatchSyscall(c
        return Stat64(reinterpret_cast<const char*>(args.args[0]), true,
                      reinterpret_cast<struct kernel_stat64*>(args.args[1]));
@@ -830,9 +830,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  #if defined(__NR_lstat)
      case __NR_lstat:
        // See https://crbug.com/847096
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.h b/sandbox/linux/syscall_broker/syscall_dispatcher.h
---- a/sandbox/linux/syscall_broker/syscall_dispatcher.h	2024-01-10 08:13:59.149702800 +0800
-+++ b/sandbox/linux/syscall_broker/syscall_dispatcher.h	2024-01-14 17:41:48.442783772 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.h b/sandbox/linux/syscall_broker/syscall_dispatcher.h
+--- a/sandbox/linux/syscall_broker/syscall_dispatcher.h	2024-01-17 04:55:43.625756000 +0800
++++ b/sandbox/linux/syscall_broker/syscall_dispatcher.h	2024-01-18 23:00:17.863626569 +0800
 @@ -49,6 +49,9 @@ class SANDBOX_EXPORT SyscallDispatcher {
    virtual int Stat64(const char* pathname,
                       bool follow_links,
@@ -843,9 +843,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  
    // Emulates unlink()/unlinkat().
    virtual int Unlink(const char* unlink) const = 0;
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/system_headers/linux_seccomp.h b/sandbox/linux/system_headers/linux_seccomp.h
---- a/sandbox/linux/system_headers/linux_seccomp.h	2024-01-10 08:13:59.153703200 +0800
-+++ b/sandbox/linux/system_headers/linux_seccomp.h	2024-01-14 02:07:01.030111916 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/linux_seccomp.h b/sandbox/linux/system_headers/linux_seccomp.h
+--- a/sandbox/linux/system_headers/linux_seccomp.h	2024-01-17 04:55:43.625756000 +0800
++++ b/sandbox/linux/system_headers/linux_seccomp.h	2024-01-18 23:00:17.863626569 +0800
 @@ -39,6 +39,10 @@
  #define EM_AARCH64 183
  #endif
@@ -868,9 +868,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  // For prctl.h
  #ifndef PR_SET_SECCOMP
  #define PR_SET_SECCOMP               22
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/system_headers/linux_signal.h b/sandbox/linux/system_headers/linux_signal.h
---- a/sandbox/linux/system_headers/linux_signal.h	2024-01-10 08:13:59.153703200 +0800
-+++ b/sandbox/linux/system_headers/linux_signal.h	2024-01-14 02:07:01.031111918 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/linux_signal.h b/sandbox/linux/system_headers/linux_signal.h
+--- a/sandbox/linux/system_headers/linux_signal.h	2024-01-17 04:55:43.625756000 +0800
++++ b/sandbox/linux/system_headers/linux_signal.h	2024-01-18 23:00:17.864626587 +0800
 @@ -13,7 +13,7 @@
  // (not undefined, but defined different values and in different memory
  // layouts). So, fill the gap here.
@@ -880,9 +880,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  
  #define LINUX_SIGHUP 1
  #define LINUX_SIGINT 2
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/system_headers/linux_stat.h b/sandbox/linux/system_headers/linux_stat.h
---- a/sandbox/linux/system_headers/linux_stat.h	2024-01-10 08:13:59.153703200 +0800
-+++ b/sandbox/linux/system_headers/linux_stat.h	2024-01-14 02:07:01.031111918 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/linux_stat.h b/sandbox/linux/system_headers/linux_stat.h
+--- a/sandbox/linux/system_headers/linux_stat.h	2024-01-17 04:55:43.625756000 +0800
++++ b/sandbox/linux/system_headers/linux_stat.h	2024-01-18 23:00:17.864626587 +0800
 @@ -150,7 +150,7 @@ struct kernel_stat {
    int st_blocks;
    int st_pad4[14];
@@ -951,9 +951,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
  #endif
  
  #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LINUX_STAT_H_
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/system_headers/linux_syscalls.h b/sandbox/linux/system_headers/linux_syscalls.h
---- a/sandbox/linux/system_headers/linux_syscalls.h	2024-01-10 08:13:59.153703200 +0800
-+++ b/sandbox/linux/system_headers/linux_syscalls.h	2024-01-14 02:07:01.031111918 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/linux_syscalls.h b/sandbox/linux/system_headers/linux_syscalls.h
+--- a/sandbox/linux/system_headers/linux_syscalls.h	2024-01-17 04:55:43.625756000 +0800
++++ b/sandbox/linux/system_headers/linux_syscalls.h	2024-01-18 23:00:17.864626587 +0800
 @@ -35,5 +35,9 @@
  #include "sandbox/linux/system_headers/arm64_linux_syscalls.h"
  #endif
@@ -964,9 +964,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
 +
  #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LINUX_SYSCALLS_H_
  
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/system_headers/loong64_linux_syscalls.h b/sandbox/linux/system_headers/loong64_linux_syscalls.h
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/loong64_linux_syscalls.h b/sandbox/linux/system_headers/loong64_linux_syscalls.h
 --- a/sandbox/linux/system_headers/loong64_linux_syscalls.h	1970-01-01 08:00:00.000000000 +0800
-+++ b/sandbox/linux/system_headers/loong64_linux_syscalls.h	2024-01-14 18:49:55.372959597 +0800
++++ b/sandbox/linux/system_headers/loong64_linux_syscalls.h	2024-01-18 23:00:17.865626605 +0800
 @@ -0,0 +1,1194 @@
 +// Copyright 2023 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
@@ -2162,9 +2162,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/linux/
 +#endif
 +
 +#endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LOONG64_LINUX_SYSCALLS_H_
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_audio_policy_linux.cc b/sandbox/policy/linux/bpf_audio_policy_linux.cc
---- a/sandbox/policy/linux/bpf_audio_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
-+++ b/sandbox/policy/linux/bpf_audio_policy_linux.cc	2024-01-18 10:48:20.306148888 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_audio_policy_linux.cc b/sandbox/policy/linux/bpf_audio_policy_linux.cc
+--- a/sandbox/policy/linux/bpf_audio_policy_linux.cc	2024-01-17 04:55:43.629756500 +0800
++++ b/sandbox/policy/linux/bpf_audio_policy_linux.cc	2024-01-18 23:00:17.866626623 +0800
 @@ -85,6 +85,7 @@ ResultExpr AudioProcessPolicy::EvaluateS
        return Switch(op & ~(FUTEX_PRIVATE_FLAG | FUTEX_CLOCK_REALTIME))
            .Cases({FUTEX_CMP_REQUEUE,
@@ -2173,9 +2173,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy
                    FUTEX_UNLOCK_PI,
                    FUTEX_WAIT,
                    FUTEX_WAIT_BITSET,
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_broker_policy_linux.cc b/sandbox/policy/linux/bpf_broker_policy_linux.cc
---- a/sandbox/policy/linux/bpf_broker_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
-+++ b/sandbox/policy/linux/bpf_broker_policy_linux.cc	2024-01-14 17:43:12.876423882 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_broker_policy_linux.cc b/sandbox/policy/linux/bpf_broker_policy_linux.cc
+--- a/sandbox/policy/linux/bpf_broker_policy_linux.cc	2024-01-17 04:55:43.629756500 +0800
++++ b/sandbox/policy/linux/bpf_broker_policy_linux.cc	2024-01-18 23:00:17.866626623 +0800
 @@ -87,6 +87,12 @@ ResultExpr BrokerProcessPolicy::Evaluate
          return Allow();
        break;
@@ -2189,9 +2189,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy
  #if defined(__NR_lstat)
      case __NR_lstat:
        if (allowed_command_set_.test(syscall_broker::COMMAND_STAT))
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc
---- a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
-+++ b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-01-14 02:07:01.033111921 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc
+--- a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-01-17 04:55:43.633756900 +0800
++++ b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-01-18 23:00:17.866626623 +0800
 @@ -38,7 +38,7 @@ ResultExpr CrosAmdGpuProcessPolicy::Eval
      case __NR_sched_setscheduler:
      case __NR_sysinfo:
@@ -2201,9 +2201,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy
      case __NR_readlink:
      case __NR_stat:
  #endif
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_gpu_policy_linux.cc
---- a/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
-+++ b/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-01-14 02:07:01.033111921 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_gpu_policy_linux.cc
+--- a/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-01-17 04:55:43.633756900 +0800
++++ b/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-01-18 23:00:17.867626642 +0800
 @@ -73,7 +73,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
      (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
      case __NR_ftruncate64:
@@ -2213,9 +2213,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy
      case __NR_getdents:
  #endif
      case __NR_getdents64:
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_network_policy_linux.cc b/sandbox/policy/linux/bpf_network_policy_linux.cc
---- a/sandbox/policy/linux/bpf_network_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
-+++ b/sandbox/policy/linux/bpf_network_policy_linux.cc	2024-01-14 02:07:01.033111921 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_network_policy_linux.cc b/sandbox/policy/linux/bpf_network_policy_linux.cc
+--- a/sandbox/policy/linux/bpf_network_policy_linux.cc	2024-01-17 04:55:43.633756900 +0800
++++ b/sandbox/policy/linux/bpf_network_policy_linux.cc	2024-01-18 23:00:17.867626642 +0800
 @@ -255,7 +255,7 @@ ResultExpr NetworkProcessPolicy::Evaluat
      case __NR_fdatasync:
      case __NR_fsync:
@@ -2225,9 +2225,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy
      case __NR_getdents:
  #endif
      case __NR_getdents64:
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc
---- a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2024-01-10 08:13:59.157703600 +0800
-+++ b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2024-01-18 10:59:53.754377729 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc
+--- a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2024-01-17 04:55:43.633756900 +0800
++++ b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2024-01-18 23:00:17.868626660 +0800
 @@ -37,7 +37,7 @@ ResultExpr ScreenAIProcessPolicy::Evalua
        const Arg<int> op(1);
        return Switch(op & FUTEX_CMD_MASK)
@@ -2237,9 +2237,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy
                 FUTEX_WAIT_BITSET, FUTEX_WAKE},
                Allow())
            // Sending ENOSYS tells the Futex backend to use another approach if
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/sandbox/policy/linux/sandbox_linux.cc b/sandbox/policy/linux/sandbox_linux.cc
---- a/sandbox/policy/linux/sandbox_linux.cc	2024-01-10 08:13:59.157703600 +0800
-+++ b/sandbox/policy/linux/sandbox_linux.cc	2024-01-14 23:41:50.186495415 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/sandbox_linux.cc b/sandbox/policy/linux/sandbox_linux.cc
+--- a/sandbox/policy/linux/sandbox_linux.cc	2024-01-17 04:55:43.633756900 +0800
++++ b/sandbox/policy/linux/sandbox_linux.cc	2024-01-18 23:00:17.868626660 +0800
 @@ -558,6 +558,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
    const bpf_dsl::ResultExpr handle_via_broker =
        bpf_dsl::Trap(syscall_broker::BrokerClient::SIGSYS_Handler,

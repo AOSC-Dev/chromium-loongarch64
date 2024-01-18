@@ -1,6 +1,6 @@
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/allocator/partition_allocator/partition_alloc.gni b/base/allocator/partition_allocator/partition_alloc.gni
---- a/base/allocator/partition_allocator/partition_alloc.gni	2024-01-10 08:13:23.438545500 +0800
-+++ b/base/allocator/partition_allocator/partition_alloc.gni	2024-01-14 18:57:20.065797365 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/partition_alloc.gni b/base/allocator/partition_allocator/partition_alloc.gni
+--- a/base/allocator/partition_allocator/partition_alloc.gni	2024-01-17 04:55:23.095908200 +0800
++++ b/base/allocator/partition_allocator/partition_alloc.gni	2024-01-18 23:00:17.847626279 +0800
 @@ -212,7 +212,7 @@ use_starscan = build_with_chromium && ha
  pcscan_stack_supported =
      use_starscan &&
@@ -10,9 +10,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/allocator
  
  # We want to provide assertions that guard against inconsistent build
  # args, but there is no point in having them fire if we're not building
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn
---- a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2024-01-10 08:13:23.438545500 +0800
-+++ b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2024-01-14 18:57:55.828221374 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn
+--- a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2024-01-17 04:55:23.095908200 +0800
++++ b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2024-01-18 23:00:17.847626279 +0800
 @@ -277,6 +277,9 @@ source_set("allocator_core") {
      } else if (current_cpu == "riscv64") {
        assert(pcscan_stack_supported)
@@ -23,9 +23,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/allocator
      } else {
        # To support a trampoline for another arch, please refer to v8/src/heap/base.
        assert(!pcscan_stack_supported)
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc b/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc b/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc
 --- a/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc	1970-01-01 08:00:00.000000000 +0800
-+++ b/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc	2024-01-14 19:08:49.101699739 +0800
++++ b/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc	2024-01-18 23:00:17.849626315 +0800
 @@ -0,0 +1,49 @@
 +// Copyright 2023 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
@@ -76,9 +76,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/allocator
 +    "  ld.d $fp, $sp, 72                                 \n"
 +    "  addi.d $sp, $sp, 96                               \n"
 +    "  jr $ra                                            \n");
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/system/sys_info.cc b/base/system/sys_info.cc
---- a/base/system/sys_info.cc	2024-01-10 08:13:23.798577300 +0800
-+++ b/base/system/sys_info.cc	2024-01-16 13:29:59.838682856 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/system/sys_info.cc b/base/system/sys_info.cc
+--- a/base/system/sys_info.cc	2024-01-17 04:55:23.319928400 +0800
++++ b/base/system/sys_info.cc	2024-01-18 23:00:17.849626315 +0800
 @@ -255,6 +255,8 @@ std::string SysInfo::ProcessCPUArchitect
    return "ARM";
  #elif defined(ARCH_CPU_ARM64)
@@ -88,9 +88,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/base/system/sy
  #else
    return std::string();
  #endif
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
---- a/content/common/user_agent.cc	2024-01-10 08:13:48.904797000 +0800
-+++ b/content/common/user_agent.cc	2024-01-14 19:09:46.897768875 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
+--- a/content/common/user_agent.cc	2024-01-17 04:55:38.077256700 +0800
++++ b/content/common/user_agent.cc	2024-01-18 23:00:17.852626370 +0800
 @@ -174,6 +174,8 @@ std::string GetCpuArchitecture() {
                cpu_info.substr(2, 2) == "86") ||
               base::StartsWith(cpu_info, "x86")) {
@@ -100,9 +100,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/content/common
    }
  #elif BUILDFLAG(IS_FUCHSIA)
    std::string cpu_arch = base::SysInfo::ProcessCPUArchitecture();
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/skia/BUILD.gn b/skia/BUILD.gn
---- a/skia/BUILD.gn	2024-01-10 08:13:59.485732600 +0800
-+++ b/skia/BUILD.gn	2024-01-14 02:07:01.035111924 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/skia/BUILD.gn b/skia/BUILD.gn
+--- a/skia/BUILD.gn	2024-01-17 04:55:44.161804400 +0800
++++ b/skia/BUILD.gn	2024-01-18 23:00:17.869626678 +0800
 @@ -789,6 +789,8 @@ skia_source_set("skia_opts") {
      # Conditional and empty body needed to avoid assert() below.
    } else if (current_cpu == "riscv64") {
@@ -112,9 +112,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/skia/BUILD.gn 
    } else {
      assert(false, "Unknown cpu target")
    }
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
---- a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-01-10 08:14:03.362075300 +0800
-+++ b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-01-14 11:49:01.188570947 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
+--- a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-01-17 04:55:46.922052900 +0800
++++ b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-01-18 23:00:17.876626805 +0800
 @@ -91,19 +91,19 @@ ALWAYS_INLINE void PackOneRowOfRGBA8Litt
    v4f32 mask_falpha = __lsx_vffint_s_w(mask_lalpha);
    v16u8 ra_index = {0,19, 4,23, 8,27, 12,31};
@@ -241,9 +241,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/bl
  
      bgra_01 = __lsx_vpickev_b(bgra_1, bgra_0);
      bgra_23 = __lsx_vpickev_b(bgra_3, bgra_2);
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/boringssl/src/include/openssl/target.h b/third_party/boringssl/src/include/openssl/target.h
---- a/third_party/boringssl/src/include/openssl/target.h	2024-01-10 08:14:38.565187700 +0800
-+++ b/third_party/boringssl/src/include/openssl/target.h	2024-01-14 02:07:01.036111926 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/boringssl/src/include/openssl/target.h b/third_party/boringssl/src/include/openssl/target.h
+--- a/third_party/boringssl/src/include/openssl/target.h	2024-01-17 04:56:24.845466100 +0800
++++ b/third_party/boringssl/src/include/openssl/target.h	2024-01-18 23:00:17.878626841 +0800
 @@ -54,6 +54,8 @@
  #define OPENSSL_32_BIT
  #elif defined(__myriad2__)
@@ -253,9 +253,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/bo
  #else
  // Note BoringSSL only supports standard 32-bit and 64-bit two's-complement,
  // little-endian architectures. Functions will not produce the correct answer
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/libgav1/options.gni b/third_party/libgav1/options.gni
---- a/third_party/libgav1/options.gni	2024-01-10 08:14:23.915892600 +0800
-+++ b/third_party/libgav1/options.gni	2024-01-16 13:35:16.788106390 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/libgav1/options.gni b/third_party/libgav1/options.gni
+--- a/third_party/libgav1/options.gni	2024-01-17 04:56:03.615555300 +0800
++++ b/third_party/libgav1/options.gni	2024-01-18 23:00:17.904627312 +0800
 @@ -9,5 +9,5 @@ declare_args() {
    use_libgav1_parser =
        (is_chromeos || is_linux || is_win || is_apple) &&

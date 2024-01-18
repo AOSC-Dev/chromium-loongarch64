@@ -1,6 +1,6 @@
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/client/crashpad_client_linux.cc b/third_party/crashpad/crashpad/client/crashpad_client_linux.cc
---- a/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2024-01-10 08:14:22.947806800 +0800
-+++ b/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2024-01-14 17:49:30.314344860 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/client/crashpad_client_linux.cc b/third_party/crashpad/crashpad/client/crashpad_client_linux.cc
+--- a/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2024-01-17 04:56:02.427448300 +0800
++++ b/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2024-01-18 23:00:17.879626859 +0800
 @@ -729,6 +729,10 @@ void CrashpadClient::DumpWithoutCrash(Na
    memset(context->uc_mcontext.__reserved,
           0,
@@ -12,9 +12,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #endif
  
    siginfo_t siginfo;
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context.h b/third_party/crashpad/crashpad/minidump/minidump_context.h
---- a/third_party/crashpad/crashpad/minidump/minidump_context.h	2024-01-10 08:14:22.967808700 +0800
-+++ b/third_party/crashpad/crashpad/minidump/minidump_context.h	2024-01-14 17:50:44.478150376 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context.h b/third_party/crashpad/crashpad/minidump/minidump_context.h
+--- a/third_party/crashpad/crashpad/minidump/minidump_context.h	2024-01-17 04:56:02.447450200 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_context.h	2024-01-18 23:00:17.879626859 +0800
 @@ -687,6 +687,56 @@ struct MinidumpContextRISCV64 {
    uint32_t fcsr;
  };
@@ -72,9 +72,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  }  // namespace crashpad
  
  #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_H_
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc
---- a/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2024-01-10 08:14:22.967808700 +0800
-+++ b/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2024-01-14 17:51:36.813307465 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc
+--- a/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2024-01-17 04:56:02.447450200 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2024-01-18 23:00:17.880626877 +0800
 @@ -110,6 +110,13 @@ MinidumpContextWriter::CreateFromSnapsho
        break;
      }
@@ -134,9 +134,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
 +}
  
  }  // namespace crashpad
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context_writer.h b/third_party/crashpad/crashpad/minidump/minidump_context_writer.h
---- a/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2024-01-10 08:14:22.967808700 +0800
-+++ b/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2024-01-14 18:01:11.699048344 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context_writer.h b/third_party/crashpad/crashpad/minidump/minidump_context_writer.h
+--- a/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2024-01-17 04:56:02.447450200 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2024-01-18 23:00:17.880626877 +0800
 @@ -413,6 +413,44 @@ class MinidumpContextRISCV64Writer final
    MinidumpContextRISCV64 context_;
  };
@@ -182,9 +182,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  }  // namespace crashpad
  
  #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_WRITER_H_
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_extensions.h b/third_party/crashpad/crashpad/minidump/minidump_extensions.h
---- a/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2024-01-10 08:14:22.967808700 +0800
-+++ b/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2024-01-14 19:54:23.870212818 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_extensions.h b/third_party/crashpad/crashpad/minidump/minidump_extensions.h
+--- a/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2024-01-17 04:56:02.447450200 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2024-01-18 23:00:17.881626895 +0800
 @@ -213,6 +213,9 @@ enum MinidumpCPUArchitecture : uint16_t
    //! \brief Used by Breakpad for 64-bit RISC-V.
    kMinidumpCPUArchitectureRISCV64Breakpad = 0x8006,
@@ -195,9 +195,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
    //! \brief Unknown CPU architecture.
    kMinidumpCPUArchitectureUnknown = PROCESSOR_ARCHITECTURE_UNKNOWN,
  };
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc
---- a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-01-10 08:14:22.971809100 +0800
-+++ b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-01-14 02:07:01.036111926 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc
+--- a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-01-17 04:56:02.447450200 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-01-18 23:00:17.881626895 +0800
 @@ -177,6 +177,8 @@ std::string MinidumpMiscInfoDebugBuildSt
    static constexpr char kCPU[] = "mips64";
  #elif defined(ARCH_CPU_RISCV64)
@@ -207,9 +207,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #else
  #error define kCPU for this CPU
  #endif
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc
---- a/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2024-01-10 08:14:22.971809100 +0800
-+++ b/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2024-01-14 19:55:17.548656730 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc
+--- a/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2024-01-17 04:56:02.451450600 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2024-01-18 23:00:17.882626913 +0800
 @@ -135,6 +135,9 @@ void MinidumpSystemInfoWriter::Initializ
      case kCPUArchitectureRISCV64:
        cpu_architecture = kMinidumpCPUArchitectureRISCV64Breakpad;
@@ -220,9 +220,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
      default:
        NOTREACHED();
        cpu_architecture = kMinidumpCPUArchitectureUnknown;
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/capture_memory.cc b/third_party/crashpad/crashpad/snapshot/capture_memory.cc
---- a/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2024-01-10 08:14:22.975809300 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2024-01-14 02:07:01.037111927 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/capture_memory.cc b/third_party/crashpad/crashpad/snapshot/capture_memory.cc
+--- a/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2024-01-17 04:56:02.455450800 +0800
++++ b/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2024-01-18 23:00:17.882626913 +0800
 @@ -122,6 +122,11 @@ void CaptureMemory::PointedToByContext(c
    for (size_t i = 0; i < std::size(context.riscv64->regs); ++i) {
      MaybeCaptureMemoryAround(delegate, context.riscv64->regs[i]);
@@ -235,9 +235,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #else
  #error Port.
  #endif
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_architecture.h b/third_party/crashpad/crashpad/snapshot/cpu_architecture.h
---- a/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2024-01-10 08:14:22.975809300 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2024-01-14 02:07:01.037111927 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_architecture.h b/third_party/crashpad/crashpad/snapshot/cpu_architecture.h
+--- a/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2024-01-17 04:56:02.455450800 +0800
++++ b/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2024-01-18 23:00:17.883626932 +0800
 @@ -47,6 +47,9 @@ enum CPUArchitecture {
  
    //! \brief 64-bit RISC-V.
@@ -248,9 +248,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  };
  
  }  // namespace crashpad
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_context.cc b/third_party/crashpad/crashpad/snapshot/cpu_context.cc
---- a/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2024-01-10 08:14:22.975809300 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2024-01-14 19:56:40.927432568 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_context.cc b/third_party/crashpad/crashpad/snapshot/cpu_context.cc
+--- a/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2024-01-17 04:56:02.455450800 +0800
++++ b/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2024-01-18 23:00:17.883626932 +0800
 @@ -173,6 +173,8 @@ uint64_t CPUContext::InstructionPointer(
        return arm64->pc;
      case kCPUArchitectureRISCV64:
@@ -277,9 +277,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
        return true;
      case kCPUArchitectureX86:
      case kCPUArchitectureARM:
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_context.h b/third_party/crashpad/crashpad/snapshot/cpu_context.h
---- a/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-10 08:14:22.975809300 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-14 18:02:31.278766632 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_context.h b/third_party/crashpad/crashpad/snapshot/cpu_context.h
+--- a/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-17 04:56:02.455450800 +0800
++++ b/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-18 23:00:17.883626932 +0800
 @@ -371,6 +371,22 @@ struct CPUContextRISCV64 {
    uint32_t fcsr;
  };
@@ -311,9 +311,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
    };
  };
  
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
---- a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-14 17:53:25.958549570 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
+--- a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-17 04:56:02.459451200 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-18 23:00:17.884626950 +0800
 @@ -281,6 +281,40 @@ void InitializeCPUContextRISCV64(const T
    context->fcsr = float_context.fcsr;
  }
@@ -355,9 +355,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #endif  // ARCH_CPU_X86_FAMILY
  
  }  // namespace internal
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h
---- a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-14 17:53:48.119192650 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h
+--- a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-17 04:56:02.463451600 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-18 23:00:17.884626950 +0800
 @@ -188,6 +188,45 @@ void InitializeCPUContextRISCV64(const T
  
  #endif  // ARCH_CPU_RISCV64 || DOXYGEN
@@ -404,9 +404,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  }  // namespace internal
  }  // namespace crashpad
  
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc
---- a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-14 18:06:30.840908240 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc
+--- a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-17 04:56:02.463451600 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-18 23:00:17.885626968 +0800
 @@ -15,6 +15,7 @@
  #include "snapshot/linux/exception_snapshot_linux.h"
  
@@ -502,9 +502,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
      if (!ReadContext<ContextTraits32>(process_reader, context_address) ||
          !ReadSiginfo<Traits32>(process_reader, siginfo_address)) {
        return false;
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h
---- a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2024-01-14 02:07:01.039111931 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h
+--- a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2024-01-17 04:56:02.463451600 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2024-01-18 23:00:17.885626968 +0800
 @@ -91,6 +91,8 @@ class ExceptionSnapshotLinux final : pub
      CPUContextMIPS64 mips64;
  #elif defined(ARCH_CPU_RISCV64)
@@ -514,9 +514,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #endif
    } context_union_;
    CPUContext context_;
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc
---- a/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2024-01-14 02:07:01.040111932 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc
+--- a/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2024-01-17 04:56:02.463451600 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2024-01-18 23:00:17.886626986 +0800
 @@ -129,6 +129,8 @@ void ProcessReaderLinux::Thread::Initial
                                      : thread_info.thread_context.t32.regs[29];
  #elif defined(ARCH_CPU_RISCV64)
@@ -526,9 +526,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #else
  #error Port.
  #endif
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h
---- a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-14 17:56:30.598575754 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h
+--- a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-17 04:56:02.463451600 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-18 23:00:17.886626986 +0800
 @@ -456,6 +456,46 @@ static_assert(offsetof(UContext<ContextT
                    offsetof(ucontext_t, uc_mcontext.__fpregs),
                "context offset mismatch");
@@ -576,9 +576,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc
---- a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2024-01-14 02:07:01.041111934 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc
+--- a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2024-01-17 04:56:02.463451600 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2024-01-18 23:00:17.887627004 +0800
 @@ -208,6 +208,8 @@ CPUArchitecture SystemSnapshotLinux::Get
                                      : kCPUArchitectureMIPSEL;
  #elif defined(ARCH_CPU_RISCV64)
@@ -618,9 +618,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc
---- a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2024-01-14 02:07:01.041111934 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc
+--- a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2024-01-17 04:56:02.463451600 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2024-01-18 23:00:17.887627004 +0800
 @@ -196,6 +196,12 @@ bool ThreadSnapshotLinux::Initialize(
    InitializeCPUContextRISCV64(thread.thread_info.thread_context.t64,
                                thread.thread_info.float_context.f64,
@@ -634,9 +634,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #else
  #error Port.
  #endif
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h
---- a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2024-01-10 08:14:22.983810200 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2024-01-14 02:07:01.041111934 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h
+--- a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2024-01-17 04:56:02.463451600 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2024-01-18 23:00:17.888627022 +0800
 @@ -76,6 +76,8 @@ class ThreadSnapshotLinux final : public
      CPUContextMIPS64 mips64;
  #elif defined(ARCH_CPU_RISCV64)
@@ -646,9 +646,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc b/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc
---- a/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2024-01-10 08:14:22.991810800 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2024-01-14 18:16:07.364622738 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc b/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc
+--- a/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2024-01-17 04:56:02.467452000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2024-01-18 23:00:17.888627022 +0800
 @@ -293,6 +293,30 @@ bool MinidumpContextConverter::Initializ
      memcpy(&context_.riscv64->fpregs, &src->fpregs, sizeof(src->fpregs));
  
@@ -680,9 +680,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
    } else {
      // Architecture is listed as "unknown".
      DLOG(ERROR) << "Unknown architecture";
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc b/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc
---- a/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2024-01-10 08:14:22.991810800 +0800
-+++ b/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2024-01-14 20:05:07.866508836 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc b/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc
+--- a/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2024-01-17 04:56:02.759478300 +0800
++++ b/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2024-01-18 23:00:17.889627040 +0800
 @@ -70,6 +70,8 @@ CPUArchitecture SystemSnapshotMinidump::
      // No word on how MIPS64 is signalled
      case kMinidumpCPUArchitectureRISCV64Breakpad:
@@ -692,9 +692,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  
      default:
        return CPUArchitecture::kCPUArchitectureUnknown;
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/util/linux/ptracer.cc b/third_party/crashpad/crashpad/util/linux/ptracer.cc
---- a/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-01-10 08:14:23.019813300 +0800
-+++ b/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-01-14 02:07:01.042111935 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/util/linux/ptracer.cc b/third_party/crashpad/crashpad/util/linux/ptracer.cc
+--- a/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-01-17 04:56:02.787480800 +0800
++++ b/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-01-18 23:00:17.889627040 +0800
 @@ -430,6 +430,37 @@ bool GetThreadArea64(pid_t tid,
    return true;
  }
@@ -742,9 +742,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
    return GetGeneralPurposeRegisters32(tid, &info->thread_context, can_log_) &&
           GetFloatingPointRegisters32(tid, &info->float_context, can_log_) &&
           GetThreadArea32(tid,
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/util/linux/thread_info.h b/third_party/crashpad/crashpad/util/linux/thread_info.h
---- a/third_party/crashpad/crashpad/util/linux/thread_info.h	2024-01-10 08:14:23.019813300 +0800
-+++ b/third_party/crashpad/crashpad/util/linux/thread_info.h	2024-01-14 02:07:01.042111935 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/util/linux/thread_info.h b/third_party/crashpad/crashpad/util/linux/thread_info.h
+--- a/third_party/crashpad/crashpad/util/linux/thread_info.h	2024-01-17 04:56:02.787480800 +0800
++++ b/third_party/crashpad/crashpad/util/linux/thread_info.h	2024-01-18 23:00:17.890627059 +0800
 @@ -87,6 +87,8 @@ union ThreadContext {
      uint32_t padding1_;
  #elif defined(ARCH_CPU_RISCV64)
@@ -806,9 +806,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
  #else
  #error Port.
  #endif  // ARCH_CPU_X86
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/util/misc/capture_context_linux.S b/third_party/crashpad/crashpad/util/misc/capture_context_linux.S
---- a/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2024-01-10 08:14:23.027814000 +0800
-+++ b/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2024-01-14 20:13:48.034405406 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/util/misc/capture_context_linux.S b/third_party/crashpad/crashpad/util/misc/capture_context_linux.S
+--- a/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2024-01-17 04:56:02.795481400 +0800
++++ b/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2024-01-18 23:00:17.890627059 +0800
 @@ -508,6 +508,51 @@ CAPTURECONTEXT_SYMBOL2:
    fsd f30, (30 * 8 + MCONTEXT_FPREGS_OFFSET)(a0)
    fsd f31, (31 * 8 + MCONTEXT_FPREGS_OFFSET)(a0)
@@ -861,9 +861,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/cr
    ret
  
  #endif  // __i386__
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc b/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc
---- a/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2024-01-10 08:14:23.031814300 +0800
-+++ b/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2024-01-14 02:07:01.043111937 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc b/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc
+--- a/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2024-01-17 04:56:02.799481900 +0800
++++ b/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2024-01-18 23:00:17.891627077 +0800
 @@ -239,6 +239,8 @@ std::string UserAgent() {
  #endif
  #elif defined (ARCH_CPU_RISCV64)

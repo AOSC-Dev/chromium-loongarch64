@@ -1,6 +1,6 @@
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/src/Reactor/BUILD.gn b/third_party/swiftshader/src/Reactor/BUILD.gn
---- a/third_party/swiftshader/src/Reactor/BUILD.gn	2024-01-10 08:14:49.318138400 +0800
-+++ b/third_party/swiftshader/src/Reactor/BUILD.gn	2024-01-14 02:07:01.046111942 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/src/Reactor/BUILD.gn b/third_party/swiftshader/src/Reactor/BUILD.gn
+--- a/third_party/swiftshader/src/Reactor/BUILD.gn	2024-01-17 04:56:32.042114000 +0800
++++ b/third_party/swiftshader/src/Reactor/BUILD.gn	2024-01-18 23:00:17.909627403 +0800
 @@ -307,7 +307,7 @@ if (supports_subzero) {
  
  if (supports_llvm) {
@@ -10,9 +10,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
  
      deps = [
        ":swiftshader_reactor_base",
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/src/Reactor/reactor.gni b/third_party/swiftshader/src/Reactor/reactor.gni
---- a/third_party/swiftshader/src/Reactor/reactor.gni	2024-01-10 08:14:49.370143200 +0800
-+++ b/third_party/swiftshader/src/Reactor/reactor.gni	2024-01-14 02:07:01.047111943 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/src/Reactor/reactor.gni b/third_party/swiftshader/src/Reactor/reactor.gni
+--- a/third_party/swiftshader/src/Reactor/reactor.gni	2024-01-17 04:56:32.170125500 +0800
++++ b/third_party/swiftshader/src/Reactor/reactor.gni	2024-01-18 23:00:17.910627421 +0800
 @@ -10,7 +10,7 @@ import("//build_overrides/build.gni")
  
  declare_args() {
@@ -22,9 +22,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
  }
  
  declare_args() {
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn
---- a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-10 08:14:54.166567000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-15 10:48:47.048306245 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn
+--- a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-17 04:57:01.924803500 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-01-18 23:00:17.910627421 +0800
 @@ -97,6 +97,7 @@ llvm_include_dirs = [
    "llvm/include/",
    "llvm/lib/Target/AArch64/",
@@ -100,9 +100,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
 +    "llvm/lib/Target/LoongArch/TargetInfo/LoongArchTargetInfo.cpp",
 +  ]
 +}
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc	1970-01-01 08:00:00.000000000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc	2024-01-14 02:07:01.052111951 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc	2024-01-18 23:00:17.915627512 +0800
 @@ -0,0 +1,2353 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -2457,9 +2457,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
 +
 +#endif // GET_MNEMONIC_CHECKER
 +
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc	1970-01-01 08:00:00.000000000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc	2024-01-14 02:07:01.054111954 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc	2024-01-18 23:00:17.917627548 +0800
 @@ -0,0 +1,2204 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -4665,9 +4665,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
 +}
 +
 +#endif // PRINT_ALIAS_INSTR
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc	1970-01-01 08:00:00.000000000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc	2024-01-14 02:07:01.064111970 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc	2024-01-18 23:00:17.927627729 +0800
 @@ -0,0 +1,10214 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -14883,9 +14883,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
 +#ifdef GET_DAGISEL_BODY
 +#undef GET_DAGISEL_BODY
 +#endif
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc	1970-01-01 08:00:00.000000000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc	2024-01-14 02:07:01.068111977 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc	2024-01-18 23:00:17.930627784 +0800
 @@ -0,0 +1,1911 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -16798,9 +16798,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
 +
 +
 +} // end namespace llvm
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc	1970-01-01 08:00:00.000000000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc	2024-01-14 02:07:01.074111986 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc	2024-01-18 23:00:17.937627911 +0800
 @@ -0,0 +1,5980 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -22782,9 +22782,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
 +} // end namespace llvm
 +#endif // ENABLE_INSTR_PREDICATE_VERIFIER
 +
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc	1970-01-01 08:00:00.000000000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc	2024-01-14 02:07:01.076111990 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc	2024-01-18 23:00:17.939627947 +0800
 @@ -0,0 +1,1743 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -24529,9 +24529,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
 +  return Value;
 +}
 +
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc	1970-01-01 08:00:00.000000000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc	2024-01-14 02:07:01.077111991 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc	2024-01-18 23:00:17.940627965 +0800
 @@ -0,0 +1,166 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -24699,9 +24699,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
 +  return true;
 +}
 +
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc	1970-01-01 08:00:00.000000000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc	2024-01-14 02:07:01.078111993 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc	2024-01-18 23:00:17.941627983 +0800
 @@ -0,0 +1,1676 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -26379,9 +26379,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
 +
 +#endif // GET_REGINFO_TARGET_DESC
 +
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc	1970-01-01 08:00:00.000000000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc	2024-01-14 02:07:01.079111994 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc	2024-01-18 23:00:17.942628001 +0800
 @@ -0,0 +1,261 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -26644,9 +26644,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
 +
 +#endif // GET_STIPREDICATE_DEFS_FOR_MC_ANALYSIS
 +
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2024-01-10 08:14:55.130652400 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2024-01-14 02:07:01.079111994 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2024-01-17 04:57:04.425028600 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2024-01-18 23:00:17.942628001 +0800
 @@ -42,6 +42,9 @@ LLVM_ASM_PARSER(PowerPC)
  #if defined(__riscv)
  LLVM_ASM_PARSER(RISCV)
@@ -26657,9 +26657,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
  
  
  #undef LLVM_ASM_PARSER
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def	2024-01-10 08:14:55.130652400 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def	2024-01-14 02:07:01.080111996 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def	2024-01-17 04:57:04.425028600 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def	2024-01-18 23:00:17.942628001 +0800
 @@ -42,6 +42,9 @@ LLVM_ASM_PRINTER(PowerPC)
  #if defined(__riscv)
  LLVM_ASM_PRINTER(RISCV)
@@ -26670,9 +26670,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
  
  
  #undef LLVM_ASM_PRINTER
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def	2024-01-10 08:14:55.130652400 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def	2024-01-14 02:07:01.080111996 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def	2024-01-17 04:57:04.425028600 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def	2024-01-18 23:00:17.943628019 +0800
 @@ -42,6 +42,9 @@ LLVM_DISASSEMBLER(PowerPC)
  #if defined(__riscv)
  LLVM_DISASSEMBLER(RISCV)
@@ -26683,9 +26683,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
  
  
  #undef LLVM_DISASSEMBLER
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def	2024-01-10 08:14:55.130652400 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def	2024-01-14 02:07:01.081111998 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def	2024-01-17 04:57:04.425028600 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def	2024-01-18 23:00:17.943628019 +0800
 @@ -41,6 +41,9 @@ LLVM_TARGET(PowerPC)
  #if defined(__riscv)
  LLVM_TARGET(RISCV)
@@ -26696,9 +26696,9 @@ diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/sw
  
  
  #undef LLVM_TARGET
-diff '--color=auto' -p -X chromium-loongarch64/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h	2024-01-10 08:14:55.130652400 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h	2024-01-14 02:07:01.081111998 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h	2024-01-17 04:57:04.425028600 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h	2024-01-18 23:00:17.944628038 +0800
 @@ -45,6 +45,8 @@
  #define LLVM_DEFAULT_TARGET_TRIPLE "powerpc64le-unknown-linux-gnu"
  #elif defined(__riscv)
