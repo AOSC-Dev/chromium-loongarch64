@@ -1,6 +1,6 @@
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/features.gni b/qtwebengine/src/3rdparty/chromium/sandbox/features.gni
---- a/qtwebengine/src/3rdparty/chromium/sandbox/features.gni	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/features.gni	2024-01-18 00:45:41.224171539 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/features.gni b/qtwebengine/src/3rdparty/chromium/sandbox/features.gni
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/features.gni	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/features.gni	2024-01-18 23:11:22.535745082 +0800
 @@ -9,7 +9,7 @@
  use_seccomp_bpf = (is_linux || is_chromeos || is_android) &&
                    (current_cpu == "x86" || current_cpu == "x64" ||
@@ -10,9 +10,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  
  # SSBD (Speculative Store Bypass Disable) is a mitigation of Spectre Variant 4.
  # As Spectre Variant 4 can be mitigated by site isolation, opt-out SSBD on site
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/linux_syscall_ranges.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/linux_syscall_ranges.h
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-18 00:45:41.225171598 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/linux_syscall_ranges.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/linux_syscall_ranges.h
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-01-18 23:11:22.536745095 +0800
 @@ -56,6 +56,13 @@
  #define MAX_PUBLIC_SYSCALL __NR_syscalls
  #define MAX_SYSCALL MAX_PUBLIC_SYSCALL
@@ -27,9 +27,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error "Unsupported architecture"
  #endif
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/seccomp_macros.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/seccomp_macros.h
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/seccomp_macros.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/seccomp_macros.h	2024-01-18 00:45:41.225171598 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/seccomp_macros.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/seccomp_macros.h
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/seccomp_macros.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/bpf_dsl/seccomp_macros.h	2024-01-18 23:11:22.536745095 +0800
 @@ -343,6 +343,47 @@ struct regs_struct {
  #define SECCOMP_PT_PARM4(_regs) (_regs).regs[3]
  #define SECCOMP_PT_PARM5(_regs) (_regs).regs[4]
@@ -78,9 +78,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error Unsupported target platform
  
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf/syscall.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf/syscall.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf/syscall.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf/syscall.cc	2024-01-18 00:58:29.371953325 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf/syscall.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf/syscall.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf/syscall.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf/syscall.cc	2024-01-18 23:11:22.537745109 +0800
 @@ -18,7 +18,7 @@ namespace sandbox {
  namespace {
  
@@ -137,10 +137,10 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error "Unimplemented architecture"
  #endif
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-18 00:45:41.226171656 +0800
-@@ -194,7 +194,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-18 23:11:22.538745122 +0800
+@@ -193,7 +193,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
      return RestrictFcntlCommands();
  #endif
  
@@ -149,7 +149,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    // fork() is never used as a system call (clone() is used instead), but we
    // have seen it in fallback code on Android.
    if (sysno == __NR_fork) {
-@@ -256,7 +256,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+@@ -255,7 +255,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
    }
  
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__) || \
@@ -158,7 +158,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    if (sysno == __NR_mmap)
      return RestrictMmapFlags();
  #endif
-@@ -277,7 +277,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+@@ -276,7 +276,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
      return RestrictPrctl();
  
  #if defined(__x86_64__) || defined(__arm__) || defined(__mips__) || \
@@ -167,7 +167,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    if (sysno == __NR_socketpair) {
      // Only allow AF_UNIX, PF_UNIX. Crash if anything else is seen.
      static_assert(AF_UNIX == PF_UNIX,
-@@ -303,6 +303,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+@@ -302,6 +302,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
      return Allow();
    }
  
@@ -175,7 +175,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    // The fstatat syscalls are file system syscalls, which will be denied below
    // with fs_denied_errno. However some allowed fstat syscalls are rewritten by
    // libc implementations to fstatat syscalls, and we need to rewrite them back.
-@@ -320,6 +321,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+@@ -319,6 +320,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
      return If(mask == STATX_BASIC_STATS, Error(ENOSYS))
          .Else(Error(fs_denied_errno));
    }
@@ -183,9 +183,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  
    if (SyscallSets::IsFileSystem(sysno) ||
        SyscallSets::IsCurrentDirectory(sysno)) {
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2024-01-18 00:45:41.227171714 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2024-01-18 23:11:22.538745122 +0800
 @@ -354,6 +354,7 @@ intptr_t SIGSYSSchedHandler(const struct
  
  intptr_t SIGSYSFstatatHandler(const struct arch_seccomp_data& args,
@@ -202,9 +202,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  
    CrashSIGSYS_Handler(args, fs_denied_errno);
  
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-18 11:16:27.948580898 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-01-18 23:11:22.539745135 +0800
 @@ -37,7 +37,7 @@
  
  #if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) && \
@@ -214,18 +214,18 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  // Also include asm/ptrace-abi.h since ptrace.h in older libc (for instance
  // the one in Ubuntu 16.04 LTS) is missing PTRACE_GET_THREAD_AREA.
  // asm/ptrace-abi.h doesn't exist on arm32 and PTRACE_GET_THREAD_AREA isn't
-@@ -331,7 +331,7 @@ ResultExpr RestrictFutex() {
-       .CASES((FUTEX_WAIT, FUTEX_WAKE, FUTEX_REQUEUE, FUTEX_CMP_REQUEUE,
+@@ -329,7 +329,7 @@ ResultExpr RestrictFutex() {
+       .Cases({FUTEX_WAIT, FUTEX_WAKE, FUTEX_REQUEUE, FUTEX_CMP_REQUEUE,
  #if BUILDFLAG(ENABLE_MUTEX_PRIORITY_INHERITANCE)
                // Enable priority-inheritance operations.
 -              FUTEX_LOCK_PI, FUTEX_UNLOCK_PI, FUTEX_TRYLOCK_PI,
 +              FUTEX_LOCK_PI, FUTEX_LOCK_PI2, FUTEX_UNLOCK_PI, FUTEX_TRYLOCK_PI,
                FUTEX_WAIT_REQUEUE_PI, FUTEX_CMP_REQUEUE_PI,
  #endif  // BUILDFLAG(ENABLE_MUTEX_PRIORITY_INHERITANCE)
-               FUTEX_WAKE_OP, FUTEX_WAIT_BITSET, FUTEX_WAKE_BITSET),
-@@ -444,8 +444,11 @@ ResultExpr RestrictPtrace() {
+               FUTEX_WAKE_OP, FUTEX_WAIT_BITSET, FUTEX_WAKE_BITSET},
+@@ -442,8 +442,11 @@ ResultExpr RestrictPtrace() {
    return Switch(request)
-       .CASES((
+       .Cases({
  #if !defined(__aarch64__)
 -                 PTRACE_GETREGS, PTRACE_GETFPREGS, PTRACE_GET_THREAD_AREA,
 +                 PTRACE_GETREGS, PTRACE_GETFPREGS,
@@ -236,9 +236,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #endif
  #if defined(__arm__)
                   PTRACE_GETVFPREGS,
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-18 00:49:40.201103512 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-01-18 23:11:22.541745162 +0800
 @@ -103,7 +103,7 @@ bool SyscallSets::IsUmask(int sysno) {
  // Both EPERM and ENOENT are valid errno unless otherwise noted in comment.
  bool SyscallSets::IsFileSystem(int sysno) {
@@ -258,7 +258,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_renameat2:
  #if defined(__i386__) || defined(__arm__) || \
      (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
-@@ -196,7 +198,11 @@ bool SyscallSets::IsFileSystem(int sysno
+@@ -211,7 +213,11 @@ bool SyscallSets::IsTruncate(int sysno)
  
  bool SyscallSets::IsAllowedFileSystemAccessViaFd(int sysno) {
    switch (sysno) {
@@ -270,7 +270,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_ftruncate:
  #if defined(__i386__) || defined(__arm__) || \
      (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
-@@ -226,7 +232,7 @@ bool SyscallSets::IsAllowedFileSystemAcc
+@@ -241,7 +247,7 @@ bool SyscallSets::IsAllowedFileSystemAcc
      case __NR_oldfstat:
  #endif
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__) || \
@@ -279,7 +279,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_sync_file_range:  // EPERM not a valid errno.
  #elif defined(__arm__)
      case __NR_arm_sync_file_range:  // EPERM not a valid errno.
-@@ -245,7 +251,7 @@ bool SyscallSets::IsDeniedFileSystemAcce
+@@ -260,7 +266,7 @@ bool SyscallSets::IsDeniedFileSystemAcce
  #if defined(__i386__) || defined(__arm__)
      case __NR_fchown32:
  #endif
@@ -288,7 +288,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_getdents:    // EPERM not a valid errno.
  #endif
      case __NR_getdents64:  // EPERM not a valid errno.
-@@ -324,7 +330,7 @@ bool SyscallSets::IsProcessPrivilegeChan
+@@ -339,7 +345,7 @@ bool SyscallSets::IsProcessPrivilegeChan
  bool SyscallSets::IsProcessGroupOrSession(int sysno) {
    switch (sysno) {
      case __NR_setpgid:
@@ -297,7 +297,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_getpgrp:
  #endif
      case __NR_setsid:
-@@ -358,7 +364,7 @@ bool SyscallSets::IsAllowedSignalHandlin
+@@ -373,7 +379,7 @@ bool SyscallSets::IsAllowedSignalHandlin
      case __NR_rt_sigqueueinfo:
      case __NR_rt_sigsuspend:
      case __NR_rt_tgsigqueueinfo:
@@ -306,7 +306,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_signalfd:
  #endif
      case __NR_signalfd4:
-@@ -382,12 +388,12 @@ bool SyscallSets::IsAllowedOperationOnFd
+@@ -397,12 +403,12 @@ bool SyscallSets::IsAllowedOperationOnFd
    switch (sysno) {
      case __NR_close:
      case __NR_dup:
@@ -321,7 +321,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_shutdown:
  #endif
        return true;
-@@ -426,7 +432,7 @@ bool SyscallSets::IsAllowedProcessStartO
+@@ -441,7 +447,7 @@ bool SyscallSets::IsAllowedProcessStartO
        return true;
      case __NR_clone:  // Should be parameter-restricted.
      case __NR_setns:  // Privileged.
@@ -330,7 +330,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_fork:
  #endif
  #if defined(__i386__) || defined(__x86_64__)
-@@ -437,7 +443,7 @@ bool SyscallSets::IsAllowedProcessStartO
+@@ -452,7 +458,7 @@ bool SyscallSets::IsAllowedProcessStartO
  #endif
      case __NR_set_tid_address:
      case __NR_unshare:
@@ -339,7 +339,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_vfork:
  #endif
      default:
-@@ -462,7 +468,7 @@ bool SyscallSets::IsAllowedFutex(int sys
+@@ -477,7 +483,7 @@ bool SyscallSets::IsAllowedFutex(int sys
  
  bool SyscallSets::IsAllowedEpoll(int sysno) {
    switch (sysno) {
@@ -348,16 +348,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_epoll_create:
      case __NR_epoll_wait:
  #endif
-@@ -483,7 +489,7 @@ bool SyscallSets::IsAllowedEpoll(int sys
- 
- bool SyscallSets::IsAllowedGetOrModifySocket(int sysno) {
-   switch (sysno) {
--#if !defined(__aarch64__)
-+#if !defined(__aarch64__) && !defined(__loongarch__)
-     case __NR_pipe:
- #endif
-     case __NR_pipe2:
-@@ -500,7 +506,7 @@ bool SyscallSets::IsAllowedGetOrModifySo
+@@ -499,7 +505,7 @@ bool SyscallSets::IsAllowedEpoll(int sys
  bool SyscallSets::IsDeniedGetOrModifySocket(int sysno) {
    switch (sysno) {
  #if defined(__x86_64__) || defined(__arm__) || defined(__mips__) || \
@@ -366,7 +357,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_accept:
      case __NR_accept4:
      case __NR_bind:
-@@ -554,7 +560,7 @@ bool SyscallSets::IsAllowedAddressSpaceA
+@@ -553,7 +559,7 @@ bool SyscallSets::IsAllowedAddressSpaceA
      case __NR_mincore:
      case __NR_mlockall:
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__) || \
@@ -375,7 +366,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_mmap:
  #endif
  #if defined(__i386__) || defined(__arm__) || \
-@@ -587,7 +593,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
+@@ -586,7 +592,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
      (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
      case __NR__llseek:
  #endif
@@ -384,7 +375,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_poll:
  #endif
      case __NR_ppoll:
-@@ -608,7 +614,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
+@@ -607,7 +613,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
      case __NR_recv:
  #endif
  #if defined(__x86_64__) || defined(__arm__) || defined(__mips__) || \
@@ -393,7 +384,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_recvfrom:  // Could specify source.
      case __NR_recvmsg:   // Could specify source.
  #endif
-@@ -623,7 +629,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
+@@ -622,7 +628,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
      case __NR_send:
  #endif
  #if defined(__x86_64__) || defined(__arm__) || defined(__mips__) || \
@@ -402,7 +393,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_sendmsg:  // Could specify destination.
      case __NR_sendto:   // Could specify destination.
  #endif
-@@ -672,7 +678,7 @@ bool SyscallSets::IsSeccomp(int sysno) {
+@@ -671,7 +677,7 @@ bool SyscallSets::IsSeccomp(int sysno) {
  bool SyscallSets::IsAllowedBasicScheduler(int sysno) {
    switch (sysno) {
      case __NR_sched_yield:
@@ -411,7 +402,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_pause:
  #endif
      case __NR_nanosleep:
-@@ -756,7 +762,7 @@ bool SyscallSets::IsNuma(int sysno) {
+@@ -755,7 +761,7 @@ bool SyscallSets::IsNuma(int sysno) {
      case __NR_getcpu:
      case __NR_mbind:
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__) || \
@@ -420,7 +411,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_migrate_pages:
  #endif
      case __NR_move_pages:
-@@ -804,7 +810,9 @@ bool SyscallSets::IsGlobalProcessEnviron
+@@ -803,7 +809,9 @@ bool SyscallSets::IsGlobalProcessEnviron
      case __NR_getrusage:
      case __NR_personality:  // Can change its personality as well.
      case __NR_prlimit64:    // Like setrlimit / getrlimit.
@@ -430,7 +421,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_times:
        return true;
      default:
-@@ -826,7 +834,7 @@ bool SyscallSets::IsDebug(int sysno) {
+@@ -825,7 +833,7 @@ bool SyscallSets::IsDebug(int sysno) {
  
  bool SyscallSets::IsGlobalSystemStatus(int sysno) {
    switch (sysno) {
@@ -439,7 +430,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR__sysctl:
      case __NR_sysfs:
  #endif
-@@ -844,7 +852,7 @@ bool SyscallSets::IsGlobalSystemStatus(i
+@@ -843,7 +851,7 @@ bool SyscallSets::IsGlobalSystemStatus(i
  
  bool SyscallSets::IsEventFd(int sysno) {
    switch (sysno) {
@@ -448,7 +439,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_eventfd:
  #endif
      case __NR_eventfd2:
-@@ -896,7 +904,7 @@ bool SyscallSets::IsKeyManagement(int sy
+@@ -895,7 +903,7 @@ bool SyscallSets::IsKeyManagement(int sy
  }
  
  #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
@@ -457,7 +448,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  bool SyscallSets::IsSystemVSemaphores(int sysno) {
    switch (sysno) {
      case __NR_semctl:
-@@ -916,7 +924,7 @@ bool SyscallSets::IsSystemVSemaphores(in
+@@ -915,7 +923,7 @@ bool SyscallSets::IsSystemVSemaphores(in
  
  #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
      defined(__aarch64__) ||                                         \
@@ -466,7 +457,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  // These give a lot of ambient authority and bypass the setuid sandbox.
  bool SyscallSets::IsSystemVSharedMemory(int sysno) {
    switch (sysno) {
-@@ -932,7 +940,7 @@ bool SyscallSets::IsSystemVSharedMemory(
+@@ -931,7 +939,7 @@ bool SyscallSets::IsSystemVSharedMemory(
  #endif
  
  #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
@@ -475,7 +466,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  bool SyscallSets::IsSystemVMessageQueue(int sysno) {
    switch (sysno) {
      case __NR_msgctl:
-@@ -963,7 +971,7 @@ bool SyscallSets::IsSystemVIpc(int sysno
+@@ -962,7 +970,7 @@ bool SyscallSets::IsSystemVIpc(int sysno
  
  bool SyscallSets::IsAnySystemV(int sysno) {
  #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
@@ -484,7 +475,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    return IsSystemVMessageQueue(sysno) || IsSystemVSemaphores(sysno) ||
           IsSystemVSharedMemory(sysno);
  #elif defined(__i386__) || \
-@@ -1000,7 +1008,7 @@ bool SyscallSets::IsAdvancedScheduler(in
+@@ -999,7 +1007,7 @@ bool SyscallSets::IsAdvancedScheduler(in
  bool SyscallSets::IsInotify(int sysno) {
    switch (sysno) {
      case __NR_inotify_add_watch:
@@ -493,7 +484,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_inotify_init:
  #endif
      case __NR_inotify_init1:
-@@ -1138,7 +1146,7 @@ bool SyscallSets::IsMisc(int sysno) {
+@@ -1137,7 +1145,7 @@ bool SyscallSets::IsMisc(int sysno) {
  #if defined(__x86_64__)
      case __NR_tuxcall:
  #endif
@@ -502,9 +493,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_vserver:
  #endif
        return true;
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2024-01-18 00:45:41.229171831 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2024-01-18 23:11:22.541745162 +0800
 @@ -79,18 +79,18 @@ class SANDBOX_EXPORT SyscallSets {
    static bool IsAsyncIo(int sysno);
    static bool IsKeyManagement(int sysno);
@@ -527,9 +518,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    static bool IsSystemVMessageQueue(int sysno);
  #endif
  
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/credentials.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/credentials.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/credentials.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/credentials.cc	2024-01-18 00:58:14.381079382 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/credentials.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/credentials.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/credentials.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/credentials.cc	2024-01-18 23:11:22.542745175 +0800
 @@ -80,7 +80,7 @@ bool ChrootToSafeEmptyDir() {
    pid_t pid = -1;
    alignas(16) char stack_buf[PTHREAD_STACK_MIN];
@@ -539,9 +530,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    // The stack grows downward.
    void* stack = stack_buf + sizeof(stack_buf);
  #else
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.cc	2024-01-18 00:58:22.221536468 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.cc	2024-01-18 23:11:22.542745175 +0800
 @@ -5,6 +5,7 @@
  #include "sandbox/linux/services/syscall_wrappers.h"
  
@@ -628,9 +619,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    res = syscall(__NR_newfstatat, AT_FDCWD, path, stat_buf, AT_SYMLINK_NOFOLLOW);
  #else
    res = syscall(__NR_lstat, path, stat_buf);
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.h
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.h	2024-01-18 00:45:41.231171948 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.h
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.h	2024-01-18 23:11:22.542745175 +0800
 @@ -19,6 +19,7 @@ struct cap_hdr;
  struct cap_data;
  struct kernel_stat;
@@ -647,9 +638,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  
  // Takes care of unpoisoning |stat_buf| for MSAN. Check-fails if fstatat64() is
  // not a supported syscall on the current platform.
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc	2024-01-18 01:01:35.593809762 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.cc	2024-01-18 23:11:22.543745189 +0800
 @@ -193,6 +193,21 @@ int BrokerClient::Stat64(const char* pat
                             sizeof(*sb));
  }
@@ -672,10 +663,10 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  int BrokerClient::Unlink(const char* path) const {
    if (!path)
      return -EFAULT;
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.h
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.h	2024-01-18 00:45:41.232172006 +0800
-@@ -66,6 +66,9 @@ class SANDBOX_EXPORT BrokerClient : publ
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.h
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_client.h	2024-01-18 23:11:22.543745189 +0800
+@@ -67,6 +67,9 @@ class SANDBOX_EXPORT BrokerClient : publ
    int Stat64(const char* pathname,
               bool follow_links,
               struct kernel_stat64* sb) const override;
@@ -683,23 +674,23 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
 +             bool follow_links,
 +             struct kernel_statx* sb) const override;
    int Unlink(const char* unlink) const override;
- 
-   const BrokerSandboxConfig& policy() const { return policy_; }
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_command.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_command.h
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_command.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_command.h	2024-01-18 00:45:41.232172006 +0800
+   int InotifyAddWatch(int fd,
+                       const char* pathname,
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_command.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_command.h
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_command.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_command.h	2024-01-18 23:11:22.544745202 +0800
 @@ -41,6 +41,7 @@ enum BrokerCommand {
    COMMAND_RMDIR,
    COMMAND_STAT,
    COMMAND_STAT64,
 +  COMMAND_STATX,
    COMMAND_UNLINK,
+   COMMAND_INOTIFY_ADD_WATCH,
  
-   // NOTE: update when adding new commands.
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_host.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_host.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_host.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_host.cc	2024-01-18 00:45:41.232172006 +0800
-@@ -222,6 +222,21 @@ void StatFileForIPC(const BrokerCommandS
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_host.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_host.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_host.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_host.cc	2024-01-18 23:11:22.544745202 +0800
+@@ -299,6 +299,21 @@ void BrokerHost::StatFileForIPC(BrokerCo
      RAW_CHECK(reply->AddIntToMessage(0));
      RAW_CHECK(
          reply->AddDataToMessage(reinterpret_cast<char*>(&sb), sizeof(sb)));
@@ -721,7 +712,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else  // defined(__NR_fstatat64)
      // We should not reach here on 64-bit systems, as the *stat*64() are only
      // necessary on 32-bit.
-@@ -320,7 +335,8 @@ bool HandleRemoteCommand(const BrokerCom
+@@ -438,7 +453,8 @@ bool BrokerHost::HandleRemoteCommand(Bro
        break;
      }
      case COMMAND_STAT:
@@ -729,12 +720,12 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
 +    case COMMAND_STAT64:
 +    case COMMAND_STATX: {
        const char* requested_filename;
-       if (!message->ReadString(&requested_filename))
+       if (!message->ReadString(&requested_filename)) {
          return false;
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_process.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_process.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_process.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_process.cc	2024-01-18 00:45:41.233172064 +0800
-@@ -117,44 +117,46 @@ bool BrokerProcess::IsSyscallBrokerable(
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_process.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_process.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_process.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_process.cc	2024-01-18 23:11:22.545745215 +0800
+@@ -122,44 +122,46 @@ bool BrokerProcess::IsSyscallBrokerable(
    // and are default disabled in Android. So, we should refuse to broker them
    // to be consistent with the platform's restrictions.
    switch (sysno) {
@@ -788,7 +779,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_stat:
      case __NR_lstat:
  #endif
-@@ -164,6 +166,9 @@ bool BrokerProcess::IsSyscallBrokerable(
+@@ -169,6 +171,9 @@ bool BrokerProcess::IsSyscallBrokerable(
  #if defined(__NR_fstatat64)
      case __NR_fstatat64:
  #endif
@@ -798,7 +789,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #if defined(__x86_64__) || defined(__aarch64__)
      case __NR_newfstatat:
  #endif
-@@ -179,7 +184,7 @@ bool BrokerProcess::IsSyscallBrokerable(
+@@ -184,7 +189,7 @@ bool BrokerProcess::IsSyscallBrokerable(
        return !fast_check || policy_->allowed_command_set.test(COMMAND_STAT);
  #endif
  
@@ -807,10 +798,10 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_unlink:
        return !fast_check || policy_->allowed_command_set.test(COMMAND_UNLINK);
  #endif
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-18 00:45:41.233172064 +0800
-@@ -165,6 +165,19 @@ int SyscallDispatcher::DispatchSyscall(c
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-01-18 23:11:22.545745215 +0800
+@@ -169,6 +169,19 @@ int SyscallDispatcher::DispatchSyscall(c
        return Stat64(reinterpret_cast<const char*>(args.args[0]), true,
                      reinterpret_cast<struct kernel_stat64*>(args.args[1]));
  #endif
@@ -830,9 +821,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #if defined(__NR_lstat)
      case __NR_lstat:
        // See https://crbug.com/847096
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.h
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.h	2024-01-18 00:45:41.234172122 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.h
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/syscall_dispatcher.h	2024-01-18 23:11:22.546745229 +0800
 @@ -49,6 +49,9 @@ class SANDBOX_EXPORT SyscallDispatcher {
    virtual int Stat64(const char* pathname,
                       bool follow_links,
@@ -843,9 +834,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  
    // Emulates unlink()/unlinkat().
    virtual int Unlink(const char* unlink) const = 0;
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_seccomp.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_seccomp.h
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_seccomp.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_seccomp.h	2024-01-18 00:45:41.234172122 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_seccomp.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_seccomp.h
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_seccomp.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_seccomp.h	2024-01-18 23:11:22.546745229 +0800
 @@ -39,6 +39,10 @@
  #define EM_AARCH64 183
  #endif
@@ -868,9 +859,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  // For prctl.h
  #ifndef PR_SET_SECCOMP
  #define PR_SET_SECCOMP               22
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_signal.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_signal.h
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_signal.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_signal.h	2024-01-18 00:45:41.235172181 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_signal.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_signal.h
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_signal.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_signal.h	2024-01-18 23:11:22.547745242 +0800
 @@ -13,7 +13,7 @@
  // (not undefined, but defined different values and in different memory
  // layouts). So, fill the gap here.
@@ -880,9 +871,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  
  #define LINUX_SIGHUP 1
  #define LINUX_SIGINT 2
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_stat.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_stat.h
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_stat.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_stat.h	2024-01-18 00:45:41.235172181 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_stat.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_stat.h
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_stat.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_stat.h	2024-01-18 23:11:22.547745242 +0800
 @@ -150,7 +150,7 @@ struct kernel_stat {
    int st_blocks;
    int st_pad4[14];
@@ -951,9 +942,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #endif
  
  #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LINUX_STAT_H_
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_syscalls.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_syscalls.h
---- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_syscalls.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_syscalls.h	2024-01-18 00:45:41.235172181 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_syscalls.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_syscalls.h
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_syscalls.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/linux_syscalls.h	2024-01-18 23:11:22.547745242 +0800
 @@ -35,5 +35,9 @@
  #include "sandbox/linux/system_headers/arm64_linux_syscalls.h"
  #endif
@@ -964,9 +955,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
 +
  #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LINUX_SYSCALLS_H_
  
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/loong64_linux_syscalls.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/loong64_linux_syscalls.h
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/loong64_linux_syscalls.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/loong64_linux_syscalls.h
 --- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/loong64_linux_syscalls.h	1970-01-01 08:00:00.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/loong64_linux_syscalls.h	2024-01-18 00:45:41.236172239 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/system_headers/loong64_linux_syscalls.h	2024-01-18 23:11:22.548745255 +0800
 @@ -0,0 +1,1194 @@
 +// Copyright 2023 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
@@ -2162,22 +2153,21 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
 +#endif
 +
 +#endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LOONG64_LINUX_SYSCALLS_H_
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_audio_policy_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_audio_policy_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_audio_policy_linux.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_audio_policy_linux.cc	2024-01-18 11:16:43.401148619 +0800
-@@ -84,7 +84,7 @@ ResultExpr AudioProcessPolicy::EvaluateS
- #if defined(USE_PULSEAUDIO)
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_audio_policy_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_audio_policy_linux.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_audio_policy_linux.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_audio_policy_linux.cc	2024-01-18 23:12:32.573670550 +0800
+@@ -85,6 +85,7 @@ ResultExpr AudioProcessPolicy::EvaluateS
        return Switch(op & ~(FUTEX_PRIVATE_FLAG | FUTEX_CLOCK_REALTIME))
-           .SANDBOX_BPF_DSL_CASES(
--              (FUTEX_CMP_REQUEUE, FUTEX_LOCK_PI, FUTEX_UNLOCK_PI, FUTEX_WAIT,
-+              (FUTEX_CMP_REQUEUE, FUTEX_LOCK_PI, FUTEX_LOCK_PI2, FUTEX_UNLOCK_PI, FUTEX_WAIT,
-                FUTEX_WAIT_BITSET, FUTEX_WAKE),
-               Allow())
-           .Default(Error(EPERM));
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_broker_policy_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_broker_policy_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_broker_policy_linux.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_broker_policy_linux.cc	2024-01-18 00:45:41.237172297 +0800
-@@ -86,6 +86,12 @@ ResultExpr BrokerProcessPolicy::Evaluate
+           .Cases({FUTEX_CMP_REQUEUE,
+                   FUTEX_LOCK_PI,
++                  FUTEX_LOCK_PI2,
+                   FUTEX_UNLOCK_PI,
+                   FUTEX_WAIT,
+                   FUTEX_WAIT_BITSET,
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_broker_policy_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_broker_policy_linux.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_broker_policy_linux.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_broker_policy_linux.cc	2024-01-18 23:11:22.549745269 +0800
+@@ -87,6 +87,12 @@ ResultExpr BrokerProcessPolicy::Evaluate
          return Allow();
        break;
  #endif
@@ -2190,9 +2180,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #if defined(__NR_lstat)
      case __NR_lstat:
        if (allowed_command_set_.test(syscall_broker::COMMAND_STAT))
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-01-18 00:45:41.237172297 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-01-18 23:11:22.550745282 +0800
 @@ -38,7 +38,7 @@ ResultExpr CrosAmdGpuProcessPolicy::Eval
      case __NR_sched_setscheduler:
      case __NR_sysinfo:
@@ -2202,9 +2192,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_readlink:
      case __NR_stat:
  #endif
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_gpu_policy_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_gpu_policy_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-01-18 00:45:41.238172356 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_gpu_policy_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_gpu_policy_linux.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-01-18 23:11:22.550745282 +0800
 @@ -80,7 +80,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
      (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
      case __NR_ftruncate64:
@@ -2214,22 +2204,22 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      case __NR_getdents:
  #endif
      case __NR_getdents64:
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2024-01-18 11:16:53.621846971 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2024-01-18 23:12:55.395968768 +0800
 @@ -37,7 +37,7 @@ ResultExpr ScreenAIProcessPolicy::Evalua
        const Arg<int> op(1);
        return Switch(op & FUTEX_CMD_MASK)
-           .SANDBOX_BPF_DSL_CASES(
--              (FUTEX_CMP_REQUEUE, FUTEX_LOCK_PI, FUTEX_UNLOCK_PI, FUTEX_WAIT,
-+              (FUTEX_CMP_REQUEUE, FUTEX_LOCK_PI, FUTEX_LOCK_PI2, FUTEX_UNLOCK_PI, FUTEX_WAIT,
-                FUTEX_WAIT_BITSET, FUTEX_WAKE),
+           .Cases(
+-              {FUTEX_CMP_REQUEUE, FUTEX_LOCK_PI, FUTEX_UNLOCK_PI, FUTEX_WAIT,
++              {FUTEX_CMP_REQUEUE, FUTEX_LOCK_PI, FUTEX_LOCK_PI2, FUTEX_UNLOCK_PI, FUTEX_WAIT,
+                FUTEX_WAIT_BITSET, FUTEX_WAKE},
                Allow())
            // Sending ENOSYS tells the Futex backend to use another approach if
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/sandbox_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/sandbox_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/sandbox_linux.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/sandbox_linux.cc	2024-01-18 00:45:41.239172414 +0800
-@@ -532,6 +532,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/sandbox_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/sandbox_linux.cc
+--- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/sandbox_linux.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/sandbox_linux.cc	2024-01-18 23:11:22.551745295 +0800
+@@ -555,6 +555,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
    const bpf_dsl::ResultExpr handle_via_broker =
        bpf_dsl::Trap(syscall_broker::BrokerClient::SIGSYS_Handler,
                      broker_process_->GetBrokerClientSignalBased());
@@ -2237,7 +2227,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    if (sysno == __NR_fstatat_default) {
      // This may be an fstatat(fd, "", stat_buf, AT_EMPTY_PATH), which should be
      // rewritten as fstat(fd, stat_buf). This should be consistent with how the
-@@ -542,6 +543,15 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+@@ -565,6 +566,15 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
      return bpf_dsl::If((flags & AT_EMPTY_PATH) == AT_EMPTY_PATH,
                         RewriteFstatatSIGSYS(BPFBasePolicy::GetFSDeniedErrno()))
          .Else(handle_via_broker);

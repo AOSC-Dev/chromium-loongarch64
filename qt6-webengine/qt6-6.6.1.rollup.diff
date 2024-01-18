@@ -1,0 +1,20 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/src/scripts/build/rollup.config.js b/qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/src/scripts/build/rollup.config.js
+--- a/qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/src/scripts/build/rollup.config.js	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/src/scripts/build/rollup.config.js	2024-01-18 23:11:22.566745495 +0800
+@@ -52,11 +52,11 @@ export default commandLineArgs => ({
+         },
+       },
+     }),
+-    terser({
+-      compress: {
+-        pure_funcs: commandLineArgs.configDCHECK ? ['Platform.DCHECK'] : [],
+-      },
+-    }),
++    // terser({
++    //   compress: {
++    //     pure_funcs: commandLineArgs.configDCHECK ? ['Platform.DCHECK'] : [],
++    //   },
++    // }),
+     {
+       name: 'devtools-plugin',
+       resolveId(source, importer) {

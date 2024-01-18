@@ -1,7 +1,7 @@
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/client/crashpad_client_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/client/crashpad_client_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2024-01-18 01:24:39.463487148 +0800
-@@ -714,6 +714,10 @@ void CrashpadClient::DumpWithoutCrash(Na
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/client/crashpad_client_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/client/crashpad_client_linux.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2024-01-18 23:11:22.553745322 +0800
+@@ -716,6 +716,10 @@ void CrashpadClient::DumpWithoutCrash(Na
    memset(context->uc_mcontext.__reserved,
           0,
           sizeof(context->uc_mcontext.__reserved));
@@ -12,9 +12,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #endif
  
    siginfo_t siginfo;
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h	2024-01-18 01:08:06.932624188 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h	2024-01-18 23:11:22.554745335 +0800
 @@ -637,6 +637,56 @@ struct MinidumpContextMIPS64 {
    uint64_t fir;
  };
@@ -72,9 +72,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  }  // namespace crashpad
  
  #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_H_
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2024-01-18 01:08:06.934624305 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2024-01-18 23:11:22.554745335 +0800
 @@ -102,6 +102,13 @@ MinidumpContextWriter::CreateFromSnapsho
        break;
      }
@@ -134,9 +134,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
 +}
  
  }  // namespace crashpad
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.h
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2024-01-18 01:25:52.362737058 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2024-01-18 23:11:22.555745349 +0800
 @@ -369,6 +369,44 @@ class MinidumpContextMIPS64Writer final
    MinidumpContextMIPS64 context_;
  };
@@ -182,9 +182,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  }  // namespace crashpad
  
  #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_WRITER_H_
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_extensions.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_extensions.h
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2024-01-18 01:08:06.936624421 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_extensions.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_extensions.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2024-01-18 23:11:22.555745349 +0800
 @@ -210,6 +210,9 @@ enum MinidumpCPUArchitecture : uint16_t
    //! \deprecated Use #kMinidumpCPUArchitectureARM64 instead.
    kMinidumpCPUArchitectureARM64Breakpad = 0x8003,
@@ -195,9 +195,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    //! \brief Unknown CPU architecture.
    kMinidumpCPUArchitectureUnknown = PROCESSOR_ARCHITECTURE_UNKNOWN,
  };
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-01-18 01:09:15.833641007 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-01-18 23:11:22.556745362 +0800
 @@ -175,6 +175,8 @@ std::string MinidumpMiscInfoDebugBuildSt
    static constexpr char kCPU[] = "mips";
  #elif defined(ARCH_CPU_MIPS64EL)
@@ -207,9 +207,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error define kCPU for this CPU
  #endif
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2024-01-18 01:08:06.939624596 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2024-01-18 23:11:22.556745362 +0800
 @@ -132,6 +132,9 @@ void MinidumpSystemInfoWriter::Initializ
      case kCPUArchitectureARM64:
        cpu_architecture = kMinidumpCPUArchitectureARM64;
@@ -220,9 +220,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
      default:
        NOTREACHED();
        cpu_architecture = kMinidumpCPUArchitectureUnknown;
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2024-01-18 01:25:02.502830305 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2024-01-18 23:11:22.557745375 +0800
 @@ -117,6 +117,11 @@ void CaptureMemory::PointedToByContext(c
    for (size_t i = 0; i < std::size(context.mipsel->regs); ++i) {
      MaybeCaptureMemoryAround(delegate, context.mipsel->regs[i]);
@@ -235,9 +235,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error Port.
  #endif
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_architecture.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_architecture.h
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2024-01-18 01:09:50.250647463 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_architecture.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_architecture.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2024-01-18 23:11:22.557745375 +0800
 @@ -43,7 +43,10 @@ enum CPUArchitecture {
    kCPUArchitectureMIPSEL,
  
@@ -250,9 +250,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  };
  
  }  // namespace crashpad
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2024-01-18 01:10:45.199850914 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2024-01-18 23:11:22.557745375 +0800
 @@ -170,6 +170,8 @@ uint64_t CPUContext::InstructionPointer(
        return arm->pc;
      case kCPUArchitectureARM64:
@@ -279,9 +279,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
        return true;
      case kCPUArchitectureX86:
      case kCPUArchitectureARM:
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.h
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-18 01:11:16.754690511 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-01-18 23:11:22.558745389 +0800
 @@ -362,6 +362,22 @@ struct CPUContextMIPS64 {
    uint64_t fir;
  };
@@ -313,9 +313,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    };
  };
  
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-18 01:25:17.002675623 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-01-18 23:11:22.558745389 +0800
 @@ -266,6 +266,40 @@ void InitializeCPUContextARM64_OnlyFPSIM
    context->fpcr = float_context.fpcr;
  }
@@ -357,9 +357,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #endif  // ARCH_CPU_X86_FAMILY
  
  }  // namespace internal
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-18 01:26:14.834047099 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-01-18 23:11:22.559745402 +0800
 @@ -174,6 +174,45 @@ void InitializeCPUContextMIPS(
  
  #endif  // ARCH_CPU_MIPS_FAMILY || DOXYGEN
@@ -406,9 +406,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  }  // namespace internal
  }  // namespace crashpad
  
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-18 01:26:26.362719202 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-01-18 23:11:22.559745402 +0800
 @@ -15,6 +15,7 @@
  #include "snapshot/linux/exception_snapshot_linux.h"
  
@@ -508,9 +508,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    }
  
    CaptureMemoryDelegateLinux capture_memory_delegate(
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2024-01-18 01:12:22.075498609 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2024-01-18 23:11:22.560745415 +0800
 @@ -89,6 +89,8 @@ class ExceptionSnapshotLinux final : pub
  #elif defined(ARCH_CPU_MIPS_FAMILY)
      CPUContextMIPS mipsel;
@@ -520,9 +520,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #endif
    } context_union_;
    CPUContext context_;
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2024-01-18 01:13:09.566267245 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2024-01-18 23:11:22.560745415 +0800
 @@ -127,6 +127,8 @@ void ProcessReaderLinux::Thread::Initial
  #elif defined(ARCH_CPU_MIPS_FAMILY)
    stack_pointer = reader->Is64Bit() ? thread_info.thread_context.t64.regs[29]
@@ -532,9 +532,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error Port.
  #endif
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/signal_context.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/signal_context.h
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-18 01:26:37.048342157 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/signal_context.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/signal_context.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-01-18 23:11:22.561745429 +0800
 @@ -422,6 +422,46 @@ static_assert(offsetof(UContext<ContextT
                "context offset mismatch");
  #endif
@@ -582,9 +582,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2024-01-18 01:13:54.227870945 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2024-01-18 23:11:22.561745429 +0800
 @@ -205,6 +205,8 @@ CPUArchitecture SystemSnapshotLinux::Get
  #elif defined(ARCH_CPU_MIPS_FAMILY)
    return process_reader_->Is64Bit() ? kCPUArchitectureMIPS64EL
@@ -624,9 +624,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2024-01-18 01:15:01.456790283 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2024-01-18 23:11:22.562745442 +0800
 @@ -190,6 +190,13 @@ bool ThreadSnapshotLinux::Initialize(
          thread.thread_info.float_context.f32,
          context_.mipsel);
@@ -641,9 +641,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error Port.
  #endif
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2024-01-18 01:15:19.214825548 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2024-01-18 23:11:22.562745442 +0800
 @@ -74,6 +74,8 @@ class ThreadSnapshotLinux final : public
  #elif defined(ARCH_CPU_MIPS_FAMILY)
      CPUContextMIPS mipsel;
@@ -653,9 +653,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2024-01-18 01:16:14.967075815 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2024-01-18 23:11:22.563745455 +0800
 @@ -266,6 +266,30 @@ bool MinidumpContextConverter::Initializ
      context_.mips64->fir = src->fir;
  
@@ -687,9 +687,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    } else {
      // Architecture is listed as "unknown".
      DLOG(ERROR) << "Unknown architecture";
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2024-01-18 01:16:39.582510856 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2024-01-18 23:11:22.563745455 +0800
 @@ -68,6 +68,8 @@ CPUArchitecture SystemSnapshotMinidump::
      case kMinidumpCPUArchitectureMIPS:
        return kCPUArchitectureMIPSEL;
@@ -699,9 +699,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  
      default:
        return CPUArchitecture::kCPUArchitectureUnknown;
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/ptracer.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/ptracer.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/ptracer.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-01-18 01:21:59.634169355 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/ptracer.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/ptracer.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/ptracer.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-01-18 23:11:22.564745469 +0800
 @@ -398,6 +398,37 @@ bool GetThreadArea64(pid_t tid,
    return true;
  }
@@ -755,10 +755,10 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  }
  
  ssize_t Ptracer::ReadUpTo(pid_t pid,
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/thread_info.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/thread_info.h
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/thread_info.h	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/thread_info.h	2024-01-18 01:20:16.626164153 +0800
-@@ -79,6 +79,8 @@ union ThreadContext {
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/thread_info.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/thread_info.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/thread_info.h	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/thread_info.h	2024-01-18 23:11:22.564745469 +0800
+@@ -80,6 +80,8 @@ union ThreadContext {
      uint32_t cp0_status;
      uint32_t cp0_cause;
      uint32_t padding1_;
@@ -767,7 +767,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-@@ -132,12 +134,19 @@ union ThreadContext {
+@@ -133,12 +135,19 @@ union ThreadContext {
      uint64_t cp0_badvaddr;
      uint64_t cp0_status;
      uint64_t cp0_cause;
@@ -788,7 +788,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    using NativeThreadContext = user_regs_struct;
  #elif defined(ARCH_CPU_ARMEL)
    using NativeThreadContext = user_regs;
-@@ -218,6 +227,8 @@ union FloatContext {
+@@ -219,6 +228,8 @@ union FloatContext {
      } fpregs[32];
      uint32_t fpcsr;
      uint32_t fpu_id;
@@ -797,7 +797,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-@@ -252,6 +263,11 @@ union FloatContext {
+@@ -253,6 +264,11 @@ union FloatContext {
      double fpregs[32];
      uint32_t fpcsr;
      uint32_t fpu_id;
@@ -809,7 +809,7 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-@@ -281,6 +297,8 @@ union FloatContext {
+@@ -282,6 +298,8 @@ union FloatContext {
    static_assert(sizeof(f64) == sizeof(user_fpsimd_struct), "Size mismatch");
  #elif defined(ARCH_CPU_MIPS_FAMILY)
  // No appropriate floating point context native type for available MIPS.
@@ -818,9 +818,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
  #else
  #error Port.
  #endif  // ARCH_CPU_X86
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/misc/capture_context_linux.S b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/misc/capture_context_linux.S
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2024-01-18 01:08:06.954625471 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/misc/capture_context_linux.S b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/misc/capture_context_linux.S
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2024-01-18 23:11:22.565745482 +0800
 @@ -336,6 +336,51 @@ CAPTURECONTEXT_SYMBOL2:
  
    // TODO(https://crashpad.chromium.org/bug/300): save floating-point registers.
@@ -873,9 +873,9 @@ diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude
    ret
  #elif defined(__mips__)
    .set noat
-diff '--color=auto' -p -X ../chromium/chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2023-05-16 18:32:24.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2024-01-18 01:20:54.477370818 +0800
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2023-11-21 00:08:07.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2024-01-18 23:11:22.565745482 +0800
 @@ -237,6 +237,8 @@ std::string UserAgent() {
  #elif defined(ARCH_CPU_BIG_ENDIAN)
      static constexpr char arch[] = "aarch64_be";
