@@ -170,7 +170,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #else
  #error "Unimplemented architecture"
  #endif
-Binary files a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/.baseline_policy.cc.swp and b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/.baseline_policy.cc.swp differ
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
 --- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2023-11-21 00:08:07.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-01-19 01:10:04.101805346 +0800
