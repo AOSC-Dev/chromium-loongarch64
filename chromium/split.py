@@ -83,6 +83,8 @@ with open(f"chromium-{version}.diff", "r") as f:
             clazz = "Debian-bitset.patch"
         elif path in ["third_party/blink/renderer/platform/fonts/simple_font_data.h"]:
             clazz = "Debian-once_flag.patch"
+        elif path in ["chrome/browser/performance_manager/policies/probability_distribution.h"]:
+            clazz = "Debian-stdint.patch"
         elif path in ["build/config/linux/libffi/BUILD.gn"]:
             clazz = "AOSC"
         elif path in ["third_party/devtools-frontend/src/scripts/build/rollup.config.js"]:
