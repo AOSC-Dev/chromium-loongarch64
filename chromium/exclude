@@ -4,3 +4,4 @@ node
 shader-object-unlinked-spirv.txt
 *.profdata
 index
+gen.sh

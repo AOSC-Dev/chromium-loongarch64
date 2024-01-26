@@ -1,4 +1,4 @@
-version = "120.0.6099.224"
+version = "121.0.6167.85"
 with open(f"chromium-{version}.diff", "r") as f:
     cur = []
     patches = []
@@ -40,6 +40,14 @@ with open(f"chromium-{version}.diff", "r") as f:
             clazz = "rollup"
         elif path in [
             "build/nocompile.gni",
+            "build/rust/rust_bindgen.gni"
+        ]:
+            clazz = "fix-invalid-substition-type"
+        elif path in [
+            "build/config/clang/BUILD.gn",
+        ]:
+            clazz = "fix-clang-builtins-path"
+        elif path in [
             "third_party/libvpx/BUILD.gn",
             "third_party/blink/renderer/platform/BUILD.gn",
             "third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc",
