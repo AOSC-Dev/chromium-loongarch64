@@ -1,0 +1,11 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/crypto/hkdf.h b/crypto/hkdf.h
+--- a/crypto/hkdf.h	2024-01-23 02:41:54.043351000 +0800
++++ b/crypto/hkdf.h	2024-01-26 11:59:58.278578011 +0800
+@@ -9,6 +9,7 @@
+ 
+ #include <string>
+ #include <string_view>
++#include <vector>
+ 
+ #include "base/containers/span.h"
+ #include "crypto/crypto_export.h"
