@@ -411,6 +411,31 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/gp
  #include <string>
  #include <vector>
  
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/mojo/public/cpp/bindings/type_converter.h b/mojo/public/cpp/bindings/type_converter.h
+--- a/mojo/public/cpp/bindings/type_converter.h	2024-01-23 02:41:57.243635700 +0800
++++ b/mojo/public/cpp/bindings/type_converter.h	2024-01-26 14:05:58.476148091 +0800
+@@ -95,16 +95,19 @@ inline T ConvertTo(U* obj) {
+   return TypeConverter<T, std::remove_cv_t<U>*>::Convert(obj);
+ }
+ 
++template <class T> constexpr T *clang_to_address(T *P) { return P; }
++template <class T> auto clang_to_address(const T &P) -> decltype(P.operator->()) { return P.operator->(); }
++
+ template <typename T, typename U>
+   requires(!std::is_pointer_v<U>)
+ inline T ConvertTo(const U& obj) {
+   if constexpr (requires {
+                   {
+-                    mojo::ConvertTo<T>(std::to_address(obj))
++                    mojo::ConvertTo<T>(clang_to_address(obj))
+ 
+                   } -> std::same_as<T>;
+                 }) {
+-    return mojo::ConvertTo<T>(std::to_address(obj));
++    return mojo::ConvertTo<T>(clang_to_address(obj));
+   } else {
+     return TypeConverter<T, U>::Convert(obj);
+   }
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/net/base/net_export.h b/net/base/net_export.h
 --- a/net/base/net_export.h	2024-01-23 02:41:57.675674200 +0800
 +++ b/net/base/net_export.h	2024-01-26 10:24:12.202966561 +0800
@@ -4367,6 +4392,17 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      cflags = [
        "-mlsx",
        "-flax-vector-conversions=all",
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/fonts/simple_font_data.h b/third_party/blink/renderer/platform/fonts/simple_font_data.h
+--- a/third_party/blink/renderer/platform/fonts/simple_font_data.h	2024-01-23 02:42:02.308086600 +0800
++++ b/third_party/blink/renderer/platform/fonts/simple_font_data.h	2024-01-26 15:01:40.808913711 +0800
+@@ -25,6 +25,7 @@
+ #define THIRD_PARTY_BLINK_RENDERER_PLATFORM_FONTS_SIMPLE_FONT_DATA_H_
+ 
+ #include <memory>
++#include <mutex>
+ #include <utility>
+ 
+ #include "build/build_config.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
 --- a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-01-23 02:42:02.328088300 +0800
 +++ b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-01-26 09:48:58.470571083 +0800
@@ -38812,6 +38848,17 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ui
  #include "base/component_export.h"
  #include "ui/gfx/geometry/matrix3_f.h"
  
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ui/display/types/display_color_management.h b/ui/display/types/display_color_management.h
+--- a/ui/display/types/display_color_management.h	2024-01-23 02:42:24.766085400 +0800
++++ b/ui/display/types/display_color_management.h	2024-01-26 13:21:04.230241272 +0800
+@@ -5,6 +5,7 @@
+ #ifndef UI_DISPLAY_TYPES_DISPLAY_COLOR_MANAGEMENT_H_
+ #define UI_DISPLAY_TYPES_DISPLAY_COLOR_MANAGEMENT_H_
+ 
++#include <memory>
+ #include <vector>
+ 
+ #include "third_party/skia/modules/skcms/skcms.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ui/gfx/geometry/linear_gradient.h b/ui/gfx/geometry/linear_gradient.h
 --- a/ui/gfx/geometry/linear_gradient.h	2024-01-23 02:42:24.930100000 +0800
 +++ b/ui/gfx/geometry/linear_gradient.h	2024-01-26 10:24:12.218966669 +0800
@@ -38835,3 +38882,15 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ui
  namespace ui {
  
  int GetFourCCFormatFromBufferFormat(gfx::BufferFormat format);
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ui/gfx/x/visual_manager.cc b/ui/gfx/x/visual_manager.cc
+--- a/ui/gfx/x/visual_manager.cc	2024-01-23 02:42:24.986105000 +0800
++++ b/ui/gfx/x/visual_manager.cc	2024-01-26 14:50:18.658554506 +0800
+@@ -4,6 +4,8 @@
+ 
+ #include "ui/gfx/x/visual_manager.h"
+ 
++#include <bitset>
++
+ #include "base/strings/string_number_conversions.h"
+ #include "ui/gfx/x/atom_cache.h"
+ #include "ui/gfx/x/event.h"

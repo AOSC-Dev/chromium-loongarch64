@@ -75,6 +75,14 @@ with open(f"chromium-{version}.diff", "r") as f:
             clazz = "Debian-absl-optional"
         elif path in ["crypto/hkdf.h"]:
             clazz = "Debian-vector.patch"
+        elif path in ["ui/display/types/display_color_management.h"]:
+            clazz = "Debian-display-header.patch"
+        elif path in ["mojo/public/cpp/bindings/type_converter.h"]:
+            clazz = "Debian-std-to-address.patch"
+        elif path in ["ui/gfx/x/visual_manager.cc"]:
+            clazz = "Debian-bitset.patch"
+        elif path in ["third_party/blink/renderer/platform/fonts/simple_font_data.h"]:
+            clazz = "Debian-once_flag.patch"
         elif path in ["build/config/linux/libffi/BUILD.gn"]:
             clazz = "AOSC"
         elif path in ["third_party/devtools-frontend/src/scripts/build/rollup.config.js"]:
