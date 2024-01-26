@@ -90,8 +90,17 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
  #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/rust.gni b/build/config/rust.gni
 --- a/build/config/rust.gni	2024-01-23 02:41:38.061928500 +0800
-+++ b/build/config/rust.gni	2024-01-26 09:48:00.425175767 +0800
-@@ -291,6 +291,8 @@ if (current_cpu == "x86") {
++++ b/build/config/rust.gni	2024-01-26 09:58:07.303308883 +0800
+@@ -203,6 +203,8 @@ if (is_linux || is_chromeos) {
+     } else {
+       rust_abi_target = "arm-unknown-linux-gnueabi" + float_suffix
+     }
++  } else if (current_cpu == "loong64") {
++    rust_abi_target = "loongarch64-unknown-linux-gnu"
+   } else {
+     # Best guess for other future platforms.
+     rust_abi_target = current_cpu + "-unknown-linux-gnu"
+@@ -291,6 +293,8 @@ if (current_cpu == "x86") {
    rust_target_arch = "powerpc64"
  } else if (current_cpu == "riscv64") {
    rust_target_arch = "riscv64"
@@ -275,3 +284,14 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 -       target_cpu == "arm64" || target_cpu == "ppc64")
 +       target_cpu == "arm64" || target_cpu == "ppc64" || target_cpu == "loong64")
  }
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/skia/modules/skcms/src/skcms_internals.h b/third_party/skia/modules/skcms/src/skcms_internals.h
+--- a/third_party/skia/modules/skcms/src/skcms_internals.h	2024-01-23 02:46:14.146500800 +0800
++++ b/third_party/skia/modules/skcms/src/skcms_internals.h	2024-01-26 10:08:27.818534874 +0800
+@@ -46,6 +46,7 @@ extern "C" {
+                                                  && !defined(__EMSCRIPTEN__) \
+                                                  && !defined(__arm__) \
+                                                  && !defined(__riscv) \
++                                                 && !defined(__loongarch__) \
+                                                  && !defined(_WIN32) && !defined(__SYMBIAN32__)
+             #define SKCMS_MUSTTAIL [[clang::musttail]]
+         #else

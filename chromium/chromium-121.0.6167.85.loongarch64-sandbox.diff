@@ -1,0 +1,11 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_file_permission.h b/sandbox/linux/syscall_broker/broker_file_permission.h
+--- a/sandbox/linux/syscall_broker/broker_file_permission.h	2024-01-23 02:41:59.147805200 +0800
++++ b/sandbox/linux/syscall_broker/broker_file_permission.h	2024-01-26 10:24:12.203966567 +0800
+@@ -5,6 +5,7 @@
+ #ifndef SANDBOX_LINUX_SYSCALL_BROKER_BROKER_FILE_PERMISSION_H_
+ #define SANDBOX_LINUX_SYSCALL_BROKER_BROKER_FILE_PERMISSION_H_
+ 
++#include <cstdint>
+ #include <bitset>
+ #include <cstdint>
+ #include <string>
