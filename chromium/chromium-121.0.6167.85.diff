@@ -4370,6 +4370,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
    source_dir = "lcp_critical_path_predictor/test_proto"
    sources = rebase_path([ "lcp_image_id.asciipb" ], "", source_dir)
    sources += rebase_path([ "lcp_image_id_b.asciipb" ], "", source_dir)
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/core/paint/fragment_data_iterator.h b/third_party/blink/renderer/core/paint/fragment_data_iterator.h
+--- a/third_party/blink/renderer/core/paint/fragment_data_iterator.h	2024-01-23 02:42:01.612024500 +0800
++++ b/third_party/blink/renderer/core/paint/fragment_data_iterator.h	2024-01-26 18:32:35.267014939 +0800
+@@ -21,7 +21,7 @@ class FragmentDataIteratorBase {
+ 
+  public:
+   explicit FragmentDataIteratorBase(Head& head) : fragment_head_(head) {}
+-  explicit FragmentDataIteratorBase(nullptr_t) {}
++  explicit FragmentDataIteratorBase(std::nullptr_t) {}
+ 
+   Data* GetFragmentData() const {
+     return !IsDone() ? &fragment_head_.at(idx_) : nullptr;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/BUILD.gn b/third_party/blink/renderer/platform/BUILD.gn
 --- a/third_party/blink/renderer/platform/BUILD.gn	2024-01-23 02:42:02.240080600 +0800
 +++ b/third_party/blink/renderer/platform/BUILD.gn	2024-01-26 10:22:24.421232518 +0800
