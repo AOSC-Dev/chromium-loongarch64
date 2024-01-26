@@ -87,6 +87,8 @@ with open(f"chromium-{version}.diff", "r") as f:
             clazz = "Debian-stdint.patch"
         elif path in ["build/config/linux/libffi/BUILD.gn"]:
             clazz = "AOSC"
+        elif path in ["tools/v8_context_snapshot/BUILD.gn"]:
+            clazz = "rust-ld-bfd"
         elif path in ["third_party/devtools-frontend/src/scripts/build/rollup.config.js"]:
             clazz = "rollup"
         elif path in [

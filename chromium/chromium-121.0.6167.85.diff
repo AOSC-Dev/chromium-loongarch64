@@ -38928,6 +38928,21 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include <string>
  #include <vector>
  
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/tools/v8_context_snapshot/BUILD.gn b/tools/v8_context_snapshot/BUILD.gn
+--- a/tools/v8_context_snapshot/BUILD.gn	2024-01-23 02:42:24.130029000 +0800
++++ b/tools/v8_context_snapshot/BUILD.gn	2024-01-27 00:23:08.099317719 +0800
+@@ -93,6 +93,11 @@ if (use_v8_context_snapshot) {
+         "//v8:external_startup_data",
+         ":disable_icf",
+       ]
++
++      # Support ld.bfd, see
++      # https://bugs.chromium.org/p/chromium/issues/detail?id=1505219&q=undefined%20reference%20rust&can=2
++      # --end-group is added by ld automatically
++      ldflags = [ "-Wl,--start-group" ]
+     }
+   }
+ 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ui/base/prediction/kalman_filter.h b/ui/base/prediction/kalman_filter.h
 --- a/ui/base/prediction/kalman_filter.h	2024-01-23 02:42:24.618072300 +0800
 +++ b/ui/base/prediction/kalman_filter.h	2024-01-26 10:24:12.217966663 +0800
