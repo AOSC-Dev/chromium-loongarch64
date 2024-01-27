@@ -107,7 +107,7 @@ with open(f"chromium-{version}.diff", "r") as f:
             "third_party/libvpx/source/config/linux/loongarch/vpx_dsp_rtcd.h",
             "third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h",
         ]:
-            clazz = "clang-no-lsx"
+            clazz = "loongarch64-clang-no-lsx"
         elif path in [
             "third_party/webrtc/rtc_base/string_encode.h",
             "third_party/webrtc/api/stats/rtc_stats.h",
@@ -136,6 +136,10 @@ with open(f"chromium-{version}.diff", "r") as f:
             clazz = "loongarch64-dav1d"
         elif path.startswith("third_party/ffmpeg/"):
             clazz = "loongarch64-ffmpeg"
+        elif path in [
+            "build/rust/rust_target.gni",
+        ]:
+            clazz = "loongarch64-medium-cmodel"
         else:
             clazz = "loongarch64"
 
