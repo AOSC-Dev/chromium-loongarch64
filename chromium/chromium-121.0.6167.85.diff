@@ -266,6 +266,21 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
        rustenv = _rustenv
  
        if (_generate_crate_root) {
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/BUILD.gn b/chrome/BUILD.gn
+--- a/chrome/BUILD.gn	2024-01-23 02:41:38.277947700 +0800
++++ b/chrome/BUILD.gn	2024-01-27 16:04:06.793566184 +0800
+@@ -316,6 +316,11 @@ if (!is_android && !is_mac) {
+ 
+         ldflags = []
+ 
++        # Support ld.bfd, see
++        # https://bugs.chromium.org/p/chromium/issues/detail?id=1505219&q=undefined%20reference%20rust&can=2
++        # --end-group is added by ld automatically
++        ldflags += [ "-Wl,--start-group" ]
++
+         # On Chrome OS builds (for both ash-chrome and lacros-chrome), put
+         # priority to the library in the installed directory.
+         # This will avoid conflicting of exposed symbols.
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/performance_manager/policies/probability_distribution.h b/chrome/browser/performance_manager/policies/probability_distribution.h
 --- a/chrome/browser/performance_manager/policies/probability_distribution.h	2024-01-23 02:41:42.618334000 +0800
 +++ b/chrome/browser/performance_manager/policies/probability_distribution.h	2024-01-26 22:02:02.846839519 +0800
