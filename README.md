@@ -9,6 +9,7 @@ Partial diff: `chromium/chromium-VER.*.diff`, they are extracted from the whole 
 Also maintained at [AOSC-Tracking/chromium](https://github.com/AOSC-Tracking/chromium).
 
 Caveat: you need to build compiler-rt and rustc with `-mcmodel=medium`, otherwise it may fail to link due to relocation truncation.
+
 Based on:
 
 - [loongson/electron](https://github.com/loongson/electron/)
@@ -20,4 +21,4 @@ Based on:
 See also:
 
 - [Chromium port to riscv64](https://github.com/felixonmars/archriscv-packages/tree/master/chromium)
-- [Chromium port to ppc64le](https://gitlab.com/chromium-ppc64le/chromium-ppc64le)
+- [Chromium port to ppc64le](https://gitlab.com/chromium-ppc64le/chromium-ppc64le) [Debian's patches for ppc64le](https://salsa.debian.org/chromium-team/chromium/-/tree/master/debian/patches/ppc64le?ref_type=heads)
