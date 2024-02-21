@@ -82,6 +82,9 @@ with open(f"chromium-{version}.diff", "r") as f:
         elif path in ["components/data_sharing/public/data_sharing_network_loader.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/uniqptr.patch?ref_type=heads
             clazz = "Debian-uniqptr.patch"
+        elif path in ["components/plus_addresses/plus_address_types.h"]:
+            # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/optional.patch?ref_type=heads
+            clazz = "Debian-optional.patch"
         elif path in ["build/config/linux/libffi/BUILD.gn"]:
             clazz = "AOSC"
         elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:

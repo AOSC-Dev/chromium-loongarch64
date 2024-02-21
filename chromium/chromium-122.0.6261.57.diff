@@ -979,6 +979,17 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
  #include <stddef.h>
  #include <stdint.h>
  
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/plus_addresses/plus_address_types.h b/components/plus_addresses/plus_address_types.h
+--- a/components/plus_addresses/plus_address_types.h	2024-02-21 08:20:42.258174700 +0800
++++ b/components/plus_addresses/plus_address_types.h	2024-02-21 23:59:15.737343337 +0800
+@@ -5,6 +5,7 @@
+ #ifndef COMPONENTS_PLUS_ADDRESSES_PLUS_ADDRESS_TYPES_H_
+ #define COMPONENTS_PLUS_ADDRESSES_PLUS_ADDRESS_TYPES_H_
+ 
++#include <optional>
+ #include <string>
+ #include <unordered_map>
+ 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
 --- a/content/common/user_agent.cc	2024-02-21 08:20:45.286389400 +0800
 +++ b/content/common/user_agent.cc	2024-02-21 20:50:08.607297587 +0800
