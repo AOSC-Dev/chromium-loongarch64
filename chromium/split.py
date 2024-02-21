@@ -87,6 +87,8 @@ with open(f"chromium-{version}.diff", "r") as f:
             "chrome/browser/performance_manager/policies/probability_distribution.h"
         ]:
             clazz = "Debian-stdint.patch"
+        elif path.startswith("base/allocator/partition_allocator/src/partition_alloc"):
+            clazz = "Debian-undo-internal-alloc.patch"
         elif path in ["build/config/linux/libffi/BUILD.gn"]:
             clazz = "AOSC"
         elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
