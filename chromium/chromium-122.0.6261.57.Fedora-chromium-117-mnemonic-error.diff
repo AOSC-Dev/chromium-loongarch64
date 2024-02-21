@@ -1,7 +1,7 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/core/BUILD.gn b/third_party/blink/renderer/core/BUILD.gn
---- a/third_party/blink/renderer/core/BUILD.gn	2024-01-23 02:42:00.787951200 +0800
-+++ b/third_party/blink/renderer/core/BUILD.gn	2024-01-26 09:52:34.284040870 +0800
-@@ -1731,8 +1731,6 @@ action_foreach("element_locator_test_pro
+--- a/third_party/blink/renderer/core/BUILD.gn	2024-02-21 08:20:53.198950800 +0800
++++ b/third_party/blink/renderer/core/BUILD.gn	2024-02-21 20:50:10.314324137 +0800
+@@ -1808,8 +1808,6 @@ action_foreach("element_locator_test_pro
    python_path_root = "${root_out_dir}/pyproto"
    python_path_proto = "${python_path_root}/third_party/blink/renderer/core/lcp_critical_path_predictor"
  
