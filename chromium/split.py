@@ -79,6 +79,9 @@ with open(f"chromium-{version}.diff", "r") as f:
         elif path.startswith("base/allocator/partition_allocator/src/partition_alloc"):
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/bookworm/undo-internal-alloc.patch?ref_type=heads
             clazz = "Debian-undo-internal-alloc.patch"
+        elif path in ["components/data_sharing/public/data_sharing_network_loader.h"]:
+            # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/uniqptr.patch?ref_type=heads
+            clazz = "Debian-uniqptr.patch"
         elif path in ["build/config/linux/libffi/BUILD.gn"]:
             clazz = "AOSC"
         elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
