@@ -869,6 +869,21 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
          # On Chrome OS builds (for both ash-chrome and lacros-chrome), put
          # priority to the library in the installed directory.
          # This will avoid conflicting of exposed symbols.
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/ui/views/bubble/bubble_contents_wrapper.h b/chrome/browser/ui/views/bubble/bubble_contents_wrapper.h
+--- a/chrome/browser/ui/views/bubble/bubble_contents_wrapper.h	2024-02-21 08:20:36.961799000 +0800
++++ b/chrome/browser/ui/views/bubble/bubble_contents_wrapper.h	2024-02-22 08:32:42.429850583 +0800
+@@ -149,8 +149,9 @@ class BubbleContentsWrapperT : public Bu
+                               esc_closes_ui,
+                               T::GetWebUIName()),
+         webui_url_(webui_url) {
+-    static_assert(
+-        views_metrics::IsValidWebUINameVariant("." + T::GetWebUIName()));
++    // static assertion expression is not an integral constant expression
++    // static_assert(
++    //     views_metrics::IsValidWebUINameVariant("." + T::GetWebUIName()));
+   }
+ 
+   void ReloadWebContents() override {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/webauthn/authenticator_request_dialog_model.h b/chrome/browser/webauthn/authenticator_request_dialog_model.h
 --- a/chrome/browser/webauthn/authenticator_request_dialog_model.h	2024-02-21 08:20:37.585843000 +0800
 +++ b/chrome/browser/webauthn/authenticator_request_dialog_model.h	2024-02-21 20:50:08.603297525 +0800
@@ -902,6 +917,20 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
  #include <string>
  
  class GURL;
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/bookmarks/browser/uuid_index.h b/components/bookmarks/browser/uuid_index.h
+--- a/components/bookmarks/browser/uuid_index.h	2024-02-21 08:20:40.702064300 +0800
++++ b/components/bookmarks/browser/uuid_index.h	2024-02-22 08:37:37.501041744 +0800
+@@ -23,6 +23,10 @@ class NodeUuidEquality {
+   bool operator()(const BookmarkNode* n1, const base::Uuid& uuid2) const {
+     return n1->uuid() == uuid2;
+   }
++
++  bool operator()(const base::Uuid& uuid1, const BookmarkNode* n2) const {
++    return uuid1 == n2->uuid();
++  }
+ };
+ 
+ // Used to hash BookmarkNode instances by UUID.
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/crash/core/app/crash_reporter_client.h b/components/crash/core/app/crash_reporter_client.h
 --- a/components/crash/core/app/crash_reporter_client.h	2024-02-21 08:20:40.970083200 +0800
 +++ b/components/crash/core/app/crash_reporter_client.h	2024-02-21 20:50:08.605297556 +0800

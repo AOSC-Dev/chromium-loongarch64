@@ -43,6 +43,21 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
  }
  
  assert(!toolchain_has_rust || rust_target_arch != "")
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/ui/views/bubble/bubble_contents_wrapper.h b/chrome/browser/ui/views/bubble/bubble_contents_wrapper.h
+--- a/chrome/browser/ui/views/bubble/bubble_contents_wrapper.h	2024-02-21 08:20:36.961799000 +0800
++++ b/chrome/browser/ui/views/bubble/bubble_contents_wrapper.h	2024-02-22 08:32:42.429850583 +0800
+@@ -149,8 +149,9 @@ class BubbleContentsWrapperT : public Bu
+                               esc_closes_ui,
+                               T::GetWebUIName()),
+         webui_url_(webui_url) {
+-    static_assert(
+-        views_metrics::IsValidWebUINameVariant("." + T::GetWebUIName()));
++    // static assertion expression is not an integral constant expression
++    // static_assert(
++    //     views_metrics::IsValidWebUINameVariant("." + T::GetWebUIName()));
+   }
+ 
+   void ReloadWebContents() override {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
 --- a/content/common/user_agent.cc	2024-02-21 08:20:45.286389400 +0800
 +++ b/content/common/user_agent.cc	2024-02-21 20:50:08.607297587 +0800
