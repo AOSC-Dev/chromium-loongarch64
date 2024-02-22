@@ -257,3 +257,36 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
                                                   && !defined(_WIN32) && !defined(__SYMBIAN32__)
              #define SKCMS_HAS_MUSTTAIL 1
          #endif
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h b/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h
+--- a/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2024-02-21 08:21:38.438160000 +0800
++++ b/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2024-02-22 14:45:44.031480354 +0800
+@@ -31,6 +31,7 @@ limitations under the License.
+ #ifndef TENSORFLOW_LITE_KERNELS_INTERNAL_SPECTROGRAM_H_
+ #define TENSORFLOW_LITE_KERNELS_INTERNAL_SPECTROGRAM_H_
+ 
++#include <cstdint>
+ #include <complex>
+ #include <deque>
+ #include <vector>
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/webrtc/common_video/h264/sps_parser.h b/third_party/webrtc/common_video/h264/sps_parser.h
+--- a/third_party/webrtc/common_video/h264/sps_parser.h	2024-02-21 08:22:05.992114500 +0800
++++ b/third_party/webrtc/common_video/h264/sps_parser.h	2024-02-21 20:50:12.066351388 +0800
+@@ -11,6 +11,7 @@
+ #ifndef COMMON_VIDEO_H264_SPS_PARSER_H_
+ #define COMMON_VIDEO_H264_SPS_PARSER_H_
+ 
++#include <cstdint>
+ #include "absl/types/optional.h"
+ #include "rtc_base/bitstream_reader.h"
+ #include "rtc_base/system/rtc_export.h"
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc b/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc
+--- a/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc	2024-02-21 08:22:06.464148000 +0800
++++ b/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc	2024-02-21 20:50:12.066351388 +0800
+@@ -10,6 +10,7 @@
+ 
+ #include "modules/video_coding/utility/ivf_file_reader.h"
+ 
++#include <cstring>
+ #include <string>
+ #include <vector>
+ 

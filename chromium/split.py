@@ -21,55 +21,30 @@ with open(f"chromium-{version}.diff", "r") as f:
             "base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h",
             "third_party/blink/renderer/core/paint/fragment_data_iterator.h",
         ]:
-            clazz = "1000-Fedora-chromium-120-nullptr_t-without-namespace-std"
+            clazz = "1000-Fedora-chromium-121-nullptr_t-without-namespace-std"
         elif path in ["third_party/blink/renderer/core/BUILD.gn"]:
-            clazz = "1001-Fedora-chromium-117-mnemonic-error"
+            clazz = "1001-Fedora-chromium-121-mnemonic-error"
         elif path in ["build/config/compiler/BUILD.gn"]:
             clazz = "1002-Fedora-chromium-120-split-threshold-for-reg-with-hint"
         elif path in [
             "base/check_op.h",
             "base/containers/flat_map.h",
-            "base/debug/profiler.h",
-            "base/memory/ref_counted.h",
-            "chrome/browser/privacy_budget/encountered_surface_tracker.h",
             "chrome/browser/webauthn/authenticator_request_dialog_model.h",
             "chrome/test/chromedriver/chrome/web_view_impl.cc",
-            "components/autofill/core/browser/autofill_ablation_study.h",
-            "components/crash/core/app/crash_reporter_client.h",
-            "components/feature_engagement/internal/event_storage_validator.h",
             "components/feature_engagement/internal/never_event_storage_validator.h",
-            "components/omnibox/browser/on_device_head_model.h",
-            "components/password_manager/core/browser/generation/password_generator.h",
-            "components/payments/content/utility/fingerprint_parser.h",
             "gin/time_clamper.h",
-            "gpu/config/gpu_feature_info.h",
             "net/base/net_export.h",
-            "pdf/document_attachment_info.h",
-            "sandbox/linux/syscall_broker/broker_file_permission.h",
-            "services/device/public/cpp/generic_sensor/sensor_reading.h",
-            "skia/ext/skcolorspace_trfn.cc",
             "third_party/abseil-cpp/absl/strings/string_view.h",
-            "third_party/angle/include/GLSLANG/ShaderVars.h",
-            "third_party/blink/public/common/bluetooth/web_bluetooth_device_id.h",
             "third_party/dawn/src/tint/lang/spirv/reader/ast_parser/namer.h",
-            "third_party/ipcz/src/ipcz/router_link.h",
             "third_party/material_color_utilities/src/cpp/palettes/tones.cc",
-            "third_party/openscreen/src/discovery/dnssd/public/dns_sd_txt_record.h",
-            "third_party/pdfium/constants/annotation_flags.h",
             "third_party/ruy/src/ruy/profiler/instrumentation.h",
-            "third_party/swiftshader/src/System/LRUCache.hpp",
             "third_party/swiftshader/third_party/llvm-10.0/llvm/lib/Support/Unix/Signals.inc",
-            "third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h",
             "third_party/vulkan-deps/vulkan-validation-layers/src/layers/external/vma/vk_mem_alloc.h",
             "third_party/webrtc/audio/utility/channel_mixer.cc",
-            "third_party/webrtc/common_video/h264/sps_parser.h",
             "third_party/webrtc/modules/include/module_common_types_public.h",
-            "third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc",
-            "ui/base/prediction/kalman_filter.h",
-            "ui/gfx/geometry/linear_gradient.h",
             "ui/gfx/linux/drm_util_linux.h",
         ]:
-            clazz = "1003-Fedora-chromium-120-missing-header-files"
+            clazz = "1003-Fedora-chromium-122-missing-header-files"
         elif path in ["optional"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/absl-optional.patch?ref_type=heads
             clazz = "2000-Debian-fixes-absl-optional"
