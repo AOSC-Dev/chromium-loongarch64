@@ -21,11 +21,11 @@ with open(f"chromium-{version}.diff", "r") as f:
             "base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h",
             "third_party/blink/renderer/core/paint/fragment_data_iterator.h",
         ]:
-            clazz = "Fedora-chromium-120-nullptr_t-without-namespace-std"
+            clazz = "1000-Fedora-chromium-120-nullptr_t-without-namespace-std"
         elif path in ["third_party/blink/renderer/core/BUILD.gn"]:
-            clazz = "Fedora-chromium-117-mnemonic-error"
+            clazz = "1001-Fedora-chromium-117-mnemonic-error"
         elif path in ["build/config/compiler/BUILD.gn"]:
-            clazz = "Fedora-chromium-120-split-threshold-for-reg-with-hint"
+            clazz = "1002-Fedora-chromium-120-split-threshold-for-reg-with-hint"
         elif path in [
             "base/check_op.h",
             "base/containers/flat_map.h",
@@ -69,42 +69,42 @@ with open(f"chromium-{version}.diff", "r") as f:
             "ui/gfx/geometry/linear_gradient.h",
             "ui/gfx/linux/drm_util_linux.h",
         ]:
-            clazz = "Fedora-chromium-120-missing-header-files"
+            clazz = "1003-Fedora-chromium-120-missing-header-files"
         elif path in ["optional"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/absl-optional.patch?ref_type=heads
-            clazz = "Debian-fixes-absl-optional"
+            clazz = "2000-Debian-fixes-absl-optional"
         elif path in ["mojo/public/cpp/bindings/type_converter.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/std-to-address.patch?ref_type=heads
-            clazz = "Debian-fixes-std-to-address"
+            clazz = "2001-Debian-fixes-std-to-address"
         elif path.startswith("base/allocator/partition_allocator/src/partition_alloc"):
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/bookworm/undo-internal-alloc.patch?ref_type=heads
-            clazz = "Debian-bookworm-undo-internal-alloc"
+            clazz = "2002-Debian-bookworm-undo-internal-alloc"
         elif path in ["components/data_sharing/public/data_sharing_network_loader.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/uniqptr.patch?ref_type=heads
-            clazz = "Debian-upstream-uniqptr"
+            clazz = "2003-Debian-upstream-uniqptr"
         elif path in ["components/plus_addresses/plus_address_types.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/optional.patch?ref_type=heads
-            clazz = "Debian-upstream-optional"
+            clazz = "2004-Debian-upstream-optional"
         elif path in ["components/search_engines/util.h", "components/search_engines/search_engine_choice/search_engine_choice_service.h", "content/common/service_worker/race_network_request_write_buffer_manager.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/optional.patch?ref_type=heads
-            clazz = "Debian-fixes-optional"
+            clazz = "2005-Debian-fixes-optional"
         elif path in ["components/bookmarks/browser/uuid_index.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/bookmarknode.patch?ref_type=heads
-            clazz = "Debian-upstream-bookmarknode"
+            clazz = "2006-Debian-upstream-bookmarknode"
         elif path in ["build/config/linux/libffi/BUILD.gn"]:
-            clazz = "AOSC"
+            clazz = "3000-AOSC"
         elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
-            clazz = "rust-ld-bfd"
+            clazz = "3001-rust-ld-bfd"
         elif path in [
             "third_party/devtools-frontend/src/scripts/build/rollup.config.js"
         ]:
-            clazz = "rollup"
+            clazz = "3002-rollup"
         elif path in ["build/nocompile.gni", "build/rust/rust_bindgen.gni"]:
-            clazz = "fix-invalid-substition-type"
+            clazz = "3003-fix-invalid-substition-type"
         elif path in [
             "build/config/clang/BUILD.gn",
         ]:
-            clazz = "fix-clang-builtins-path"
+            clazz = "3004-fix-clang-builtins-path"
         elif path in [
             "third_party/libvpx/BUILD.gn",
             "third_party/blink/renderer/platform/BUILD.gn",
@@ -112,23 +112,23 @@ with open(f"chromium-{version}.diff", "r") as f:
             "third_party/libvpx/source/config/linux/loongarch/vpx_dsp_rtcd.h",
             "third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h",
         ]:
-            clazz = "loongarch64-clang-no-lsx"
+            clazz = "4000-loongarch64-clang-no-lsx"
         elif path.startswith("third_party/swiftshader/"):
-            clazz = "loongarch64-swiftshader"
+            clazz = "4001-loongarch64-swiftshader"
         elif path.startswith("sandbox/"):
-            clazz = "loongarch64-sandbox"
+            clazz = "4002-loongarch64-sandbox"
         elif path.startswith("third_party/crashpad/"):
-            clazz = "loongarch64-crashpad"
+            clazz = "4003-loongarch64-crashpad"
         elif path.startswith("third_party/dav1d/"):
-            clazz = "loongarch64-dav1d"
+            clazz = "4004-loongarch64-dav1d"
         elif path.startswith("third_party/ffmpeg/"):
-            clazz = "loongarch64-ffmpeg"
+            clazz = "4005-loongarch64-ffmpeg"
         elif path in [
             "build/rust/rust_target.gni",
         ]:
-            clazz = "loongarch64-medium-cmodel"
+            clazz = "4006-loongarch64-medium-cmodel"
         else:
-            clazz = "loongarch64"
+            clazz = "4007-loongarch64"
 
         if clazz not in classes:
             classes[clazz] = []
