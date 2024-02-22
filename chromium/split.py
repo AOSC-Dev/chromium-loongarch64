@@ -82,8 +82,16 @@ with open(f"chromium-{version}.diff", "r") as f:
             clazz = "3004-fix-clang-builtins-path"
         elif path in [
             "third_party/blink/renderer/core/layout/hit_test_request.h",
+            "third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc",
+            "third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h",
+            "third_party/webrtc/common_video/h264/sps_parser.h",
+            "third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc",
         ]:
             clazz = "3005-fix-missing-header"
+        elif path in [
+            "chrome/browser/ui/views/bubble/bubble_contents_wrapper.h",
+        ]:
+            clazz = "3006-fix-static-assertion"
         elif path in [
             "third_party/libvpx/BUILD.gn",
             "third_party/blink/renderer/platform/BUILD.gn",

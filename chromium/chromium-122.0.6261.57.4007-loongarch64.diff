@@ -43,21 +43,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
  }
  
  assert(!toolchain_has_rust || rust_target_arch != "")
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/ui/views/bubble/bubble_contents_wrapper.h b/chrome/browser/ui/views/bubble/bubble_contents_wrapper.h
---- a/chrome/browser/ui/views/bubble/bubble_contents_wrapper.h	2024-02-21 08:20:36.961799000 +0800
-+++ b/chrome/browser/ui/views/bubble/bubble_contents_wrapper.h	2024-02-22 08:32:42.429850583 +0800
-@@ -149,8 +149,9 @@ class BubbleContentsWrapperT : public Bu
-                               esc_closes_ui,
-                               T::GetWebUIName()),
-         webui_url_(webui_url) {
--    static_assert(
--        views_metrics::IsValidWebUINameVariant("." + T::GetWebUIName()));
-+    // static assertion expression is not an integral constant expression
-+    // static_assert(
-+    //     views_metrics::IsValidWebUINameVariant("." + T::GetWebUIName()));
-   }
- 
-   void ReloadWebContents() override {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
 --- a/content/common/user_agent.cc	2024-02-21 08:20:45.286389400 +0800
 +++ b/content/common/user_agent.cc	2024-02-21 20:50:08.607297587 +0800
@@ -211,17 +196,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
      bgra_01 = __lsx_vpickev_b(bgra_1, bgra_0);
      bgra_23 = __lsx_vpickev_b(bgra_3, bgra_2);
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc b/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc
---- a/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc	2024-02-21 08:20:54.659054300 +0800
-+++ b/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc	2024-02-22 10:51:10.015517951 +0800
-@@ -4,6 +4,7 @@
- 
- #include "third_party/blink/renderer/platform/peerconnection/resolution_monitor.h"
- 
-+#include <bitset>
- #include "base/containers/span.h"
- #include "base/logging.h"
- #include "base/memory/ptr_util.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/boringssl/src/include/openssl/target.h b/third_party/boringssl/src/include/openssl/target.h
 --- a/third_party/boringssl/src/include/openssl/target.h	2024-02-21 08:21:23.133074300 +0800
 +++ b/third_party/boringssl/src/include/openssl/target.h	2024-02-21 20:50:11.991350221 +0800
@@ -245,36 +219,3 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
                                                   && !defined(_WIN32) && !defined(__SYMBIAN32__)
              #define SKCMS_HAS_MUSTTAIL 1
          #endif
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h b/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h
---- a/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2024-02-21 08:21:38.438160000 +0800
-+++ b/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2024-02-22 14:45:44.031480354 +0800
-@@ -31,6 +31,7 @@ limitations under the License.
- #ifndef TENSORFLOW_LITE_KERNELS_INTERNAL_SPECTROGRAM_H_
- #define TENSORFLOW_LITE_KERNELS_INTERNAL_SPECTROGRAM_H_
- 
-+#include <cstdint>
- #include <complex>
- #include <deque>
- #include <vector>
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/webrtc/common_video/h264/sps_parser.h b/third_party/webrtc/common_video/h264/sps_parser.h
---- a/third_party/webrtc/common_video/h264/sps_parser.h	2024-02-21 08:22:05.992114500 +0800
-+++ b/third_party/webrtc/common_video/h264/sps_parser.h	2024-02-21 20:50:12.066351388 +0800
-@@ -11,6 +11,7 @@
- #ifndef COMMON_VIDEO_H264_SPS_PARSER_H_
- #define COMMON_VIDEO_H264_SPS_PARSER_H_
- 
-+#include <cstdint>
- #include "absl/types/optional.h"
- #include "rtc_base/bitstream_reader.h"
- #include "rtc_base/system/rtc_export.h"
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc b/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc
---- a/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc	2024-02-21 08:22:06.464148000 +0800
-+++ b/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc	2024-02-21 20:50:12.066351388 +0800
-@@ -10,6 +10,7 @@
- 
- #include "modules/video_coding/utility/ivf_file_reader.h"
- 
-+#include <cstring>
- #include <string>
- #include <vector>
- 
