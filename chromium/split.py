@@ -72,22 +72,25 @@ with open(f"chromium-{version}.diff", "r") as f:
             clazz = "Fedora-chromium-120-missing-header-files"
         elif path in ["optional"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/absl-optional.patch?ref_type=heads
-            clazz = "Debian-absl-optional"
+            clazz = "Debian-fixes-absl-optional"
         elif path in ["mojo/public/cpp/bindings/type_converter.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/std-to-address.patch?ref_type=heads
-            clazz = "Debian-std-to-address.patch"
+            clazz = "Debian-fixes-std-to-address"
         elif path.startswith("base/allocator/partition_allocator/src/partition_alloc"):
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/bookworm/undo-internal-alloc.patch?ref_type=heads
-            clazz = "Debian-undo-internal-alloc.patch"
+            clazz = "Debian-bookworm-undo-internal-alloc"
         elif path in ["components/data_sharing/public/data_sharing_network_loader.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/uniqptr.patch?ref_type=heads
-            clazz = "Debian-uniqptr.patch"
+            clazz = "Debian-upstream-uniqptr"
         elif path in ["components/plus_addresses/plus_address_types.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/optional.patch?ref_type=heads
-            clazz = "Debian-optional.patch"
+            clazz = "Debian-upstream-optional"
+        elif path in ["components/search_engines/util.h", "components/search_engines/search_engine_choice/search_engine_choice_service.h", "content/common/service_worker/race_network_request_write_buffer_manager.h"]:
+            # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/optional.patch?ref_type=heads
+            clazz = "Debian-fixes-optional"
         elif path in ["components/bookmarks/browser/uuid_index.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/bookmarknode.patch?ref_type=heads
-            clazz = "Debian-bookmarknode.patch"
+            clazz = "Debian-upstream-bookmarknode"
         elif path in ["build/config/linux/libffi/BUILD.gn"]:
             clazz = "AOSC"
         elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
