@@ -4892,18 +4892,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
    source_dir = "lcp_critical_path_predictor/test_proto"
    sources = rebase_path([ "lcp_image_id.asciipb" ], "", source_dir)
    sources += rebase_path([ "lcp_image_id_b.asciipb" ], "", source_dir)
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/core/dom/tree_scope.h b/third_party/blink/renderer/core/dom/tree_scope.h
---- a/third_party/blink/renderer/core/dom/tree_scope.h	2024-02-21 08:20:53.394964700 +0800
-+++ b/third_party/blink/renderer/core/dom/tree_scope.h	2024-02-22 14:12:22.146819967 +0800
-@@ -267,7 +267,7 @@ HitTestResult HitTestInDocument(
-     Document*,
-     double x,
-     double y,
--    const HitTestRequest& = HitTestRequest::kReadOnly |
-+    const HitTestRequest& req = HitTestRequest::kReadOnly |
-                             HitTestRequest::kActive);
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/core/layout/hit_test_request.h b/third_party/blink/renderer/core/layout/hit_test_request.h
+--- a/third_party/blink/renderer/core/layout/hit_test_request.h	2024-02-21 08:20:53.690985700 +0800
++++ b/third_party/blink/renderer/core/layout/hit_test_request.h	2024-02-22 20:51:19.122301306 +0800
+@@ -23,6 +23,8 @@
+ #ifndef THIRD_PARTY_BLINK_RENDERER_CORE_LAYOUT_HIT_TEST_REQUEST_H_
+ #define THIRD_PARTY_BLINK_RENDERER_CORE_LAYOUT_HIT_TEST_REQUEST_H_
  
- }  // namespace blink
++#include <optional>
++
+ #include "base/functional/callback.h"
+ #include "third_party/blink/renderer/platform/heap/garbage_collected.h"
+ #include "third_party/blink/renderer/platform/heap/member.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/core/paint/fragment_data_iterator.h b/third_party/blink/renderer/core/paint/fragment_data_iterator.h
 --- a/third_party/blink/renderer/core/paint/fragment_data_iterator.h	2024-02-21 08:20:53.842996400 +0800
 +++ b/third_party/blink/renderer/core/paint/fragment_data_iterator.h	2024-02-21 20:50:10.314324137 +0800

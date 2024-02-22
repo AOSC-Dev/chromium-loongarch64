@@ -11,7 +11,7 @@ with open(f"chromium-{version}.diff", "r") as f:
     if len(cur) > 0:
         patches.append(cur)
 
-    classes = {"loongarch64": []}
+    classes = {}
     for patch in patches:
         path = patch[1].split(" ")[1].split("\t")[0][2:]
 
@@ -80,6 +80,10 @@ with open(f"chromium-{version}.diff", "r") as f:
             "build/config/clang/BUILD.gn",
         ]:
             clazz = "3004-fix-clang-builtins-path"
+        elif path in [
+            "third_party/blink/renderer/core/layout/hit_test_request.h",
+        ]:
+            clazz = "3005-fix-missing-header"
         elif path in [
             "third_party/libvpx/BUILD.gn",
             "third_party/blink/renderer/platform/BUILD.gn",

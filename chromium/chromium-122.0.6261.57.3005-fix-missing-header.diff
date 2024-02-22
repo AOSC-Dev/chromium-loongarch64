@@ -1,0 +1,12 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/core/layout/hit_test_request.h b/third_party/blink/renderer/core/layout/hit_test_request.h
+--- a/third_party/blink/renderer/core/layout/hit_test_request.h	2024-02-21 08:20:53.690985700 +0800
++++ b/third_party/blink/renderer/core/layout/hit_test_request.h	2024-02-22 20:51:19.122301306 +0800
+@@ -23,6 +23,8 @@
+ #ifndef THIRD_PARTY_BLINK_RENDERER_CORE_LAYOUT_HIT_TEST_REQUEST_H_
+ #define THIRD_PARTY_BLINK_RENDERER_CORE_LAYOUT_HIT_TEST_REQUEST_H_
+ 
++#include <optional>
++
+ #include "base/functional/callback.h"
+ #include "third_party/blink/renderer/platform/heap/garbage_collected.h"
+ #include "third_party/blink/renderer/platform/heap/member.h"
