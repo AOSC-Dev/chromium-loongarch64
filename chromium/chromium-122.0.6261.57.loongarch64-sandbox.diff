@@ -2239,7 +2239,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
            // Sending ENOSYS tells the Futex backend to use another approach if
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/sandbox_linux.cc b/sandbox/policy/linux/sandbox_linux.cc
 --- a/sandbox/policy/linux/sandbox_linux.cc	2024-02-21 08:20:51.538833000 +0800
-+++ b/sandbox/policy/linux/sandbox_linux.cc	2024-02-21 20:50:10.310324075 +0800
++++ b/sandbox/policy/linux/sandbox_linux.cc	2024-02-22 12:32:09.545284943 +0800
 @@ -585,6 +585,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
    const bpf_dsl::ResultExpr handle_via_broker =
        bpf_dsl::Trap(syscall_broker::BrokerClient::SIGSYS_Handler,
@@ -2248,7 +2248,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    if (sysno == __NR_fstatat_default) {
      // This may be an fstatat(fd, "", stat_buf, AT_EMPTY_PATH), which should be
      // rewritten as fstat(fd, stat_buf). This should be consistent with how the
-@@ -595,6 +596,15 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+@@ -595,6 +596,18 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
      return bpf_dsl::If((flags & AT_EMPTY_PATH) == AT_EMPTY_PATH,
                         RewriteFstatatSIGSYS(BPFBasePolicy::GetFSDeniedErrno()))
          .Else(handle_via_broker);
@@ -2256,6 +2256,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 +  if (sysno == __NR_statx) {
 +    // This may be a statx(fd, "", AT_EMPTY_PATH, mask, statx_buf), and we allow it.
 +    // Otherwise, we expect a statx(AT_FDCWD, path, flags, mask, statx_buf).
++    // However, it is possible to pass a non-empty path even when AT_EMPTY_PATH
++    // is set. But there are currently no easy way to validate the argument in
++    // seccomp bpf.
 +    const bpf_dsl::Arg<int> flags(2);
 +    return bpf_dsl::If((flags & AT_EMPTY_PATH) == AT_EMPTY_PATH,
 +                       bpf_dsl::Allow())
