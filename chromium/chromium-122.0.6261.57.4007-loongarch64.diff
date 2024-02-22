@@ -82,6 +82,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sk
    } else {
      assert(false, "Unknown cpu target")
    }
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/core/dom/tree_scope.h b/third_party/blink/renderer/core/dom/tree_scope.h
+--- a/third_party/blink/renderer/core/dom/tree_scope.h	2024-02-21 08:20:53.394964700 +0800
++++ b/third_party/blink/renderer/core/dom/tree_scope.h	2024-02-22 14:12:22.146819967 +0800
+@@ -267,7 +267,7 @@ HitTestResult HitTestInDocument(
+     Document*,
+     double x,
+     double y,
+-    const HitTestRequest& = HitTestRequest::kReadOnly |
++    const HitTestRequest& req = HitTestRequest::kReadOnly |
+                             HitTestRequest::kActive);
+ 
+ }  // namespace blink
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
 --- a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-02-21 08:20:54.551046600 +0800
 +++ b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-02-21 20:50:11.989350190 +0800

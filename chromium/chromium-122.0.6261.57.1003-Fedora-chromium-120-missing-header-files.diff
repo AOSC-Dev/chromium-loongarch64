@@ -20,28 +20,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
  #include <functional>
  #include <tuple>
  #include <type_traits>
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/debug/profiler.h b/base/debug/profiler.h
---- a/base/debug/profiler.h	2024-02-21 08:20:30.553344200 +0800
-+++ b/base/debug/profiler.h	2024-02-21 20:50:05.403247753 +0800
-@@ -8,6 +8,7 @@
- #include <stddef.h>
- #include <stdint.h>
- 
-+#include <cstdint>
- #include <string>
- 
- #include "base/base_export.h"
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/memory/ref_counted.h b/base/memory/ref_counted.h
---- a/base/memory/ref_counted.h	2024-02-21 08:20:30.601347700 +0800
-+++ b/base/memory/ref_counted.h	2024-02-21 20:50:05.404247769 +0800
-@@ -6,6 +6,7 @@
- #define BASE_MEMORY_REF_COUNTED_H_
- 
- #include <stddef.h>
-+#include <limits>
- 
- #include <limits>
- #include <utility>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/webauthn/authenticator_request_dialog_model.h b/chrome/browser/webauthn/authenticator_request_dialog_model.h
 --- a/chrome/browser/webauthn/authenticator_request_dialog_model.h	2024-02-21 08:20:37.585843000 +0800
 +++ b/chrome/browser/webauthn/authenticator_request_dialog_model.h	2024-02-21 20:50:08.603297525 +0800
@@ -64,39 +42,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
  
  #include "base/check.h"
  #include "base/files/file_path.h"
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/autofill/core/browser/autofill_ablation_study.h b/components/autofill/core/browser/autofill_ablation_study.h
---- a/components/autofill/core/browser/autofill_ablation_study.h	2024-02-21 08:20:40.502050000 +0800
-+++ b/components/autofill/core/browser/autofill_ablation_study.h	2024-02-21 20:50:08.604297540 +0800
-@@ -7,6 +7,7 @@
- 
- #include <stdint.h>
- 
-+#include <cstdint>
- #include <string>
- 
- class GURL;
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/crash/core/app/crash_reporter_client.h b/components/crash/core/app/crash_reporter_client.h
---- a/components/crash/core/app/crash_reporter_client.h	2024-02-21 08:20:40.970083200 +0800
-+++ b/components/crash/core/app/crash_reporter_client.h	2024-02-21 20:50:08.605297556 +0800
-@@ -7,6 +7,7 @@
- 
- #include <stdint.h>
- 
-+#include <cstdint>
- #include <string>
- 
- #include "build/build_config.h"
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/feature_engagement/internal/event_storage_validator.h b/components/feature_engagement/internal/event_storage_validator.h
---- a/components/feature_engagement/internal/event_storage_validator.h	2024-02-21 08:20:41.210100200 +0800
-+++ b/components/feature_engagement/internal/event_storage_validator.h	2024-02-21 20:50:08.605297556 +0800
-@@ -7,6 +7,7 @@
- 
- #include <stdint.h>
- 
-+#include <cstdint>
- #include <string>
- 
- namespace feature_engagement {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/feature_engagement/internal/never_event_storage_validator.h b/components/feature_engagement/internal/never_event_storage_validator.h
 --- a/components/feature_engagement/internal/never_event_storage_validator.h	2024-02-21 08:20:41.210100200 +0800
 +++ b/components/feature_engagement/internal/never_event_storage_validator.h	2024-02-21 20:50:08.605297556 +0800
@@ -108,39 +53,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
  #include <string>
  
  #include "components/feature_engagement/internal/event_storage_validator.h"
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/omnibox/browser/on_device_head_model.h b/components/omnibox/browser/on_device_head_model.h
---- a/components/omnibox/browser/on_device_head_model.h	2024-02-21 08:20:41.674133000 +0800
-+++ b/components/omnibox/browser/on_device_head_model.h	2024-02-21 20:50:08.606297572 +0800
-@@ -7,6 +7,7 @@
- 
- #include <stdint.h>
- 
-+#include <cstdint>
- #include <string>
- #include <utility>
- #include <vector>
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/password_manager/core/browser/generation/password_generator.h b/components/password_manager/core/browser/generation/password_generator.h
---- a/components/password_manager/core/browser/generation/password_generator.h	2024-02-21 08:20:41.814143000 +0800
-+++ b/components/password_manager/core/browser/generation/password_generator.h	2024-02-21 20:50:08.606297572 +0800
-@@ -7,6 +7,7 @@
- 
- #include <stdint.h>
- 
-+#include <cstdint>
- #include <string>
- 
- 
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/payments/content/utility/fingerprint_parser.h b/components/payments/content/utility/fingerprint_parser.h
---- a/components/payments/content/utility/fingerprint_parser.h	2024-02-21 08:20:41.898149000 +0800
-+++ b/components/payments/content/utility/fingerprint_parser.h	2024-02-21 20:50:08.607297587 +0800
-@@ -5,6 +5,7 @@
- #ifndef COMPONENTS_PAYMENTS_CONTENT_UTILITY_FINGERPRINT_PARSER_H_
- #define COMPONENTS_PAYMENTS_CONTENT_UTILITY_FINGERPRINT_PARSER_H_
- 
-+#include <cstdint>
- #include <stddef.h>
- #include <stdint.h>
- 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/gin/time_clamper.h b/gin/time_clamper.h
 --- a/gin/time_clamper.h	2024-02-21 08:20:46.946507200 +0800
 +++ b/gin/time_clamper.h	2024-02-21 20:50:10.292323795 +0800
@@ -153,17 +65,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/gi
        return now_micros / 1000;
      }
      return ClampTimeResolution(now_micros) / 1000;
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/gpu/config/gpu_feature_info.h b/gpu/config/gpu_feature_info.h
---- a/gpu/config/gpu_feature_info.h	2024-02-21 08:20:47.102518300 +0800
-+++ b/gpu/config/gpu_feature_info.h	2024-02-21 20:50:10.292323795 +0800
-@@ -7,6 +7,7 @@
- 
- #include <stdint.h>
- 
-+#include <cstdint>
- #include <string>
- #include <vector>
- 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/net/base/net_export.h b/net/base/net_export.h
 --- a/net/base/net_export.h	2024-02-21 08:20:50.294744700 +0800
 +++ b/net/base/net_export.h	2024-02-21 20:50:10.293323811 +0800
@@ -176,17 +77,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ne
  // Defines NET_EXPORT so that functionality implemented by the net module can
  // be exported to consumers, and NET_EXPORT_PRIVATE that allows unit tests to
  // access features not intended to be used directly by real consumers.
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/pdf/document_attachment_info.h b/pdf/document_attachment_info.h
---- a/pdf/document_attachment_info.h	2024-02-21 08:20:51.142804900 +0800
-+++ b/pdf/document_attachment_info.h	2024-02-21 20:50:10.295323842 +0800
-@@ -7,6 +7,7 @@
- 
- #include <stdint.h>
- 
-+#include <cstdint>
- #include <string>
- 
- 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_file_permission.h b/sandbox/linux/syscall_broker/broker_file_permission.h
 --- a/sandbox/linux/syscall_broker/broker_file_permission.h	2024-02-21 08:20:51.530832300 +0800
 +++ b/sandbox/linux/syscall_broker/broker_file_permission.h	2024-02-21 20:50:10.303323966 +0800
@@ -198,30 +88,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #include <bitset>
  #include <cstdint>
  #include <string>
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/services/device/public/cpp/generic_sensor/sensor_reading.h b/services/device/public/cpp/generic_sensor/sensor_reading.h
---- a/services/device/public/cpp/generic_sensor/sensor_reading.h	2024-02-21 08:20:51.634839800 +0800
-+++ b/services/device/public/cpp/generic_sensor/sensor_reading.h	2024-02-21 20:50:10.310324075 +0800
-@@ -8,6 +8,9 @@
- #include <stddef.h>
- #include <stdint.h>
- 
-+#include <cstddef>
-+#include <cstdint>
-+
- #include <type_traits>
- 
- namespace device {
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/skia/ext/skcolorspace_trfn.cc b/skia/ext/skcolorspace_trfn.cc
---- a/skia/ext/skcolorspace_trfn.cc	2024-02-21 08:20:51.866856000 +0800
-+++ b/skia/ext/skcolorspace_trfn.cc	2024-02-21 20:50:10.311324091 +0800
-@@ -3,6 +3,7 @@
- // found in the LICENSE file.
- 
- #include "skia/ext/skcolorspace_trfn.h"
-+#include <cmath>
- 
- #include <cmath>
- 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/abseil-cpp/absl/strings/string_view.h b/third_party/abseil-cpp/absl/strings/string_view.h
 --- a/third_party/abseil-cpp/absl/strings/string_view.h	2024-02-21 08:20:52.198879700 +0800
 +++ b/third_party/abseil-cpp/absl/strings/string_view.h	2024-02-21 20:50:10.312324106 +0800
@@ -233,28 +99,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include <algorithm>
  #include <cassert>
  #include <cstddef>
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/angle/include/GLSLANG/ShaderVars.h b/third_party/angle/include/GLSLANG/ShaderVars.h
---- a/third_party/angle/include/GLSLANG/ShaderVars.h	2024-02-21 08:22:07.808243500 +0800
-+++ b/third_party/angle/include/GLSLANG/ShaderVars.h	2024-02-21 20:50:10.312324106 +0800
-@@ -10,6 +10,7 @@
- #ifndef GLSLANG_SHADERVARS_H_
- #define GLSLANG_SHADERVARS_H_
- 
-+#include <cstdint>
- #include <algorithm>
- #include <array>
- #include <cstdint>
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/public/common/bluetooth/web_bluetooth_device_id.h b/third_party/blink/public/common/bluetooth/web_bluetooth_device_id.h
---- a/third_party/blink/public/common/bluetooth/web_bluetooth_device_id.h	2024-02-21 08:20:52.990936000 +0800
-+++ b/third_party/blink/public/common/bluetooth/web_bluetooth_device_id.h	2024-02-21 20:50:10.313324122 +0800
-@@ -7,6 +7,7 @@
- 
- #include <stdint.h>
- 
-+#include <cstdint>
- #include <array>
- #include <cstdint>
- #include <functional>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/dawn/src/tint/lang/spirv/reader/ast_parser/namer.h b/third_party/dawn/src/tint/lang/spirv/reader/ast_parser/namer.h
 --- a/third_party/dawn/src/tint/lang/spirv/reader/ast_parser/namer.h	2024-02-21 08:21:51.251068800 +0800
 +++ b/third_party/dawn/src/tint/lang/spirv/reader/ast_parser/namer.h	2024-02-21 20:50:12.004350423 +0800
@@ -266,17 +110,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include <string>
  #include <unordered_map>
  #include <vector>
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ipcz/src/ipcz/router_link.h b/third_party/ipcz/src/ipcz/router_link.h
---- a/third_party/ipcz/src/ipcz/router_link.h	2024-02-21 08:21:10.468176000 +0800
-+++ b/third_party/ipcz/src/ipcz/router_link.h	2024-02-21 20:50:12.017350625 +0800
-@@ -5,6 +5,7 @@
- #ifndef IPCZ_SRC_IPCZ_ROUTER_LINK_H_
- #define IPCZ_SRC_IPCZ_ROUTER_LINK_H_
- 
-+#include <memory>
- #include <cstddef>
- #include <functional>
- #include <memory>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/material_color_utilities/src/cpp/palettes/tones.cc b/third_party/material_color_utilities/src/cpp/palettes/tones.cc
 --- a/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-02-21 08:21:26.917342700 +0800
 +++ b/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-02-21 20:50:12.020350672 +0800
@@ -288,29 +121,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include "cpp/palettes/tones.h"
  
  #include "cpp/cam/cam.h"
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/openscreen/src/discovery/dnssd/public/dns_sd_txt_record.h b/third_party/openscreen/src/discovery/dnssd/public/dns_sd_txt_record.h
---- a/third_party/openscreen/src/discovery/dnssd/public/dns_sd_txt_record.h	2024-02-21 08:21:28.081425200 +0800
-+++ b/third_party/openscreen/src/discovery/dnssd/public/dns_sd_txt_record.h	2024-02-21 20:50:12.021350688 +0800
-@@ -7,6 +7,7 @@
- 
- #include <stdint.h>
- 
-+#include <cstdint>
- #include <functional>
- #include <map>
- #include <set>
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/pdfium/constants/annotation_flags.h b/third_party/pdfium/constants/annotation_flags.h
---- a/third_party/pdfium/constants/annotation_flags.h	2024-02-21 08:22:08.372283500 +0800
-+++ b/third_party/pdfium/constants/annotation_flags.h	2024-02-21 20:50:12.021350688 +0800
-@@ -7,6 +7,8 @@
- 
- #include <stdint.h>
- 
-+#include <cstdint>
-+
- namespace pdfium {
- namespace annotation_flags {
- 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ruy/src/ruy/profiler/instrumentation.h b/third_party/ruy/src/ruy/profiler/instrumentation.h
 --- a/third_party/ruy/src/ruy/profiler/instrumentation.h	2024-02-21 08:21:29.489525000 +0800
 +++ b/third_party/ruy/src/ruy/profiler/instrumentation.h	2024-02-21 20:50:12.022350703 +0800
@@ -346,7 +156,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #ifdef HAVE_BACKTRACE
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h b/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h
 --- a/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2024-02-21 08:21:38.438160000 +0800
-+++ b/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2024-02-21 20:50:12.059351279 +0800
++++ b/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2024-02-22 14:45:44.031480354 +0800
 @@ -31,6 +31,7 @@ limitations under the License.
  #ifndef TENSORFLOW_LITE_KERNELS_INTERNAL_SPECTROGRAM_H_
  #define TENSORFLOW_LITE_KERNELS_INTERNAL_SPECTROGRAM_H_
@@ -411,29 +221,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include <string>
  #include <vector>
  
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ui/base/prediction/kalman_filter.h b/ui/base/prediction/kalman_filter.h
---- a/ui/base/prediction/kalman_filter.h	2024-02-21 08:21:15.560537000 +0800
-+++ b/ui/base/prediction/kalman_filter.h	2024-02-21 20:50:12.067351403 +0800
-@@ -7,6 +7,8 @@
- 
- #include <stdint.h>
- 
-+#include <cstdint>
-+
- #include "base/component_export.h"
- #include "ui/gfx/geometry/matrix3_f.h"
- 
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ui/gfx/geometry/linear_gradient.h b/ui/gfx/geometry/linear_gradient.h
---- a/ui/gfx/geometry/linear_gradient.h	2024-02-21 08:21:15.860558300 +0800
-+++ b/ui/gfx/geometry/linear_gradient.h	2024-02-21 20:50:13.785378124 +0800
-@@ -7,6 +7,7 @@
- 
- #include <stdint.h>
- 
-+#include <cstdint>
- #include <array>
- #include <cstddef>
- #include <cstdint>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ui/gfx/linux/drm_util_linux.h b/ui/gfx/linux/drm_util_linux.h
 --- a/ui/gfx/linux/drm_util_linux.h	2024-02-21 08:21:15.880559700 +0800
 +++ b/ui/gfx/linux/drm_util_linux.h	2024-02-21 20:50:13.785378124 +0800
