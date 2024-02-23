@@ -1,4 +1,4 @@
-version = "6.6.1"
+version = "6.6.2"
 with open(f"qt6-{version}.diff", "r") as f:
     cur = []
     patches = []
