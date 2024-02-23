@@ -51,7 +51,11 @@ with open(f"chromium-{version}.diff", "r") as f:
         elif path in ["mojo/public/cpp/bindings/type_converter.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/std-to-address.patch?ref_type=heads
             clazz = "2001-Debian-fixes-std-to-address"
-        elif path.startswith("base/allocator/partition_allocator/src/partition_alloc"):
+        elif (
+            path.startswith("base/allocator/partition_allocator/src/partition_alloc")
+            and path
+            != "base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc"
+        ):
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/bookworm/undo-internal-alloc.patch?ref_type=heads
             clazz = "2002-Debian-bookworm-undo-internal-alloc"
         elif path in ["components/data_sharing/public/data_sharing_network_loader.h"]:
@@ -60,7 +64,11 @@ with open(f"chromium-{version}.diff", "r") as f:
         elif path in ["components/plus_addresses/plus_address_types.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/optional.patch?ref_type=heads
             clazz = "2004-Debian-upstream-optional"
-        elif path in ["components/search_engines/util.h", "components/search_engines/search_engine_choice/search_engine_choice_service.h", "content/common/service_worker/race_network_request_write_buffer_manager.h"]:
+        elif path in [
+            "components/search_engines/util.h",
+            "components/search_engines/search_engine_choice/search_engine_choice_service.h",
+            "content/common/service_worker/race_network_request_write_buffer_manager.h",
+        ]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/optional.patch?ref_type=heads
             clazz = "2005-Debian-fixes-optional"
         elif path in ["components/bookmarks/browser/uuid_index.h"]:
