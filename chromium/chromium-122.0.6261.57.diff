@@ -836,15 +836,17 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
        if (_generate_crate_root) {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/BUILD.gn b/chrome/BUILD.gn
 --- a/chrome/BUILD.gn	2024-02-21 08:20:31.117384200 +0800
-+++ b/chrome/BUILD.gn	2024-02-21 20:50:05.409247846 +0800
-@@ -311,6 +311,11 @@ if (!is_android && !is_mac && !is_fuchsi
++++ b/chrome/BUILD.gn	2024-02-23 09:20:12.453908203 +0800
+@@ -311,6 +311,13 @@ if (!is_android && !is_mac && !is_fuchsi
  
          ldflags = []
  
 +        # Support ld.bfd, see
 +        # https://bugs.chromium.org/p/chromium/issues/detail?id=1505219&q=undefined%20reference%20rust&can=2
 +        # --end-group is added by ld automatically
-+        ldflags += [ "-Wl,--start-group" ]
++        if (!use_lld) {
++          ldflags += [ "-Wl,--start-group" ]
++        }
 +
          # On Chrome OS builds (for both ash-chrome and lacros-chrome), put
          # priority to the library in the installed directory.
@@ -39402,8 +39404,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/tools/v8_context_snapshot/BUILD.gn b/tools/v8_context_snapshot/BUILD.gn
 --- a/tools/v8_context_snapshot/BUILD.gn	2024-02-21 08:21:15.000497300 +0800
-+++ b/tools/v8_context_snapshot/BUILD.gn	2024-02-21 20:50:12.067351403 +0800
-@@ -93,6 +93,11 @@ if (use_v8_context_snapshot) {
++++ b/tools/v8_context_snapshot/BUILD.gn	2024-02-23 09:20:25.067999169 +0800
+@@ -93,6 +93,13 @@ if (use_v8_context_snapshot) {
          "//v8:external_startup_data",
          ":disable_icf",
        ]
@@ -39411,7 +39413,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/to
 +      # Support ld.bfd, see
 +      # https://bugs.chromium.org/p/chromium/issues/detail?id=1505219&q=undefined%20reference%20rust&can=2
 +      # --end-group is added by ld automatically
-+      ldflags = [ "-Wl,--start-group" ]
++      if (!use_lld) {
++        ldflags = [ "-Wl,--start-group" ]
++      }
      }
    }
  
