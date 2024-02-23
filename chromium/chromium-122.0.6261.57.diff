@@ -823,12 +823,14 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
      # libclang will run the system `clang` to find the "resource dir" which it
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/rust_target.gni b/build/rust/rust_target.gni
 --- a/build/rust/rust_target.gni	2024-02-21 08:20:30.925370700 +0800
-+++ b/build/rust/rust_target.gni	2024-02-21 20:50:05.408247831 +0800
-@@ -383,6 +383,7 @@ template("rust_target") {
++++ b/build/rust/rust_target.gni	2024-02-23 08:20:09.320057120 +0800
+@@ -383,6 +383,9 @@ template("rust_target") {
        if (_rustc_metadata != "") {
          rustflags += [ "-Cmetadata=${_rustc_metadata}" ]
        }
-+      rustflags += [ "-Ccode-model=medium" ]
++      if (current_cpu == "loong64") {
++        rustflags += [ "-Ccode-model=medium" ]
++      }
        rustenv = _rustenv
  
        if (_generate_crate_root) {
@@ -3472,7 +3474,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #define LINUX_SIGINT 2
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/linux_stat.h b/sandbox/linux/system_headers/linux_stat.h
 --- a/sandbox/linux/system_headers/linux_stat.h	2024-02-21 08:20:51.530832300 +0800
-+++ b/sandbox/linux/system_headers/linux_stat.h	2024-02-21 20:50:10.306324013 +0800
++++ b/sandbox/linux/system_headers/linux_stat.h	2024-02-23 08:18:27.360218372 +0800
 @@ -150,7 +150,7 @@ struct kernel_stat {
    int st_blocks;
    int st_pad4[14];
@@ -3482,11 +3484,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  struct kernel_stat {
    unsigned long st_dev;
    unsigned long st_ino;
-@@ -175,6 +175,42 @@ struct kernel_stat {
+@@ -175,6 +175,40 @@ struct kernel_stat {
  };
  #endif
  
-+#if defined(__loongarch__)
 +// from linux include/uapi/linux/stat.h
 +struct kernel_statx_timestamp {
 +  long tv_sec;
@@ -3520,12 +3521,11 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 +  unsigned int stx_dio_offset_align;
 +  unsigned long __spare3[12];
 +};
-+#endif
 +
  #if !defined(AT_EMPTY_PATH)
  #define AT_EMPTY_PATH 0x1000
  #endif
-@@ -207,8 +243,14 @@ using default_stat_struct = struct kerne
+@@ -207,8 +241,14 @@ using default_stat_struct = struct kerne
  #define __NR_fstatat_default __NR_newfstatat
  #define __NR_fstat_default __NR_fstat
  
@@ -12538,13 +12538,17 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
          #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/src/Reactor/BUILD.gn b/third_party/swiftshader/src/Reactor/BUILD.gn
 --- a/third_party/swiftshader/src/Reactor/BUILD.gn	2024-02-21 08:21:30.217576700 +0800
-+++ b/third_party/swiftshader/src/Reactor/BUILD.gn	2024-02-21 20:50:12.023350719 +0800
-@@ -307,7 +307,7 @@ if (supports_subzero) {
++++ b/third_party/swiftshader/src/Reactor/BUILD.gn	2024-02-23 08:15:52.011860396 +0800
+@@ -307,7 +307,11 @@ if (supports_subzero) {
  
  if (supports_llvm) {
    swiftshader_source_set("swiftshader_llvm_reactor") {
 -    llvm_dir = "../../third_party/llvm-10.0"
-+    llvm_dir = "../../third_party/llvm-16.0"
++    if (current_cpu == "loong64") {
++      llvm_dir = "../../third_party/llvm-16.0"
++    } else {
++      llvm_dir = "../../third_party/llvm-10.0"
++    }
  
      deps = [
        ":swiftshader_reactor_base",
@@ -12560,17 +12564,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  }
  
  declare_args() {
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/src/System/LRUCache.hpp b/third_party/swiftshader/src/System/LRUCache.hpp
---- a/third_party/swiftshader/src/System/LRUCache.hpp	2024-02-21 08:21:30.225577400 +0800
-+++ b/third_party/swiftshader/src/System/LRUCache.hpp	2024-02-21 20:50:12.023350719 +0800
-@@ -17,6 +17,7 @@
- 
- #include "System/Debug.hpp"
- 
-+#include <cstdint>
- #include <cstddef>
- #include <cstdint>
- #include <functional>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-10.0/llvm/lib/Support/Unix/Signals.inc b/third_party/swiftshader/third_party/llvm-10.0/llvm/lib/Support/Unix/Signals.inc
 --- a/third_party/swiftshader/third_party/llvm-10.0/llvm/lib/Support/Unix/Signals.inc	2024-02-21 08:21:34.497880500 +0800
 +++ b/third_party/swiftshader/third_party/llvm-10.0/llvm/lib/Support/Unix/Signals.inc	2024-02-21 20:50:12.024350734 +0800

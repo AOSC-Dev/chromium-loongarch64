@@ -1,12 +1,16 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/src/Reactor/BUILD.gn b/third_party/swiftshader/src/Reactor/BUILD.gn
 --- a/third_party/swiftshader/src/Reactor/BUILD.gn	2024-02-21 08:21:30.217576700 +0800
-+++ b/third_party/swiftshader/src/Reactor/BUILD.gn	2024-02-21 20:50:12.023350719 +0800
-@@ -307,7 +307,7 @@ if (supports_subzero) {
++++ b/third_party/swiftshader/src/Reactor/BUILD.gn	2024-02-23 08:15:52.011860396 +0800
+@@ -307,7 +307,11 @@ if (supports_subzero) {
  
  if (supports_llvm) {
    swiftshader_source_set("swiftshader_llvm_reactor") {
 -    llvm_dir = "../../third_party/llvm-10.0"
-+    llvm_dir = "../../third_party/llvm-16.0"
++    if (current_cpu == "loong64") {
++      llvm_dir = "../../third_party/llvm-16.0"
++    } else {
++      llvm_dir = "../../third_party/llvm-10.0"
++    }
  
      deps = [
        ":swiftshader_reactor_base",
@@ -22,17 +26,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  }
  
  declare_args() {
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/src/System/LRUCache.hpp b/third_party/swiftshader/src/System/LRUCache.hpp
---- a/third_party/swiftshader/src/System/LRUCache.hpp	2024-02-21 08:21:30.225577400 +0800
-+++ b/third_party/swiftshader/src/System/LRUCache.hpp	2024-02-21 20:50:12.023350719 +0800
-@@ -17,6 +17,7 @@
- 
- #include "System/Debug.hpp"
- 
-+#include <cstdint>
- #include <cstddef>
- #include <cstdint>
- #include <functional>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn
 --- a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-02-21 08:21:35.145926500 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-02-21 20:50:12.025350750 +0800

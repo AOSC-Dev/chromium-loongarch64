@@ -893,7 +893,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #define LINUX_SIGINT 2
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/linux_stat.h b/sandbox/linux/system_headers/linux_stat.h
 --- a/sandbox/linux/system_headers/linux_stat.h	2024-02-21 08:20:51.530832300 +0800
-+++ b/sandbox/linux/system_headers/linux_stat.h	2024-02-21 20:50:10.306324013 +0800
++++ b/sandbox/linux/system_headers/linux_stat.h	2024-02-23 08:18:27.360218372 +0800
 @@ -150,7 +150,7 @@ struct kernel_stat {
    int st_blocks;
    int st_pad4[14];
@@ -903,11 +903,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  struct kernel_stat {
    unsigned long st_dev;
    unsigned long st_ino;
-@@ -175,6 +175,42 @@ struct kernel_stat {
+@@ -175,6 +175,40 @@ struct kernel_stat {
  };
  #endif
  
-+#if defined(__loongarch__)
 +// from linux include/uapi/linux/stat.h
 +struct kernel_statx_timestamp {
 +  long tv_sec;
@@ -941,12 +940,11 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 +  unsigned int stx_dio_offset_align;
 +  unsigned long __spare3[12];
 +};
-+#endif
 +
  #if !defined(AT_EMPTY_PATH)
  #define AT_EMPTY_PATH 0x1000
  #endif
-@@ -207,8 +243,14 @@ using default_stat_struct = struct kerne
+@@ -207,8 +241,14 @@ using default_stat_struct = struct kerne
  #define __NR_fstatat_default __NR_newfstatat
  #define __NR_fstat_default __NR_fstat
  
