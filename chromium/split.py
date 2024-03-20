@@ -12,7 +12,7 @@ with open(f"chromium-{version}.diff", "r") as f:
         patches.append(cur)
 
     classes = {}
-    for patch in patches:
+    for patch in sorted(patches):
         path = patch[1].split(" ")[1].split("\t")[0][2:]
 
         # classify
