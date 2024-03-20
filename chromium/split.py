@@ -21,11 +21,11 @@ with open(f"chromium-{version}.diff", "r") as f:
             "base/allocator/partition_allocator/src/partition_alloc/partition_alloc_base/strings/safe_sprintf.h",
             "third_party/blink/renderer/core/paint/fragment_data_iterator.h",
         ]:
+            # https://src.fedoraproject.org/rpms/chromium/blob/rawhide/f/chromium-121-nullptr_t-without-namespace-std.patch
             clazz = "1000-Fedora-chromium-121-nullptr_t-without-namespace-std"
-        elif path in ["third_party/blink/renderer/core/BUILD.gn"]:
-            clazz = "1001-Fedora-chromium-121-mnemonic-error"
         elif path in ["build/config/compiler/BUILD.gn"]:
-            clazz = "1002-Fedora-chromium-120-split-threshold-for-reg-with-hint"
+            # https://src.fedoraproject.org/rpms/chromium/blob/rawhide/f/chromium-120-split-threshold-for-reg-with-hint.patch
+            clazz = "1001-Fedora-chromium-120-split-threshold-for-reg-with-hint"
         elif path in [
             "base/check_op.h",
             "base/containers/flat_map.h",
@@ -44,34 +44,16 @@ with open(f"chromium-{version}.diff", "r") as f:
             "third_party/webrtc/modules/include/module_common_types_public.h",
             "ui/gfx/linux/drm_util_linux.h",
         ]:
-            clazz = "1003-Fedora-chromium-122-missing-header-files"
+            clazz = "1002-Fedora-chromium-122-missing-header-files"
         elif path in ["optional"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/absl-optional.patch?ref_type=heads
             clazz = "2000-Debian-fixes-absl-optional"
         elif path in ["mojo/public/cpp/bindings/type_converter.h"]:
-            # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/std-to-address.patch?ref_type=heads
-            clazz = "2001-Debian-fixes-std-to-address"
+            # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/std-to-address.patch?ref_type=heads
+            clazz = "2001-Debian-upstream-std-to-address"
         elif path in ["base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/internalalloc.patch?ref_type=heads
             clazz = "2002-Debian-fixes-internalalloc"
-        elif path in ["components/data_sharing/public/data_sharing_network_loader.h"]:
-            # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/uniqptr.patch?ref_type=heads
-            clazz = "2003-Debian-upstream-uniqptr"
-        elif path in ["components/plus_addresses/plus_address_types.h"]:
-            # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/optional.patch?ref_type=heads
-            clazz = "2004-Debian-upstream-optional"
-        elif path in [
-            "components/search_engines/util.h",
-            "components/search_engines/search_engine_choice/search_engine_choice_service.h",
-            "content/common/service_worker/race_network_request_write_buffer_manager.h",
-        ]:
-            # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/optional.patch?ref_type=heads
-            clazz = "2005-Debian-fixes-optional"
-        elif path in ["components/bookmarks/browser/uuid_index.h"]:
-            # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/bookmarknode.patch?ref_type=heads
-            clazz = "2006-Debian-upstream-bookmarknode"
-        elif path in ["build/config/linux/libffi/BUILD.gn"]:
-            clazz = "3000-AOSC"
         elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
             clazz = "3001-rust-ld-bfd"
         elif path in [
@@ -92,10 +74,6 @@ with open(f"chromium-{version}.diff", "r") as f:
             "third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc",
         ]:
             clazz = "3005-fix-missing-header"
-        elif path in [
-            "chrome/browser/ui/views/bubble/bubble_contents_wrapper.h",
-        ]:
-            clazz = "3006-fix-static-assertion"
         elif path in [
             "third_party/libvpx/BUILD.gn",
             "third_party/blink/renderer/platform/BUILD.gn",
