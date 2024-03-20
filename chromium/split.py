@@ -51,6 +51,9 @@ with open(f"chromium-{version}.diff", "r") as f:
         elif path in ["mojo/public/cpp/bindings/type_converter.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/std-to-address.patch?ref_type=heads
             clazz = "2001-Debian-fixes-std-to-address"
+        elif path in ["base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h"]:
+            # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/internalalloc.patch?ref_type=heads
+            clazz = "2002-Debian-fixes-internalalloc"
         elif path in ["components/data_sharing/public/data_sharing_network_loader.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/uniqptr.patch?ref_type=heads
             clazz = "2003-Debian-upstream-uniqptr"
