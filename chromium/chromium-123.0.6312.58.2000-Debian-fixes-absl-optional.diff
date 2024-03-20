@@ -1,6 +1,6 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/optional b/optional
---- a/optional	1970-01-01 08:00:00.000000000 +0800
-+++ b/optional	2024-02-21 20:50:10.295323842 +0800
+--- a/optional	1969-12-31 16:00:00.000000000 -0800
++++ b/optional	2024-03-20 07:25:55.707676629 -0700
 @@ -0,0 +1,1549 @@
 +// <optional> -*- C++ -*-
 +

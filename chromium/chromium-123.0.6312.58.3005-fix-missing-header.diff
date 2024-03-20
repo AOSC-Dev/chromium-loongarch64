@@ -1,0 +1,44 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc b/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc
+--- a/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc	2024-03-19 15:14:56.060112200 -0700
++++ b/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc	2024-03-20 07:25:55.722677126 -0700
+@@ -6,6 +6,7 @@
+ 
+ #include <bitset>
+ 
++#include <bitset>
+ #include "base/containers/span.h"
+ #include "base/logging.h"
+ #include "base/memory/ptr_util.h"
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h b/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h
+--- a/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2024-03-19 15:16:26.632192400 -0700
++++ b/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2024-03-20 07:25:55.748677988 -0700
+@@ -31,6 +31,7 @@ limitations under the License.
+ #ifndef TENSORFLOW_LITE_KERNELS_INTERNAL_SPECTROGRAM_H_
+ #define TENSORFLOW_LITE_KERNELS_INTERNAL_SPECTROGRAM_H_
+ 
++#include <cstdint>
+ #include <complex>
+ #include <deque>
+ #include <vector>
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/webrtc/common_video/h264/sps_parser.h b/third_party/webrtc/common_video/h264/sps_parser.h
+--- a/third_party/webrtc/common_video/h264/sps_parser.h	2024-03-19 15:16:18.983510000 -0700
++++ b/third_party/webrtc/common_video/h264/sps_parser.h	2024-03-20 07:25:55.752678120 -0700
+@@ -11,6 +11,7 @@
+ #ifndef COMMON_VIDEO_H264_SPS_PARSER_H_
+ #define COMMON_VIDEO_H264_SPS_PARSER_H_
+ 
++#include <cstdint>
+ #include "absl/types/optional.h"
+ #include "rtc_base/bitstream_reader.h"
+ #include "rtc_base/system/rtc_export.h"
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc b/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc
+--- a/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc	2024-03-19 15:16:25.612101600 -0700
++++ b/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc	2024-03-20 07:25:55.752678120 -0700
+@@ -10,6 +10,7 @@
+ 
+ #include "modules/video_coding/utility/ivf_file_reader.h"
+ 
++#include <cstring>
+ #include <string>
+ #include <vector>
+ 

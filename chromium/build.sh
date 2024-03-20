@@ -4,6 +4,9 @@ export AR=ar
 export NM=nm
 export RUSTC_BOOTSTRAP=1
 
+mkdir -p third_party/node/linux/node-linux-x64/bin/
+ln -sv /usr/bin/node third_party/node/linux/node-linux-x64/bin/node
+
 RUSTC_VERSION="$(rustc --version)"
 CLANG_VERSION="$(clang --version | sed -n 's/clang version //p' | cut -d. -f1)"
 GNFLAGS=(
@@ -49,8 +52,11 @@ GNFLAGS=(
     'rust_sysroot_absolute="/usr"'
 )
 
-# LLD is unavaiable on loongarch64
-GNFLAGS+=('use_lld=false')
+# LLD is unavaiable on LLVM 17 on loongarch64
+if ! command -v lld &> /dev/null
+then
+    GNFLAGS+=('use_lld=false')
+fi
 
 gn gen ./out/Release \
     --args="${GNFLAGS[*]}" \
