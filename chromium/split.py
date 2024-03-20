@@ -54,6 +54,9 @@ with open(f"chromium-{version}.diff", "r") as f:
         elif path in ["base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h"]:
             # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/internalalloc.patch?ref_type=heads
             clazz = "2002-Debian-fixes-internalalloc"
+        elif path in ["components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h"]:
+            # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/optional2.patch?ref_type=heads
+            clazz = "2003-Debian-fixes-optional2"
         elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
             clazz = "3001-rust-ld-bfd"
         elif path in [
@@ -74,6 +77,10 @@ with open(f"chromium-{version}.diff", "r") as f:
             "third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc",
         ]:
             clazz = "3005-fix-missing-header"
+        elif path in [
+            "chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h",
+        ]:
+            clazz = "3006-fix-static-assertion"
         elif path in [
             "third_party/libvpx/BUILD.gn",
             "third_party/blink/renderer/platform/BUILD.gn",

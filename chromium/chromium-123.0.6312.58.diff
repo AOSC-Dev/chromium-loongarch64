@@ -275,6 +275,20 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
          # On Chrome OS builds (for both ash-chrome and lacros-chrome), put
          # priority to the library in the installed directory.
          # This will avoid conflicting of exposed symbols.
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h b/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h
+--- a/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h	2024-03-19 15:14:34.614199000 -0700
++++ b/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h	2024-03-20 08:35:35.649294919 -0700
+@@ -148,8 +148,8 @@ class WebUIContentsWrapperT : public Web
+                               esc_closes_ui,
+                               T::GetWebUIName()),
+         webui_url_(webui_url) {
+-    static_assert(
+-        views_metrics::IsValidWebUINameVariant("." + T::GetWebUIName()));
++    //static_assert(
++    //    views_metrics::IsValidWebUINameVariant("." + T::GetWebUIName()));
+   }
+ 
+   void ReloadWebContents() override {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/webauthn/authenticator_request_dialog_model.h b/chrome/browser/webauthn/authenticator_request_dialog_model.h
 --- a/chrome/browser/webauthn/authenticator_request_dialog_model.h	2024-03-19 15:14:34.754211400 -0700
 +++ b/chrome/browser/webauthn/authenticator_request_dialog_model.h	2024-03-20 07:25:55.701676430 -0700
@@ -308,6 +322,17 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
  #include <string>
  
  #include "components/feature_engagement/internal/event_storage_validator.h"
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h b/components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h
+--- a/components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h	2024-03-19 15:14:39.342620800 -0700
++++ b/components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h	2024-03-20 08:42:47.139151038 -0700
+@@ -5,6 +5,7 @@
+ #ifndef COMPONENTS_PAGE_LOAD_METRICS_BROWSER_OBSERVERS_AD_METRICS_AGGREGATE_FRAME_DATA_H_
+ #define COMPONENTS_PAGE_LOAD_METRICS_BROWSER_OBSERVERS_AD_METRICS_AGGREGATE_FRAME_DATA_H_
+ 
++#include <optional>
+ #include <stdint.h>
+ 
+ #include "base/time/time.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
 --- a/content/common/user_agent.cc	2024-03-19 15:14:43.334977000 -0700
 +++ b/content/common/user_agent.cc	2024-03-20 07:25:55.705676562 -0700

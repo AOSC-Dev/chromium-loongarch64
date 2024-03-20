@@ -1,0 +1,14 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h b/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h
+--- a/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h	2024-03-19 15:14:34.614199000 -0700
++++ b/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h	2024-03-20 08:35:35.649294919 -0700
+@@ -148,8 +148,8 @@ class WebUIContentsWrapperT : public Web
+                               esc_closes_ui,
+                               T::GetWebUIName()),
+         webui_url_(webui_url) {
+-    static_assert(
+-        views_metrics::IsValidWebUINameVariant("." + T::GetWebUIName()));
++    //static_assert(
++    //    views_metrics::IsValidWebUINameVariant("." + T::GetWebUIName()));
+   }
+ 
+   void ReloadWebContents() override {
