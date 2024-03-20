@@ -1,6 +1,6 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/rust_target.gni b/build/rust/rust_target.gni
---- a/build/rust/rust_target.gni	2000-00-00 00:00:00.000000000 +0800
-+++ b/build/rust/rust_target.gni	2000-00-00 00:00:00.000000000 +0800
+--- a/build/rust/rust_target.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/build/rust/rust_target.gni	2000-01-01 00:00:00.000000000 +0800
 @@ -397,6 +397,9 @@ template("rust_target") {
        if (_rustc_metadata != "") {
          rustflags += [ "-Cmetadata=${_rustc_metadata}" ]

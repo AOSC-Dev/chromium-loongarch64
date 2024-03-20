@@ -1,6 +1,6 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h b/base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h
---- a/base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h	2000-00-00 00:00:00.000000000 +0800
-+++ b/base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h	2000-00-00 00:00:00.000000000 +0800
+--- a/base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h	2000-01-01 00:00:00.000000000 +0800
++++ b/base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h	2000-01-01 00:00:00.000000000 +0800
 @@ -14,7 +14,7 @@
  #include <unordered_map>
  #include <utility>
