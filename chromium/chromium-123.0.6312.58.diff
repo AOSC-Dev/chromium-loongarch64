@@ -1,6 +1,6 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/partition_alloc.gni b/base/allocator/partition_allocator/partition_alloc.gni
---- a/base/allocator/partition_allocator/partition_alloc.gni	2024-03-19 15:14:26.945515000 -0700
-+++ b/base/allocator/partition_allocator/partition_alloc.gni	2024-03-20 07:25:42.362234203 -0700
+--- a/base/allocator/partition_allocator/partition_alloc.gni	2000-00-00 00:00:00.000000000 +0800
++++ b/base/allocator/partition_allocator/partition_alloc.gni	2000-00-00 00:00:00.000000000 +0800
 @@ -244,7 +244,7 @@ use_starscan = build_with_chromium && ha
  pcscan_stack_supported =
      use_starscan &&
@@ -11,8 +11,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
  # We want to provide assertions that guard against inconsistent build
  # args, but there is no point in having them fire if we're not building
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn
---- a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2024-03-19 15:14:26.945515000 -0700
-+++ b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2024-03-20 07:34:46.714254600 -0700
+--- a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
++++ b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
 @@ -515,6 +515,9 @@ if (is_clang_or_gcc) {
        } else if (current_cpu == "riscv64") {
          assert(pcscan_stack_supported)
@@ -24,8 +24,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
          # To support a trampoline for another arch, please refer to v8/src/heap/base.
          assert(!pcscan_stack_supported)
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc b/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc
---- a/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc	1969-12-31 16:00:00.000000000 -0800
-+++ b/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc	2024-03-20 07:25:42.368234402 -0700
+--- a/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/base/allocator/partition_allocator/src/partition_alloc/starscan/stack/asm/loong64/push_registers_asm.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,49 @@
 +// Copyright 2023 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
@@ -77,8 +77,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
 +    "  addi.d $sp, $sp, 96                               \n"
 +    "  jr $ra                                            \n");
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h b/base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h
---- a/base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h	2024-03-19 15:14:26.993519000 -0700
-+++ b/base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h	2024-03-20 07:49:23.099202883 -0700
+--- a/base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h	2000-00-00 00:00:00.000000000 +0800
++++ b/base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h	2000-00-00 00:00:00.000000000 +0800
 @@ -14,7 +14,7 @@
  #include <unordered_map>
  #include <utility>
@@ -89,8 +89,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
  #include "partition_alloc/partition_alloc_base/time/time.h"
  #include "partition_alloc/partition_alloc_check.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/check_op.h b/base/check_op.h
---- a/base/check_op.h	2024-03-19 15:14:27.041523500 -0700
-+++ b/base/check_op.h	2024-03-20 07:25:42.369234435 -0700
+--- a/base/check_op.h	2000-00-00 00:00:00.000000000 +0800
++++ b/base/check_op.h	2000-00-00 00:00:00.000000000 +0800
 @@ -5,6 +5,7 @@
  #ifndef BASE_CHECK_OP_H_
  #define BASE_CHECK_OP_H_
@@ -100,8 +100,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
  #include <string>
  #include <string_view>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/containers/flat_map.h b/base/containers/flat_map.h
---- a/base/containers/flat_map.h	2024-03-19 15:14:27.045523600 -0700
-+++ b/base/containers/flat_map.h	2024-03-20 07:25:42.369234435 -0700
+--- a/base/containers/flat_map.h	2000-00-00 00:00:00.000000000 +0800
++++ b/base/containers/flat_map.h	2000-00-00 00:00:00.000000000 +0800
 @@ -5,6 +5,7 @@
  #ifndef BASE_CONTAINERS_FLAT_MAP_H_
  #define BASE_CONTAINERS_FLAT_MAP_H_
@@ -111,8 +111,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
  #include <tuple>
  #include <type_traits>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/system/sys_info.cc b/base/system/sys_info.cc
---- a/base/system/sys_info.cc	2024-03-19 15:14:27.185536100 -0700
-+++ b/base/system/sys_info.cc	2024-03-20 07:25:42.369234435 -0700
+--- a/base/system/sys_info.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/base/system/sys_info.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -257,6 +257,8 @@ std::string SysInfo::ProcessCPUArchitect
    return "ARM_64";
  #elif defined(ARCH_CPU_RISCV64)
@@ -123,8 +123,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
    return std::string();
  #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/clang/BUILD.gn b/build/config/clang/BUILD.gn
---- a/build/config/clang/BUILD.gn	2024-03-19 15:14:27.409556200 -0700
-+++ b/build/config/clang/BUILD.gn	2024-03-20 07:25:42.370234469 -0700
+--- a/build/config/clang/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
++++ b/build/config/clang/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
 @@ -147,14 +147,15 @@ template("clang_lib") {
        } else if (is_apple) {
          _dir = "darwin"
@@ -147,8 +147,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
            assert(false)  # Unhandled cpu type
          }
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
---- a/build/config/compiler/BUILD.gn	2024-03-19 15:14:27.409556200 -0700
-+++ b/build/config/compiler/BUILD.gn	2024-03-20 07:25:42.371234502 -0700
+--- a/build/config/compiler/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
++++ b/build/config/compiler/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
 @@ -613,24 +613,6 @@ config("compiler") {
        }
      }
@@ -175,8 +175,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
      if (is_win) {
        cflags += [ "/clang:-ffp-contract=off" ]
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/rust.gni b/build/config/rust.gni
---- a/build/config/rust.gni	2024-03-19 15:14:27.421557200 -0700
-+++ b/build/config/rust.gni	2024-03-20 07:25:42.371234502 -0700
+--- a/build/config/rust.gni	2000-00-00 00:00:00.000000000 +0800
++++ b/build/config/rust.gni	2000-00-00 00:00:00.000000000 +0800
 @@ -214,6 +214,8 @@ if (is_linux || is_chromeos) {
      } else {
        rust_abi_target = "arm-unknown-linux-gnueabi" + float_suffix
@@ -196,8 +196,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
  
  assert(!toolchain_has_rust || rust_target_arch != "")
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/nocompile.gni b/build/nocompile.gni
---- a/build/nocompile.gni	2024-03-19 15:14:27.445559500 -0700
-+++ b/build/nocompile.gni	2024-03-20 07:25:42.372234535 -0700
+--- a/build/nocompile.gni	2000-00-00 00:00:00.000000000 +0800
++++ b/build/nocompile.gni	2000-00-00 00:00:00.000000000 +0800
 @@ -119,10 +119,10 @@ if (enable_nocompile_tests) {
          rebased_obj_path,
          rebased_depfile_path,
@@ -214,8 +214,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
          # No need to generate an object file for nocompile tests.
          "-Xclang",
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/rust_bindgen.gni b/build/rust/rust_bindgen.gni
---- a/build/rust/rust_bindgen.gni	2024-03-19 15:14:27.449559700 -0700
-+++ b/build/rust/rust_bindgen.gni	2024-03-20 07:25:42.372234535 -0700
+--- a/build/rust/rust_bindgen.gni	2000-00-00 00:00:00.000000000 +0800
++++ b/build/rust/rust_bindgen.gni	2000-00-00 00:00:00.000000000 +0800
 @@ -64,11 +64,11 @@ template("rust_bindgen") {
      sources = [ invoker.header ]
  
@@ -246,8 +246,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
  
      # libclang will run the system `clang` to find the "resource dir" which it
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/rust_target.gni b/build/rust/rust_target.gni
---- a/build/rust/rust_target.gni	2024-03-19 15:14:27.449559700 -0700
-+++ b/build/rust/rust_target.gni	2024-03-20 07:25:42.372234535 -0700
+--- a/build/rust/rust_target.gni	2000-00-00 00:00:00.000000000 +0800
++++ b/build/rust/rust_target.gni	2000-00-00 00:00:00.000000000 +0800
 @@ -397,6 +397,9 @@ template("rust_target") {
        if (_rustc_metadata != "") {
          rustflags += [ "-Cmetadata=${_rustc_metadata}" ]
@@ -259,8 +259,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
  
        if (_generate_crate_root) {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/BUILD.gn b/chrome/BUILD.gn
---- a/chrome/BUILD.gn	2024-03-19 15:14:27.657578200 -0700
-+++ b/chrome/BUILD.gn	2024-03-20 07:25:42.373234568 -0700
+--- a/chrome/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
++++ b/chrome/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
 @@ -301,6 +301,13 @@ if (!is_android && !is_mac) {
  
          ldflags = []
@@ -276,8 +276,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
          # priority to the library in the installed directory.
          # This will avoid conflicting of exposed symbols.
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h b/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h
---- a/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h	2024-03-19 15:14:34.614199000 -0700
-+++ b/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h	2024-03-20 08:35:35.649294919 -0700
+--- a/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h	2000-00-00 00:00:00.000000000 +0800
++++ b/chrome/browser/ui/webui/top_chrome/webui_contents_wrapper.h	2000-00-00 00:00:00.000000000 +0800
 @@ -148,8 +148,8 @@ class WebUIContentsWrapperT : public Web
                                esc_closes_ui,
                                T::GetWebUIName()),
@@ -290,8 +290,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
  
    void ReloadWebContents() override {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/webauthn/authenticator_request_dialog_model.h b/chrome/browser/webauthn/authenticator_request_dialog_model.h
---- a/chrome/browser/webauthn/authenticator_request_dialog_model.h	2024-03-19 15:14:34.754211400 -0700
-+++ b/chrome/browser/webauthn/authenticator_request_dialog_model.h	2024-03-20 07:25:55.701676430 -0700
+--- a/chrome/browser/webauthn/authenticator_request_dialog_model.h	2000-00-00 00:00:00.000000000 +0800
++++ b/chrome/browser/webauthn/authenticator_request_dialog_model.h	2000-00-00 00:00:00.000000000 +0800
 @@ -9,6 +9,7 @@
  #include <optional>
  #include <string>
@@ -301,8 +301,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
  #include "base/containers/span.h"
  #include "base/functional/callback_forward.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/test/chromedriver/chrome/web_view_impl.cc b/chrome/test/chromedriver/chrome/web_view_impl.cc
---- a/chrome/test/chromedriver/chrome/web_view_impl.cc	2024-03-19 15:14:35.094241900 -0700
-+++ b/chrome/test/chromedriver/chrome/web_view_impl.cc	2024-03-20 07:25:55.702676463 -0700
+--- a/chrome/test/chromedriver/chrome/web_view_impl.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/chrome/test/chromedriver/chrome/web_view_impl.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -11,6 +11,7 @@
  #include <queue>
  #include <utility>
@@ -312,8 +312,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
  #include "base/check.h"
  #include "base/files/file_path.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/feature_engagement/internal/never_event_storage_validator.h b/components/feature_engagement/internal/never_event_storage_validator.h
---- a/components/feature_engagement/internal/never_event_storage_validator.h	2024-03-19 15:14:38.802572700 -0700
-+++ b/components/feature_engagement/internal/never_event_storage_validator.h	2024-03-20 07:25:55.703676496 -0700
+--- a/components/feature_engagement/internal/never_event_storage_validator.h	2000-00-00 00:00:00.000000000 +0800
++++ b/components/feature_engagement/internal/never_event_storage_validator.h	2000-00-00 00:00:00.000000000 +0800
 @@ -5,6 +5,7 @@
  #ifndef COMPONENTS_FEATURE_ENGAGEMENT_INTERNAL_NEVER_EVENT_STORAGE_VALIDATOR_H_
  #define COMPONENTS_FEATURE_ENGAGEMENT_INTERNAL_NEVER_EVENT_STORAGE_VALIDATOR_H_
@@ -323,8 +323,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
  
  #include "components/feature_engagement/internal/event_storage_validator.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h b/components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h
---- a/components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h	2024-03-19 15:14:39.342620800 -0700
-+++ b/components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h	2024-03-20 08:42:47.139151038 -0700
+--- a/components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h	2000-00-00 00:00:00.000000000 +0800
++++ b/components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h	2000-00-00 00:00:00.000000000 +0800
 @@ -5,6 +5,7 @@
  #ifndef COMPONENTS_PAGE_LOAD_METRICS_BROWSER_OBSERVERS_AD_METRICS_AGGREGATE_FRAME_DATA_H_
  #define COMPONENTS_PAGE_LOAD_METRICS_BROWSER_OBSERVERS_AD_METRICS_AGGREGATE_FRAME_DATA_H_
@@ -334,8 +334,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
  
  #include "base/time/time.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
---- a/content/common/user_agent.cc	2024-03-19 15:14:43.334977000 -0700
-+++ b/content/common/user_agent.cc	2024-03-20 07:25:55.705676562 -0700
+--- a/content/common/user_agent.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/content/common/user_agent.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -174,6 +174,8 @@ std::string GetCpuArchitecture() {
                cpu_info.substr(2, 2) == "86") ||
               base::StartsWith(cpu_info, "x86")) {
@@ -346,8 +346,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
  #elif BUILDFLAG(IS_FUCHSIA)
    std::string cpu_arch = base::SysInfo::ProcessCPUArchitecture();
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/gin/time_clamper.h b/gin/time_clamper.h
---- a/gin/time_clamper.h	2024-03-19 15:14:45.527172600 -0700
-+++ b/gin/time_clamper.h	2024-03-20 07:25:55.705676562 -0700
+--- a/gin/time_clamper.h	2000-00-00 00:00:00.000000000 +0800
++++ b/gin/time_clamper.h	2000-00-00 00:00:00.000000000 +0800
 @@ -48,7 +48,7 @@ class GIN_EXPORT TimeClamper {
      const int64_t micros = now_micros % 1000;
      // abs() is necessary for devices with times before unix-epoch (most likely
@@ -358,8 +358,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/gi
      }
      return ClampTimeResolution(now_micros) / 1000;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/mojo/public/cpp/bindings/type_converter.h b/mojo/public/cpp/bindings/type_converter.h
---- a/mojo/public/cpp/bindings/type_converter.h	2024-03-19 15:14:49.827556100 -0700
-+++ b/mojo/public/cpp/bindings/type_converter.h	2024-03-20 07:25:55.705676562 -0700
+--- a/mojo/public/cpp/bindings/type_converter.h	2000-00-00 00:00:00.000000000 +0800
++++ b/mojo/public/cpp/bindings/type_converter.h	2000-00-00 00:00:00.000000000 +0800
 @@ -95,13 +95,16 @@ inline T ConvertTo(U* obj) {
    return TypeConverter<T, std::remove_cv_t<U>*>::Convert(obj);
  }
@@ -380,8 +380,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/mo
  
  template <typename T, typename U>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/net/base/net_export.h b/net/base/net_export.h
---- a/net/base/net_export.h	2024-03-19 15:14:50.459612600 -0700
-+++ b/net/base/net_export.h	2024-03-20 07:25:55.706676596 -0700
+--- a/net/base/net_export.h	2000-00-00 00:00:00.000000000 +0800
++++ b/net/base/net_export.h	2000-00-00 00:00:00.000000000 +0800
 @@ -5,6 +5,8 @@
  #ifndef NET_BASE_NET_EXPORT_H_
  #define NET_BASE_NET_EXPORT_H_
@@ -392,8 +392,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ne
  // be exported to consumers, and NET_EXPORT_PRIVATE that allows unit tests to
  // access features not intended to be used directly by real consumers.
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/optional b/optional
---- a/optional	1969-12-31 16:00:00.000000000 -0800
-+++ b/optional	2024-03-20 07:25:55.707676629 -0700
+--- a/optional	2000-00-00 00:00:00.000000000 +0800
++++ b/optional	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,1549 @@
 +// <optional> -*- C++ -*-
 +
@@ -1945,8 +1945,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/op
 +
 +#endif // _GLIBCXX_OPTIONAL
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/features.gni b/sandbox/features.gni
---- a/sandbox/features.gni	2024-03-19 15:14:51.839735700 -0700
-+++ b/sandbox/features.gni	2024-03-20 07:25:55.707676629 -0700
+--- a/sandbox/features.gni	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/features.gni	2000-00-00 00:00:00.000000000 +0800
 @@ -9,7 +9,7 @@
  use_seccomp_bpf = (is_linux || is_chromeos || is_android) &&
                    (current_cpu == "x86" || current_cpu == "x64" ||
@@ -1957,8 +1957,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  # SSBD (Speculative Store Bypass Disable) is a mitigation of Spectre Variant 4.
  # As Spectre Variant 4 can be mitigated by site isolation, opt-out SSBD on site
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h
---- a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-03-19 15:14:51.843736200 -0700
-+++ b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2024-03-20 07:25:55.707676629 -0700
+--- a/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/bpf_dsl/linux_syscall_ranges.h	2000-00-00 00:00:00.000000000 +0800
 @@ -56,6 +56,13 @@
  #define MAX_PUBLIC_SYSCALL __NR_syscalls
  #define MAX_SYSCALL MAX_PUBLIC_SYSCALL
@@ -1974,8 +1974,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #error "Unsupported architecture"
  #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/bpf_dsl/seccomp_macros.h b/sandbox/linux/bpf_dsl/seccomp_macros.h
---- a/sandbox/linux/bpf_dsl/seccomp_macros.h	2024-03-19 15:14:51.843736200 -0700
-+++ b/sandbox/linux/bpf_dsl/seccomp_macros.h	2024-03-20 07:25:55.707676629 -0700
+--- a/sandbox/linux/bpf_dsl/seccomp_macros.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/bpf_dsl/seccomp_macros.h	2000-00-00 00:00:00.000000000 +0800
 @@ -343,6 +343,47 @@ struct regs_struct {
  #define SECCOMP_PT_PARM4(_regs) (_regs).regs[3]
  #define SECCOMP_PT_PARM5(_regs) (_regs).regs[4]
@@ -2025,8 +2025,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #error Unsupported target platform
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf/syscall.cc b/sandbox/linux/seccomp-bpf/syscall.cc
---- a/sandbox/linux/seccomp-bpf/syscall.cc	2024-03-19 15:14:51.847736400 -0700
-+++ b/sandbox/linux/seccomp-bpf/syscall.cc	2024-03-20 07:25:55.708676662 -0700
+--- a/sandbox/linux/seccomp-bpf/syscall.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/seccomp-bpf/syscall.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -18,7 +18,7 @@ namespace sandbox {
  namespace {
  
@@ -2084,8 +2084,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #error "Unimplemented architecture"
  #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
---- a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-03-19 15:14:51.847736400 -0700
-+++ b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2024-03-20 07:25:55.708676662 -0700
+--- a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -193,7 +193,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
      return RestrictFcntlCommands();
  #endif
@@ -2139,8 +2139,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      return Allow();
    }
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
---- a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2024-03-19 15:14:51.847736400 -0700
-+++ b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2024-03-20 07:25:55.709676695 -0700
+--- a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -354,6 +354,7 @@ intptr_t SIGSYSSchedHandler(const struct
  
  intptr_t SIGSYSFstatatHandler(const struct arch_seccomp_data& args,
@@ -2158,8 +2158,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    CrashSIGSYS_Handler(args, fs_denied_errno);
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
---- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-03-19 15:14:51.847736400 -0700
-+++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2024-03-20 07:25:55.709676695 -0700
+--- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -37,7 +37,7 @@
  
  #if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) && \
@@ -2192,8 +2192,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #if defined(__arm__)
                   PTRACE_GETVFPREGS,
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
---- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-03-19 15:14:51.847736400 -0700
-+++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2024-03-20 07:25:55.710676728 -0700
+--- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -103,7 +103,7 @@ bool SyscallSets::IsUmask(int sysno) {
  // Both EPERM and ENOENT are valid errno unless otherwise noted in comment.
  bool SyscallSets::IsFileSystem(int sysno) {
@@ -2449,8 +2449,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #endif
        return true;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h
---- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2024-03-19 15:14:51.847736400 -0700
-+++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2024-03-20 07:25:55.710676728 -0700
+--- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2000-00-00 00:00:00.000000000 +0800
 @@ -79,18 +79,18 @@ class SANDBOX_EXPORT SyscallSets {
    static bool IsAsyncIo(int sysno);
    static bool IsKeyManagement(int sysno);
@@ -2474,8 +2474,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #endif
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/services/credentials.cc b/sandbox/linux/services/credentials.cc
---- a/sandbox/linux/services/credentials.cc	2024-03-19 15:14:51.851736800 -0700
-+++ b/sandbox/linux/services/credentials.cc	2024-03-20 07:25:55.710676728 -0700
+--- a/sandbox/linux/services/credentials.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/services/credentials.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -80,7 +80,7 @@ bool ChrootToSafeEmptyDir() {
    pid_t pid = -1;
    alignas(16) char stack_buf[PTHREAD_STACK_MIN];
@@ -2486,8 +2486,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    void* stack = stack_buf + sizeof(stack_buf);
  #else
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/services/syscall_wrappers.cc b/sandbox/linux/services/syscall_wrappers.cc
---- a/sandbox/linux/services/syscall_wrappers.cc	2024-03-19 15:14:51.851736800 -0700
-+++ b/sandbox/linux/services/syscall_wrappers.cc	2024-03-20 07:25:55.710676728 -0700
+--- a/sandbox/linux/services/syscall_wrappers.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/services/syscall_wrappers.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -5,6 +5,7 @@
  #include "sandbox/linux/services/syscall_wrappers.h"
  
@@ -2575,8 +2575,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #else
    res = syscall(__NR_lstat, path, stat_buf);
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/services/syscall_wrappers.h b/sandbox/linux/services/syscall_wrappers.h
---- a/sandbox/linux/services/syscall_wrappers.h	2024-03-19 15:14:51.851736800 -0700
-+++ b/sandbox/linux/services/syscall_wrappers.h	2024-03-20 07:25:55.711676761 -0700
+--- a/sandbox/linux/services/syscall_wrappers.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/services/syscall_wrappers.h	2000-00-00 00:00:00.000000000 +0800
 @@ -19,6 +19,7 @@ struct cap_hdr;
  struct cap_data;
  struct kernel_stat;
@@ -2594,8 +2594,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  // Takes care of unpoisoning |stat_buf| for MSAN. Check-fails if fstatat64() is
  // not a supported syscall on the current platform.
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_client.cc b/sandbox/linux/syscall_broker/broker_client.cc
---- a/sandbox/linux/syscall_broker/broker_client.cc	2024-03-19 15:14:51.851736800 -0700
-+++ b/sandbox/linux/syscall_broker/broker_client.cc	2024-03-20 07:25:55.711676761 -0700
+--- a/sandbox/linux/syscall_broker/broker_client.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/syscall_broker/broker_client.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -193,6 +193,21 @@ int BrokerClient::Stat64(const char* pat
                             sizeof(*sb));
  }
@@ -2619,8 +2619,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    if (!path)
      return -EFAULT;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_client.h b/sandbox/linux/syscall_broker/broker_client.h
---- a/sandbox/linux/syscall_broker/broker_client.h	2024-03-19 15:14:51.851736800 -0700
-+++ b/sandbox/linux/syscall_broker/broker_client.h	2024-03-20 07:25:55.711676761 -0700
+--- a/sandbox/linux/syscall_broker/broker_client.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/syscall_broker/broker_client.h	2000-00-00 00:00:00.000000000 +0800
 @@ -67,6 +67,9 @@ class SANDBOX_EXPORT BrokerClient : publ
    int Stat64(const char* pathname,
               bool follow_links,
@@ -2632,8 +2632,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    int InotifyAddWatch(int fd,
                        const char* pathname,
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_command.h b/sandbox/linux/syscall_broker/broker_command.h
---- a/sandbox/linux/syscall_broker/broker_command.h	2024-03-19 15:14:51.855737200 -0700
-+++ b/sandbox/linux/syscall_broker/broker_command.h	2024-03-20 07:25:55.712676794 -0700
+--- a/sandbox/linux/syscall_broker/broker_command.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/syscall_broker/broker_command.h	2000-00-00 00:00:00.000000000 +0800
 @@ -42,6 +42,7 @@ enum BrokerCommand {
    COMMAND_RMDIR,
    COMMAND_STAT,
@@ -2643,8 +2643,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    COMMAND_INOTIFY_ADD_WATCH,
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_file_permission.h b/sandbox/linux/syscall_broker/broker_file_permission.h
---- a/sandbox/linux/syscall_broker/broker_file_permission.h	2024-03-19 15:14:51.855737200 -0700
-+++ b/sandbox/linux/syscall_broker/broker_file_permission.h	2024-03-20 07:25:55.712676794 -0700
+--- a/sandbox/linux/syscall_broker/broker_file_permission.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/syscall_broker/broker_file_permission.h	2000-00-00 00:00:00.000000000 +0800
 @@ -5,6 +5,7 @@
  #ifndef SANDBOX_LINUX_SYSCALL_BROKER_BROKER_FILE_PERMISSION_H_
  #define SANDBOX_LINUX_SYSCALL_BROKER_BROKER_FILE_PERMISSION_H_
@@ -2654,8 +2654,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #include <cstdint>
  #include <string>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_host.cc b/sandbox/linux/syscall_broker/broker_host.cc
---- a/sandbox/linux/syscall_broker/broker_host.cc	2024-03-19 15:14:51.855737200 -0700
-+++ b/sandbox/linux/syscall_broker/broker_host.cc	2024-03-20 07:25:55.712676794 -0700
+--- a/sandbox/linux/syscall_broker/broker_host.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/syscall_broker/broker_host.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -297,6 +297,21 @@ void BrokerHost::StatFileForIPC(BrokerCo
      RAW_CHECK(reply->AddIntToMessage(0));
      RAW_CHECK(
@@ -2689,8 +2689,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
        if (!message->ReadString(&requested_filename)) {
          return false;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_process.cc b/sandbox/linux/syscall_broker/broker_process.cc
---- a/sandbox/linux/syscall_broker/broker_process.cc	2024-03-19 15:14:51.855737200 -0700
-+++ b/sandbox/linux/syscall_broker/broker_process.cc	2024-03-20 07:25:55.713676827 -0700
+--- a/sandbox/linux/syscall_broker/broker_process.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/syscall_broker/broker_process.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -122,44 +122,46 @@ bool BrokerProcess::IsSyscallBrokerable(
    // and are default disabled in Android. So, we should refuse to broker them
    // to be consistent with the platform's restrictions.
@@ -2765,8 +2765,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
        return !fast_check || policy_->allowed_command_set.test(COMMAND_UNLINK);
  #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.cc b/sandbox/linux/syscall_broker/syscall_dispatcher.cc
---- a/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-03-19 15:14:51.855737200 -0700
-+++ b/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2024-03-20 07:25:55.713676827 -0700
+--- a/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -169,6 +169,19 @@ int SyscallDispatcher::DispatchSyscall(c
        return Stat64(reinterpret_cast<const char*>(args.args[0]), true,
                      reinterpret_cast<struct kernel_stat64*>(args.args[1]));
@@ -2788,8 +2788,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_lstat:
        // See https://crbug.com/847096
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.h b/sandbox/linux/syscall_broker/syscall_dispatcher.h
---- a/sandbox/linux/syscall_broker/syscall_dispatcher.h	2024-03-19 15:14:51.855737200 -0700
-+++ b/sandbox/linux/syscall_broker/syscall_dispatcher.h	2024-03-20 07:25:55.713676827 -0700
+--- a/sandbox/linux/syscall_broker/syscall_dispatcher.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/syscall_broker/syscall_dispatcher.h	2000-00-00 00:00:00.000000000 +0800
 @@ -49,6 +49,9 @@ class SANDBOX_EXPORT SyscallDispatcher {
    virtual int Stat64(const char* pathname,
                       bool follow_links,
@@ -2801,8 +2801,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    // Emulates unlink()/unlinkat().
    virtual int Unlink(const char* unlink) const = 0;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/linux_seccomp.h b/sandbox/linux/system_headers/linux_seccomp.h
---- a/sandbox/linux/system_headers/linux_seccomp.h	2024-03-19 15:14:51.855737200 -0700
-+++ b/sandbox/linux/system_headers/linux_seccomp.h	2024-03-20 07:25:55.713676827 -0700
+--- a/sandbox/linux/system_headers/linux_seccomp.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/system_headers/linux_seccomp.h	2000-00-00 00:00:00.000000000 +0800
 @@ -39,6 +39,10 @@
  #define EM_AARCH64 183
  #endif
@@ -2826,8 +2826,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #ifndef PR_SET_SECCOMP
  #define PR_SET_SECCOMP               22
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/linux_signal.h b/sandbox/linux/system_headers/linux_signal.h
---- a/sandbox/linux/system_headers/linux_signal.h	2024-03-19 15:14:51.855737200 -0700
-+++ b/sandbox/linux/system_headers/linux_signal.h	2024-03-20 07:25:55.714676860 -0700
+--- a/sandbox/linux/system_headers/linux_signal.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/system_headers/linux_signal.h	2000-00-00 00:00:00.000000000 +0800
 @@ -13,7 +13,7 @@
  // (not undefined, but defined different values and in different memory
  // layouts). So, fill the gap here.
@@ -2838,8 +2838,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #define LINUX_SIGHUP 1
  #define LINUX_SIGINT 2
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/linux_stat.h b/sandbox/linux/system_headers/linux_stat.h
---- a/sandbox/linux/system_headers/linux_stat.h	2024-03-19 15:14:51.855737200 -0700
-+++ b/sandbox/linux/system_headers/linux_stat.h	2024-03-20 07:25:55.714676860 -0700
+--- a/sandbox/linux/system_headers/linux_stat.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/system_headers/linux_stat.h	2000-00-00 00:00:00.000000000 +0800
 @@ -150,7 +150,7 @@ struct kernel_stat {
    int st_blocks;
    int st_pad4[14];
@@ -2907,8 +2907,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  
  #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LINUX_STAT_H_
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/linux_syscalls.h b/sandbox/linux/system_headers/linux_syscalls.h
---- a/sandbox/linux/system_headers/linux_syscalls.h	2024-03-19 15:14:51.855737200 -0700
-+++ b/sandbox/linux/system_headers/linux_syscalls.h	2024-03-20 07:25:55.714676860 -0700
+--- a/sandbox/linux/system_headers/linux_syscalls.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/system_headers/linux_syscalls.h	2000-00-00 00:00:00.000000000 +0800
 @@ -35,5 +35,9 @@
  #include "sandbox/linux/system_headers/arm64_linux_syscalls.h"
  #endif
@@ -2920,8 +2920,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LINUX_SYSCALLS_H_
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/loong64_linux_syscalls.h b/sandbox/linux/system_headers/loong64_linux_syscalls.h
---- a/sandbox/linux/system_headers/loong64_linux_syscalls.h	1969-12-31 16:00:00.000000000 -0800
-+++ b/sandbox/linux/system_headers/loong64_linux_syscalls.h	2024-03-20 07:25:55.715676894 -0700
+--- a/sandbox/linux/system_headers/loong64_linux_syscalls.h	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/linux/system_headers/loong64_linux_syscalls.h	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,1194 @@
 +// Copyright 2023 The Chromium Authors
 +// Use of this source code is governed by a BSD-style license that can be
@@ -4118,8 +4118,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 +
 +#endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LOONG64_LINUX_SYSCALLS_H_
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_audio_policy_linux.cc b/sandbox/policy/linux/bpf_audio_policy_linux.cc
---- a/sandbox/policy/linux/bpf_audio_policy_linux.cc	2024-03-19 15:14:51.859737400 -0700
-+++ b/sandbox/policy/linux/bpf_audio_policy_linux.cc	2024-03-20 07:25:55.715676894 -0700
+--- a/sandbox/policy/linux/bpf_audio_policy_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/policy/linux/bpf_audio_policy_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -85,6 +85,7 @@ ResultExpr AudioProcessPolicy::EvaluateS
        return Switch(op & ~(FUTEX_PRIVATE_FLAG | FUTEX_CLOCK_REALTIME))
            .Cases({FUTEX_CMP_REQUEUE,
@@ -4129,8 +4129,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
                    FUTEX_WAIT,
                    FUTEX_WAIT_BITSET,
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_broker_policy_linux.cc b/sandbox/policy/linux/bpf_broker_policy_linux.cc
---- a/sandbox/policy/linux/bpf_broker_policy_linux.cc	2024-03-19 15:14:51.863737800 -0700
-+++ b/sandbox/policy/linux/bpf_broker_policy_linux.cc	2024-03-20 07:25:55.715676894 -0700
+--- a/sandbox/policy/linux/bpf_broker_policy_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/policy/linux/bpf_broker_policy_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -87,6 +87,12 @@ ResultExpr BrokerProcessPolicy::Evaluate
          return Allow();
        break;
@@ -4145,8 +4145,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_lstat:
        if (allowed_command_set_.test(syscall_broker::COMMAND_STAT))
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc
---- a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-03-19 15:14:51.863737800 -0700
-+++ b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2024-03-20 07:25:55.715676894 -0700
+--- a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -38,7 +38,7 @@ ResultExpr CrosAmdGpuProcessPolicy::Eval
      case __NR_sched_setscheduler:
      case __NR_sysinfo:
@@ -4157,8 +4157,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_stat:
  #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_gpu_policy_linux.cc
---- a/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-03-19 15:14:51.863737800 -0700
-+++ b/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2024-03-20 07:25:55.716676927 -0700
+--- a/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -73,7 +73,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
      (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
      case __NR_ftruncate64:
@@ -4169,8 +4169,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #endif
      case __NR_getdents64:
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_network_policy_linux.cc b/sandbox/policy/linux/bpf_network_policy_linux.cc
---- a/sandbox/policy/linux/bpf_network_policy_linux.cc	2024-03-19 15:14:51.863737800 -0700
-+++ b/sandbox/policy/linux/bpf_network_policy_linux.cc	2024-03-20 07:25:55.716676927 -0700
+--- a/sandbox/policy/linux/bpf_network_policy_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/policy/linux/bpf_network_policy_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -260,7 +260,7 @@ ResultExpr NetworkProcessPolicy::Evaluat
      case __NR_fdatasync:
      case __NR_fsync:
@@ -4181,8 +4181,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #endif
      case __NR_getdents64:
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc
---- a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2024-03-19 15:14:51.863737800 -0700
-+++ b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2024-03-20 07:25:55.716676927 -0700
+--- a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -37,7 +37,7 @@ ResultExpr ScreenAIProcessPolicy::Evalua
        const Arg<int> op(1);
        return Switch(op & FUTEX_CMD_MASK)
@@ -4193,8 +4193,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
                Allow())
            // Sending ENOSYS tells the Futex backend to use another approach if
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/sandbox_linux.cc b/sandbox/policy/linux/sandbox_linux.cc
---- a/sandbox/policy/linux/sandbox_linux.cc	2024-03-19 15:14:51.863737800 -0700
-+++ b/sandbox/policy/linux/sandbox_linux.cc	2024-03-20 07:25:55.717676960 -0700
+--- a/sandbox/policy/linux/sandbox_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/sandbox/policy/linux/sandbox_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -585,6 +585,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
    const bpf_dsl::ResultExpr handle_via_broker =
        bpf_dsl::Trap(syscall_broker::BrokerClient::SIGSYS_Handler,
@@ -4223,8 +4223,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      return handle_via_broker;
    }
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/skia/BUILD.gn b/skia/BUILD.gn
---- a/skia/BUILD.gn	2024-03-19 15:14:52.215769300 -0700
-+++ b/skia/BUILD.gn	2024-03-20 07:25:55.717676960 -0700
+--- a/skia/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
++++ b/skia/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
 @@ -730,6 +730,8 @@ skia_source_set("skia_opts") {
      # Conditional and empty body needed to avoid assert() below.
    } else if (current_cpu == "riscv64") {
@@ -4235,8 +4235,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sk
      assert(false, "Unknown cpu target")
    }
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/abseil-cpp/absl/strings/string_view.h b/third_party/abseil-cpp/absl/strings/string_view.h
---- a/third_party/abseil-cpp/absl/strings/string_view.h	2024-03-19 15:14:52.715813900 -0700
-+++ b/third_party/abseil-cpp/absl/strings/string_view.h	2024-03-20 07:25:55.718676993 -0700
+--- a/third_party/abseil-cpp/absl/strings/string_view.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/abseil-cpp/absl/strings/string_view.h	2000-00-00 00:00:00.000000000 +0800
 @@ -27,6 +27,7 @@
  #ifndef ABSL_STRINGS_STRING_VIEW_H_
  #define ABSL_STRINGS_STRING_VIEW_H_
@@ -4246,8 +4246,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include <cassert>
  #include <cstddef>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/core/paint/fragment_data_iterator.h b/third_party/blink/renderer/core/paint/fragment_data_iterator.h
---- a/third_party/blink/renderer/core/paint/fragment_data_iterator.h	2024-03-19 15:14:55.216037000 -0700
-+++ b/third_party/blink/renderer/core/paint/fragment_data_iterator.h	2024-03-20 07:25:55.719677026 -0700
+--- a/third_party/blink/renderer/core/paint/fragment_data_iterator.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/blink/renderer/core/paint/fragment_data_iterator.h	2000-00-00 00:00:00.000000000 +0800
 @@ -22,7 +22,7 @@ class FragmentDataIteratorBase {
  
   public:
@@ -4258,8 +4258,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
    Data* GetFragmentData() const {
      return !IsDone() ? &fragment_head_.at(idx_) : nullptr;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/BUILD.gn b/third_party/blink/renderer/platform/BUILD.gn
---- a/third_party/blink/renderer/platform/BUILD.gn	2024-03-19 15:14:55.860094300 -0700
-+++ b/third_party/blink/renderer/platform/BUILD.gn	2024-03-20 07:25:55.720677059 -0700
+--- a/third_party/blink/renderer/platform/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/blink/renderer/platform/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
 @@ -879,7 +879,7 @@ component("platform") {
      "graphics/compositor_mutator_client.cc",
      "graphics/compositor_mutator_client.h",
@@ -4280,8 +4280,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
        "-mlsx",
        "-flax-vector-conversions=all",
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
---- a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-03-19 15:14:55.948102200 -0700
-+++ b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2024-03-20 07:25:55.720677059 -0700
+--- a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-00-00 00:00:00.000000000 +0800
 @@ -91,19 +91,19 @@ ALWAYS_INLINE void PackOneRowOfRGBA8Litt
    v4f32 mask_falpha = __lsx_vffint_s_w(mask_lalpha);
    v16u8 ra_index = {0,19, 4,23, 8,27, 12,31};
@@ -4409,8 +4409,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      bgra_01 = __lsx_vpickev_b(bgra_1, bgra_0);
      bgra_23 = __lsx_vpickev_b(bgra_3, bgra_2);
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc b/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc
---- a/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc	2024-03-19 15:14:55.960103300 -0700
-+++ b/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc	2024-03-20 07:25:55.721677093 -0700
+--- a/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -13,7 +13,7 @@
  #include "build/build_config.h"
  #include "third_party/blink/public/platform/platform.h"
@@ -4484,8 +4484,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      float scale_factor = source[3] ? 255.0f / source[3] : 1.0f;
      uint8_t source_r =
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc b/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc
---- a/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc	2024-03-19 15:14:56.060112200 -0700
-+++ b/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc	2024-03-20 07:25:55.722677126 -0700
+--- a/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/blink/renderer/platform/peerconnection/resolution_monitor.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -6,6 +6,7 @@
  
  #include <bitset>
@@ -4495,8 +4495,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include "base/logging.h"
  #include "base/memory/ptr_util.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/boringssl/src/include/openssl/target.h b/third_party/boringssl/src/include/openssl/target.h
---- a/third_party/boringssl/src/include/openssl/target.h	2024-03-19 15:15:44.412426000 -0700
-+++ b/third_party/boringssl/src/include/openssl/target.h	2024-03-20 07:25:55.722677126 -0700
+--- a/third_party/boringssl/src/include/openssl/target.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/boringssl/src/include/openssl/target.h	2000-00-00 00:00:00.000000000 +0800
 @@ -54,6 +54,8 @@
  #define OPENSSL_32_BIT
  #elif defined(__myriad2__)
@@ -4507,8 +4507,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  // The list above enumerates the platforms that BoringSSL supports. For these
  // platforms we keep a reasonable bar of not breaking them: automated test
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/client/crashpad_client_linux.cc b/third_party/crashpad/crashpad/client/crashpad_client_linux.cc
---- a/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2024-03-19 15:15:14.109722400 -0700
-+++ b/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2024-03-20 07:25:55.723677159 -0700
+--- a/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -729,6 +729,10 @@ void CrashpadClient::DumpWithoutCrash(Na
    memset(context->uc_mcontext.__reserved,
           0,
@@ -4521,8 +4521,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
    siginfo_t siginfo;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context.h b/third_party/crashpad/crashpad/minidump/minidump_context.h
---- a/third_party/crashpad/crashpad/minidump/minidump_context.h	2024-03-19 15:15:14.129724300 -0700
-+++ b/third_party/crashpad/crashpad/minidump/minidump_context.h	2024-03-20 07:25:55.723677159 -0700
+--- a/third_party/crashpad/crashpad/minidump/minidump_context.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_context.h	2000-00-00 00:00:00.000000000 +0800
 @@ -687,6 +687,56 @@ struct MinidumpContextRISCV64 {
    uint32_t fcsr;
  };
@@ -4581,8 +4581,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_H_
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc
---- a/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2024-03-19 15:15:14.129724300 -0700
-+++ b/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2024-03-20 07:25:55.724677192 -0700
+--- a/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -110,6 +110,13 @@ MinidumpContextWriter::CreateFromSnapsho
        break;
      }
@@ -4643,8 +4643,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  }  // namespace crashpad
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context_writer.h b/third_party/crashpad/crashpad/minidump/minidump_context_writer.h
---- a/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2024-03-19 15:15:14.129724300 -0700
-+++ b/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2024-03-20 07:25:55.724677192 -0700
+--- a/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2000-00-00 00:00:00.000000000 +0800
 @@ -413,6 +413,44 @@ class MinidumpContextRISCV64Writer final
    MinidumpContextRISCV64 context_;
  };
@@ -4691,8 +4691,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  #endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_WRITER_H_
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_extensions.h b/third_party/crashpad/crashpad/minidump/minidump_extensions.h
---- a/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2024-03-19 15:15:14.129724300 -0700
-+++ b/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2024-03-20 07:25:55.725677225 -0700
+--- a/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2000-00-00 00:00:00.000000000 +0800
 @@ -213,6 +213,9 @@ enum MinidumpCPUArchitecture : uint16_t
    //! \brief Used by Breakpad for 64-bit RISC-V.
    kMinidumpCPUArchitectureRISCV64Breakpad = 0x8006,
@@ -4704,8 +4704,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
    kMinidumpCPUArchitectureUnknown = PROCESSOR_ARCHITECTURE_UNKNOWN,
  };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc
---- a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-03-19 15:15:14.133724700 -0700
-+++ b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2024-03-20 07:25:55.725677225 -0700
+--- a/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -177,6 +177,8 @@ std::string MinidumpMiscInfoDebugBuildSt
    static constexpr char kCPU[] = "mips64";
  #elif defined(ARCH_CPU_RISCV64)
@@ -4716,8 +4716,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #error define kCPU for this CPU
  #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc b/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc
---- a/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2024-03-19 15:15:14.133724700 -0700
-+++ b/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2024-03-20 07:25:55.725677225 -0700
+--- a/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -135,6 +135,9 @@ void MinidumpSystemInfoWriter::Initializ
      case kCPUArchitectureRISCV64:
        cpu_architecture = kMinidumpCPUArchitectureRISCV64Breakpad;
@@ -4729,8 +4729,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
        NOTREACHED();
        cpu_architecture = kMinidumpCPUArchitectureUnknown;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/capture_memory.cc b/third_party/crashpad/crashpad/snapshot/capture_memory.cc
---- a/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2024-03-19 15:15:14.137724900 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2024-03-20 07:25:55.726677258 -0700
+--- a/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -122,6 +122,11 @@ void CaptureMemory::PointedToByContext(c
    for (size_t i = 0; i < std::size(context.riscv64->regs); ++i) {
      MaybeCaptureMemoryAround(delegate, context.riscv64->regs[i]);
@@ -4744,8 +4744,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #error Port.
  #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_architecture.h b/third_party/crashpad/crashpad/snapshot/cpu_architecture.h
---- a/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2024-03-19 15:15:14.137724900 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2024-03-20 07:25:55.726677258 -0700
+--- a/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2000-00-00 00:00:00.000000000 +0800
 @@ -47,6 +47,9 @@ enum CPUArchitecture {
  
    //! \brief 64-bit RISC-V.
@@ -4757,8 +4757,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  }  // namespace crashpad
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_context.cc b/third_party/crashpad/crashpad/snapshot/cpu_context.cc
---- a/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2024-03-19 15:15:14.137724900 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2024-03-20 07:25:55.726677258 -0700
+--- a/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -173,6 +173,8 @@ uint64_t CPUContext::InstructionPointer(
        return arm64->pc;
      case kCPUArchitectureRISCV64:
@@ -4786,8 +4786,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      case kCPUArchitectureX86:
      case kCPUArchitectureARM:
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/cpu_context.h b/third_party/crashpad/crashpad/snapshot/cpu_context.h
---- a/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-03-19 15:15:14.137724900 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/cpu_context.h	2024-03-20 07:25:55.726677258 -0700
+--- a/third_party/crashpad/crashpad/snapshot/cpu_context.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/cpu_context.h	2000-00-00 00:00:00.000000000 +0800
 @@ -371,6 +371,22 @@ struct CPUContextRISCV64 {
    uint32_t fcsr;
  };
@@ -4820,8 +4820,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  };
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
---- a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-03-19 15:15:14.145725700 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2024-03-20 07:25:55.727677291 -0700
+--- a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -281,6 +281,40 @@ void InitializeCPUContextRISCV64(const T
    context->fcsr = float_context.fcsr;
  }
@@ -4864,8 +4864,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  }  // namespace internal
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h
---- a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-03-19 15:15:14.145725700 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2024-03-20 07:25:55.727677291 -0700
+--- a/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2000-00-00 00:00:00.000000000 +0800
 @@ -188,6 +188,45 @@ void InitializeCPUContextRISCV64(const T
  
  #endif  // ARCH_CPU_RISCV64 || DOXYGEN
@@ -4913,8 +4913,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  }  // namespace crashpad
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc
---- a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-03-19 15:15:14.145725700 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2024-03-20 07:25:55.727677291 -0700
+--- a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -15,6 +15,7 @@
  #include "snapshot/linux/exception_snapshot_linux.h"
  
@@ -5011,8 +5011,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
          !ReadSiginfo<Traits32>(process_reader, siginfo_address)) {
        return false;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h
---- a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2024-03-19 15:15:14.145725700 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2024-03-20 07:25:55.728677324 -0700
+--- a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2000-00-00 00:00:00.000000000 +0800
 @@ -91,6 +91,8 @@ class ExceptionSnapshotLinux final : pub
      CPUContextMIPS64 mips64;
  #elif defined(ARCH_CPU_RISCV64)
@@ -5023,8 +5023,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
    } context_union_;
    CPUContext context_;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc
---- a/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2024-03-19 15:15:14.145725700 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2024-03-20 07:25:55.728677324 -0700
+--- a/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -129,6 +129,8 @@ void ProcessReaderLinux::Thread::Initial
                                      : thread_info.thread_context.t32.regs[29];
  #elif defined(ARCH_CPU_RISCV64)
@@ -5035,8 +5035,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #error Port.
  #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h
---- a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-03-19 15:15:14.145725700 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2024-03-20 07:25:55.728677324 -0700
+--- a/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2000-00-00 00:00:00.000000000 +0800
 @@ -456,6 +456,46 @@ static_assert(offsetof(UContext<ContextT
                    offsetof(ucontext_t, uc_mcontext.__fpregs),
                "context offset mismatch");
@@ -5085,8 +5085,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc
---- a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2024-03-19 15:15:14.145725700 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2024-03-20 07:25:55.729677358 -0700
+--- a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -208,6 +208,8 @@ CPUArchitecture SystemSnapshotLinux::Get
                                      : kCPUArchitectureMIPSEL;
  #elif defined(ARCH_CPU_RISCV64)
@@ -5127,8 +5127,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc
---- a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2024-03-19 15:15:14.145725700 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2024-03-20 07:25:55.729677358 -0700
+--- a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -196,6 +196,12 @@ bool ThreadSnapshotLinux::Initialize(
    InitializeCPUContextRISCV64(thread.thread_info.thread_context.t64,
                                thread.thread_info.float_context.f64,
@@ -5143,8 +5143,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #error Port.
  #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h
---- a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2024-03-19 15:15:14.145725700 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2024-03-20 07:25:55.729677358 -0700
+--- a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2000-00-00 00:00:00.000000000 +0800
 @@ -76,6 +76,8 @@ class ThreadSnapshotLinux final : public
      CPUContextMIPS64 mips64;
  #elif defined(ARCH_CPU_RISCV64)
@@ -5155,8 +5155,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc b/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc
---- a/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2024-03-19 15:15:14.153726300 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2024-03-20 07:25:55.730677391 -0700
+--- a/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -293,6 +293,30 @@ bool MinidumpContextConverter::Initializ
      memcpy(&context_.riscv64->fpregs, &src->fpregs, sizeof(src->fpregs));
  
@@ -5189,8 +5189,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      // Architecture is listed as "unknown".
      DLOG(ERROR) << "Unknown architecture";
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc b/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc
---- a/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2024-03-19 15:15:14.153726300 -0700
-+++ b/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2024-03-20 07:25:55.730677391 -0700
+--- a/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -70,6 +70,8 @@ CPUArchitecture SystemSnapshotMinidump::
      // No word on how MIPS64 is signalled
      case kMinidumpCPUArchitectureRISCV64Breakpad:
@@ -5201,8 +5201,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      default:
        return CPUArchitecture::kCPUArchitectureUnknown;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/util/linux/ptracer.cc b/third_party/crashpad/crashpad/util/linux/ptracer.cc
---- a/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-03-19 15:15:14.181728800 -0700
-+++ b/third_party/crashpad/crashpad/util/linux/ptracer.cc	2024-03-20 07:25:55.730677391 -0700
+--- a/third_party/crashpad/crashpad/util/linux/ptracer.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/util/linux/ptracer.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -430,6 +430,37 @@ bool GetThreadArea64(pid_t tid,
    return true;
  }
@@ -5251,8 +5251,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
           GetFloatingPointRegisters32(tid, &info->float_context, can_log_) &&
           GetThreadArea32(tid,
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/util/linux/thread_info.h b/third_party/crashpad/crashpad/util/linux/thread_info.h
---- a/third_party/crashpad/crashpad/util/linux/thread_info.h	2024-03-19 15:15:14.181728800 -0700
-+++ b/third_party/crashpad/crashpad/util/linux/thread_info.h	2024-03-20 07:25:55.731677424 -0700
+--- a/third_party/crashpad/crashpad/util/linux/thread_info.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/util/linux/thread_info.h	2000-00-00 00:00:00.000000000 +0800
 @@ -87,6 +87,8 @@ union ThreadContext {
      uint32_t padding1_;
  #elif defined(ARCH_CPU_RISCV64)
@@ -5315,8 +5315,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #error Port.
  #endif  // ARCH_CPU_X86
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/util/misc/capture_context_linux.S b/third_party/crashpad/crashpad/util/misc/capture_context_linux.S
---- a/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2024-03-19 15:15:14.189729700 -0700
-+++ b/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2024-03-20 07:25:55.731677424 -0700
+--- a/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2000-00-00 00:00:00.000000000 +0800
 @@ -508,6 +508,51 @@ CAPTURECONTEXT_SYMBOL2:
    fsd f30, (30 * 8 + MCONTEXT_FPREGS_OFFSET)(a0)
    fsd f31, (31 * 8 + MCONTEXT_FPREGS_OFFSET)(a0)
@@ -5370,8 +5370,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  #endif  // __i386__
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc b/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc
---- a/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2024-03-19 15:15:14.193729900 -0700
-+++ b/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2024-03-20 07:25:55.731677424 -0700
+--- a/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -239,6 +239,8 @@ std::string UserAgent() {
  #endif
  #elif defined (ARCH_CPU_RISCV64)
@@ -5382,8 +5382,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #error Port
  #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/dav1d/config/linux/loong64/config.h b/third_party/dav1d/config/linux/loong64/config.h
---- a/third_party/dav1d/config/linux/loong64/config.h	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/dav1d/config/linux/loong64/config.h	2024-03-20 07:25:55.732677457 -0700
+--- a/third_party/dav1d/config/linux/loong64/config.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/dav1d/config/linux/loong64/config.h	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,45 @@
 +/*
 + * Autogenerated by the Meson build system.
@@ -5431,8 +5431,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define TRIM_DSP_FUNCTIONS 1
 +
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/dawn/src/tint/lang/spirv/reader/ast_parser/namer.h b/third_party/dawn/src/tint/lang/spirv/reader/ast_parser/namer.h
---- a/third_party/dawn/src/tint/lang/spirv/reader/ast_parser/namer.h	2024-03-19 15:16:04.242195000 -0700
-+++ b/third_party/dawn/src/tint/lang/spirv/reader/ast_parser/namer.h	2024-03-20 07:25:55.732677457 -0700
+--- a/third_party/dawn/src/tint/lang/spirv/reader/ast_parser/namer.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/dawn/src/tint/lang/spirv/reader/ast_parser/namer.h	2000-00-00 00:00:00.000000000 +0800
 @@ -28,6 +28,7 @@
  #ifndef SRC_TINT_LANG_SPIRV_READER_AST_PARSER_NAMER_H_
  #define SRC_TINT_LANG_SPIRV_READER_AST_PARSER_NAMER_H_
@@ -5442,8 +5442,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include <unordered_map>
  #include <vector>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/devtools-frontend/src/scripts/build/rollup.config.js b/third_party/devtools-frontend/src/scripts/build/rollup.config.js
---- a/third_party/devtools-frontend/src/scripts/build/rollup.config.js	2024-03-19 15:16:33.008761400 -0700
-+++ b/third_party/devtools-frontend/src/scripts/build/rollup.config.js	2024-03-20 07:25:55.732677457 -0700
+--- a/third_party/devtools-frontend/src/scripts/build/rollup.config.js	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/devtools-frontend/src/scripts/build/rollup.config.js	2000-00-00 00:00:00.000000000 +0800
 @@ -19,11 +19,11 @@ export default commandLineArgs => ({
      sourcemap: Boolean(commandLineArgs.configSourcemaps),
    }],
@@ -5462,8 +5462,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
        name: 'devtools-plugin',
        resolveId(source, importer) {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h
---- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h	2024-03-20 07:25:55.732677457 -0700
+--- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,760 @@
 +/* Automatically generated by configure - do not modify! */
 +#ifndef FFMPEG_CONFIG_H
@@ -6226,8 +6226,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_WMV2DSP 0
 +#endif /* FFMPEG_CONFIG_H */
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config_components.h b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config_components.h
---- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config_components.h	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config_components.h	2024-03-20 07:25:55.733677490 -0700
+--- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config_components.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config_components.h	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,2196 @@
 +/* Automatically generated by configure - do not modify! */
 +#ifndef FFMPEG_CONFIG_COMPONENTS_H
@@ -8426,14 +8426,14 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_IPNS_GATEWAY_PROTOCOL 0
 +#endif /* FFMPEG_CONFIG_COMPONENTS_H */
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/bsf_list.c b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/bsf_list.c
---- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/bsf_list.c	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/bsf_list.c	2024-03-20 07:25:55.733677490 -0700
+--- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/bsf_list.c	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/bsf_list.c	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,2 @@
 +static const FFBitStreamFilter * const bitstream_filters[] = {
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/codec_list.c b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/codec_list.c
---- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/codec_list.c	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/codec_list.c	2024-03-20 07:25:55.733677490 -0700
+--- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/codec_list.c	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/codec_list.c	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,20 @@
 +static const FFCodec * const codec_list[] = {
 +    &ff_h264_decoder,
@@ -8456,8 +8456,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +    &ff_libopus_decoder,
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/parser_list.c b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/parser_list.c
---- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/parser_list.c	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/parser_list.c	2024-03-20 07:25:55.733677490 -0700
+--- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/parser_list.c	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/parser_list.c	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,11 @@
 +static const AVCodecParser * const parser_list[] = {
 +    &ff_aac_parser,
@@ -8471,8 +8471,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +    &ff_vp9_parser,
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/demuxer_list.c b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/demuxer_list.c
---- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/demuxer_list.c	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/demuxer_list.c	2024-03-20 07:25:55.734677524 -0700
+--- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/demuxer_list.c	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/demuxer_list.c	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,9 @@
 +static const AVInputFormat * const demuxer_list[] = {
 +    &ff_aac_demuxer,
@@ -8484,20 +8484,20 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +    &ff_wav_demuxer,
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/muxer_list.c b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/muxer_list.c
---- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/muxer_list.c	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/muxer_list.c	2024-03-20 07:25:55.734677524 -0700
+--- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/muxer_list.c	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/muxer_list.c	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,2 @@
 +static const FFOutputFormat * const muxer_list[] = {
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/protocol_list.c b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/protocol_list.c
---- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/protocol_list.c	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/protocol_list.c	2024-03-20 07:25:55.734677524 -0700
+--- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/protocol_list.c	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/protocol_list.c	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,2 @@
 +static const URLProtocol * const url_protocols[] = {
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavutil/avconfig.h b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavutil/avconfig.h
---- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavutil/avconfig.h	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavutil/avconfig.h	2024-03-20 07:25:55.734677524 -0700
+--- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavutil/avconfig.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavutil/avconfig.h	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,6 @@
 +/* Generated by ffmpeg configure */
 +#ifndef AVUTIL_AVCONFIG_H
@@ -8506,8 +8506,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define AV_HAVE_FAST_UNALIGNED 1
 +#endif /* AVUTIL_AVCONFIG_H */
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavutil/ffversion.h b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavutil/ffversion.h
---- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavutil/ffversion.h	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavutil/ffversion.h	2024-03-20 07:25:55.734677524 -0700
+--- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavutil/ffversion.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavutil/ffversion.h	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,5 @@
 +/* Automatically generated by version.sh, do not manually edit! */
 +#ifndef AVUTIL_FFVERSION_H
@@ -8515,8 +8515,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define FFMPEG_VERSION "n5.0.1"
 +#endif /* AVUTIL_FFVERSION_H */
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config.h b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config.h
---- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config.h	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config.h	2024-03-20 07:25:55.734677524 -0700
+--- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config.h	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,760 @@
 +/* Automatically generated by configure - do not modify! */
 +#ifndef FFMPEG_CONFIG_H
@@ -9279,8 +9279,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_WMV2DSP 0
 +#endif /* FFMPEG_CONFIG_H */
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config_components.h b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config_components.h
---- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config_components.h	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config_components.h	2024-03-20 07:25:55.735677557 -0700
+--- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config_components.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config_components.h	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,2196 @@
 +/* Automatically generated by configure - do not modify! */
 +#ifndef FFMPEG_CONFIG_COMPONENTS_H
@@ -11479,14 +11479,14 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_IPNS_GATEWAY_PROTOCOL 0
 +#endif /* FFMPEG_CONFIG_COMPONENTS_H */
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/bsf_list.c b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/bsf_list.c
---- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/bsf_list.c	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/bsf_list.c	2024-03-20 07:25:55.735677557 -0700
+--- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/bsf_list.c	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/bsf_list.c	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,2 @@
 +static const FFBitStreamFilter * const bitstream_filters[] = {
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/codec_list.c b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/codec_list.c
---- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/codec_list.c	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/codec_list.c	2024-03-20 07:25:55.735677557 -0700
+--- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/codec_list.c	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/codec_list.c	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,18 @@
 +static const FFCodec * const codec_list[] = {
 +    &ff_theora_decoder,
@@ -11507,8 +11507,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +    &ff_libopus_decoder,
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/parser_list.c b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/parser_list.c
---- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/parser_list.c	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/parser_list.c	2024-03-20 07:25:55.735677557 -0700
+--- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/parser_list.c	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavcodec/parser_list.c	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,9 @@
 +static const AVCodecParser * const parser_list[] = {
 +    &ff_flac_parser,
@@ -11520,8 +11520,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +    &ff_vp9_parser,
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/demuxer_list.c b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/demuxer_list.c
---- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/demuxer_list.c	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/demuxer_list.c	2024-03-20 07:25:55.735677557 -0700
+--- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/demuxer_list.c	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/demuxer_list.c	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,8 @@
 +static const AVInputFormat * const demuxer_list[] = {
 +    &ff_flac_demuxer,
@@ -11532,20 +11532,20 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +    &ff_wav_demuxer,
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/muxer_list.c b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/muxer_list.c
---- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/muxer_list.c	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/muxer_list.c	2024-03-20 07:25:55.736677590 -0700
+--- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/muxer_list.c	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/muxer_list.c	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,2 @@
 +static const FFOutputFormat * const muxer_list[] = {
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/protocol_list.c b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/protocol_list.c
---- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/protocol_list.c	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/protocol_list.c	2024-03-20 07:25:55.736677590 -0700
+--- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/protocol_list.c	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavformat/protocol_list.c	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,2 @@
 +static const URLProtocol * const url_protocols[] = {
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavutil/avconfig.h b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavutil/avconfig.h
---- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavutil/avconfig.h	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavutil/avconfig.h	2024-03-20 07:25:55.736677590 -0700
+--- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavutil/avconfig.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavutil/avconfig.h	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,6 @@
 +/* Generated by ffmpeg configure */
 +#ifndef AVUTIL_AVCONFIG_H
@@ -11554,8 +11554,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define AV_HAVE_FAST_UNALIGNED 1
 +#endif /* AVUTIL_AVCONFIG_H */
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavutil/ffversion.h b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavutil/ffversion.h
---- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavutil/ffversion.h	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavutil/ffversion.h	2024-03-20 07:25:55.736677590 -0700
+--- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavutil/ffversion.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/libavutil/ffversion.h	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,5 @@
 +/* Automatically generated by version.sh, do not manually edit! */
 +#ifndef AVUTIL_FFVERSION_H
@@ -11563,8 +11563,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define FFMPEG_VERSION "n5.0.1"
 +#endif /* AVUTIL_FFVERSION_H */
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/ffmpeg_generated.gni b/third_party/ffmpeg/ffmpeg_generated.gni
---- a/third_party/ffmpeg/ffmpeg_generated.gni	2024-03-19 15:15:38.103863000 -0700
-+++ b/third_party/ffmpeg/ffmpeg_generated.gni	2024-03-20 07:25:55.736677590 -0700
+--- a/third_party/ffmpeg/ffmpeg_generated.gni	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ffmpeg/ffmpeg_generated.gni	2000-00-00 00:00:00.000000000 +0800
 @@ -271,7 +271,7 @@ if ((is_apple && ffmpeg_branding == "Chr
    ]
  }
@@ -11595,8 +11595,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
    ffmpeg_c_sources += [
      "libavcodec/arm/flacdsp_init_arm.c",
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/libvpx/BUILD.gn b/third_party/libvpx/BUILD.gn
---- a/third_party/libvpx/BUILD.gn	2024-03-19 15:15:21.786407200 -0700
-+++ b/third_party/libvpx/BUILD.gn	2024-03-20 07:25:55.736677590 -0700
+--- a/third_party/libvpx/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/libvpx/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
 @@ -542,7 +542,8 @@ static_library("libvpx") {
    if (current_cpu == "arm" && arm_assembly_sources != []) {
      deps += [ ":libvpx_assembly_arm" ]
@@ -11608,8 +11608,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
    }
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h b/third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h
---- a/third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h	2024-03-19 15:15:21.802408700 -0700
-+++ b/third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h	2024-03-20 07:25:55.737677623 -0700
+--- a/third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/libvpx/source/config/linux/loongarch/vp8_rtcd.h	2000-00-00 00:00:00.000000000 +0800
 @@ -444,53 +444,21 @@ static void setup_rtcd_internal(void) {
  
    (void)flags;
@@ -11665,8 +11665,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #endif
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/libvpx/source/config/linux/loongarch/vpx_dsp_rtcd.h b/third_party/libvpx/source/config/linux/loongarch/vpx_dsp_rtcd.h
---- a/third_party/libvpx/source/config/linux/loongarch/vpx_dsp_rtcd.h	2024-03-19 15:15:21.802408700 -0700
-+++ b/third_party/libvpx/source/config/linux/loongarch/vpx_dsp_rtcd.h	2024-03-20 07:25:55.737677623 -0700
+--- a/third_party/libvpx/source/config/linux/loongarch/vpx_dsp_rtcd.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/libvpx/source/config/linux/loongarch/vpx_dsp_rtcd.h	2000-00-00 00:00:00.000000000 +0800
 @@ -2280,176 +2280,62 @@ static void setup_rtcd_internal(void) {
  
    (void)flags;
@@ -11845,8 +11845,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #endif
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/material_color_utilities/src/cpp/palettes/tones.cc b/third_party/material_color_utilities/src/cpp/palettes/tones.cc
---- a/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-03-19 15:15:39.591996000 -0700
-+++ b/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2024-03-20 07:25:55.737677623 -0700
+--- a/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/material_color_utilities/src/cpp/palettes/tones.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -14,6 +14,7 @@
   * limitations under the License.
   */
@@ -11856,8 +11856,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  #include <cmath>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ruy/src/ruy/profiler/instrumentation.h b/third_party/ruy/src/ruy/profiler/instrumentation.h
---- a/third_party/ruy/src/ruy/profiler/instrumentation.h	2024-03-19 15:15:42.444250300 -0700
-+++ b/third_party/ruy/src/ruy/profiler/instrumentation.h	2024-03-20 07:25:55.738677656 -0700
+--- a/third_party/ruy/src/ruy/profiler/instrumentation.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/ruy/src/ruy/profiler/instrumentation.h	2000-00-00 00:00:00.000000000 +0800
 @@ -17,6 +17,7 @@ limitations under the License.
  #define RUY_RUY_PROFILER_INSTRUMENTATION_H_
  
@@ -11867,8 +11867,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include <mutex>
  #include <string>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/skia/modules/skcms/src/skcms_internals.h b/third_party/skia/modules/skcms/src/skcms_internals.h
---- a/third_party/skia/modules/skcms/src/skcms_internals.h	2024-03-19 15:15:54.661340200 -0700
-+++ b/third_party/skia/modules/skcms/src/skcms_internals.h	2024-03-20 07:25:55.738677656 -0700
+--- a/third_party/skia/modules/skcms/src/skcms_internals.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/skia/modules/skcms/src/skcms_internals.h	2000-00-00 00:00:00.000000000 +0800
 @@ -46,6 +46,7 @@ extern "C" {
                                                   && !defined(__EMSCRIPTEN__) \
                                                   && !defined(__arm__) \
@@ -11878,8 +11878,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
              #define SKCMS_HAS_MUSTTAIL 1
          #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/src/Reactor/BUILD.gn b/third_party/swiftshader/src/Reactor/BUILD.gn
---- a/third_party/swiftshader/src/Reactor/BUILD.gn	2024-03-19 15:15:46.724632300 -0700
-+++ b/third_party/swiftshader/src/Reactor/BUILD.gn	2024-03-20 07:25:55.738677656 -0700
+--- a/third_party/swiftshader/src/Reactor/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/src/Reactor/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
 @@ -307,7 +307,11 @@ if (supports_subzero) {
  
  if (supports_llvm) {
@@ -11894,8 +11894,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      deps = [
        ":swiftshader_reactor_base",
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/src/Reactor/reactor.gni b/third_party/swiftshader/src/Reactor/reactor.gni
---- a/third_party/swiftshader/src/Reactor/reactor.gni	2024-03-19 15:15:46.908648500 -0700
-+++ b/third_party/swiftshader/src/Reactor/reactor.gni	2024-03-20 07:25:55.738677656 -0700
+--- a/third_party/swiftshader/src/Reactor/reactor.gni	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/src/Reactor/reactor.gni	2000-00-00 00:00:00.000000000 +0800
 @@ -10,7 +10,7 @@ import("//build_overrides/build.gni")
  
  declare_args() {
@@ -11906,8 +11906,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  declare_args() {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-10.0/llvm/lib/Support/Unix/Signals.inc b/third_party/swiftshader/third_party/llvm-10.0/llvm/lib/Support/Unix/Signals.inc
---- a/third_party/swiftshader/third_party/llvm-10.0/llvm/lib/Support/Unix/Signals.inc	2024-03-19 15:16:05.118273000 -0700
-+++ b/third_party/swiftshader/third_party/llvm-10.0/llvm/lib/Support/Unix/Signals.inc	2024-03-20 07:25:55.738677656 -0700
+--- a/third_party/swiftshader/third_party/llvm-10.0/llvm/lib/Support/Unix/Signals.inc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-10.0/llvm/lib/Support/Unix/Signals.inc	2000-00-00 00:00:00.000000000 +0800
 @@ -45,6 +45,7 @@
  #include "llvm/Support/SaveAndRestore.h"
  #include "llvm/Support/raw_ostream.h"
@@ -11917,8 +11917,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include <sysexits.h>
  #ifdef HAVE_BACKTRACE
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn
---- a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-03-19 15:16:10.334738500 -0700
-+++ b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2024-03-20 07:25:55.739677689 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
 @@ -97,6 +97,7 @@ llvm_include_dirs = [
    "llvm/include/",
    "llvm/lib/Target/AArch64/",
@@ -11995,8 +11995,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +  ]
 +}
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc	2024-03-20 07:25:55.740677722 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmMatcher.inc	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,2353 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -14352,8 +14352,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#endif // GET_MNEMONIC_CHECKER
 +
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc	2024-03-20 07:25:55.740677722 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenAsmWriter.inc	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,2204 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -16560,8 +16560,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +
 +#endif // PRINT_ALIAS_INSTR
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc	2024-03-20 07:25:55.743677822 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDAGISel.inc	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,10214 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -26778,8 +26778,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#undef GET_DAGISEL_BODY
 +#endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc	2024-03-20 07:25:55.744677855 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenDisassemblerTables.inc	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,1911 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -28693,8 +28693,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +
 +} // end namespace llvm
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc	2024-03-20 07:25:55.746677921 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenInstrInfo.inc	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,5980 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -34677,8 +34677,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#endif // ENABLE_INSTR_PREDICATE_VERIFIER
 +
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc	2024-03-20 07:25:55.746677921 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCCodeEmitter.inc	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,1743 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -36424,8 +36424,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +}
 +
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc	2024-03-20 07:25:55.746677921 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenMCPseudoLowering.inc	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,166 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -36594,8 +36594,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +}
 +
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc	2024-03-20 07:25:55.747677955 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenRegisterInfo.inc	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,1676 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -38274,8 +38274,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#endif // GET_REGINFO_TARGET_DESC
 +
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc	1969-12-31 16:00:00.000000000 -0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc	2024-03-20 07:25:55.747677955 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/common/lib/Target/LoongArch/LoongArchGenSubtargetInfo.inc	2000-00-00 00:00:00.000000000 +0800
 @@ -0,0 +1,261 @@
 +/*===- TableGen'erated file -------------------------------------*- C++ -*-===*\
 +|*                                                                            *|
@@ -38539,8 +38539,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#endif // GET_STIPREDICATE_DEFS_FOR_MC_ANALYSIS
 +
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2024-03-19 15:16:12.754954300 -0700
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2024-03-20 07:25:55.747677955 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2000-00-00 00:00:00.000000000 +0800
 @@ -42,6 +42,9 @@ LLVM_ASM_PARSER(PowerPC)
  #if defined(__riscv)
  LLVM_ASM_PARSER(RISCV)
@@ -38552,8 +38552,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  #undef LLVM_ASM_PARSER
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def	2024-03-19 15:16:12.754954300 -0700
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def	2024-03-20 07:25:55.747677955 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmPrinters.def	2000-00-00 00:00:00.000000000 +0800
 @@ -42,6 +42,9 @@ LLVM_ASM_PRINTER(PowerPC)
  #if defined(__riscv)
  LLVM_ASM_PRINTER(RISCV)
@@ -38565,8 +38565,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  #undef LLVM_ASM_PRINTER
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def	2024-03-19 15:16:12.754954300 -0700
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def	2024-03-20 07:25:55.747677955 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Disassemblers.def	2000-00-00 00:00:00.000000000 +0800
 @@ -42,6 +42,9 @@ LLVM_DISASSEMBLER(PowerPC)
  #if defined(__riscv)
  LLVM_DISASSEMBLER(RISCV)
@@ -38578,8 +38578,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  #undef LLVM_DISASSEMBLER
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def	2024-03-19 15:16:12.754954300 -0700
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def	2024-03-20 07:25:55.748677988 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/Targets.def	2000-00-00 00:00:00.000000000 +0800
 @@ -41,6 +41,9 @@ LLVM_TARGET(PowerPC)
  #if defined(__riscv)
  LLVM_TARGET(RISCV)
@@ -38591,8 +38591,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  #undef LLVM_TARGET
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h
---- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h	2024-03-19 15:16:12.754954300 -0700
-+++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h	2024-03-20 07:25:55.748677988 -0700
+--- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/llvm-config.h	2000-00-00 00:00:00.000000000 +0800
 @@ -45,6 +45,8 @@
  #define LLVM_DEFAULT_TARGET_TRIPLE "powerpc64le-unknown-linux-gnu"
  #elif defined(__riscv)
@@ -38675,8 +38675,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #error "unknown architecture"
  #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h b/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h
---- a/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2024-03-19 15:16:26.632192400 -0700
-+++ b/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2024-03-20 07:25:55.748677988 -0700
+--- a/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/tflite/src/tensorflow/lite/kernels/internal/spectrogram.h	2000-00-00 00:00:00.000000000 +0800
 @@ -31,6 +31,7 @@ limitations under the License.
  #ifndef TENSORFLOW_LITE_KERNELS_INTERNAL_SPECTROGRAM_H_
  #define TENSORFLOW_LITE_KERNELS_INTERNAL_SPECTROGRAM_H_
@@ -38686,8 +38686,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include <deque>
  #include <vector>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/vulkan-deps/vulkan-validation-layers/src/layers/external/vma/vk_mem_alloc.h b/third_party/vulkan-deps/vulkan-validation-layers/src/layers/external/vma/vk_mem_alloc.h
---- a/third_party/vulkan-deps/vulkan-validation-layers/src/layers/external/vma/vk_mem_alloc.h	2024-03-19 15:16:17.359365200 -0700
-+++ b/third_party/vulkan-deps/vulkan-validation-layers/src/layers/external/vma/vk_mem_alloc.h	2024-03-20 07:25:55.751678087 -0700
+--- a/third_party/vulkan-deps/vulkan-validation-layers/src/layers/external/vma/vk_mem_alloc.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/vulkan-deps/vulkan-validation-layers/src/layers/external/vma/vk_mem_alloc.h	2000-00-00 00:00:00.000000000 +0800
 @@ -2884,6 +2884,7 @@ static void vma_aligned_free(void* VMA_N
  
  // Define this macro to 1 to enable functions: vmaBuildStatsString, vmaFreeStatsString.
@@ -38697,8 +38697,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      {
          snprintf(outStr, strLen, "%u", static_cast<unsigned int>(num));
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/webrtc/audio/utility/channel_mixer.cc b/third_party/webrtc/audio/utility/channel_mixer.cc
---- a/third_party/webrtc/audio/utility/channel_mixer.cc	2024-03-19 15:16:18.939506000 -0700
-+++ b/third_party/webrtc/audio/utility/channel_mixer.cc	2024-03-20 07:25:55.752678120 -0700
+--- a/third_party/webrtc/audio/utility/channel_mixer.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/webrtc/audio/utility/channel_mixer.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -8,6 +8,8 @@
   *  be found in the AUTHORS file in the root of the source tree.
   */
@@ -38709,8 +38709,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  #include "audio/utility/channel_mixing_matrix.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/webrtc/common_video/h264/sps_parser.h b/third_party/webrtc/common_video/h264/sps_parser.h
---- a/third_party/webrtc/common_video/h264/sps_parser.h	2024-03-19 15:16:18.983510000 -0700
-+++ b/third_party/webrtc/common_video/h264/sps_parser.h	2024-03-20 07:25:55.752678120 -0700
+--- a/third_party/webrtc/common_video/h264/sps_parser.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/webrtc/common_video/h264/sps_parser.h	2000-00-00 00:00:00.000000000 +0800
 @@ -11,6 +11,7 @@
  #ifndef COMMON_VIDEO_H264_SPS_PARSER_H_
  #define COMMON_VIDEO_H264_SPS_PARSER_H_
@@ -38720,8 +38720,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include "rtc_base/bitstream_reader.h"
  #include "rtc_base/system/rtc_export.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/webrtc/modules/include/module_common_types_public.h b/third_party/webrtc/modules/include/module_common_types_public.h
---- a/third_party/webrtc/modules/include/module_common_types_public.h	2024-03-19 15:16:24.656016000 -0700
-+++ b/third_party/webrtc/modules/include/module_common_types_public.h	2024-03-20 07:25:55.752678120 -0700
+--- a/third_party/webrtc/modules/include/module_common_types_public.h	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/webrtc/modules/include/module_common_types_public.h	2000-00-00 00:00:00.000000000 +0800
 @@ -11,6 +11,7 @@
  #ifndef MODULES_INCLUDE_MODULE_COMMON_TYPES_PUBLIC_H_
  #define MODULES_INCLUDE_MODULE_COMMON_TYPES_PUBLIC_H_
@@ -38731,8 +38731,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  #include "absl/types/optional.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc b/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc
---- a/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc	2024-03-19 15:16:25.612101600 -0700
-+++ b/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc	2024-03-20 07:25:55.752678120 -0700
+--- a/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc	2000-00-00 00:00:00.000000000 +0800
++++ b/third_party/webrtc/modules/video_coding/utility/ivf_file_reader.cc	2000-00-00 00:00:00.000000000 +0800
 @@ -10,6 +10,7 @@
  
  #include "modules/video_coding/utility/ivf_file_reader.h"
@@ -38742,8 +38742,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #include <vector>
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/tools/v8_context_snapshot/BUILD.gn b/tools/v8_context_snapshot/BUILD.gn
---- a/tools/v8_context_snapshot/BUILD.gn	2024-03-19 15:15:26.358815200 -0700
-+++ b/tools/v8_context_snapshot/BUILD.gn	2024-03-20 07:25:55.752678120 -0700
+--- a/tools/v8_context_snapshot/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
++++ b/tools/v8_context_snapshot/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
 @@ -93,6 +93,13 @@ if (use_v8_context_snapshot) {
          "//v8:external_startup_data",
          ":disable_icf",
@@ -38759,8 +38759,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/to
    }
  
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ui/gfx/linux/drm_util_linux.h b/ui/gfx/linux/drm_util_linux.h
---- a/ui/gfx/linux/drm_util_linux.h	2024-03-19 15:15:27.346903300 -0700
-+++ b/ui/gfx/linux/drm_util_linux.h	2024-03-20 07:25:55.753678153 -0700
+--- a/ui/gfx/linux/drm_util_linux.h	2000-00-00 00:00:00.000000000 +0800
++++ b/ui/gfx/linux/drm_util_linux.h	2000-00-00 00:00:00.000000000 +0800
 @@ -9,6 +9,8 @@
  
  #include "ui/gfx/buffer_types.h"

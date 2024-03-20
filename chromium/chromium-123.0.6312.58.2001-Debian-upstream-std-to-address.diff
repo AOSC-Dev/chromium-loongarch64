@@ -1,6 +1,6 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/mojo/public/cpp/bindings/type_converter.h b/mojo/public/cpp/bindings/type_converter.h
---- a/mojo/public/cpp/bindings/type_converter.h	2024-03-19 15:14:49.827556100 -0700
-+++ b/mojo/public/cpp/bindings/type_converter.h	2024-03-20 07:25:55.705676562 -0700
+--- a/mojo/public/cpp/bindings/type_converter.h	2000-00-00 00:00:00.000000000 +0800
++++ b/mojo/public/cpp/bindings/type_converter.h	2000-00-00 00:00:00.000000000 +0800
 @@ -95,13 +95,16 @@ inline T ConvertTo(U* obj) {
    return TypeConverter<T, std::remove_cv_t<U>*>::Convert(obj);
  }

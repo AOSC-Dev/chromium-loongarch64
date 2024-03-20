@@ -1,6 +1,6 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/clang/BUILD.gn b/build/config/clang/BUILD.gn
---- a/build/config/clang/BUILD.gn	2024-03-19 15:14:27.409556200 -0700
-+++ b/build/config/clang/BUILD.gn	2024-03-20 07:25:42.370234469 -0700
+--- a/build/config/clang/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
++++ b/build/config/clang/BUILD.gn	2000-00-00 00:00:00.000000000 +0800
 @@ -147,14 +147,15 @@ template("clang_lib") {
        } else if (is_apple) {
          _dir = "darwin"
