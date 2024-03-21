@@ -103,8 +103,12 @@ for patch in sorted(patches):
         "build/rust/rust_target.gni",
     ]:
         clazz = "4006-loongarch64-medium-cmodel"
+    elif path.startswith("v8/src"):
+        # https://chromium.googlesource.com/v8/v8/+/104036a2890d97a778870b4f3d66afeda70ba9f0
+        # [loong64][mips64][sandbox] First step towards fine-grained entrypoint tags for builtins
+        clazz = "4007-loongarch64-upstream-v8-backport"
     else:
-        clazz = "4007-loongarch64"
+        clazz = "4008-loongarch64"
 
     if clazz not in classes:
         classes[clazz] = []
