@@ -210,7 +210,19 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/wasm/baseline/loong64/liftoff-assembler-loong64-inl.h b/v8/src/wasm/baseline/loong64/liftoff-assembler-loong64-inl.h
 --- a/v8/src/wasm/baseline/loong64/liftoff-assembler-loong64-inl.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/v8/src/wasm/baseline/loong64/liftoff-assembler-loong64-inl.h	2000-01-01 00:00:00.000000000 +0800
-@@ -483,7 +483,7 @@ void LiftoffAssembler::LoadCodeEntrypoin
+@@ -472,6 +472,11 @@ void LiftoffAssembler::LoadTaggedPointer
+   }
+ }
+ 
++void LiftoffAssembler::LoadProtectedPointer(Register dst, Register src_addr,
++                                            int32_t offset_imm) {
++  LoadProtectedPointerField(dst, MemOperand{src_addr, offset_imm});
++}
++
+ void LiftoffAssembler::LoadFullPointer(Register dst, Register src_addr,
+                                        int32_t offset_imm) {
+   MemOperand src_op = liftoff::GetMemOp(this, src_addr, no_reg, offset_imm);
+@@ -483,7 +488,7 @@ void LiftoffAssembler::LoadCodeEntrypoin
                                                          Register src_addr,
                                                          int32_t offset_imm) {
    MemOperand src_op = liftoff::GetMemOp(this, src_addr, no_reg, offset_imm);
@@ -219,3 +231,22 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
  }
  #endif
  
+@@ -1287,6 +1292,18 @@ void LiftoffAssembler::emit_i64_mul(Lift
+   MacroAssembler::Mul_d(dst.gp(), lhs.gp(), rhs.gp());
+ }
+ 
++void LiftoffAssembler::emit_i64_muli(LiftoffRegister dst, LiftoffRegister lhs,
++                                     int32_t imm) {
++  if (base::bits::IsPowerOfTwo(imm)) {
++    emit_i64_shli(dst, lhs, base::bits::WhichPowerOfTwo(imm));
++    return;
++  }
++  UseScratchRegisterScope temps(this);
++  Register scratch = temps.Acquire();
++  MacroAssembler::li(scratch, Operand(imm));
++  MacroAssembler::Mul_d(dst.gp(), lhs.gp(), scratch);
++}
++
+ bool LiftoffAssembler::emit_i64_divs(LiftoffRegister dst, LiftoffRegister lhs,
+                                      LiftoffRegister rhs,
+                                      Label* trap_div_by_zero,

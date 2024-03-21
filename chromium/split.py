@@ -106,6 +106,8 @@ for patch in sorted(patches):
     elif path.startswith("v8/src"):
         # https://chromium.googlesource.com/v8/v8/+/104036a2890d97a778870b4f3d66afeda70ba9f0
         # [loong64][mips64][sandbox] First step towards fine-grained entrypoint tags for builtins
+        # https://chromium.googlesource.com/v8/v8/+/9d9854f134302fcd4e55e0e7ea45b1dc3a64be9e
+        # [loong64][mips64][liftoff] Use WasmDispatchTable for indirect calls
         clazz = "4007-loongarch64-upstream-v8-backport"
     else:
         clazz = "4008-loongarch64"
