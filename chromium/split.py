@@ -58,6 +58,7 @@ for patch in sorted(patches):
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/optional2.patch?ref_type=heads
         clazz = "2003-Debian-fixes-optional2"
     elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
+        # https://issues.chromium.org/issues/40945821
         clazz = "3001-rust-ld-bfd"
     elif path in [
         "third_party/devtools-frontend/src/scripts/build/rollup.config.js"
