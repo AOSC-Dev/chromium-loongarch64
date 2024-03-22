@@ -17,7 +17,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
          # On Chrome OS builds (for both ash-chrome and lacros-chrome), put
          # priority to the library in the installed directory.
          # This will avoid conflicting of exposed symbols.
-二进制文件 a/chrome/.BUILD.gn.swp 和 b/chrome/.BUILD.gn.swp 不同
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/tools/v8_context_snapshot/BUILD.gn b/tools/v8_context_snapshot/BUILD.gn
 --- a/tools/v8_context_snapshot/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/tools/v8_context_snapshot/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
@@ -37,4 +36,3 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/to
      }
    }
  
-二进制文件 a/tools/v8_context_snapshot/.BUILD.gn.swp 和 b/tools/v8_context_snapshot/.BUILD.gn.swp 不同
