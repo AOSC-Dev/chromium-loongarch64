@@ -6,8 +6,6 @@ Whole diff: `chromium/chromium-VER.diff`.
 
 Partial diff: `chromium/chromium-VER.*.diff`, they are extracted from the whole diff.
 
-Also maintained at [AOSC-Tracking/chromium](https://github.com/AOSC-Tracking/chromium).
-
 Caveat: you need to build compiler-rt and rustc with `-mcmodel=medium`, otherwise it may fail to link due to relocation truncation.
 
 Based on:
