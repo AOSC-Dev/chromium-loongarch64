@@ -2,6 +2,8 @@
 
 Port chromium (also chromium-based qt6-webengine) to loongarch64.
 
+You can use git tags to find legacy version of patches.
+
 Whole diff: `chromium/chromium-VER.diff`.
 
 Partial diff: `chromium/chromium-VER.*.diff`, they are extracted from the whole diff.
