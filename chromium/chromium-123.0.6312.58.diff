@@ -261,7 +261,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/BUILD.gn b/chrome/BUILD.gn
 --- a/chrome/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/chrome/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -301,6 +301,15 @@ if (!is_android && !is_mac) {
+@@ -301,6 +301,13 @@ if (!is_android && !is_mac) {
  
          ldflags = []
  
@@ -270,8 +270,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
 +        # --end-group is added by ld automatically
 +        if (!use_lld) {
 +          ldflags += [ "-Wl,--start-group" ]
-+          # somehow remap_alloc is not linked automatically, link them here
-+          ldflags += [ "obj/build/rust/std/remap_alloc/remap_alloc.o", "obj/build/rust/std/remap_alloc/alias.o" ]
 +        }
 +
          # On Chrome OS builds (for both ash-chrome and lacros-chrome), put
@@ -38804,7 +38802,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/tools/v8_context_snapshot/BUILD.gn b/tools/v8_context_snapshot/BUILD.gn
 --- a/tools/v8_context_snapshot/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/tools/v8_context_snapshot/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -93,6 +93,15 @@ if (use_v8_context_snapshot) {
+@@ -93,6 +93,13 @@ if (use_v8_context_snapshot) {
          "//v8:external_startup_data",
          ":disable_icf",
        ]
@@ -38814,8 +38812,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/to
 +      # --end-group is added by ld automatically
 +      if (!use_lld) {
 +        ldflags = [ "-Wl,--start-group" ]
-+        # somehow remap_alloc is not linked automatically, link them here
-+        ldflags += [ "obj/build/rust/std/remap_alloc/remap_alloc.o", "obj/build/rust/std/remap_alloc/alias.o" ]
 +      }
      }
    }
