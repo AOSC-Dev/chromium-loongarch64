@@ -1,6 +1,6 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/v8/src/regexp/loong64/regexp-macro-assembler-loong64.cc b/qtwebengine/src/3rdparty/chromium/v8/src/regexp/loong64/regexp-macro-assembler-loong64.cc
---- a/qtwebengine/src/3rdparty/chromium/v8/src/regexp/loong64/regexp-macro-assembler-loong64.cc	2024-02-10 08:23:21.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/v8/src/regexp/loong64/regexp-macro-assembler-loong64.cc	2024-02-23 22:57:06.667731413 +0800
+--- a/qtwebengine/src/3rdparty/chromium/v8/src/regexp/loong64/regexp-macro-assembler-loong64.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/v8/src/regexp/loong64/regexp-macro-assembler-loong64.cc	2000-01-01 00:00:00.000000000 +0800
 @@ -717,6 +717,8 @@ Handle<HeapObject> RegExpMacroAssemblerL
  
        ExternalReference stack_limit =
@@ -103,8 +103,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  
  MemOperand RegExpMacroAssemblerLOONG64::register_location(int register_index) {
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/v8/src/regexp/loong64/regexp-macro-assembler-loong64.h b/qtwebengine/src/3rdparty/chromium/v8/src/regexp/loong64/regexp-macro-assembler-loong64.h
---- a/qtwebengine/src/3rdparty/chromium/v8/src/regexp/loong64/regexp-macro-assembler-loong64.h	2024-02-10 08:23:21.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/v8/src/regexp/loong64/regexp-macro-assembler-loong64.h	2024-02-23 22:57:19.115831489 +0800
+--- a/qtwebengine/src/3rdparty/chromium/v8/src/regexp/loong64/regexp-macro-assembler-loong64.h	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/v8/src/regexp/loong64/regexp-macro-assembler-loong64.h	2000-01-01 00:00:00.000000000 +0800
 @@ -87,7 +87,7 @@ class V8_EXPORT_PRIVATE RegExpMacroAssem
    // returning.
    // {raw_code} is an Address because this is called via ExternalReference.
@@ -125,8 +125,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  
    // The ebp-relative location of a regexp register.
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.cc b/qtwebengine/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.cc
---- a/qtwebengine/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.cc	2024-02-10 08:23:21.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.cc	2024-02-23 22:58:35.937449052 +0800
+--- a/qtwebengine/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.cc	2000-01-01 00:00:00.000000000 +0800
 @@ -765,6 +765,8 @@ Handle<HeapObject> RegExpMacroAssemblerM
  
        ExternalReference stack_limit =
@@ -229,8 +229,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  
  MemOperand RegExpMacroAssemblerMIPS::register_location(int register_index) {
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.h b/qtwebengine/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.h
---- a/qtwebengine/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.h	2024-02-10 08:23:21.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.h	2024-02-23 22:54:29.327466274 +0800
+--- a/qtwebengine/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.h	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/v8/src/regexp/mips64/regexp-macro-assembler-mips64.h	2000-01-01 00:00:00.000000000 +0800
 @@ -88,7 +88,7 @@ class V8_EXPORT_PRIVATE RegExpMacroAssem
    // returning.
    // {raw_code} is an Address because this is called via ExternalReference.

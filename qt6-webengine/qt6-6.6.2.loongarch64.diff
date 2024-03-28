@@ -1,6 +1,6 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/cmake/Functions.cmake b/qtwebengine/cmake/Functions.cmake
---- a/qtwebengine/cmake/Functions.cmake	2024-02-10 08:23:21.000000000 +0800
-+++ b/qtwebengine/cmake/Functions.cmake	2024-02-23 13:35:52.073151187 +0800
+--- a/qtwebengine/cmake/Functions.cmake	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/cmake/Functions.cmake	2000-01-01 00:00:00.000000000 +0800
 @@ -633,6 +633,8 @@ function(get_gn_arch result arch)
          set(${result} "mips64el" PARENT_SCOPE)
      elseif(arch STREQUAL "riscv64")
@@ -11,8 +11,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
          message(FATAL_ERROR "Unknown architecture: ${arch}")
      endif()
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni b/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni
---- a/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni	2024-02-10 08:23:21.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni	2024-02-23 13:35:52.074151194 +0800
+--- a/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni	2000-01-01 00:00:00.000000000 +0800
 @@ -14,7 +14,7 @@ if (is_apple) {
  if (is_nacl) {
    # NaCl targets don't use 64-bit pointers.
@@ -23,8 +23,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  } else if (current_cpu == "x86" || current_cpu == "arm") {
    has_64_bit_pointers = false
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn b/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn
---- a/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn	2024-02-10 08:23:21.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn	2024-02-23 13:35:52.088151288 +0800
+--- a/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 @@ -765,6 +765,8 @@ skia_source_set("skia_opts") {
      # Conditional and empty body needed to avoid assert() below.
    } else if (current_cpu == "riscv64") {
@@ -35,8 +35,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      assert(false, "Unknown cpu target")
    }
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/boringssl/src/include/openssl/base.h b/qtwebengine/src/3rdparty/chromium/third_party/boringssl/src/include/openssl/base.h
---- a/qtwebengine/src/3rdparty/chromium/third_party/boringssl/src/include/openssl/base.h	2024-02-10 08:23:21.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/boringssl/src/include/openssl/base.h	2024-02-23 13:35:52.089151295 +0800
+--- a/qtwebengine/src/3rdparty/chromium/third_party/boringssl/src/include/openssl/base.h	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/boringssl/src/include/openssl/base.h	2000-01-01 00:00:00.000000000 +0800
 @@ -107,6 +107,8 @@ extern "C" {
  #define OPENSSL_RISCV64
  #elif defined(__riscv) && __SIZEOF_POINTER__ == 4
@@ -47,8 +47,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #define OPENSSL_32_BIT
  #define OPENSSL_PNACL
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni b/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni
---- a/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni	2024-02-10 08:23:21.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni	2024-02-23 13:35:52.115151470 +0800
+--- a/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/libgav1/options.gni	2000-01-01 00:00:00.000000000 +0800
 @@ -9,5 +9,5 @@ declare_args() {
    use_libgav1_parser =
        (is_chromeos || is_linux || is_win) &&
@@ -57,8 +57,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 +       target_cpu == "arm64" || target_cpu == "ppc64" || target_cpu == "loong64")
  }
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn
---- a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn	2024-02-10 08:23:21.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn	2024-02-23 13:35:52.115151470 +0800
+--- a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 @@ -156,6 +156,8 @@ swiftshader_llvm_source_set("swiftshader
      deps += [ ":swiftshader_llvm_ppc" ]
    } else if (current_cpu == "riscv64") {
@@ -69,8 +69,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      deps += [ ":swiftshader_llvm_x86" ]
    } else {
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/gn/src/util/sys_info.cc b/qtwebengine/src/3rdparty/gn/src/util/sys_info.cc
---- a/qtwebengine/src/3rdparty/gn/src/util/sys_info.cc	2024-02-10 08:23:21.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/gn/src/util/sys_info.cc	2024-02-23 13:35:52.116151477 +0800
+--- a/qtwebengine/src/3rdparty/gn/src/util/sys_info.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/gn/src/util/sys_info.cc	2000-01-01 00:00:00.000000000 +0800
 @@ -34,6 +34,8 @@ std::string OperatingSystemArchitecture(
      arch = "x86_64";
    } else if (arch == "amd64") {
