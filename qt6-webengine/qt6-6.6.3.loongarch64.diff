@@ -1,7 +1,7 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/cmake/Functions.cmake b/qtwebengine/cmake/Functions.cmake
 --- a/qtwebengine/cmake/Functions.cmake	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/cmake/Functions.cmake	2000-01-01 00:00:00.000000000 +0800
-@@ -633,6 +633,8 @@ function(get_gn_arch result arch)
+@@ -635,6 +635,8 @@ function(get_gn_arch result arch)
          set(${result} "mips64el" PARENT_SCOPE)
      elseif(arch STREQUAL "riscv64")
          set(${result} "riscv64" PARENT_SCOPE)
