@@ -1,4 +1,4 @@
-version = "123.0.6312.58"
+version = "123.0.6312.86"
 patches = []
 with open(f"chromium-{version}.diff", "r") as f:
     cur = []
@@ -57,6 +57,11 @@ for patch in sorted(patches):
     elif path in ["components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h"]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/optional2.patch?ref_type=heads
         clazz = "2003-Debian-fixes-optional2"
+    elif path.startswith("third_party/blink/renderer/"):
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/blink-fonts-shape-result.patch?ref_type=heads
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc1.patch?ref_type=heads
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc2.patch?ref_type=heads
+        clazz = "2004-Debian-fixes-blink"
     elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
         # https://issues.chromium.org/issues/40945821
         clazz = "3001-rust-ld-bfd"
