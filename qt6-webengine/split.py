@@ -22,7 +22,9 @@ for patch in sorted(patches):
         clazz = "loongarch64-sandbox"
     elif path.startswith("qtwebengine/src/3rdparty/chromium/third_party/crashpad/"):
         clazz = "loongarch64-crashpad"
-    elif path.startswith("qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/"):
+    elif path.startswith(
+        "qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/"
+    ):
         clazz = "rollup"
     elif path.startswith("qtwebengine/src/3rdparty/chromium/v8/src/regexp/"):
         clazz = "loongarch64-regexp-backport"
