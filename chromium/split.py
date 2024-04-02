@@ -58,6 +58,7 @@ for patch in sorted(patches):
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/optional2.patch?ref_type=heads
         clazz = "2003-Debian-fixes-optional2"
     elif path.startswith("third_party/blink/renderer/"):
+        # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067886
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/blink-fonts-shape-result.patch?ref_type=heads
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc1.patch?ref_type=heads
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc2.patch?ref_type=heads
