@@ -2300,20 +2300,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #elif defined(__pnacl__)
  #define OPENSSL_32_BIT
  #define OPENSSL_PNACL
-diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/client/crashpad_client_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/client/crashpad_client_linux.cc
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2000-01-01 00:00:00.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/client/crashpad_client_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -716,6 +716,10 @@ void CrashpadClient::DumpWithoutCrash(Na
-   memset(context->uc_mcontext.__reserved,
-          0,
-          sizeof(context->uc_mcontext.__reserved));
-+#elif defined(ARCH_CPU_LOONG_FAMILY)
-+  memset(context->uc_mcontext.__extcontext,
-+         0,
-+         sizeof(struct sctx_info));
- #endif
- 
-   siginfo_t siginfo;
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h	2000-01-01 00:00:00.000000000 +0800
