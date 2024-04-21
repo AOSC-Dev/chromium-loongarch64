@@ -135,6 +135,7 @@ for patch in sorted(patches):
         clazz = "3007-replace-powf-with-pow"
     elif path in [
         "content/browser/BUILD.gn",
+        "chrome/browser/safe_browsing/BUILD.gn"
     ]:
         # https://bugs.gentoo.org/930112
         # https://bugs.gentoo.org/930107
