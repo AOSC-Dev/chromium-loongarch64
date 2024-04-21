@@ -1,4 +1,4 @@
-version = "123.0.6312.86"
+version = "124.0.6367.60"
 patches = []
 with open(f"chromium-{version}.diff", "r") as f:
     cur = []
@@ -48,19 +48,11 @@ for patch in sorted(patches):
     elif path in ["optional"]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/absl-optional.patch?ref_type=heads
         clazz = "2000-Debian-fixes-absl-optional"
-    elif path in ["mojo/public/cpp/bindings/type_converter.h"]:
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/std-to-address.patch?ref_type=heads
-        clazz = "2001-Debian-upstream-std-to-address"
     elif path in [
         "base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h"
     ]:
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/internalalloc.patch?ref_type=heads
-        clazz = "2002-Debian-fixes-internalalloc"
-    elif path in [
-        "components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h"
-    ]:
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/optional2.patch?ref_type=heads
-        clazz = "2003-Debian-fixes-optional2"
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/stats-collector.patch
+        clazz = "2001-Debian-fixes-stats-collector"
     elif (
         path.startswith("third_party/blink/renderer/")
         or path in ["tools/privacy_budget/font_indexer/font_indexer.cc"]
@@ -68,12 +60,50 @@ for patch in sorted(patches):
         "third_party/blink/renderer/platform/BUILD.gn",
         "third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc",
         "third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h",
+        "third_party/blink/renderer/bindings/core/v8/script_streamer.cc",
+        "third_party/blink/renderer/modules/webgpu/gpu_adapter_info.h",
     ]:
         # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067886
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/blink-fonts-shape-result.patch?ref_type=heads
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc1.patch?ref_type=heads
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc2.patch?ref_type=heads
-        clazz = "2004-Debian-fixes-blink"
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc0000.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc000.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc00.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc0.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc1.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc11.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc2.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc3.patch
+        clazz = "2002-Debian-fixes-blink"
+    elif path in [
+        "media/filters/temporal_scalability_id_extractor.cc"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/extractor-bitset.patch
+        clazz = "2003-Debian-upstream-extractor-bitset"
+    elif path in [
+        "base/containers/span_reader.h"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/span-optional.patch
+        clazz = "2004-Debian-upstream-span-optional"
+    elif path in [
+        "components/ukm/bitset.h",
+        "components/ukm/bitset.cc"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/uint-includes.patch
+        clazz = "2005-Debian-upstream-uint-includes"
+    elif path in [
+        "content/browser/first_party_sets/first_party_sets_handler_database_helper.h"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/fps-optional.patch
+        clazz = "2006-Debian-upstream-fps-optional"
+    elif path in [
+        "third_party/blink/renderer/bindings/core/v8/script_streamer.cc"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/atomic.patch
+        clazz = "2007-Debian-upstream-atomic"
+    elif path in [
+        "third_party/blink/renderer/modules/webgpu/gpu_adapter_info.h"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/webgpu-optional.patch
+        clazz = "2008-Debian-upstream-webgpu-optional"
     elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
         # https://issues.chromium.org/issues/40945821
         clazz = "3001-rust-ld-bfd"
@@ -98,6 +128,19 @@ for patch in sorted(patches):
     ]:
         clazz = "3006-fix-static-assertion"
     elif path in [
+        "third_party/angle/src/libANGLE/renderer/vulkan/FramebufferVk.cpp",
+    ]:
+        # https://issues.chromium.org/issues/41455655#comment473
+        # https://chromium.googlesource.com/angle/angle.git/+/2f934a47e9709cac9ce04d312b7aa496948bced6%5E%21/#F0
+        clazz = "3007-replace-powf-with-pow"
+    elif path in [
+        "content/browser/BUILD.gn",
+    ]:
+        # https://bugs.gentoo.org/930112
+        # https://bugs.gentoo.org/930107
+        # https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/files/qtwebengine-6.7.0-ninja1.12.patch
+        clazz = "3008-fix-ninja-race-condition"
+    elif path in [
         "third_party/libvpx/BUILD.gn",
         "third_party/blink/renderer/platform/BUILD.gn",
         "third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc",
@@ -119,14 +162,8 @@ for patch in sorted(patches):
         "build/rust/rust_target.gni",
     ]:
         clazz = "4006-loongarch64-medium-cmodel"
-    elif path.startswith("v8/src"):
-        # https://chromium.googlesource.com/v8/v8/+/104036a2890d97a778870b4f3d66afeda70ba9f0
-        # [loong64][mips64][sandbox] First step towards fine-grained entrypoint tags for builtins
-        # https://chromium.googlesource.com/v8/v8/+/9d9854f134302fcd4e55e0e7ea45b1dc3a64be9e
-        # [loong64][mips64][liftoff] Use WasmDispatchTable for indirect calls
-        clazz = "4007-loongarch64-upstream-v8-backport"
     else:
-        clazz = "4008-loongarch64"
+        clazz = "4007-loongarch64"
 
     if clazz not in classes:
         classes[clazz] = []
