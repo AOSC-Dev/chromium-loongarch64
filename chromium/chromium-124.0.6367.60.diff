@@ -110,6 +110,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
  #include <functional>
  #include <tuple>
  #include <type_traits>
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/containers/span_reader.h b/base/containers/span_reader.h
+--- a/base/containers/span_reader.h	2000-01-01 00:00:00.000000000 +0800
++++ b/base/containers/span_reader.h	2000-01-01 00:00:00.000000000 +0800
+@@ -5,6 +5,8 @@
+ #ifndef BASE_CONTAINERS_SPAN_READER_H_
+ #define BASE_CONTAINERS_SPAN_READER_H_
+ 
++#include <optional>
++
+ #include "base/containers/span.h"
+ #include "base/numerics/safe_conversions.h"
+ 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/system/sys_info.cc b/base/system/sys_info.cc
 --- a/base/system/sys_info.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/base/system/sys_info.cc	2000-01-01 00:00:00.000000000 +0800
@@ -322,6 +334,29 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
  #include <string>
  
  #include "components/feature_engagement/internal/event_storage_validator.h"
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/ukm/bitset.cc b/components/ukm/bitset.cc
+--- a/components/ukm/bitset.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/components/ukm/bitset.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -4,6 +4,8 @@
+ 
+ #include "components/ukm/bitset.h"
+ 
++#include <cstring>
++
+ #include "base/check_op.h"
+ 
+ namespace ukm {
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/ukm/bitset.h b/components/ukm/bitset.h
+--- a/components/ukm/bitset.h	2000-01-01 00:00:00.000000000 +0800
++++ b/components/ukm/bitset.h	2000-01-01 00:00:00.000000000 +0800
+@@ -5,6 +5,7 @@
+ #ifndef COMPONENTS_UKM_BITSET_H_
+ #define COMPONENTS_UKM_BITSET_H_
+ 
++#include <cstdint>
+ #include <string>
+ #include <vector>
+ 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
 --- a/content/common/user_agent.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/content/common/user_agent.cc	2000-01-01 00:00:00.000000000 +0800
@@ -346,6 +381,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/gi
        return now_micros / 1000;
      }
      return ClampTimeResolution(now_micros) / 1000;
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/media/filters/temporal_scalability_id_extractor.cc b/media/filters/temporal_scalability_id_extractor.cc
+--- a/media/filters/temporal_scalability_id_extractor.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/media/filters/temporal_scalability_id_extractor.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -4,6 +4,8 @@
+ 
+ #include "media/filters/temporal_scalability_id_extractor.h"
+ 
++#include <bitset>
++
+ namespace media {
+ 
+ TemporalScalabilityIdExtractor::TemporalScalabilityIdExtractor(VideoCodec codec,
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/net/base/net_export.h b/net/base/net_export.h
 --- a/net/base/net_export.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/net/base/net_export.h	2000-01-01 00:00:00.000000000 +0800

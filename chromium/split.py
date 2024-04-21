@@ -71,6 +71,22 @@ for patch in sorted(patches):
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc2.patch
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc3.patch
         clazz = "2002-Debian-fixes-blink"
+    elif path in [
+        "media/filters/temporal_scalability_id_extractor.cc"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/extractor-bitset.patch
+        clazz = "2003-Debian-upstream-extractor-bitset"
+    elif path in [
+        "base/containers/span_reader.h"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/span-optional.patch
+        clazz = "2004-Debian-upstream-span-optional"
+    elif path in [
+        "components/ukm/bitset.h",
+        "components/ukm/bitset.cc"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/uint-includes.patch
+        clazz = "2005-Debian-upstream-uint-includes"
     elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
         # https://issues.chromium.org/issues/40945821
         clazz = "3001-rust-ld-bfd"
