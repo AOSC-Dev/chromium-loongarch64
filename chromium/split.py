@@ -95,6 +95,12 @@ for patch in sorted(patches):
     ]:
         clazz = "3006-fix-static-assertion"
     elif path in [
+        "third_party/angle/src/libANGLE/renderer/vulkan/FramebufferVk.cpp",
+    ]:
+        # https://issues.chromium.org/issues/41455655#comment473
+        # https://chromium.googlesource.com/angle/angle.git/+/2f934a47e9709cac9ce04d312b7aa496948bced6%5E%21/#F0
+        clazz = "3007-replace-powf-with-pow"
+    elif path in [
         "third_party/libvpx/BUILD.gn",
         "third_party/blink/renderer/platform/BUILD.gn",
         "third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc",
