@@ -1,4 +1,4 @@
-version = "123.0.6312.86"
+version = "124.0.6367.60"
 patches = []
 with open(f"chromium-{version}.diff", "r") as f:
     cur = []
@@ -48,19 +48,11 @@ for patch in sorted(patches):
     elif path in ["optional"]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/absl-optional.patch?ref_type=heads
         clazz = "2000-Debian-fixes-absl-optional"
-    elif path in ["mojo/public/cpp/bindings/type_converter.h"]:
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/std-to-address.patch?ref_type=heads
-        clazz = "2001-Debian-upstream-std-to-address"
     elif path in [
         "base/allocator/partition_allocator/src/partition_alloc/starscan/stats_collector.h"
     ]:
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/internalalloc.patch?ref_type=heads
-        clazz = "2002-Debian-fixes-internalalloc"
-    elif path in [
-        "components/page_load_metrics/browser/observers/ad_metrics/aggregate_frame_data.h"
-    ]:
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/optional2.patch?ref_type=heads
-        clazz = "2003-Debian-fixes-optional2"
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/stats-collector.patch
+        clazz = "2001-Debian-fixes-stats-collector"
     elif (
         path.startswith("third_party/blink/renderer/")
         or path in ["tools/privacy_budget/font_indexer/font_indexer.cc"]
@@ -70,10 +62,15 @@ for patch in sorted(patches):
         "third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h",
     ]:
         # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067886
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/blink-fonts-shape-result.patch?ref_type=heads
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc1.patch?ref_type=heads
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc2.patch?ref_type=heads
-        clazz = "2004-Debian-fixes-blink"
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc0000.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc000.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc00.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc0.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc1.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc11.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc2.patch
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc3.patch
+        clazz = "2002-Debian-fixes-blink"
     elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
         # https://issues.chromium.org/issues/40945821
         clazz = "3001-rust-ld-bfd"
@@ -119,14 +116,8 @@ for patch in sorted(patches):
         "build/rust/rust_target.gni",
     ]:
         clazz = "4006-loongarch64-medium-cmodel"
-    elif path.startswith("v8/src"):
-        # https://chromium.googlesource.com/v8/v8/+/104036a2890d97a778870b4f3d66afeda70ba9f0
-        # [loong64][mips64][sandbox] First step towards fine-grained entrypoint tags for builtins
-        # https://chromium.googlesource.com/v8/v8/+/9d9854f134302fcd4e55e0e7ea45b1dc3a64be9e
-        # [loong64][mips64][liftoff] Use WasmDispatchTable for indirect calls
-        clazz = "4007-loongarch64-upstream-v8-backport"
     else:
-        clazz = "4008-loongarch64"
+        clazz = "4007-loongarch64"
 
     if clazz not in classes:
         classes[clazz] = []
