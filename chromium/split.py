@@ -60,6 +60,8 @@ for patch in sorted(patches):
         "third_party/blink/renderer/platform/BUILD.gn",
         "third_party/blink/renderer/platform/graphics/gpu/webgl_image_conversion.cc",
         "third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h",
+        "third_party/blink/renderer/bindings/core/v8/script_streamer.cc",
+        "third_party/blink/renderer/modules/webgpu/gpu_adapter_info.h",
     ]:
         # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067886
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc0000.patch
@@ -87,6 +89,21 @@ for patch in sorted(patches):
     ]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/uint-includes.patch
         clazz = "2005-Debian-upstream-uint-includes"
+    elif path in [
+        "content/browser/first_party_sets/first_party_sets_handler_database_helper.h"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/fps-optional.patch
+        clazz = "2006-Debian-upstream-fps-optional"
+    elif path in [
+        "third_party/blink/renderer/bindings/core/v8/script_streamer.cc"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/atomic.patch
+        clazz = "2007-Debian-upstream-atomic"
+    elif path in [
+        "third_party/blink/renderer/modules/webgpu/gpu_adapter_info.h"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/webgpu-optional.patch
+        clazz = "2008-Debian-upstream-webgpu-optional"
     elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
         # https://issues.chromium.org/issues/40945821
         clazz = "3001-rust-ld-bfd"
@@ -116,6 +133,13 @@ for patch in sorted(patches):
         # https://issues.chromium.org/issues/41455655#comment473
         # https://chromium.googlesource.com/angle/angle.git/+/2f934a47e9709cac9ce04d312b7aa496948bced6%5E%21/#F0
         clazz = "3007-replace-powf-with-pow"
+    elif path in [
+        "content/browser/BUILD.gn",
+    ]:
+        # https://bugs.gentoo.org/930112
+        # https://bugs.gentoo.org/930107
+        # https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/files/qtwebengine-6.7.0-ninja1.12.patch
+        clazz = "3008-fix-ninja-race-condition"
     elif path in [
         "third_party/libvpx/BUILD.gn",
         "third_party/blink/renderer/platform/BUILD.gn",

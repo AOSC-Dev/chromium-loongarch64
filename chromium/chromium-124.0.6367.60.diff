@@ -357,6 +357,28 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
  #include <string>
  #include <vector>
  
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/browser/BUILD.gn b/content/browser/BUILD.gn
+--- a/content/browser/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/content/browser/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -103,6 +103,7 @@ source_set("browser") {
+     "//components/services/storage/dom_storage:local_storage_proto",
+     "//components/services/storage/public/cpp",
+     "//components/services/storage/public/mojom",
++    "//components/enterprise",
+     "//components/sqlite_proto",
+     "//components/system_media_controls",
+     "//components/tracing:startup_tracing",
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/browser/first_party_sets/first_party_sets_handler_database_helper.h b/content/browser/first_party_sets/first_party_sets_handler_database_helper.h
+--- a/content/browser/first_party_sets/first_party_sets_handler_database_helper.h	2000-01-01 00:00:00.000000000 +0800
++++ b/content/browser/first_party_sets/first_party_sets_handler_database_helper.h	2000-01-01 00:00:00.000000000 +0800
+@@ -6,6 +6,7 @@
+ #define CONTENT_BROWSER_FIRST_PARTY_SETS_FIRST_PARTY_SETS_HANDLER_DATABASE_HELPER_H_
+ 
+ #include <memory>
++#include <optional>
+ #include <string>
+ #include <utility>
+ #include <vector>
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
 --- a/content/common/user_agent.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/content/common/user_agent.cc	2000-01-01 00:00:00.000000000 +0800
@@ -4277,6 +4299,25 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
                                              activeFocalPoints[point].foveaArea,
                                          1.0f);
  
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/bindings/core/v8/script_streamer.cc b/third_party/blink/renderer/bindings/core/v8/script_streamer.cc
+--- a/third_party/blink/renderer/bindings/core/v8/script_streamer.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/blink/renderer/bindings/core/v8/script_streamer.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -4,6 +4,7 @@
+ 
+ #include "third_party/blink/renderer/bindings/core/v8/script_streamer.h"
+ 
++#include <atomic>
+ #include <memory>
+ #include <utility>
+ 
+@@ -60,7 +61,6 @@
+ #include "third_party/blink/renderer/platform/wtf/shared_buffer.h"
+ #include "third_party/blink/renderer/platform/wtf/text/string_builder.h"
+ #include "third_party/blink/renderer/platform/wtf/text/text_encoding_registry.h"
+-#include "third_party/libc++/src/include/__atomic/atomic.h"
+ 
+ namespace blink {
+ namespace {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/core/css/binary_data_font_face_source.cc b/third_party/blink/renderer/core/css/binary_data_font_face_source.cc
 --- a/third_party/blink/renderer/core/css/binary_data_font_face_source.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/blink/renderer/core/css/binary_data_font_face_source.cc	2000-01-01 00:00:00.000000000 +0800
@@ -5714,6 +5755,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
        FontCache::Get().GetFontData(description, AtomicString(postscriptName),
                                     AlternateFontName::kLocalUniqueFace);
    if (!font_data) {
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/modules/webgpu/gpu_adapter_info.h b/third_party/blink/renderer/modules/webgpu/gpu_adapter_info.h
+--- a/third_party/blink/renderer/modules/webgpu/gpu_adapter_info.h	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/blink/renderer/modules/webgpu/gpu_adapter_info.h	2000-01-01 00:00:00.000000000 +0800
+@@ -5,6 +5,8 @@
+ #ifndef THIRD_PARTY_BLINK_RENDERER_MODULES_WEBGPU_GPU_ADAPTER_INFO_H_
+ #define THIRD_PARTY_BLINK_RENDERER_MODULES_WEBGPU_GPU_ADAPTER_INFO_H_
+ 
++#include <optional>
++
+ #include "third_party/blink/renderer/platform/bindings/script_wrappable.h"
+ #include "third_party/blink/renderer/platform/heap/collection_support/heap_vector.h"
+ #include "third_party/blink/renderer/platform/wtf/text/wtf_string.h"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/BUILD.gn b/third_party/blink/renderer/platform/BUILD.gn
 --- a/third_party/blink/renderer/platform/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/blink/renderer/platform/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
