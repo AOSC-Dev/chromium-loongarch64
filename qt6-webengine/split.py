@@ -26,6 +26,11 @@ for patch in sorted(patches):
         "qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/"
     ):
         clazz = "rollup"
+    elif path.startswith(
+        "qtwebengine/src/3rdparty/chromium/ui/gl"
+    ):
+        # https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=cb122c4d819496c6384278d7817855e5740d1670
+        clazz = "Gentoo-x11-header"
     else:
         clazz = "loongarch64"
 
