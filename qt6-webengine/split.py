@@ -1,4 +1,4 @@
-version = "6.6.3"
+version = "6.7.0"
 patches = []
 with open(f"qt6-{version}.diff", "r") as f:
     cur = []
@@ -26,8 +26,6 @@ for patch in sorted(patches):
         "qtwebengine/src/3rdparty/chromium/third_party/devtools-frontend/"
     ):
         clazz = "rollup"
-    elif path.startswith("qtwebengine/src/3rdparty/chromium/v8/src/regexp/"):
-        clazz = "loongarch64-regexp-backport"
     else:
         clazz = "loongarch64"
 

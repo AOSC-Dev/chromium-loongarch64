@@ -1,8 +1,8 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context.h	2000-01-01 00:00:00.000000000 +0800
-@@ -637,6 +637,56 @@ struct MinidumpContextMIPS64 {
-   uint64_t fir;
+@@ -687,6 +687,56 @@ struct MinidumpContextRISCV64 {
+   uint32_t fcsr;
  };
  
 +//! \brief LOONG64-specifc flags for MinidumpContextLOONG64::context_flags.
@@ -61,7 +61,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -102,6 +102,13 @@ MinidumpContextWriter::CreateFromSnapsho
+@@ -109,6 +109,13 @@ MinidumpContextWriter::CreateFromSnapsho
        break;
      }
  
@@ -75,7 +75,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      default: {
        LOG(ERROR) << "unknown context architecture "
                   << context_snapshot->architecture;
-@@ -555,5 +562,44 @@ size_t MinidumpContextMIPS64Writer::Cont
+@@ -600,5 +607,44 @@ size_t MinidumpContextRISCV64Writer::Con
    DCHECK_GE(state(), kStateFrozen);
    return sizeof(context_);
  }
@@ -123,8 +123,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.h
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_context_writer.h	2000-01-01 00:00:00.000000000 +0800
-@@ -369,6 +369,44 @@ class MinidumpContextMIPS64Writer final
-   MinidumpContextMIPS64 context_;
+@@ -413,6 +413,44 @@ class MinidumpContextRISCV64Writer final
+   MinidumpContextRISCV64 context_;
  };
  
 +//! \brief The writer for a MinidumpContextLOONG64 structure in a minidump file.
@@ -171,9 +171,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_extensions.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_extensions.h
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_extensions.h	2000-01-01 00:00:00.000000000 +0800
-@@ -210,6 +210,9 @@ enum MinidumpCPUArchitecture : uint16_t
-   //! \deprecated Use #kMinidumpCPUArchitectureARM64 instead.
-   kMinidumpCPUArchitectureARM64Breakpad = 0x8003,
+@@ -213,6 +213,9 @@ enum MinidumpCPUArchitecture : uint16_t
+   //! \brief Used by Breakpad for 64-bit RISC-V.
+   kMinidumpCPUArchitectureRISCV64Breakpad = 0x8006,
  
 +  //! \brief Used by Breakpad for 64-bit LoongArch.
 +  kMinidumpCPUArchitectureLOONG64Breakpad = 0x8007,
@@ -184,10 +184,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_misc_info_writer.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -175,6 +175,8 @@ std::string MinidumpMiscInfoDebugBuildSt
-   static constexpr char kCPU[] = "mips";
- #elif defined(ARCH_CPU_MIPS64EL)
+@@ -177,6 +177,8 @@ std::string MinidumpMiscInfoDebugBuildSt
    static constexpr char kCPU[] = "mips64";
+ #elif defined(ARCH_CPU_RISCV64)
+   static constexpr char kCPU[] = "riscv64";
 +#elif defined(ARCH_CPU_LOONG64)
 +  static constexpr char kCPU[] = "loong64";
  #else
@@ -196,9 +196,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/minidump/minidump_system_info_writer.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -132,6 +132,9 @@ void MinidumpSystemInfoWriter::Initializ
-     case kCPUArchitectureARM64:
-       cpu_architecture = kMinidumpCPUArchitectureARM64;
+@@ -135,6 +135,9 @@ void MinidumpSystemInfoWriter::Initializ
+     case kCPUArchitectureRISCV64:
+       cpu_architecture = kMinidumpCPUArchitectureRISCV64Breakpad;
        break;
 +    case kCPUArchitectureLOONG64:
 +      cpu_architecture = kMinidumpCPUArchitectureLOONG64Breakpad;
@@ -209,9 +209,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -117,6 +117,11 @@ void CaptureMemory::PointedToByContext(c
-   for (size_t i = 0; i < std::size(context.mipsel->regs); ++i) {
-     MaybeCaptureMemoryAround(delegate, context.mipsel->regs[i]);
+@@ -122,6 +122,11 @@ void CaptureMemory::PointedToByContext(c
+   for (size_t i = 0; i < std::size(context.riscv64->regs); ++i) {
+     MaybeCaptureMemoryAround(delegate, context.riscv64->regs[i]);
    }
 +#elif defined(ARCH_CPU_LOONG64)
 +  MaybeCaptureMemoryAround(delegate, context.loong64->csr_era);
@@ -224,43 +224,41 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_architecture.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_architecture.h
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_architecture.h	2000-01-01 00:00:00.000000000 +0800
-@@ -43,7 +43,10 @@ enum CPUArchitecture {
-   kCPUArchitectureMIPSEL,
+@@ -47,6 +47,9 @@ enum CPUArchitecture {
  
-   //! \brief 64-bit MIPSEL.
--  kCPUArchitectureMIPS64EL
-+  kCPUArchitectureMIPS64EL,
+   //! \brief 64-bit RISC-V.
+   kCPUArchitectureRISCV64,
 +
 +  //! \brief 64-bit LOONGARCH.
-+  kCPUArchitectureLOONG64
++  kCPUArchitectureLOONG64,
  };
  
  }  // namespace crashpad
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -170,6 +170,8 @@ uint64_t CPUContext::InstructionPointer(
-       return arm->pc;
-     case kCPUArchitectureARM64:
+@@ -173,6 +173,8 @@ uint64_t CPUContext::InstructionPointer(
        return arm64->pc;
+     case kCPUArchitectureRISCV64:
+       return riscv64->pc;
 +    case kCPUArchitectureLOONG64:
 +      return loong64->csr_era;
      default:
        NOTREACHED();
        return ~0ull;
-@@ -186,6 +188,8 @@ uint64_t CPUContext::StackPointer() cons
-       return arm->sp;
-     case kCPUArchitectureARM64:
+@@ -191,6 +193,8 @@ uint64_t CPUContext::StackPointer() cons
        return arm64->sp;
+     case kCPUArchitectureRISCV64:
+       return riscv64->regs[1];
 +    case kCPUArchitectureLOONG64:
 +      return loong64->regs[3];
      default:
        NOTREACHED();
        return ~0ull;
-@@ -226,6 +230,7 @@ bool CPUContext::Is64Bit() const {
-     case kCPUArchitectureX86_64:
+@@ -232,6 +236,7 @@ bool CPUContext::Is64Bit() const {
      case kCPUArchitectureARM64:
      case kCPUArchitectureMIPS64EL:
+     case kCPUArchitectureRISCV64:
 +    case kCPUArchitectureLOONG64:
        return true;
      case kCPUArchitectureX86:
@@ -268,8 +266,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.h
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/cpu_context.h	2000-01-01 00:00:00.000000000 +0800
-@@ -362,6 +362,22 @@ struct CPUContextMIPS64 {
-   uint64_t fir;
+@@ -371,6 +371,22 @@ struct CPUContextRISCV64 {
+   uint32_t fcsr;
  };
  
 +//! \brief A context structure carrying LOONG64 CPU state.
@@ -291,10 +289,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  //! \brief A context structure capable of carrying the context of any supported
  //!     CPU architecture.
  struct CPUContext {
-@@ -402,6 +418,7 @@ struct CPUContext {
-     CPUContextARM64* arm64;
+@@ -412,6 +428,7 @@ struct CPUContext {
      CPUContextMIPS* mipsel;
      CPUContextMIPS64* mips64;
+     CPUContextRISCV64* riscv64;
 +    CPUContextLOONG64* loong64;
    };
  };
@@ -302,8 +300,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -266,6 +266,40 @@ void InitializeCPUContextARM64_OnlyFPSIM
-   context->fpcr = float_context.fpcr;
+@@ -281,6 +281,40 @@ void InitializeCPUContextRISCV64(const T
+   context->fcsr = float_context.fcsr;
  }
  
 +#elif defined(ARCH_CPU_LOONG64)
@@ -346,9 +344,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.h	2000-01-01 00:00:00.000000000 +0800
-@@ -174,6 +174,45 @@ void InitializeCPUContextMIPS(
+@@ -188,6 +188,45 @@ void InitializeCPUContextRISCV64(const T
  
- #endif  // ARCH_CPU_MIPS_FAMILY || DOXYGEN
+ #endif  // ARCH_CPU_RISCV64 || DOXYGEN
  
 +#if defined(ARCH_CPU_LOONG64) || DOXYGEN
 +
@@ -403,8 +401,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  
  #include "base/logging.h"
  #include "snapshot/linux/capture_memory_delegate_linux.h"
-@@ -325,6 +326,77 @@ bool ExceptionSnapshotLinux::ReadContext
-       reader, context_address, context_.mips64);
+@@ -367,6 +368,77 @@ bool ExceptionSnapshotLinux::ReadContext
+   return internal::ReadContext(reader, context_address, context_.riscv64);
  }
  
 +#elif defined(ARCH_CPU_LOONG64)
@@ -481,26 +479,22 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #endif  // ARCH_CPU_X86_FAMILY
  
  bool ExceptionSnapshotLinux::Initialize(
-@@ -355,10 +427,12 @@ bool ExceptionSnapshotLinux::Initialize(
+@@ -397,7 +469,7 @@ bool ExceptionSnapshotLinux::Initialize(
        return false;
      }
    } else {
-+#if !defined(ARCH_CPU_LOONG64)
+-#if !defined(ARCH_CPU_RISCV64)
++#if !defined(ARCH_CPU_RISCV64) && !defined(ARCH_CPU_LOONG64)
      if (!ReadContext<ContextTraits32>(process_reader, context_address) ||
          !ReadSiginfo<Traits32>(process_reader, siginfo_address)) {
        return false;
-     }
-+#endif
-   }
- 
-   CaptureMemoryDelegateLinux capture_memory_delegate(
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2000-01-01 00:00:00.000000000 +0800
-@@ -89,6 +89,8 @@ class ExceptionSnapshotLinux final : pub
- #elif defined(ARCH_CPU_MIPS_FAMILY)
-     CPUContextMIPS mipsel;
+@@ -91,6 +91,8 @@ class ExceptionSnapshotLinux final : pub
      CPUContextMIPS64 mips64;
+ #elif defined(ARCH_CPU_RISCV64)
+     CPUContextRISCV64 riscv64;
 +#elif defined(ARCH_CPU_LOONG64)
 +    CPUContextLOONG64 loong64;
  #endif
@@ -509,10 +503,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/process_reader_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -127,6 +127,8 @@ void ProcessReaderLinux::Thread::Initial
- #elif defined(ARCH_CPU_MIPS_FAMILY)
-   stack_pointer = reader->Is64Bit() ? thread_info.thread_context.t64.regs[29]
+@@ -129,6 +129,8 @@ void ProcessReaderLinux::Thread::Initial
                                      : thread_info.thread_context.t32.regs[29];
+ #elif defined(ARCH_CPU_RISCV64)
+   stack_pointer = thread_info.thread_context.t64.regs[1];
 +#elif defined(ARCH_CPU_LOONG64)
 +  stack_pointer = thread_info.thread_context.t64.regs[3];
  #else
@@ -521,9 +515,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/signal_context.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/signal_context.h
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/signal_context.h	2000-01-01 00:00:00.000000000 +0800
-@@ -422,6 +422,46 @@ static_assert(offsetof(UContext<ContextT
+@@ -456,6 +456,46 @@ static_assert(offsetof(UContext<ContextT
+                   offsetof(ucontext_t, uc_mcontext.__fpregs),
                "context offset mismatch");
- #endif
  
 +#elif defined(ARCH_CPU_LOONG64)
 +
@@ -571,18 +565,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -205,6 +205,8 @@ CPUArchitecture SystemSnapshotLinux::Get
- #elif defined(ARCH_CPU_MIPS_FAMILY)
-   return process_reader_->Is64Bit() ? kCPUArchitectureMIPS64EL
+@@ -207,6 +207,8 @@ CPUArchitecture SystemSnapshotLinux::Get
                                      : kCPUArchitectureMIPSEL;
+ #elif defined(ARCH_CPU_RISCV64)
+   return kCPUArchitectureRISCV64;
 +#elif defined(ARCH_CPU_LOONG64)
 +  return kCPUArchitectureLOONG64;
  #else
  #error port to your architecture
  #endif
-@@ -220,6 +222,9 @@ uint32_t SystemSnapshotLinux::CPURevisio
- #elif defined(ARCH_CPU_MIPS_FAMILY)
-   // Not implementable on MIPS
+@@ -225,6 +227,9 @@ uint32_t SystemSnapshotLinux::CPURevisio
+ #elif defined(ARCH_CPU_RISCV64)
+   // Not implemented
    return 0;
 +#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
 +  // Not implemented
@@ -590,9 +584,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #else
  #error port to your architecture
  #endif
-@@ -240,6 +245,9 @@ std::string SystemSnapshotLinux::CPUVend
- #elif defined(ARCH_CPU_MIPS_FAMILY)
-   // Not implementable on MIPS
+@@ -248,6 +253,9 @@ std::string SystemSnapshotLinux::CPUVend
+ #elif defined(ARCH_CPU_RISCV64)
+   // Not implemented
    return std::string();
 +#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
 +  // Not implemented
@@ -600,9 +594,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #else
  #error port to your architecture
  #endif
-@@ -373,6 +381,9 @@ bool SystemSnapshotLinux::NXEnabled() co
- #elif defined(ARCH_CPU_MIPS_FAMILY)
-   // Not implementable on MIPS
+@@ -384,6 +392,9 @@ bool SystemSnapshotLinux::NXEnabled() co
+ #elif defined(ARCH_CPU_RISCV64)
+   // Not implemented
    return false;
 +#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
 +  // Not implemented
@@ -613,10 +607,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -190,6 +190,13 @@ bool ThreadSnapshotLinux::Initialize(
-         thread.thread_info.float_context.f32,
-         context_.mipsel);
-   }
+@@ -196,6 +196,13 @@ bool ThreadSnapshotLinux::Initialize(
+   InitializeCPUContextRISCV64(thread.thread_info.thread_context.t64,
+                               thread.thread_info.float_context.f64,
+                               context_.riscv64);
 +#elif defined(ARCH_CPU_LOONG64)
 +  context_.architecture = kCPUArchitectureLOONG64;
 +  context_.loong64 = &context_union_.loong64;
@@ -627,25 +621,13 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #else
  #error Port.
  #endif
-diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h
---- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2000-01-01 00:00:00.000000000 +0800
-+++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2000-01-01 00:00:00.000000000 +0800
-@@ -74,6 +74,8 @@ class ThreadSnapshotLinux final : public
- #elif defined(ARCH_CPU_MIPS_FAMILY)
-     CPUContextMIPS mipsel;
-     CPUContextMIPS64 mips64;
-+#elif defined(ARCH_CPU_LOONG64)
-+    CPUContextLOONG64 loong64;
- #else
- #error Port.
- #endif  // ARCH_CPU_X86_FAMILY
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -266,6 +266,30 @@ bool MinidumpContextConverter::Initializ
-     context_.mips64->fir = src->fir;
+@@ -293,6 +293,30 @@ bool MinidumpContextConverter::Initializ
+     memcpy(&context_.riscv64->fpregs, &src->fpregs, sizeof(src->fpregs));
  
-     memcpy(&context_.mips64->fpregs, &src->fpregs, sizeof(src->fpregs));
+     context_.riscv64->fcsr = src->fcsr;
 +  } else if (context_.architecture ==
 +             CPUArchitecture::kCPUArchitectureLOONG64) {
 +    context_memory_.resize(sizeof(CPUContextLOONG64));
@@ -676,10 +658,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/system_snapshot_minidump.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -68,6 +68,8 @@ CPUArchitecture SystemSnapshotMinidump::
-     case kMinidumpCPUArchitectureMIPS:
-       return kCPUArchitectureMIPSEL;
+@@ -70,6 +70,8 @@ CPUArchitecture SystemSnapshotMinidump::
      // No word on how MIPS64 is signalled
+     case kMinidumpCPUArchitectureRISCV64Breakpad:
+       return kCPUArchitectureRISCV64;
 +    case kMinidumpCPUArchitectureLOONG64Breakpad:
 +      return kCPUArchitectureLOONG64;
  
@@ -688,7 +670,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/ptracer.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/ptracer.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/ptracer.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/ptracer.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -398,6 +398,37 @@ bool GetThreadArea64(pid_t tid,
+@@ -429,6 +429,37 @@ bool GetThreadArea64(pid_t tid,
    return true;
  }
  
@@ -726,37 +708,31 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-@@ -500,12 +531,14 @@ bool Ptracer::GetThreadInfo(pid_t tid, T
+@@ -533,7 +564,7 @@ bool Ptracer::GetThreadInfo(pid_t tid, T
                             can_log_);
    }
  
-+#if !defined(ARCH_CPU_LOONG64)
+-#if !defined(ARCH_CPU_RISCV64)
++#if !defined(ARCH_CPU_RISCV64) && !defined(ARCH_CPU_LOONG64)
    return GetGeneralPurposeRegisters32(tid, &info->thread_context, can_log_) &&
           GetFloatingPointRegisters32(tid, &info->float_context, can_log_) &&
           GetThreadArea32(tid,
-                          info->thread_context,
-                          &info->thread_specific_data_address,
-                          can_log_);
-+#endif
- }
- 
- ssize_t Ptracer::ReadUpTo(pid_t pid,
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/thread_info.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/thread_info.h
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/thread_info.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/linux/thread_info.h	2000-01-01 00:00:00.000000000 +0800
-@@ -80,6 +80,8 @@ union ThreadContext {
-     uint32_t cp0_status;
-     uint32_t cp0_cause;
+@@ -87,6 +87,8 @@ union ThreadContext {
      uint32_t padding1_;
+ #elif defined(ARCH_CPU_RISCV64)
+     // 32 bit RISC-V not supported
 +#elif defined(ARCH_CPU_LOONG_FAMILY)
 +    // 32 bit LoongArch not supported
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-@@ -133,12 +135,19 @@ union ThreadContext {
-     uint64_t cp0_badvaddr;
-     uint64_t cp0_status;
-     uint64_t cp0_cause;
+@@ -144,13 +146,20 @@ union ThreadContext {
+     // Reflects user_regs_struct in asm/ptrace.h.
+     uint64_t pc;
+     uint64_t regs[31];
 +#elif defined(ARCH_CPU_LOONG_FAMILY)
 +    // Reflects user_regs_struct in sys/user.h.
 +    uint64_t regs[32];
@@ -769,24 +745,25 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #endif  // ARCH_CPU_X86_FAMILY
    } t64;
  
--#if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM64)
-+#if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM64) || defined(ARCH_CPU_LOONG_FAMILY)
+ #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM64) || \
+-    defined(ARCH_CPU_RISCV64)
++    defined(ARCH_CPU_RISCV64) || defined(ARCH_CPU_LOONG64)
    using NativeThreadContext = user_regs_struct;
  #elif defined(ARCH_CPU_ARMEL)
    using NativeThreadContext = user_regs;
-@@ -219,6 +228,8 @@ union FloatContext {
-     } fpregs[32];
-     uint32_t fpcsr;
+@@ -233,6 +242,8 @@ union FloatContext {
      uint32_t fpu_id;
+ #elif defined(ARCH_CPU_RISCV64)
+     // 32 bit RISC-V not supported
 +#elif defined(ARCH_CPU_LOONG_FAMILY)
 +    // 32 bit LoongArch not supported
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-@@ -253,6 +264,11 @@ union FloatContext {
-     double fpregs[32];
-     uint32_t fpcsr;
-     uint32_t fpu_id;
+@@ -271,6 +282,11 @@ union FloatContext {
+     // Reflects __riscv_d_ext_state in asm/ptrace.h
+     uint64_t fpregs[32];
+     uint64_t fcsr;
 +#elif defined(ARCH_CPU_LOONG_FAMILY)
 +    // Reflects user_fp_struct in sys/user.h
 +    uint64_t fpregs[32];
@@ -795,10 +772,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #else
  #error Port.
  #endif  // ARCH_CPU_X86_FAMILY
-@@ -282,6 +298,8 @@ union FloatContext {
-   static_assert(sizeof(f64) == sizeof(user_fpsimd_struct), "Size mismatch");
- #elif defined(ARCH_CPU_MIPS_FAMILY)
+@@ -302,6 +318,8 @@ union FloatContext {
  // No appropriate floating point context native type for available MIPS.
+ #elif defined(ARCH_CPU_RISCV64)
+   static_assert(sizeof(f64) == sizeof(__riscv_d_ext_state), "Size mismatch");
 +#elif defined(ARCH_CPU_LOONG_FAMILY)
 +  static_assert(sizeof(f64) == sizeof(user_fp_struct), "Size mismatch");
  #else
@@ -807,7 +784,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/misc/capture_context_linux.S b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/misc/capture_context_linux.S
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2000-01-01 00:00:00.000000000 +0800
-@@ -336,6 +336,51 @@ CAPTURECONTEXT_SYMBOL2:
+@@ -338,6 +338,51 @@ CAPTURECONTEXT_SYMBOL2:
  
    // TODO(https://crashpad.chromium.org/bug/300): save floating-point registers.
  
@@ -862,10 +839,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/util/net/http_transport_libcurl.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -237,6 +237,8 @@ std::string UserAgent() {
- #elif defined(ARCH_CPU_BIG_ENDIAN)
-     static constexpr char arch[] = "aarch64_be";
+@@ -239,6 +239,8 @@ std::string UserAgent() {
  #endif
+ #elif defined (ARCH_CPU_RISCV64)
+     static constexpr char arch[] = "riscv64";
 +#elif defined(ARCH_CPU_LOONG64)
 +    static constexpr char arch[] = "loong64";
  #else
