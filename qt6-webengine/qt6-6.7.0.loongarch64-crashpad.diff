@@ -188,7 +188,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    static constexpr char kCPU[] = "mips64";
  #elif defined(ARCH_CPU_RISCV64)
    static constexpr char kCPU[] = "riscv64";
-+#elif defined(ARCH_CPU_LOONG64)
++#elif defined(ARCH_CPU_LOONGARCH64)
 +  static constexpr char kCPU[] = "loong64";
  #else
  #error define kCPU for this CPU
@@ -213,7 +213,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    for (size_t i = 0; i < std::size(context.riscv64->regs); ++i) {
      MaybeCaptureMemoryAround(delegate, context.riscv64->regs[i]);
    }
-+#elif defined(ARCH_CPU_LOONG64)
++#elif defined(ARCH_CPU_LOONGARCH64)
 +  MaybeCaptureMemoryAround(delegate, context.loong64->csr_era);
 +  for (size_t i = 0; i < std::size(context.loong64->regs); ++i) {
 +    MaybeCaptureMemoryAround(delegate, context.loong64->regs[i]);
@@ -304,7 +304,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    context->fcsr = float_context.fcsr;
  }
  
-+#elif defined(ARCH_CPU_LOONG64)
++#elif defined(ARCH_CPU_LOONGARCH64)
 +
 +void InitializeCPUContextLOONG64_NoFloatingPoint(
 +    const ThreadContext::t64_t& thread_context,
@@ -348,7 +348,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  
  #endif  // ARCH_CPU_RISCV64 || DOXYGEN
  
-+#if defined(ARCH_CPU_LOONG64) || DOXYGEN
++#if defined(ARCH_CPU_LOONGARCH64) || DOXYGEN
 +
 +//! \brief Initializes GPR state in a CPUContextLOONG64 from a native context
 +//!     structure on Linux.
@@ -385,7 +385,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 +    const FloatContext::f64_t& float_context,
 +    CPUContextLOONG64* context);
 +
-+#endif  // ARCH_CPU_LOONG64 || DOXYGEN
++#endif  // ARCH_CPU_LOONGARCH64 || DOXYGEN
 +
  }  // namespace internal
  }  // namespace crashpad
@@ -405,7 +405,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    return internal::ReadContext(reader, context_address, context_.riscv64);
  }
  
-+#elif defined(ARCH_CPU_LOONG64)
++#elif defined(ARCH_CPU_LOONGARCH64)
 +
 +static bool ReadContext(ProcessReaderLinux* reader,
 +                        LinuxVMAddress context_address,
@@ -484,7 +484,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      }
    } else {
 -#if !defined(ARCH_CPU_RISCV64)
-+#if !defined(ARCH_CPU_RISCV64) && !defined(ARCH_CPU_LOONG64)
++#if !defined(ARCH_CPU_RISCV64) && !defined(ARCH_CPU_LOONGARCH64)
      if (!ReadContext<ContextTraits32>(process_reader, context_address) ||
          !ReadSiginfo<Traits32>(process_reader, siginfo_address)) {
        return false;
@@ -495,7 +495,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      CPUContextMIPS64 mips64;
  #elif defined(ARCH_CPU_RISCV64)
      CPUContextRISCV64 riscv64;
-+#elif defined(ARCH_CPU_LOONG64)
++#elif defined(ARCH_CPU_LOONGARCH64)
 +    CPUContextLOONG64 loong64;
  #endif
    } context_union_;
@@ -507,7 +507,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
                                      : thread_info.thread_context.t32.regs[29];
  #elif defined(ARCH_CPU_RISCV64)
    stack_pointer = thread_info.thread_context.t64.regs[1];
-+#elif defined(ARCH_CPU_LOONG64)
++#elif defined(ARCH_CPU_LOONGARCH64)
 +  stack_pointer = thread_info.thread_context.t64.regs[3];
  #else
  #error Port.
@@ -519,7 +519,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
                    offsetof(ucontext_t, uc_mcontext.__fpregs),
                "context offset mismatch");
  
-+#elif defined(ARCH_CPU_LOONG64)
++#elif defined(ARCH_CPU_LOONGARCH64)
 +
 +// See asm/sigcontext.h
 +struct MContext64 {
@@ -569,7 +569,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
                                      : kCPUArchitectureMIPSEL;
  #elif defined(ARCH_CPU_RISCV64)
    return kCPUArchitectureRISCV64;
-+#elif defined(ARCH_CPU_LOONG64)
++#elif defined(ARCH_CPU_LOONGARCH64)
 +  return kCPUArchitectureLOONG64;
  #else
  #error port to your architecture
@@ -611,7 +611,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    InitializeCPUContextRISCV64(thread.thread_info.thread_context.t64,
                                thread.thread_info.float_context.f64,
                                context_.riscv64);
-+#elif defined(ARCH_CPU_LOONG64)
++#elif defined(ARCH_CPU_LOONGARCH64)
 +  context_.architecture = kCPUArchitectureLOONG64;
 +  context_.loong64 = &context_union_.loong64;
 +  InitializeCPUContextLOONG64<ContextTraits64>(
@@ -628,7 +628,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      CPUContextMIPS64 mips64;
  #elif defined(ARCH_CPU_RISCV64)
      CPUContextRISCV64 riscv64;
-+#elif defined(ARCH_CPU_LOONG64)
++#elif defined(ARCH_CPU_LOONGARCH64)
 +    CPUContextLOONG64 loong64;
  #else
  #error Port.
@@ -686,7 +686,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    return true;
  }
  
-+#elif defined(ARCH_CPU_LOONG64)
++#elif defined(ARCH_CPU_LOONGARCH64)
 +
 +bool GetFloatingPointRegisters64(pid_t tid,
 +                                 FloatContext* context,
@@ -725,7 +725,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    }
  
 -#if !defined(ARCH_CPU_RISCV64)
-+#if !defined(ARCH_CPU_RISCV64) && !defined(ARCH_CPU_LOONG64)
++#if !defined(ARCH_CPU_RISCV64) && !defined(ARCH_CPU_LOONGARCH64)
    return GetGeneralPurposeRegisters32(tid, &info->thread_context, can_log_) &&
           GetFloatingPointRegisters32(tid, &info->float_context, can_log_) &&
           GetThreadArea32(tid,
@@ -736,7 +736,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      uint32_t padding1_;
  #elif defined(ARCH_CPU_RISCV64)
      // 32 bit RISC-V not supported
-+#elif defined(ARCH_CPU_LOONG_FAMILY)
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
 +    // 32 bit LoongArch not supported
  #else
  #error Port.
@@ -745,7 +745,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      // Reflects user_regs_struct in asm/ptrace.h.
      uint64_t pc;
      uint64_t regs[31];
-+#elif defined(ARCH_CPU_LOONG_FAMILY)
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
 +    // Reflects user_regs_struct in sys/user.h.
 +    uint64_t regs[32];
 +    uint64_t orig_a0;
@@ -759,7 +759,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  
  #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM64) || \
 -    defined(ARCH_CPU_RISCV64)
-+    defined(ARCH_CPU_RISCV64) || defined(ARCH_CPU_LOONG64)
++    defined(ARCH_CPU_RISCV64) || defined(ARCH_CPU_LOONGARCH64)
    using NativeThreadContext = user_regs_struct;
  #elif defined(ARCH_CPU_ARMEL)
    using NativeThreadContext = user_regs;
@@ -767,7 +767,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      uint32_t fpu_id;
  #elif defined(ARCH_CPU_RISCV64)
      // 32 bit RISC-V not supported
-+#elif defined(ARCH_CPU_LOONG_FAMILY)
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
 +    // 32 bit LoongArch not supported
  #else
  #error Port.
@@ -776,7 +776,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      // Reflects __riscv_d_ext_state in asm/ptrace.h
      uint64_t fpregs[32];
      uint64_t fcsr;
-+#elif defined(ARCH_CPU_LOONG_FAMILY)
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
 +    // Reflects user_fp_struct in sys/user.h
 +    uint64_t fpregs[32];
 +    uint64_t fcc;
@@ -788,7 +788,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  // No appropriate floating point context native type for available MIPS.
  #elif defined(ARCH_CPU_RISCV64)
    static_assert(sizeof(f64) == sizeof(__riscv_d_ext_state), "Size mismatch");
-+#elif defined(ARCH_CPU_LOONG_FAMILY)
++#elif defined(ARCH_CPU_LOONGARCH_FAMILY)
 +  static_assert(sizeof(f64) == sizeof(user_fp_struct), "Size mismatch");
  #else
  #error Port.
@@ -855,7 +855,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #endif
  #elif defined (ARCH_CPU_RISCV64)
      static constexpr char arch[] = "riscv64";
-+#elif defined(ARCH_CPU_LOONG64)
++#elif defined(ARCH_CPU_LOONGARCH64)
 +    static constexpr char arch[] = "loong64";
  #else
  #error Port

@@ -476,7 +476,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  
  #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM_FAMILY) || \
 -    defined(ARCH_CPU_MIPS_FAMILY)
-+    defined(ARCH_CPU_MIPS_FAMILY) || defined(ARCH_CPU_LOONG_FAMILY)
++    defined(ARCH_CPU_MIPS_FAMILY) || defined(ARCH_CPU_LOONGARCH_FAMILY)
  // Number that's not currently used by any Linux kernel ABIs.
  const int kInvalidSyscallNumber = 0x351d3;
  #else
@@ -535,7 +535,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    alignas(16) char stack_buf[PTHREAD_STACK_MIN];
  #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM_FAMILY) || \
 -    defined(ARCH_CPU_MIPS_FAMILY)
-+    defined(ARCH_CPU_MIPS_FAMILY) || defined(ARCH_CPU_LOONG_FAMILY)
++    defined(ARCH_CPU_MIPS_FAMILY) || defined(ARCH_CPU_LOONGARCH_FAMILY)
    // The stack grows downward.
    void* stack = stack_buf + sizeof(stack_buf);
  #else
@@ -555,7 +555,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    // See kernel/fork.c in Linux. There is different ordering of sys_clone
    // parameters depending on CONFIG_CLONE_BACKWARDS* configuration options.
 -#if defined(ARCH_CPU_X86_64)
-+#if defined(ARCH_CPU_X86_64) || defined(ARCH_CPU_LOONG_FAMILY)
++#if defined(ARCH_CPU_X86_64) || defined(ARCH_CPU_LOONGARCH_FAMILY)
    return syscall(__NR_clone, flags, child_stack, ptid, ctid, tls);
  #elif defined(ARCH_CPU_X86) || defined(ARCH_CPU_ARM_FAMILY) || \
      defined(ARCH_CPU_MIPS_FAMILY)
