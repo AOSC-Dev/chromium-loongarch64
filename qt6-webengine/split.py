@@ -41,6 +41,13 @@ for patch in sorted(patches):
     ):
         # https://github.com/v8/v8/commit/1ec3c714bf75f01e3f4f6519bebb953eab93df39
         clazz = "loongarch64-v8-backport"
+    elif path in [
+        "qtwebengine/src/3rdparty/chromium/content/browser/BUILD.gn",
+        "qtwebengine/src/3rdparty/chromium/extensions/browser/api/declarative_net_request/BUILD.gn",
+        "qtwebengine/src/core/configure/BUILD.root.gn.in"
+    ]:
+        # https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/files/qtwebengine-6.7.0-ninja1.12.patch
+        clazz = "ninja-race-condition"
     else:
         clazz = "loongarch64"
 
