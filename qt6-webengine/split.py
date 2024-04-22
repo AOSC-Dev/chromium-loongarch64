@@ -36,6 +36,11 @@ for patch in sorted(patches):
     ):
         # https://github.com/webmproject/libvpx/commit/391bb5604b85195468e73d576766252f6ce8e427
         clazz = "loongarch64-libvpx-lsx-backport"
+    elif path.startswith(
+        "qtwebengine/src/3rdparty/chromium/v8"
+    ):
+        # https://github.com/v8/v8/commit/1ec3c714bf75f01e3f4f6519bebb953eab93df39
+        clazz = "loongarch64-v8-backport"
     else:
         clazz = "loongarch64"
 
