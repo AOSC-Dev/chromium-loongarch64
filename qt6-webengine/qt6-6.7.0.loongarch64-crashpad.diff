@@ -621,6 +621,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #else
  #error Port.
  #endif
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2000-01-01 00:00:00.000000000 +0800
+@@ -76,6 +76,8 @@ class ThreadSnapshotLinux final : public
+     CPUContextMIPS64 mips64;
+ #elif defined(ARCH_CPU_RISCV64)
+     CPUContextRISCV64 riscv64;
++#elif defined(ARCH_CPU_LOONG64)
++    CPUContextLOONG64 loong64;
+ #else
+ #error Port.
+ #endif  // ARCH_CPU_X86_FAMILY
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/minidump/minidump_context_converter.cc	2000-01-01 00:00:00.000000000 +0800
