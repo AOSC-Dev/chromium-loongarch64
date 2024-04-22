@@ -31,6 +31,11 @@ for patch in sorted(patches):
     ):
         # https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=cb122c4d819496c6384278d7817855e5740d1670
         clazz = "Gentoo-x11-header"
+    elif path.startswith(
+        "qtwebengine/src/3rdparty/chromium/third_party/libvpx/source/libvpx/vpx_dsp/loongarch/"
+    ):
+        # https://github.com/webmproject/libvpx/commit/391bb5604b85195468e73d576766252f6ce8e427
+        clazz = "loongarch64-libvpx-lsx-backport"
     else:
         clazz = "loongarch64"
 
