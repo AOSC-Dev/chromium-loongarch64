@@ -37,6 +37,7 @@ for patch in sorted(patches):
         "third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h",
         "third_party/blink/renderer/bindings/core/v8/script_streamer.cc",
         "third_party/blink/renderer/modules/webgpu/gpu_adapter_info.h",
+        "third_party/blink/renderer/core/paint/fragment_data_iterator.h"
     ]:
         # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067886
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc0000.patch
@@ -99,6 +100,9 @@ for patch in sorted(patches):
     ]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/vulkan-include.patch
         clazz = "2010-Debian-upstream-vulkan-include"
+    elif path in ["third_party/blink/renderer/core/paint/fragment_data_iterator.h"]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/blink-frags.patch
+        clazz = "2011-Debian-fixes-blink-frags"
     elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
         # https://issues.chromium.org/issues/40945821
         clazz = "3001-rust-ld-bfd"
