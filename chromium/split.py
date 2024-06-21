@@ -50,6 +50,11 @@ for patch in sorted(patches):
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc3.patch
         clazz = "2002-Debian-fixes-blink"
     elif path in [
+        "net/third_party/quiche/src/quiche/quic/core/quic_interval_deque.h"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/quiche-deque.patch
+        clazz = "2003-Debian-fixes-quiche-deque"
+    elif path in [
         "chrome/browser/ui/tabs/tab_strip_model.h"
     ]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/tabstrip-include.patch
