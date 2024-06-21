@@ -77,6 +77,11 @@ for patch in sorted(patches):
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/blink-header3.patch
         clazz = "2007-Debian-upstream-blink-header3"
     elif path in [
+        "content/services/auction_worklet/real_time_reporting_bindings.h"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/realtime-reporting.patch
+        clazz = "2008-Debian-upstream-realtime-reporting"
+    elif path in [
         "third_party/ruy/src/ruy/profiler/instrumentation.h"
     ]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/ruy-include.patch
