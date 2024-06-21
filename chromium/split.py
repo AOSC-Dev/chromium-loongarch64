@@ -86,6 +86,11 @@ for patch in sorted(patches):
     ]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/ruy-include.patch
         clazz = "2009-Debian-upstream-ruy-include"
+    elif path in [
+        "components/visited_url_ranking/public/url_visit.h"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/urlvisit-header.patch
+        clazz = "2010-Debian-upstream-urlvisit-header"
     elif path in ["third_party/blink/renderer/core/paint/fragment_data_iterator.h"]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/blink-frags.patch
         clazz = "2011-Debian-fixes-blink-frags"
