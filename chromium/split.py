@@ -38,7 +38,8 @@ for patch in sorted(patches):
         "third_party/blink/renderer/bindings/core/v8/script_streamer.cc",
         "third_party/blink/renderer/modules/webgpu/gpu_adapter_info.h",
         "third_party/blink/renderer/core/paint/fragment_data_iterator.h",
-        "third_party/blink/renderer/platform/fonts/shaping/run_segmenter.h"
+        "third_party/blink/renderer/platform/fonts/shaping/run_segmenter.h",
+        "third_party/blink/renderer/modules/encoding/text_decoder.h"
     ]:
         # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1067886
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/bad-font-gc0000.patch
@@ -70,6 +71,11 @@ for patch in sorted(patches):
     ]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/blink-header.patch
         clazz = "2006-Debian-upstream-blink-header"
+    elif path in [
+        "third_party/blink/renderer/modules/encoding/text_decoder.h"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/blink-header3.patch
+        clazz = "2007-Debian-upstream-blink-header3"
     elif path in [
         "third_party/ruy/src/ruy/profiler/instrumentation.h"
     ]:
