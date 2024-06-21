@@ -54,7 +54,7 @@ GNFLAGS=(
 
 # LLD 17 on loongarch64 does not work
 # comment this out on amd64
-#GNFLAGS+=('use_lld=false')
+GNFLAGS+=('use_lld=false')
 
 gn gen ./out/Release \
     --args="${GNFLAGS[*]}" \
