@@ -60,6 +60,11 @@ for patch in sorted(patches):
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/tabstrip-include.patch
         clazz = "2004-Debian-upstream-tabstrip-include"
     elif path in [
+        "gpu/config/webgpu_blocklist_impl.h"
+    ]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/gpu-header.patch
+        clazz = "2005-Debian-upstream-gpu-header"
+    elif path in [
         "third_party/ruy/src/ruy/profiler/instrumentation.h"
     ]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/ruy-include.patch
