@@ -94,6 +94,9 @@ for patch in sorted(patches):
     elif path in ["third_party/blink/renderer/core/paint/fragment_data_iterator.h"]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/blink-frags.patch
         clazz = "2011-Debian-fixes-blink-frags"
+    elif path in ["chrome/renderer/accessibility/read_anything_app_model.cc"]:
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/upstream/accessibility-format.patch
+        clazz = "2012-Debian-upstream-accessibility-format"
     elif path in ["tools/v8_context_snapshot/BUILD.gn", "chrome/BUILD.gn"]:
         # https://issues.chromium.org/issues/40945821
         clazz = "3001-rust-ld-bfd"
