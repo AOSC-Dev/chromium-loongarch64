@@ -1,4 +1,4 @@
-version = "126.0.6478.114"
+version = "127.0.6533.72"
 patches = []
 with open(f"chromium-{version}.diff", "r") as f:
     cur = []

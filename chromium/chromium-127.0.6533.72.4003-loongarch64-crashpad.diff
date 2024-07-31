@@ -204,7 +204,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      cpu_architecture = kMinidumpCPUArchitectureLOONG64Breakpad;
 +      break;
      default:
-       NOTREACHED();
+       NOTREACHED_IN_MIGRATION();
        cpu_architecture = kMinidumpCPUArchitectureUnknown;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/capture_memory.cc b/third_party/crashpad/crashpad/snapshot/capture_memory.cc
 --- a/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2000-01-01 00:00:00.000000000 +0800
@@ -244,7 +244,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +    case kCPUArchitectureLOONG64:
 +      return loong64->csr_era;
      default:
-       NOTREACHED();
+       NOTREACHED_IN_MIGRATION();
        return ~0ull;
 @@ -191,6 +193,8 @@ uint64_t CPUContext::StackPointer() cons
        return arm64->sp;
@@ -253,7 +253,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +    case kCPUArchitectureLOONG64:
 +      return loong64->regs[3];
      default:
-       NOTREACHED();
+       NOTREACHED_IN_MIGRATION();
        return ~0ull;
 @@ -232,6 +236,7 @@ bool CPUContext::Is64Bit() const {
      case kCPUArchitectureARM64:

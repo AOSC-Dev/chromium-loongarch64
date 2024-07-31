@@ -3,9 +3,13 @@ export CXX=clang++
 export AR=ar
 export NM=nm
 export RUSTC_BOOTSTRAP=1
+# use libc++, follow debian switch
+# these paths are AOSC-specific, please change on other distros
+export CXXFLAGS="-stdlib=libc++ -I/usr/include/c++/v1"
+export LDFLAGS="-stdlib=libc++ -Wl,-rpath,/usr/lib/llvm"
 
 mkdir -p third_party/node/linux/node-linux-x64/bin/
-ln -sv /usr/bin/node third_party/node/linux/node-linux-x64/bin/node
+ln -svf /usr/bin/node third_party/node/linux/node-linux-x64/bin/node
 
 RUSTC_VERSION="$(rustc --version)"
 CLANG_VERSION="$(clang --version | sed -n 's/clang version //p' | cut -d. -f1)"
@@ -50,6 +54,8 @@ GNFLAGS=(
     'ozone_auto_platforms=true'
     "rustc_version=\"$RUSTC_VERSION\""
     'rust_sysroot_absolute="/usr"'
+    'rust_bindgen_root="/usr"'
+    'use_lld=true'
 )
 
 gn gen ./out/Release \
