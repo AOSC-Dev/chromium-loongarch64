@@ -136,7 +136,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -354,6 +354,7 @@ intptr_t SIGSYSSchedHandler(const struct
+@@ -359,6 +359,7 @@ intptr_t SIGSYSSchedHandler(const struct
  
  intptr_t SIGSYSFstatatHandler(const struct arch_seccomp_data& args,
                                void* fs_denied_errno) {
@@ -144,7 +144,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    if (args.nr == __NR_fstatat_default) {
      if (*reinterpret_cast<const char*>(args.args[1]) == '\0' &&
          args.args[3] == static_cast<uint64_t>(AT_EMPTY_PATH)) {
-@@ -362,6 +363,7 @@ intptr_t SIGSYSFstatatHandler(const stru
+@@ -367,6 +368,7 @@ intptr_t SIGSYSFstatatHandler(const stru
      }
      return -reinterpret_cast<intptr_t>(fs_denied_errno);
    }
@@ -471,7 +471,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf/syscall.cc b/sandbox/linux/seccomp-bpf/syscall.cc
 --- a/sandbox/linux/seccomp-bpf/syscall.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/seccomp-bpf/syscall.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -18,7 +18,7 @@ namespace sandbox {
+@@ -23,7 +23,7 @@ namespace sandbox {
  namespace {
  
  #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM_FAMILY) || \
@@ -480,7 +480,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  // Number that's not currently used by any Linux kernel ABIs.
  const int kInvalidSyscallNumber = 0x351d3;
  #else
-@@ -308,6 +308,27 @@ asm(// We need to be able to tell the ke
+@@ -313,6 +313,27 @@ asm(// We need to be able to tell the ke
      "2:ret\n"
      ".cfi_endproc\n"
      ".size SyscallAsm, .-SyscallAsm\n"
@@ -508,7 +508,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #endif
      );  // asm
  
-@@ -425,6 +446,18 @@ intptr_t Syscall::Call(int nr,
+@@ -430,6 +451,18 @@ intptr_t Syscall::Call(int nr,
      ret = inout;
    }
  
@@ -530,7 +530,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/services/credentials.cc b/sandbox/linux/services/credentials.cc
 --- a/sandbox/linux/services/credentials.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/services/credentials.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -80,7 +80,7 @@ bool ChrootToSafeEmptyDir() {
+@@ -85,7 +85,7 @@ bool ChrootToSafeEmptyDir() {
    pid_t pid = -1;
    alignas(16) char stack_buf[PTHREAD_STACK_MIN];
  #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM_FAMILY) || \
@@ -650,7 +650,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_client.cc b/sandbox/linux/syscall_broker/broker_client.cc
 --- a/sandbox/linux/syscall_broker/broker_client.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/syscall_broker/broker_client.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -193,6 +193,21 @@ int BrokerClient::Stat64(const char* pat
+@@ -198,6 +198,21 @@ int BrokerClient::Stat64(const char* pat
                             sizeof(*sb));
  }
  
@@ -710,7 +710,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_host.cc b/sandbox/linux/syscall_broker/broker_host.cc
 --- a/sandbox/linux/syscall_broker/broker_host.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/syscall_broker/broker_host.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -297,6 +297,21 @@ void BrokerHost::StatFileForIPC(BrokerCo
+@@ -302,6 +302,21 @@ void BrokerHost::StatFileForIPC(BrokerCo
      RAW_CHECK(reply->AddIntToMessage(0));
      RAW_CHECK(
          reply->AddDataToMessage(reinterpret_cast<char*>(&sb), sizeof(sb)));
@@ -732,7 +732,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #else  // defined(__NR_fstatat64)
      // We should not reach here on 64-bit systems, as the *stat*64() are only
      // necessary on 32-bit.
-@@ -436,7 +451,8 @@ bool BrokerHost::HandleRemoteCommand(Bro
+@@ -441,7 +456,8 @@ bool BrokerHost::HandleRemoteCommand(Bro
        break;
      }
      case COMMAND_STAT:
@@ -821,7 +821,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.cc b/sandbox/linux/syscall_broker/syscall_dispatcher.cc
 --- a/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -169,6 +169,19 @@ int SyscallDispatcher::DispatchSyscall(c
+@@ -174,6 +174,19 @@ int SyscallDispatcher::DispatchSyscall(c
        return Stat64(reinterpret_cast<const char*>(args.args[0]), true,
                      reinterpret_cast<struct kernel_stat64*>(args.args[1]));
  #endif
