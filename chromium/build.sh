@@ -44,6 +44,8 @@ GNFLAGS=(
     'rust_sysroot_absolute="/usr"'
     'rust_bindgen_root="/usr"'
     'use_lld=true'
+    'symbol_level=0'
+    'v8_symbol_level=0'
 )
 
 gn gen ./out/Release \
