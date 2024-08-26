@@ -121,6 +121,33 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
    }
  #elif BUILDFLAG(IS_FUCHSIA)
    std::string cpu_arch = base::SysInfo::ProcessCPUArchitecture();
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/skia/BUILD.gn b/skia/BUILD.gn
+--- a/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -682,6 +682,14 @@ if (current_cpu == "x86" || current_cpu
+   }
+ }
+ 
++if (current_cpu == "loong64") {
++  skia_source_set("skia_opts_lasx") {
++    sources = skia_opts.lasx_sources
++    cflags = [ "-mlasx" ]
++    visibility = [ ":skia_opts" ]
++  }
++}
++
+ skia_source_set("skia_opts") {
+   cflags = []
+   defines = []
+@@ -720,7 +728,7 @@ skia_source_set("skia_opts") {
+   } else if (current_cpu == "riscv64") {
+     # Conditional and empty body needed to avoid assert() below.
+   } else if (current_cpu == "loong64") {
+-    # Conditional and empty body needed to avoid assert() below.
++    deps += [ ":skia_opts_lasx" ]
+   } else {
+     assert(false, "Unknown cpu target")
+   }
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
 --- a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-01-01 00:00:00.000000000 +0800
