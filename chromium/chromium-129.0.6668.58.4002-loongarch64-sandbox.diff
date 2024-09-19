@@ -530,9 +530,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/services/credentials.cc b/sandbox/linux/services/credentials.cc
 --- a/sandbox/linux/services/credentials.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/services/credentials.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -85,7 +85,7 @@ bool ChrootToSafeEmptyDir() {
-   pid_t pid = -1;
+@@ -91,7 +91,7 @@ bool ChrootToSafeEmptyDir() {
    alignas(16) char stack_buf[PTHREAD_STACK_MIN];
+ 
  #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM_FAMILY) || \
 -    defined(ARCH_CPU_MIPS_FAMILY)
 +    defined(ARCH_CPU_MIPS_FAMILY) || defined(ARCH_CPU_LOONGARCH_FAMILY)

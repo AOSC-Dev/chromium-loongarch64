@@ -1,7 +1,7 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/partition_alloc.gni b/base/allocator/partition_allocator/partition_alloc.gni
 --- a/base/allocator/partition_allocator/partition_alloc.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/base/allocator/partition_allocator/partition_alloc.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -242,7 +242,7 @@ declare_args() {
+@@ -270,7 +270,7 @@ declare_args() {
  
  stack_scan_supported =
      current_cpu == "x64" || current_cpu == "x86" || current_cpu == "arm" ||
@@ -13,7 +13,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn
 --- a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -460,6 +460,9 @@ if (is_clang_or_gcc) {
+@@ -497,6 +497,9 @@ if (is_clang_or_gcc) {
      } else if (current_cpu == "riscv64") {
        assert(stack_scan_supported)
        sources += [ "stack/asm/riscv64/push_registers_asm.cc" ]
@@ -124,7 +124,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/skia/BUILD.gn b/skia/BUILD.gn
 --- a/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -682,6 +682,14 @@ if (current_cpu == "x86" || current_cpu
+@@ -705,6 +705,14 @@ if (current_cpu == "loong64") {
    }
  }
  
@@ -139,15 +139,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sk
  skia_source_set("skia_opts") {
    cflags = []
    defines = []
-@@ -720,7 +728,7 @@ skia_source_set("skia_opts") {
-   } else if (current_cpu == "riscv64") {
-     # Conditional and empty body needed to avoid assert() below.
-   } else if (current_cpu == "loong64") {
--    # Conditional and empty body needed to avoid assert() below.
-+    deps += [ ":skia_opts_lasx" ]
-   } else {
-     assert(false, "Unknown cpu target")
-   }
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
 --- a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-01-01 00:00:00.000000000 +0800
