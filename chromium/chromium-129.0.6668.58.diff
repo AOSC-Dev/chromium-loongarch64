@@ -151,6 +151,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
  
          # No need to generate an object file for nocompile tests.
          "-Xclang",
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/cargo_crate.gni b/build/rust/cargo_crate.gni
+--- a/build/rust/cargo_crate.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/build/rust/cargo_crate.gni	2000-01-01 00:00:00.000000000 +0800
+@@ -429,7 +429,7 @@ template("cargo_crate") {
+           rust_abi_target,
+         ]
+       }
+-      if (current_cpu == "arm64" || current_cpu == "x64") {
++      if (current_cpu == "arm64" || current_cpu == "x64" || current_cpu == "loong64") {
+         args += [
+           "--pointer-width",
+           "64",
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/rust_bindgen.gni b/build/rust/rust_bindgen.gni
 --- a/build/rust/rust_bindgen.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/rust/rust_bindgen.gni	2000-01-01 00:00:00.000000000 +0800
