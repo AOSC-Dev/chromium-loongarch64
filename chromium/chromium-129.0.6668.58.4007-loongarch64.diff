@@ -121,24 +121,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
    }
  #elif BUILDFLAG(IS_FUCHSIA)
    std::string cpu_arch = base::SysInfo::ProcessCPUArchitecture();
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/skia/BUILD.gn b/skia/BUILD.gn
---- a/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-+++ b/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -705,6 +705,14 @@ if (current_cpu == "loong64") {
-   }
- }
- 
-+if (current_cpu == "loong64") {
-+  skia_source_set("skia_opts_lasx") {
-+    sources = skia_opts.lasx_sources
-+    cflags = [ "-mlasx" ]
-+    visibility = [ ":skia_opts" ]
-+  }
-+}
-+
- skia_source_set("skia_opts") {
-   cflags = []
-   defines = []
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
 --- a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-01-01 00:00:00.000000000 +0800
