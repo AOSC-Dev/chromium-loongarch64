@@ -1,3 +1,15 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtquick3d/src/3rdparty/openxr/src/common/platform_utils.hpp b/qtquick3d/src/3rdparty/openxr/src/common/platform_utils.hpp
+--- a/qtquick3d/src/3rdparty/openxr/src/common/platform_utils.hpp	2000-01-01 00:00:00.000000000 +0800
++++ b/qtquick3d/src/3rdparty/openxr/src/common/platform_utils.hpp	2000-01-01 00:00:00.000000000 +0800
+@@ -71,6 +71,8 @@
+ #define XR_ARCH_ABI "riscv64"
+ #elif defined(__sparc__) && defined(__arch64__)
+ #define XR_ARCH_ABI "sparc64"
++#elif defined(__loongarch__) && (__loongarch_grlen == 64)
++#define XR_ARCH_ABI "loongarch64"
+ #else
+ #error "No architecture string known!"
+ #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/cmake/Functions.cmake b/qtwebengine/cmake/Functions.cmake
 --- a/qtwebengine/cmake/Functions.cmake	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/cmake/Functions.cmake	2000-01-01 00:00:00.000000000 +0800
