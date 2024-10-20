@@ -1,7 +1,7 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/partition_alloc.gni b/base/allocator/partition_allocator/partition_alloc.gni
 --- a/base/allocator/partition_allocator/partition_alloc.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/base/allocator/partition_allocator/partition_alloc.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -270,7 +270,7 @@ declare_args() {
+@@ -272,7 +272,7 @@ declare_args() {
  
  stack_scan_supported =
      current_cpu == "x64" || current_cpu == "x86" || current_cpu == "arm" ||
@@ -13,7 +13,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn
 --- a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -497,6 +497,9 @@ if (is_clang_or_gcc) {
+@@ -499,6 +499,9 @@ if (is_clang_or_gcc) {
      } else if (current_cpu == "riscv64") {
        assert(stack_scan_supported)
        sources += [ "stack/asm/riscv64/push_registers_asm.cc" ]
@@ -91,7 +91,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/rust.gni b/build/config/rust.gni
 --- a/build/config/rust.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/rust.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -204,6 +204,8 @@ if (is_linux || is_chromeos) {
+@@ -211,6 +211,8 @@ if (is_linux || is_chromeos) {
      }
    } else if (current_cpu == "riscv64") {
      rust_abi_target = "riscv64gc-unknown-linux-gnu"
@@ -100,7 +100,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
    } else {
      # Best guess for other future platforms.
      rust_abi_target = current_cpu + "-unknown-linux-gnu"
-@@ -292,6 +294,8 @@ if (current_cpu == "x86") {
+@@ -299,6 +301,8 @@ if (current_cpu == "x86") {
    rust_target_arch = "powerpc64"
  } else if (current_cpu == "riscv64") {
    rust_target_arch = "riscv64"
@@ -109,18 +109,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
  }
  
  assert(!toolchain_has_rust || rust_target_arch != "")
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/cargo_crate.gni b/build/rust/cargo_crate.gni
---- a/build/rust/cargo_crate.gni	2000-01-01 00:00:00.000000000 +0800
-+++ b/build/rust/cargo_crate.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -429,7 +429,7 @@ template("cargo_crate") {
-           rust_abi_target,
-         ]
-       }
--      if (current_cpu == "arm64" || current_cpu == "x64") {
-+      if (current_cpu == "arm64" || current_cpu == "x64" || current_cpu == "loong64") {
-         args += [
-           "--pointer-width",
-           "64",
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
 --- a/content/common/user_agent.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/content/common/user_agent.cc	2000-01-01 00:00:00.000000000 +0800

@@ -1,7 +1,7 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/partition_alloc.gni b/base/allocator/partition_allocator/partition_alloc.gni
 --- a/base/allocator/partition_allocator/partition_alloc.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/base/allocator/partition_allocator/partition_alloc.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -270,7 +270,7 @@ declare_args() {
+@@ -272,7 +272,7 @@ declare_args() {
  
  stack_scan_supported =
      current_cpu == "x64" || current_cpu == "x86" || current_cpu == "arm" ||
@@ -13,7 +13,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn
 --- a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -497,6 +497,9 @@ if (is_clang_or_gcc) {
+@@ -499,6 +499,9 @@ if (is_clang_or_gcc) {
      } else if (current_cpu == "riscv64") {
        assert(stack_scan_supported)
        sources += [ "stack/asm/riscv64/push_registers_asm.cc" ]
@@ -91,7 +91,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/clang/BUILD.gn b/build/config/clang/BUILD.gn
 --- a/build/config/clang/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/clang/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -190,14 +190,15 @@ template("clang_lib") {
+@@ -189,14 +189,15 @@ template("clang_lib") {
        } else if (is_apple) {
          _dir = "darwin"
        } else if (is_linux || is_chromeos) {
@@ -115,7 +115,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/rust.gni b/build/config/rust.gni
 --- a/build/config/rust.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/rust.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -204,6 +204,8 @@ if (is_linux || is_chromeos) {
+@@ -211,6 +211,8 @@ if (is_linux || is_chromeos) {
      }
    } else if (current_cpu == "riscv64") {
      rust_abi_target = "riscv64gc-unknown-linux-gnu"
@@ -124,7 +124,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
    } else {
      # Best guess for other future platforms.
      rust_abi_target = current_cpu + "-unknown-linux-gnu"
-@@ -292,6 +294,8 @@ if (current_cpu == "x86") {
+@@ -299,6 +301,8 @@ if (current_cpu == "x86") {
    rust_target_arch = "powerpc64"
  } else if (current_cpu == "riscv64") {
    rust_target_arch = "riscv64"
@@ -151,18 +151,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
  
          # No need to generate an object file for nocompile tests.
          "-Xclang",
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/cargo_crate.gni b/build/rust/cargo_crate.gni
---- a/build/rust/cargo_crate.gni	2000-01-01 00:00:00.000000000 +0800
-+++ b/build/rust/cargo_crate.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -429,7 +429,7 @@ template("cargo_crate") {
-           rust_abi_target,
-         ]
-       }
--      if (current_cpu == "arm64" || current_cpu == "x64") {
-+      if (current_cpu == "arm64" || current_cpu == "x64" || current_cpu == "loong64") {
-         args += [
-           "--pointer-width",
-           "64",
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/rust_bindgen.gni b/build/rust/rust_bindgen.gni
 --- a/build/rust/rust_bindgen.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/rust/rust_bindgen.gni	2000-01-01 00:00:00.000000000 +0800
@@ -529,7 +517,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_accept:
      case __NR_accept4:
      case __NR_bind:
-@@ -553,7 +559,7 @@ bool SyscallSets::IsAllowedAddressSpaceA
+@@ -554,7 +560,7 @@ bool SyscallSets::IsAllowedAddressSpaceA
      case __NR_mincore:
      case __NR_mlockall:
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__) || \
@@ -538,7 +526,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_mmap:
  #endif
  #if defined(__i386__) || defined(__arm__) || \
-@@ -586,7 +592,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
+@@ -587,7 +593,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
      (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
      case __NR__llseek:
  #endif
@@ -547,7 +535,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_poll:
  #endif
      case __NR_ppoll:
-@@ -607,7 +613,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
+@@ -608,7 +614,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
      case __NR_recv:
  #endif
  #if defined(__x86_64__) || defined(__arm__) || defined(__mips__) || \
@@ -556,7 +544,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_recvfrom:  // Could specify source.
      case __NR_recvmsg:   // Could specify source.
  #endif
-@@ -622,7 +628,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
+@@ -623,7 +629,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
      case __NR_send:
  #endif
  #if defined(__x86_64__) || defined(__arm__) || defined(__mips__) || \
@@ -565,7 +553,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_sendmsg:  // Could specify destination.
      case __NR_sendto:   // Could specify destination.
  #endif
-@@ -671,7 +677,7 @@ bool SyscallSets::IsSeccomp(int sysno) {
+@@ -672,7 +678,7 @@ bool SyscallSets::IsSeccomp(int sysno) {
  bool SyscallSets::IsAllowedBasicScheduler(int sysno) {
    switch (sysno) {
      case __NR_sched_yield:
@@ -574,7 +562,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_pause:
  #endif
      case __NR_nanosleep:
-@@ -755,7 +761,7 @@ bool SyscallSets::IsNuma(int sysno) {
+@@ -756,7 +762,7 @@ bool SyscallSets::IsNuma(int sysno) {
      case __NR_getcpu:
      case __NR_mbind:
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__) || \
@@ -583,7 +571,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_migrate_pages:
  #endif
      case __NR_move_pages:
-@@ -803,7 +809,9 @@ bool SyscallSets::IsGlobalProcessEnviron
+@@ -804,7 +810,9 @@ bool SyscallSets::IsGlobalProcessEnviron
      case __NR_getrusage:
      case __NR_personality:  // Can change its personality as well.
      case __NR_prlimit64:    // Like setrlimit / getrlimit.
@@ -593,7 +581,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_times:
        return true;
      default:
-@@ -825,7 +833,7 @@ bool SyscallSets::IsDebug(int sysno) {
+@@ -826,7 +834,7 @@ bool SyscallSets::IsDebug(int sysno) {
  
  bool SyscallSets::IsGlobalSystemStatus(int sysno) {
    switch (sysno) {
@@ -602,7 +590,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR__sysctl:
      case __NR_sysfs:
  #endif
-@@ -843,7 +851,7 @@ bool SyscallSets::IsGlobalSystemStatus(i
+@@ -844,7 +852,7 @@ bool SyscallSets::IsGlobalSystemStatus(i
  
  bool SyscallSets::IsEventFd(int sysno) {
    switch (sysno) {
@@ -611,7 +599,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_eventfd:
  #endif
      case __NR_eventfd2:
-@@ -895,7 +903,7 @@ bool SyscallSets::IsKeyManagement(int sy
+@@ -896,7 +904,7 @@ bool SyscallSets::IsKeyManagement(int sy
  }
  
  #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
@@ -620,7 +608,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  bool SyscallSets::IsSystemVSemaphores(int sysno) {
    switch (sysno) {
      case __NR_semctl:
-@@ -915,7 +923,7 @@ bool SyscallSets::IsSystemVSemaphores(in
+@@ -916,7 +924,7 @@ bool SyscallSets::IsSystemVSemaphores(in
  
  #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
      defined(__aarch64__) ||                                         \
@@ -629,7 +617,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  // These give a lot of ambient authority and bypass the setuid sandbox.
  bool SyscallSets::IsSystemVSharedMemory(int sysno) {
    switch (sysno) {
-@@ -931,7 +939,7 @@ bool SyscallSets::IsSystemVSharedMemory(
+@@ -932,7 +940,7 @@ bool SyscallSets::IsSystemVSharedMemory(
  #endif
  
  #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
@@ -638,7 +626,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  bool SyscallSets::IsSystemVMessageQueue(int sysno) {
    switch (sysno) {
      case __NR_msgctl:
-@@ -962,7 +970,7 @@ bool SyscallSets::IsSystemVIpc(int sysno
+@@ -963,7 +971,7 @@ bool SyscallSets::IsSystemVIpc(int sysno
  
  bool SyscallSets::IsAnySystemV(int sysno) {
  #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
@@ -647,7 +635,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    return IsSystemVMessageQueue(sysno) || IsSystemVSemaphores(sysno) ||
           IsSystemVSharedMemory(sysno);
  #elif defined(__i386__) || \
-@@ -999,7 +1007,7 @@ bool SyscallSets::IsAdvancedScheduler(in
+@@ -1000,7 +1008,7 @@ bool SyscallSets::IsAdvancedScheduler(in
  bool SyscallSets::IsInotify(int sysno) {
    switch (sysno) {
      case __NR_inotify_add_watch:
@@ -656,7 +644,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_inotify_init:
  #endif
      case __NR_inotify_init1:
-@@ -1134,7 +1142,7 @@ bool SyscallSets::IsMisc(int sysno) {
+@@ -1135,7 +1143,7 @@ bool SyscallSets::IsMisc(int sysno) {
  #if defined(__x86_64__)
      case __NR_tuxcall:
  #endif
@@ -752,8 +740,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/services/credentials.cc b/sandbox/linux/services/credentials.cc
 --- a/sandbox/linux/services/credentials.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/services/credentials.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -91,7 +91,7 @@ bool ChrootToSafeEmptyDir() {
-   alignas(16) char stack_buf[PTHREAD_STACK_MIN];
+@@ -87,7 +87,7 @@ bool ChrootToSafeEmptyDir() {
+   alignas(16) char stack_buf[PTHREAD_STACK_MIN_CONST];
  
  #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM_FAMILY) || \
 -    defined(ARCH_CPU_MIPS_FAMILY)
