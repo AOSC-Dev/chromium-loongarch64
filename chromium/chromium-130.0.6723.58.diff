@@ -196,6 +196,27 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
        rustenv = _rustenv
  
        if (_generate_crate_root) {
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/media_router/common/providers/cast/channel/enum_table.h b/components/media_router/common/providers/cast/channel/enum_table.h
+--- a/components/media_router/common/providers/cast/channel/enum_table.h	2000-01-01 00:00:00.000000000 +0800
++++ b/components/media_router/common/providers/cast/channel/enum_table.h	2000-01-01 00:00:00.000000000 +0800
+@@ -12,7 +12,6 @@
+ 
+ #include <cstdint>
+ #include <cstring>
+-#include <new>
+ #include <optional>
+ #include <ostream>
+ #include <string_view>
+@@ -368,7 +367,8 @@ class EnumTable {
+ 
+  private:
+ #ifdef ARCH_CPU_64_BITS
+-  alignas(std::hardware_destructive_interference_size)
++  // Align the data on a cache line boundary.
++  alignas(64)
+ #endif
+       std::initializer_list<Entry> data_;
+   bool is_sorted_;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
 --- a/content/common/user_agent.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/content/common/user_agent.cc	2000-01-01 00:00:00.000000000 +0800

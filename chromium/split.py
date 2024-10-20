@@ -17,9 +17,9 @@ for patch in sorted(patches):
 
     # classify
     # https://src.fedoraproject.org/rpms/chromium/tree/rawhide
-    if path in ["build/config/compiler/BUILD.gn"]:
-        # https://src.fedoraproject.org/rpms/chromium/blob/rawhide/f/chromium-120-split-threshold-for-reg-with-hint.patch
-        clazz = "1000-Fedora-chromium-120-split-threshold-for-reg-with-hint"
+    if path in ["components/media_router/common/providers/cast/channel/enum_table.h"]:
+        # https://src.fedoraproject.org/rpms/chromium/blob/rawhide/f/chromium-130-hardware_destructive_interference_size.patch
+        clazz = "1000-Fedora-chromium-130-hardware_destructive_interference_size"
     elif path in ["optional"]:
         # https://salsa.debian.org/chromium-team/chromium/-/blob/master/debian/patches/fixes/absl-optional.patch?ref_type=heads
         clazz = "2000-Debian-fixes-absl-optional"
