@@ -6168,7 +6168,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      (is_android && current_cpu == "arm" && arm_use_neon &&
       ffmpeg_branding == "Chrome") ||
      (is_android && current_cpu == "x86" && ffmpeg_branding == "Chrome") ||
-@@ -360,6 +361,19 @@ if (current_cpu == "x64" || (is_android
+@@ -363,6 +364,19 @@ if (current_cpu == "x64" || (is_android
    ]
  }
  
