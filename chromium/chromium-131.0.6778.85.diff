@@ -1,3 +1,15 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/BUILD.gn b/base/BUILD.gn
+--- a/base/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/base/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -1015,7 +1015,7 @@ component("base") {
+   defines = [ "BASE_IMPLEMENTATION" ]
+   data = []
+   data_deps = []
+-  libs = []
++  libs = [ "m" ]
+   frameworks = []
+ 
+   configs += [
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/partition_alloc.gni b/base/allocator/partition_allocator/partition_alloc.gni
 --- a/base/allocator/partition_allocator/partition_alloc.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/base/allocator/partition_allocator/partition_alloc.gni	2000-01-01 00:00:00.000000000 +0800
@@ -9762,34 +9774,17 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  if ((is_android && current_cpu == "arm" && arm_use_neon) ||
      (use_linux_config && current_cpu == "arm" && arm_use_neon) ||
      (use_linux_config && current_cpu == "arm")) {
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/perfetto/src/ipc/protoc_plugin/BUILD.gn b/third_party/perfetto/src/ipc/protoc_plugin/BUILD.gn
---- a/third_party/perfetto/src/ipc/protoc_plugin/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-+++ b/third_party/perfetto/src/ipc/protoc_plugin/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -21,4 +21,5 @@ perfetto_host_executable("ipc_plugin") {
-     "../../../gn:protoc_lib",
-     "../../../src/base",
-   ]
-+  libs = [ "m" ]
- }
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/perfetto/src/protozero/protoc_plugin/BUILD.gn b/third_party/perfetto/src/protozero/protoc_plugin/BUILD.gn
---- a/third_party/perfetto/src/protozero/protoc_plugin/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-+++ b/third_party/perfetto/src/protozero/protoc_plugin/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -23,6 +23,7 @@ perfetto_host_executable("protozero_plug
-     "../../../gn:protoc_lib",
-     "../../../src/base",
-   ]
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/perfetto/src/base/BUILD.gn b/third_party/perfetto/src/base/BUILD.gn
+--- a/third_party/perfetto/src/base/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/perfetto/src/base/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -80,6 +80,7 @@ perfetto_component("base") {
+   if (enable_perfetto_stderr_crash_dump) {
+     deps += [ ":debug_crash_stack_trace" ]
+   }
 +  libs = [ "m" ]
  }
  
- # The plugin that generates standalone C++ objects from protos (xxx.gen.h).
-@@ -35,6 +36,7 @@ perfetto_host_executable("cppgen_plugin"
-     "../../../gn:protoc_lib",
-     "../../../src/base",
-   ]
-+  libs = [ "m" ]
- }
- 
- # The plugin that generates standalone C macros and function from protos
+ perfetto_component("clock_snapshots") {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/protobuf-javascript/BUILD.gn b/third_party/protobuf-javascript/BUILD.gn
 --- a/third_party/protobuf-javascript/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/protobuf-javascript/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
