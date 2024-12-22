@@ -100,6 +100,17 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
  #else
    return std::string();
  #endif
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/c++/BUILD.gn b/build/config/c++/BUILD.gn
+--- a/build/config/c++/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/build/config/c++/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -89,6 +89,7 @@ config("runtime_library") {
+     # Make sure we don't link against the system libstdc++ or libc++.
+     if (is_clang) {
+       ldflags += [ "-nostdlib++" ]
++      libs += [ "m" ]
+     } else {
+       # Gcc has a built-in abs() definition with default visibility.
+       # If it was not disabled, it would conflict with libc++'s abs()
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/clang/BUILD.gn b/build/config/clang/BUILD.gn
 --- a/build/config/clang/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/clang/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
@@ -2522,6 +2533,17 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    } else {
      return handle_via_broker;
    }
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/angle/BUILD.gn b/third_party/angle/BUILD.gn
+--- a/third_party/angle/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/angle/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -1443,6 +1443,7 @@ template("angle_libGLESv2") {
+       sources += [ "src/libGLESv2/libGLESv2.rc" ]
+       deps += [ ":angle_version" ]
+     }
++    libs = [ "m" ]
+   }
+ }
+ 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
 --- a/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-01-01 00:00:00.000000000 +0800
@@ -9837,6 +9859,17 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
      deps = [
        ":swiftshader_reactor_base",
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/src/Vulkan/BUILD.gn b/third_party/swiftshader/src/Vulkan/BUILD.gn
+--- a/third_party/swiftshader/src/Vulkan/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/src/Vulkan/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -229,6 +229,7 @@ swiftshader_shared_library("swiftshader_
+   }
+ 
+   deps = [ ":_swiftshader_libvulkan" ]
++  libs = [ "m" ]
+ }
+ 
+ swiftshader_static_library("swiftshader_libvulkan_static") {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2000-01-01 00:00:00.000000000 +0800
@@ -9973,3 +10006,25 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #else
  #error "unknown architecture"
  #endif
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/vulkan-loader/src/BUILD.gn b/third_party/vulkan-loader/src/BUILD.gn
+--- a/third_party/vulkan-loader/src/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/vulkan-loader/src/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -272,6 +272,7 @@ if (!is_android) {
+       deps += [ ":gen_defines" ]
+       include_dirs = [ "$target_gen_dir" ]
+     }
++    libs = [ "m" ]
+   }
+ }
+ 
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/vulkan-tools/src/BUILD.gn b/third_party/vulkan-tools/src/BUILD.gn
+--- a/third_party/vulkan-tools/src/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/vulkan-tools/src/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -51,6 +51,7 @@ if (!is_android) {
+       configs -= [ "//build/config/compiler:chromium_code" ]
+       configs += [ "//build/config/compiler:no_chromium_code" ]
+     }
++    libs = [ "m" ]
+   }
+ 
+   action("vulkan_gen_icd_json_file") {
