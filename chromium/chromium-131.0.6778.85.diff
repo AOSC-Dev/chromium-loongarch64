@@ -9762,6 +9762,55 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  if ((is_android && current_cpu == "arm" && arm_use_neon) ||
      (use_linux_config && current_cpu == "arm" && arm_use_neon) ||
      (use_linux_config && current_cpu == "arm")) {
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/perfetto/src/ipc/protoc_plugin/BUILD.gn b/third_party/perfetto/src/ipc/protoc_plugin/BUILD.gn
+--- a/third_party/perfetto/src/ipc/protoc_plugin/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/perfetto/src/ipc/protoc_plugin/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -21,4 +21,5 @@ perfetto_host_executable("ipc_plugin") {
+     "../../../gn:protoc_lib",
+     "../../../src/base",
+   ]
++  libs = [ "m" ]
+ }
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/perfetto/src/protozero/protoc_plugin/BUILD.gn b/third_party/perfetto/src/protozero/protoc_plugin/BUILD.gn
+--- a/third_party/perfetto/src/protozero/protoc_plugin/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/perfetto/src/protozero/protoc_plugin/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -23,6 +23,7 @@ perfetto_host_executable("protozero_plug
+     "../../../gn:protoc_lib",
+     "../../../src/base",
+   ]
++  libs = [ "m" ]
+ }
+ 
+ # The plugin that generates standalone C++ objects from protos (xxx.gen.h).
+@@ -35,6 +36,7 @@ perfetto_host_executable("cppgen_plugin"
+     "../../../gn:protoc_lib",
+     "../../../src/base",
+   ]
++  libs = [ "m" ]
+ }
+ 
+ # The plugin that generates standalone C macros and function from protos
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/protobuf-javascript/BUILD.gn b/third_party/protobuf-javascript/BUILD.gn
+--- a/third_party/protobuf-javascript/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/protobuf-javascript/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -28,5 +28,6 @@ if (current_toolchain == host_toolchain)
+       "//third_party/protobuf:protobuf_warnings",
+       "//third_party/protobuf:protoc_warnings",
+     ]
++    libs = [ "m" ]
+   }
+ }
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/protobuf/BUILD.gn b/third_party/protobuf/BUILD.gn
+--- a/third_party/protobuf/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/protobuf/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -312,6 +312,7 @@ if (current_toolchain == host_toolchain)
+     if (enable_js_protobuf) {
+       deps += [ "//third_party/protobuf-javascript:protoc-gen-js" ]
+     }
++    libs = [ "m" ]
+   }
+ }
+ 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/skia/src/opts/SkOpts_SetTarget.h b/third_party/skia/src/opts/SkOpts_SetTarget.h
 --- a/third_party/skia/src/opts/SkOpts_SetTarget.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/skia/src/opts/SkOpts_SetTarget.h	2000-01-01 00:00:00.000000000 +0800
