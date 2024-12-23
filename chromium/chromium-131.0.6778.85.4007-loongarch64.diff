@@ -88,6 +88,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
 +    "  ld.d $fp, $sp, 72                                 \n"
 +    "  addi.d $sp, $sp, 96                               \n"
 +    "  jr $ra                                            \n");
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/process/launch.h b/base/process/launch.h
+--- a/base/process/launch.h	2000-01-01 00:00:00.000000000 +0800
++++ b/base/process/launch.h	2000-01-01 00:00:00.000000000 +0800
+@@ -55,7 +55,7 @@ namespace base {
+ // defined as a constant.
+ 
+ // These constants are borrowed from glibc’s (arch)/bits/pthread_stack_min.h.
+-#if defined(ARCH_CPU_ARM64)
++#if defined(ARCH_CPU_ARM64) || defined(ARCH_CPU_LOONGARCH64)
+ #define PTHREAD_STACK_MIN_CONST \
+   (__builtin_constant_p(PTHREAD_STACK_MIN) ? PTHREAD_STACK_MIN : 131072)
+ #else
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/system/sys_info.cc b/base/system/sys_info.cc
 --- a/base/system/sys_info.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/base/system/sys_info.cc	2000-01-01 00:00:00.000000000 +0800
