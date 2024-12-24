@@ -227,3 +227,14 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    } else if (os == "AIX" || os == "OS400") {
      arch = "ppc64";
    } else if (std::string(info.sysname) == "OS/390") {
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/core/CMakeLists.txt b/qtwebengine/src/core/CMakeLists.txt
+--- a/qtwebengine/src/core/CMakeLists.txt	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/core/CMakeLists.txt	2000-01-01 00:00:00.000000000 +0800
+@@ -587,6 +587,7 @@ target_include_directories(WebEngineCore
+     ${buildDir}/$<CONFIG>/${arch}/gen/third_party/perfetto/build_config
+     ${buildDir}/$<CONFIG>/${arch}/gen/base/allocator/partition_allocator/src
+ )
++target_link_options(WebEngineCore PRIVATE -mno-relax)
+ 
+ set(stamps QtWebEngineCore.stamp)
+ if(QT_FEATURE_webengine_v8_context_snapshot)
