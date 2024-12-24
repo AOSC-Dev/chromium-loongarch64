@@ -22,6 +22,21 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      else()
          message(FATAL_ERROR "Unknown architecture: ${arch}")
      endif()
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/build/toolchain/gcc_toolchain.gni b/qtwebengine/src/3rdparty/chromium/build/toolchain/gcc_toolchain.gni
+--- a/qtwebengine/src/3rdparty/chromium/build/toolchain/gcc_toolchain.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/build/toolchain/gcc_toolchain.gni	2000-01-01 00:00:00.000000000 +0800
+@@ -374,6 +374,11 @@ template("single_gcc_toolchain") {
+       extra_ldflags = ""
+     }
+ 
++    if (current_cpu == "loong64") {
++      extra_cflags += " -mcmodel=medium"
++      extra_cxxflags += " -mcmodel=medium"
++    }
++
+     if (system_headers_in_deps) {
+       md = "-MD"
+     } else {
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/content/browser/BUILD.gn b/qtwebengine/src/3rdparty/chromium/content/browser/BUILD.gn
 --- a/qtwebengine/src/3rdparty/chromium/content/browser/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/content/browser/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
