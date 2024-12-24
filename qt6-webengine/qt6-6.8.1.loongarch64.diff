@@ -34,6 +34,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    } else {
      assert(false, "Unknown cpu target")
    }
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn
+--- a/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -1595,7 +1595,7 @@ jumbo_component("platform") {
+   if (current_cpu == "loong64") {
+     cflags = [
+       "-mlsx",
+-      "-flax-vector-conversions=all",
++      "-flax-vector-conversions",
+     ]
+   }
+ 
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
 --- a/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-01-01 00:00:00.000000000 +0800
