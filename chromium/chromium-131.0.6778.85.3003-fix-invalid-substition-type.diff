@@ -33,12 +33,3 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
  
      output_dir = "$target_gen_dir"
      out_gen_rs = "$output_dir/${target_name}.rs"
-@@ -210,7 +210,7 @@ template("rust_bindgen") {
-     # make it behave consistently with our other command line flags and allows
-     # system headers to be found.
-     clang_resource_dir =
--        rebase_path(clang_base_path + "/lib/clang/" + clang_version,
-+        rebase_path(clang_base_path + "/lib/llvm-" + clang_version + "/lib/clang/" + clang_version,
-                     root_build_dir)
-     args += [
-       "-resource-dir",

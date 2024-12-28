@@ -1,5 +1,5 @@
-export CC=$(readlink -f $(which clang))
-export CXX=$(readlink -f $(which clang++))
+export CC=clang
+export CXX=clang++
 export AR=ar
 export NM=nm
 export RUSTC_BOOTSTRAP=1
