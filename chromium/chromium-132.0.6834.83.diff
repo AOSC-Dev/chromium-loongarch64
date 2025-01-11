@@ -103,7 +103,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/clang/BUILD.gn b/build/config/clang/BUILD.gn
 --- a/build/config/clang/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/clang/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -163,14 +163,15 @@ template("clang_lib") {
+@@ -166,14 +166,15 @@ template("clang_lib") {
        } else if (is_apple) {
          _dir = "darwin"
        } else if (is_linux || is_chromeos) {
@@ -127,7 +127,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/rust.gni b/build/config/rust.gni
 --- a/build/config/rust.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/rust.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -223,6 +223,9 @@ if (is_linux || is_chromeos) {
+@@ -200,6 +200,9 @@ if (is_linux || is_chromeos) {
    } else if (current_cpu == "riscv64") {
      rust_abi_target = "riscv64gc-unknown-linux-gnu"
      cargo_target_abi = ""
@@ -137,7 +137,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
    } else {
      # Best guess for other future platforms.
      rust_abi_target = current_cpu + "-unknown-linux-gnu"
-@@ -343,6 +346,8 @@ if (current_cpu == "x86") {
+@@ -320,6 +323,8 @@ if (current_cpu == "x86") {
    rust_target_arch = "powerpc64"
  } else if (current_cpu == "riscv64") {
    rust_target_arch = "riscv64"
@@ -164,27 +164,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
  
          # No need to generate an object file for nocompile tests.
          "-Xclang",
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/rust_bindgen.gni b/build/rust/rust_bindgen.gni
---- a/build/rust/rust_bindgen.gni	2000-01-01 00:00:00.000000000 +0800
-+++ b/build/rust/rust_bindgen.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -115,11 +115,11 @@ template("rust_bindgen") {
-     sources = [ invoker.header ]
- 
-     if (!defined(configs)) {
--      configs = []
-+      # configs = []
-     }
- 
-     # Several important compiler flags come from default_compiler_configs
--    configs += default_compiler_configs
-+    # configs += default_compiler_configs
- 
-     output_dir = "$target_gen_dir"
-     out_gen_rs = "$output_dir/${target_name}.rs"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/rust_target.gni b/build/rust/rust_target.gni
 --- a/build/rust/rust_target.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/rust/rust_target.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -399,6 +399,9 @@ template("rust_target") {
+@@ -434,6 +434,9 @@ template("rust_target") {
        if (_rustc_metadata != "") {
          rustflags += [ "-Cmetadata=${_rustc_metadata}" ]
        }
@@ -205,7 +188,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
  #include <optional>
  #include <ostream>
  #include <string_view>
-@@ -368,7 +367,8 @@ class EnumTable {
+@@ -366,7 +365,8 @@ class EnumTable {
  
   private:
  #ifdef ARCH_CPU_64_BITS
@@ -2499,7 +2482,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc
 --- a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -37,7 +37,7 @@ ResultExpr ScreenAIProcessPolicy::Evalua
+@@ -47,7 +47,7 @@ ResultExpr ScreenAIProcessPolicy::Evalua
        const Arg<int> op(1);
        return Switch(op & FUTEX_CMD_MASK)
            .Cases(
@@ -3588,18 +3571,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +
 +#define TRIM_DSP_FUNCTIONS 1
 +
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/devtools-frontend/src/scripts/build/rollup.config.js b/third_party/devtools-frontend/src/scripts/build/rollup.config.js
---- a/third_party/devtools-frontend/src/scripts/build/rollup.config.js	2000-01-01 00:00:00.000000000 +0800
-+++ b/third_party/devtools-frontend/src/scripts/build/rollup.config.js	2000-01-01 00:00:00.000000000 +0800
-@@ -19,7 +19,7 @@ export default commandLineArgs => ({
-     sourcemap: Boolean(commandLineArgs.configSourcemaps),
-   }],
-   plugins: [
--    terser(),
-+    // terser(),
-     {
-       name: 'devtools-plugin',
-       resolveId(source, importer) {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h
 --- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h	2000-01-01 00:00:00.000000000 +0800
@@ -9762,7 +9733,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/ffmpeg_generated.gni b/third_party/ffmpeg/ffmpeg_generated.gni
 --- a/third_party/ffmpeg/ffmpeg_generated.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/ffmpeg_generated.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -251,6 +251,7 @@ if ((current_cpu == "arm64" && ffmpeg_br
+@@ -253,6 +253,7 @@ if ((current_cpu == "arm64" && ffmpeg_br
  
  if ((current_cpu == "arm64" && ffmpeg_branding == "Chrome") ||
      (current_cpu == "x64" && ffmpeg_branding == "Chrome") ||
@@ -9770,7 +9741,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      (is_android && current_cpu == "arm" && arm_use_neon &&
       ffmpeg_branding == "Chrome") ||
      (is_android && current_cpu == "x86" && ffmpeg_branding == "Chrome") ||
-@@ -363,6 +364,19 @@ if (current_cpu == "x64" || (is_android
+@@ -382,6 +383,19 @@ if (current_cpu == "x64" || (is_android
    ]
  }
  

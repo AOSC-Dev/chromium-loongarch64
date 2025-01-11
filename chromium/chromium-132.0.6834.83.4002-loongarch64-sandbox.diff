@@ -2245,7 +2245,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc
 --- a/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -37,7 +37,7 @@ ResultExpr ScreenAIProcessPolicy::Evalua
+@@ -47,7 +47,7 @@ ResultExpr ScreenAIProcessPolicy::Evalua
        const Arg<int> op(1);
        return Switch(op & FUTEX_CMD_MASK)
            .Cases(

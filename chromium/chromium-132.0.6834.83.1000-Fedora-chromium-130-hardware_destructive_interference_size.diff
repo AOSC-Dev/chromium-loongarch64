@@ -9,7 +9,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
  #include <optional>
  #include <ostream>
  #include <string_view>
-@@ -368,7 +367,8 @@ class EnumTable {
+@@ -366,7 +365,8 @@ class EnumTable {
  
   private:
  #ifdef ARCH_CPU_64_BITS
