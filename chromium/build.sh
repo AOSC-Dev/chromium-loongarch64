@@ -6,6 +6,7 @@ export RUSTC_BOOTSTRAP=1
 
 mkdir -p third_party/node/linux/node-linux-x64/bin/
 ln -svf /usr/bin/node third_party/node/linux/node-linux-x64/bin/node
+ln -svf /usr/bin/eu-strip buildtools/third_party/eu-strip/bin/eu-strip
 
 RUSTC_VERSION="$(rustc --version)"
 CLANG_VERSION="$(clang --version | sed -n 's/clang version //p' | cut -d. -f1)"
