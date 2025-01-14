@@ -162,6 +162,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
  #if !BUILDFLAG(IS_CAST_AUDIO_ONLY)
      {switches::kEnableHardwareOverlays, "cast"},
  #endif
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/metrics/debug/metrics_internals_utils.cc b/components/metrics/debug/metrics_internals_utils.cc
+--- a/components/metrics/debug/metrics_internals_utils.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/components/metrics/debug/metrics_internals_utils.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -69,6 +69,8 @@ std::string CpuArchitectureToString(
+       return "arm32";
+     case variations::Study::TRANSLATED_X86_64:
+       return "translated_x86_64";
++    case variations::Study::LOONGARCH64:
++      return "loongarch64";
+   }
+   NOTREACHED();
+ }
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/variations/proto/study.proto b/components/variations/proto/study.proto
 --- a/components/variations/proto/study.proto	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/variations/proto/study.proto	2000-01-01 00:00:00.000000000 +0800

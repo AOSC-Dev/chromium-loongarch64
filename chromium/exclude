@@ -1,6 +1,7 @@
 out
 __pycache__
 node
+eu-strip
 shader-object-unlinked-spirv.txt
 *.profdata
 index
