@@ -53,7 +53,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn
 --- a/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -1595,7 +1595,7 @@ jumbo_component("platform") {
+@@ -1596,7 +1596,7 @@ jumbo_component("platform") {
    if (current_cpu == "loong64") {
      cflags = [
        "-mlsx",
