@@ -23,6 +23,9 @@ for patch in sorted(patches):
     elif path in ["build/rust/std/BUILD.gn"]:
         # https://bugs.gentoo.org/950040
         clazz = "2000-Gentoo-fix-rust-libadler"
+    elif path.startswith("third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/"):
+        # https://salsa.debian.org/chromium-team/chromium/-/blob/d5eaa49a959d8fbaf5ba1fd6274636526efd9914/debian/patches/fixes/swiftshader-llvm.patch
+        clazz = "2001-Debian-swiftshader-llvm"
     elif path in ["build/nocompile.gni", "build/rust/rust_bindgen.gni"]:
         clazz = "3003-fix-invalid-substition-type"
     elif path in [

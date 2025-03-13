@@ -1,0 +1,120 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/AlignOf.h b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/AlignOf.h
+--- a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/AlignOf.h	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/AlignOf.h	2000-01-01 00:00:00.000000000 +0800
+@@ -20,7 +20,10 @@ namespace llvm {
+ /// A suitably aligned and sized character array member which can hold elements
+ /// of any type.
+ template <typename T, typename... Ts> struct AlignedCharArrayUnion {
+-  alignas(Ts...) char buffer[std::max({sizeof(Ts)...})];
++  // Work around "internal compiler error: Segmentation fault" with GCC 7.5,
++  // apparently caused by alignas(Ts...).
++  static constexpr std::size_t Align = std::max({alignof(T), alignof(Ts)...});
++  alignas(Align) char buffer[std::max({sizeof(T), sizeof(Ts)...})];
+ };
+ 
+ } // end namespace llvm
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/Error.h b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/Error.h
+--- a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/Error.h	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/Error.h	2000-01-01 00:00:00.000000000 +0800
+@@ -18,7 +18,6 @@
+ #include "llvm/ADT/StringExtras.h"
+ #include "llvm/ADT/Twine.h"
+ #include "llvm/Config/abi-breaking.h"
+-#include "llvm/Support/AlignOf.h"
+ #include "llvm/Support/Compiler.h"
+ #include "llvm/Support/Debug.h"
+ #include "llvm/Support/ErrorHandling.h"
+@@ -669,22 +668,22 @@ private:
+ 
+   storage_type *getStorage() {
+     assert(!HasError && "Cannot get value when an error exists!");
+-    return reinterpret_cast<storage_type *>(&TStorage);
++    return &TStorage;
+   }
+ 
+   const storage_type *getStorage() const {
+     assert(!HasError && "Cannot get value when an error exists!");
+-    return reinterpret_cast<const storage_type *>(&TStorage);
++    return &TStorage;
+   }
+ 
+   error_type *getErrorStorage() {
+     assert(HasError && "Cannot get error when a value exists!");
+-    return reinterpret_cast<error_type *>(&ErrorStorage);
++    return &ErrorStorage;
+   }
+ 
+   const error_type *getErrorStorage() const {
+     assert(HasError && "Cannot get error when a value exists!");
+-    return reinterpret_cast<const error_type *>(&ErrorStorage);
++    return &ErrorStorage;
+   }
+ 
+   // Used by ExpectedAsOutParameter to reset the checked flag.
+@@ -716,8 +715,8 @@ private:
+   }
+ 
+   union {
+-    AlignedCharArrayUnion<storage_type> TStorage;
+-    AlignedCharArrayUnion<error_type> ErrorStorage;
++    storage_type TStorage;
++    error_type ErrorStorage;
+   };
+   bool HasError : 1;
+ #if LLVM_ENABLE_ABI_BREAKING_CHECKS
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/ErrorOr.h b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/ErrorOr.h
+--- a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/ErrorOr.h	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/ErrorOr.h	2000-01-01 00:00:00.000000000 +0800
+@@ -15,7 +15,6 @@
+ #ifndef LLVM_SUPPORT_ERROROR_H
+ #define LLVM_SUPPORT_ERROROR_H
+ 
+-#include "llvm/Support/AlignOf.h"
+ #include <cassert>
+ #include <system_error>
+ #include <type_traits>
+@@ -235,26 +234,27 @@ private:
+ 
+   storage_type *getStorage() {
+     assert(!HasError && "Cannot get value when an error exists!");
+-    return reinterpret_cast<storage_type *>(&TStorage);
++    return &TStorage;
+   }
+ 
+   const storage_type *getStorage() const {
+     assert(!HasError && "Cannot get value when an error exists!");
+-    return reinterpret_cast<const storage_type *>(&TStorage);
++    return &TStorage;
+   }
+ 
+   std::error_code *getErrorStorage() {
+     assert(HasError && "Cannot get error when a value exists!");
+-    return reinterpret_cast<std::error_code *>(&ErrorStorage);
++    return &ErrorStorage;
+   }
+ 
+   const std::error_code *getErrorStorage() const {
+-    return const_cast<ErrorOr<T> *>(this)->getErrorStorage();
++    assert(HasError && "Cannot get error when a value exists!");
++    return &ErrorStorage;
+   }
+ 
+   union {
+-    AlignedCharArrayUnion<storage_type> TStorage;
+-    AlignedCharArrayUnion<std::error_code> ErrorStorage;
++    storage_type TStorage;
++    std::error_code ErrorStorage;
+   };
+   bool HasError : 1;
+ };
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/TrailingObjects.h b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/TrailingObjects.h
+--- a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/TrailingObjects.h	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/TrailingObjects.h	2000-01-01 00:00:00.000000000 +0800
+@@ -46,7 +46,6 @@
+ #ifndef LLVM_SUPPORT_TRAILINGOBJECTS_H
+ #define LLVM_SUPPORT_TRAILINGOBJECTS_H
+ 
+-#include "llvm/Support/AlignOf.h"
+ #include "llvm/Support/Alignment.h"
+ #include "llvm/Support/Compiler.h"
+ #include "llvm/Support/MathExtras.h"
