@@ -550,7 +550,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/services/syscall_wrappers.cc b/sandbox/linux/services/syscall_wrappers.cc
 --- a/sandbox/linux/services/syscall_wrappers.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/services/syscall_wrappers.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -5,6 +5,7 @@
+@@ -10,6 +10,7 @@
  #include "sandbox/linux/services/syscall_wrappers.h"
  
  #include <fcntl.h>
@@ -558,7 +558,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #include <pthread.h>
  #include <sched.h>
  #include <setjmp.h>
-@@ -58,7 +59,7 @@ long sys_clone(unsigned long flags,
+@@ -63,7 +64,7 @@ long sys_clone(unsigned long flags,
    if (ctid) MSAN_UNPOISON(ctid, sizeof(*ctid));
    // See kernel/fork.c in Linux. There is different ordering of sys_clone
    // parameters depending on CONFIG_CLONE_BACKWARDS* configuration options.
@@ -567,7 +567,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    return syscall(__NR_clone, flags, child_stack, ptid, ctid, tls);
  #elif defined(ARCH_CPU_X86) || defined(ARCH_CPU_ARM_FAMILY) || \
      defined(ARCH_CPU_MIPS_FAMILY)
-@@ -163,9 +164,53 @@ int sys_sigaction(int signum,
+@@ -168,9 +169,53 @@ int sys_sigaction(int signum,
    return sigaction(signum, act, oldact);
  }
  
@@ -622,7 +622,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    res = syscall(__NR_newfstatat, AT_FDCWD, path, stat_buf, 0);
  #else
    res = syscall(__NR_stat, path, stat_buf);
-@@ -177,7 +222,12 @@ int sys_stat(const char* path, struct ke
+@@ -182,7 +227,12 @@ int sys_stat(const char* path, struct ke
  
  int sys_lstat(const char* path, struct kernel_stat* stat_buf) {
    int res;
@@ -2257,7 +2257,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/sandbox_linux.cc b/sandbox/policy/linux/sandbox_linux.cc
 --- a/sandbox/policy/linux/sandbox_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/policy/linux/sandbox_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -595,6 +595,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+@@ -584,6 +584,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
    const bpf_dsl::ResultExpr handle_via_broker =
        bpf_dsl::Trap(syscall_broker::BrokerClient::SIGSYS_Handler,
                      broker_process_->GetBrokerClientSignalBased());
@@ -2265,7 +2265,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    if (sysno == __NR_fstatat_default) {
      // This may be an fstatat(fd, "", stat_buf, AT_EMPTY_PATH), which should be
      // rewritten as fstat(fd, stat_buf). This should be consistent with how the
-@@ -605,6 +606,18 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+@@ -594,6 +595,18 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
      return bpf_dsl::If((flags & AT_EMPTY_PATH) == AT_EMPTY_PATH,
                         RewriteFstatatSIGSYS(BPFBasePolicy::GetFSDeniedErrno()))
          .Else(handle_via_broker);

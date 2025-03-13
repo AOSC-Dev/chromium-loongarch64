@@ -1,7 +1,7 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context.h b/third_party/crashpad/crashpad/minidump/minidump_context.h
 --- a/third_party/crashpad/crashpad/minidump/minidump_context.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/crashpad/crashpad/minidump/minidump_context.h	2000-01-01 00:00:00.000000000 +0800
-@@ -687,6 +687,56 @@ struct MinidumpContextRISCV64 {
+@@ -686,6 +686,56 @@ struct MinidumpContextRISCV64 {
    uint32_t fcsr;
  };
  
@@ -492,7 +492,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h
 --- a/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/linux/exception_snapshot_linux.h	2000-01-01 00:00:00.000000000 +0800
-@@ -91,6 +91,8 @@ class ExceptionSnapshotLinux final : pub
+@@ -94,6 +94,8 @@ class ExceptionSnapshotLinux final : pub
      CPUContextMIPS64 mips64;
  #elif defined(ARCH_CPU_RISCV64)
      CPUContextRISCV64 riscv64;
@@ -624,7 +624,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h
 --- a/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/linux/thread_snapshot_linux.h	2000-01-01 00:00:00.000000000 +0800
-@@ -76,6 +76,8 @@ class ThreadSnapshotLinux final : public
+@@ -79,6 +79,8 @@ class ThreadSnapshotLinux final : public
      CPUContextMIPS64 mips64;
  #elif defined(ARCH_CPU_RISCV64)
      CPUContextRISCV64 riscv64;
