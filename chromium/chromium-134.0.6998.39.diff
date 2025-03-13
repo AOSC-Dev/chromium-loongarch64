@@ -201,6 +201,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
        rustenv = _rustenv
  
        if (_generate_crate_root) {
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/std/BUILD.gn b/build/rust/std/BUILD.gn
+--- a/build/rust/std/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/build/rust/std/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -89,7 +89,7 @@ if (toolchain_has_rust) {
+     # These are no longer present in the Windows toolchain.
+     stdlib_files += [
+       "addr2line",
+-      "adler2",
++      "adler",
+       "gimli",
+       "libc",
+       "memchr",
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/media_router/common/providers/cast/channel/enum_table.h b/components/media_router/common/providers/cast/channel/enum_table.h
 --- a/components/media_router/common/providers/cast/channel/enum_table.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/media_router/common/providers/cast/channel/enum_table.h	2000-01-01 00:00:00.000000000 +0800

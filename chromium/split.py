@@ -20,6 +20,9 @@ for patch in sorted(patches):
     if path in ["components/media_router/common/providers/cast/channel/enum_table.h"]:
         # https://src.fedoraproject.org/rpms/chromium/blob/rawhide/f/chromium-130-hardware_destructive_interference_size.patch
         clazz = "1000-Fedora-chromium-130-hardware_destructive_interference_size"
+    elif path in ["build/rust/std/BUILD.gn"]:
+        # https://bugs.gentoo.org/950040
+        clazz = "2000-Gentoo-fix-rust-libadler"
     elif path in ["build/nocompile.gni", "build/rust/rust_bindgen.gni"]:
         clazz = "3003-fix-invalid-substition-type"
     elif path in [
