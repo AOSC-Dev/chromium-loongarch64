@@ -26,6 +26,27 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      if (system_headers_in_deps) {
        md = "-MD"
      } else {
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn b/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn
+--- a/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -169,7 +169,7 @@ config("skia_config") {
+   if (current_cpu == "loong64") {
+     cflags = [
+       "-mlsx",
+-      "-flax-vector-conversions=all",
++      "-flax-vector-conversions",
+     ]
+   }
+ }
+@@ -759,7 +759,7 @@ if (current_cpu == "loong64") {
+     sources = skia_opts.lasx_sources
+     cflags = [
+       "-mlasx",
+-      "-flax-vector-conversions=all",
++      "-flax-vector-conversions",
+     ]
+     visibility = [ ":skia_opts" ]
+   }
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn
 --- a/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
@@ -179,6 +200,51 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #elif defined(__pnacl__)
  #define OPENSSL_32_BIT
  #define OPENSSL_PNACL
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/skia/gn/core.gni b/qtwebengine/src/3rdparty/chromium/third_party/skia/gn/core.gni
+--- a/qtwebengine/src/3rdparty/chromium/third_party/skia/gn/core.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/skia/gn/core.gni	2000-01-01 00:00:00.000000000 +0800
+@@ -272,7 +272,7 @@ skia_core_sources = [
+   "$_src/core/SkBitmapProcState.h",
+   "$_src/core/SkBitmapProcState_matrixProcs.cpp",
+   "$_src/core/SkBitmapProcState_opts.cpp",
+-  "$_src/core/SkBitmapProcState_opts_lasx.cpp",
++  # "$_src/core/SkBitmapProcState_opts_lasx.cpp",
+   "$_src/core/SkBitmapProcState_opts_ssse3.cpp",
+   "$_src/core/SkBlendMode.cpp",
+   "$_src/core/SkBlendModeBlender.cpp",
+@@ -287,7 +287,7 @@ skia_core_sources = [
+   "$_src/core/SkBlitRow_D32.cpp",
+   "$_src/core/SkBlitRow_opts.cpp",
+   "$_src/core/SkBlitRow_opts_hsw.cpp",
+-  "$_src/core/SkBlitRow_opts_lasx.cpp",
++  # "$_src/core/SkBlitRow_opts_lasx.cpp",
+   "$_src/core/SkBlitter.cpp",
+   "$_src/core/SkBlitter.h",
+   "$_src/core/SkBlitter_A8.cpp",
+@@ -569,7 +569,7 @@ skia_core_sources = [
+   "$_src/core/SkSwizzlePriv.h",
+   "$_src/core/SkSwizzler_opts.cpp",
+   "$_src/core/SkSwizzler_opts_hsw.cpp",
+-  "$_src/core/SkSwizzler_opts_lasx.cpp",
++  # "$_src/core/SkSwizzler_opts_lasx.cpp",
+   "$_src/core/SkSwizzler_opts_ssse3.cpp",
+   "$_src/core/SkTDynamicHash.h",
+   "$_src/core/SkTHash.h",
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/skia/include/private/base/SkFeatures.h b/qtwebengine/src/3rdparty/chromium/third_party/skia/include/private/base/SkFeatures.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/skia/include/private/base/SkFeatures.h	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/skia/include/private/base/SkFeatures.h	2000-01-01 00:00:00.000000000 +0800
+@@ -121,9 +121,9 @@
+ #endif
+ 
+ #ifndef SK_CPU_LSX_LEVEL
+-    #if defined(__loongarch_asx)
++    #if defined(__loongarch_asx) && 0
+         #define SK_CPU_LSX_LEVEL    SK_CPU_LSX_LEVEL_LASX
+-    #elif defined(__loongarch_sx)
++    #elif defined(__loongarch_sx) && 0
+         #define SK_CPU_LSX_LEVEL    SK_CPU_LSX_LEVEL_LSX
+     #endif
+ #endif
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn
 --- a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
