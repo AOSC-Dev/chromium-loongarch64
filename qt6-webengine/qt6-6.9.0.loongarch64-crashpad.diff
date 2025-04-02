@@ -75,7 +75,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      default: {
        LOG(ERROR) << "unknown context architecture "
                   << context_snapshot->architecture;
-@@ -601,5 +608,44 @@ size_t MinidumpContextRISCV64Writer::Con
+@@ -605,5 +612,44 @@ size_t MinidumpContextRISCV64Writer::Con
    DCHECK_GE(state(), kStateFrozen);
    return sizeof(context_);
  }
@@ -205,11 +205,11 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 +      break;
      default:
        NOTREACHED();
-       cpu_architecture = kMinidumpCPUArchitectureUnknown;
+   }
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc
 --- a/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/crashpad/crashpad/snapshot/capture_memory.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -122,6 +122,11 @@ void CaptureMemory::PointedToByContext(c
+@@ -123,6 +123,11 @@ void CaptureMemory::PointedToByContext(c
    for (size_t i = 0; i < std::size(context.riscv64->regs); ++i) {
      MaybeCaptureMemoryAround(delegate, context.riscv64->regs[i]);
    }
@@ -245,8 +245,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 +      return loong64->csr_era;
      default:
        NOTREACHED();
-       return ~0ull;
-@@ -191,6 +193,8 @@ uint64_t CPUContext::StackPointer() cons
+   }
+@@ -190,6 +192,8 @@ uint64_t CPUContext::StackPointer() cons
        return arm64->sp;
      case kCPUArchitectureRISCV64:
        return riscv64->regs[1];
@@ -254,8 +254,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 +      return loong64->regs[3];
      default:
        NOTREACHED();
-       return ~0ull;
-@@ -232,6 +236,7 @@ bool CPUContext::Is64Bit() const {
+   }
+@@ -227,6 +231,7 @@ bool CPUContext::Is64Bit() const {
      case kCPUArchitectureARM64:
      case kCPUArchitectureMIPS64EL:
      case kCPUArchitectureRISCV64:
@@ -594,7 +594,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #else
  #error port to your architecture
  #endif
-@@ -385,6 +393,9 @@ bool SystemSnapshotLinux::NXEnabled() co
+@@ -380,6 +388,9 @@ bool SystemSnapshotLinux::NXEnabled() co
  #elif defined(ARCH_CPU_RISCV64)
    // Not implemented
    return false;

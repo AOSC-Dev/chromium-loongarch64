@@ -1,4 +1,4 @@
-version = "6.8.2"
+version = open("VERSION", "r", encoding="utf-8").read().strip()
 patches = []
 with open(f"qt6-{version}.diff", "r") as f:
     cur = []

@@ -1,7 +1,7 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/content/browser/BUILD.gn b/qtwebengine/src/3rdparty/chromium/content/browser/BUILD.gn
 --- a/qtwebengine/src/3rdparty/chromium/content/browser/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/content/browser/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -194,6 +194,7 @@ jumbo_source_set("browser") {
+@@ -218,6 +218,7 @@ jumbo_source_set("browser") {
      "//components/services/storage/dom_storage:local_storage_proto",
      "//components/services/storage/public/cpp",
      "//components/services/storage/public/mojom",
@@ -12,7 +12,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/extensions/browser/api/declarative_net_request/BUILD.gn b/qtwebengine/src/3rdparty/chromium/extensions/browser/api/declarative_net_request/BUILD.gn
 --- a/qtwebengine/src/3rdparty/chromium/extensions/browser/api/declarative_net_request/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/extensions/browser/api/declarative_net_request/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -20,6 +20,7 @@ source_set("declarative_net_request") {
+@@ -19,6 +19,7 @@ source_set("declarative_net_request") {
    deps = [
      "//base",
      "//content/public/browser",
