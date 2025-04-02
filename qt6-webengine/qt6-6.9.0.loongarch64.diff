@@ -245,6 +245,72 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
          #define SK_CPU_LSX_LEVEL    SK_CPU_LSX_LEVEL_LSX
      #endif
  #endif
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBitmapProcState_opts.cpp b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBitmapProcState_opts.cpp
+--- a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBitmapProcState_opts.cpp	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBitmapProcState_opts.cpp	2000-01-01 00:00:00.000000000 +0800
+@@ -22,7 +22,6 @@ namespace SkOpts {
+     DEFINE_DEFAULT(S32_alpha_D32_filter_DXDY);
+ 
+     void Init_BitmapProcState_ssse3();
+-    void Init_BitmapProcState_lasx();
+ 
+     static bool init() {
+     #if defined(SK_ENABLE_OPTIMIZE_SIZE)
+@@ -31,10 +30,6 @@ namespace SkOpts {
+         #if SK_CPU_SSE_LEVEL < SK_CPU_SSE_LEVEL_SSSE3
+             if (SkCpu::Supports(SkCpu::SSSE3)) { Init_BitmapProcState_ssse3(); }
+         #endif
+-    #elif defined(SK_CPU_LOONGARCH)
+-        #if SK_CPU_LSX_LEVEL < SK_CPU_LSX_LEVEL_LASX
+-            if (SkCpu::Supports(SkCpu::LOONGARCH_ASX)) { Init_BitmapProcState_lasx(); }
+-        #endif
+     #endif
+       return true;
+     }
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBlitRow_opts.cpp b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBlitRow_opts.cpp
+--- a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBlitRow_opts.cpp	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBlitRow_opts.cpp	2000-01-01 00:00:00.000000000 +0800
+@@ -22,7 +22,6 @@ namespace SkOpts {
+     DEFINE_DEFAULT(blit_row_s32a_opaque);
+ 
+     void Init_BlitRow_hsw();
+-    void Init_BlitRow_lasx();
+ 
+     static bool init() {
+     #if defined(SK_ENABLE_OPTIMIZE_SIZE)
+@@ -31,10 +30,6 @@ namespace SkOpts {
+         #if SK_CPU_SSE_LEVEL < SK_CPU_SSE_LEVEL_AVX2
+             if (SkCpu::Supports(SkCpu::HSW)) { Init_BlitRow_hsw(); }
+         #endif
+-    #elif defined(SK_CPU_LOONGARCH)
+-        #if SK_CPU_LSX_LEVEL < SK_CPU_LSX_LEVEL_LASX
+-            if (SkCpu::Supports(SkCpu::LOONGARCH_ASX)) { Init_BlitRow_lasx(); }
+-        #endif
+     #endif
+       return true;
+     }
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkSwizzler_opts.cpp b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkSwizzler_opts.cpp
+--- a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkSwizzler_opts.cpp	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkSwizzler_opts.cpp	2000-01-01 00:00:00.000000000 +0800
+@@ -33,7 +33,6 @@ namespace SkOpts {
+ 
+     void Init_Swizzler_ssse3();
+     void Init_Swizzler_hsw();
+-    void Init_Swizzler_lasx();
+ 
+     static bool init() {
+     #if defined(SK_ENABLE_OPTIMIZE_SIZE)
+@@ -46,10 +45,6 @@ namespace SkOpts {
+         #if SK_CPU_SSE_LEVEL < SK_CPU_SSE_LEVEL_AVX2
+             if (SkCpu::Supports(SkCpu::HSW)) { Init_Swizzler_hsw(); }
+         #endif
+-    #elif defined(SK_CPU_LOONGARCH)
+-        #if SK_CPU_LSX_LEVEL < SK_CPU_LSX_LEVEL_LASX
+-            if (SkCpu::Supports(SkCpu::LOONGARCH_ASX)) { Init_Swizzler_lasx(); }
+-        #endif
+     #endif
+       return true;
+     }
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn
 --- a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
