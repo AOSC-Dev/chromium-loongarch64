@@ -13,7 +13,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn
 --- a/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -502,6 +502,9 @@ if (is_clang_or_gcc) {
+@@ -521,6 +521,9 @@ if (is_clang_or_gcc) {
      } else if (current_cpu == "riscv64") {
        assert(stack_scan_supported)
        sources += [ "stack/asm/riscv64/push_registers_asm.cc" ]
@@ -261,7 +261,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/variations/service/variations_field_trial_creator_base.cc b/components/variations/service/variations_field_trial_creator_base.cc
 --- a/components/variations/service/variations_field_trial_creator_base.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/variations/service/variations_field_trial_creator_base.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -112,6 +112,9 @@ Study::CpuArchitecture GetCurrentCpuArch
+@@ -114,6 +114,9 @@ Study::CpuArchitecture GetCurrentCpuArch
    if (process_arch == "ARM") {
      return Study::ARM32;
    }
@@ -274,7 +274,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/content/common/user_agent.cc b/content/common/user_agent.cc
 --- a/content/common/user_agent.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/content/common/user_agent.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -179,6 +179,8 @@ std::string GetCpuArchitecture() {
+@@ -243,6 +243,8 @@ std::string GetCpuArchitecture() {
                cpu_info.substr(2, 2) == "86") ||
               base::StartsWith(cpu_info, "x86")) {
      return "x86";
@@ -440,16 +440,16 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -37,7 +37,7 @@
+@@ -35,7 +35,7 @@
+ #include "sandbox/linux/system_headers/linux_time.h"
  
- #if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) && \
-     !defined(__arm__) && !defined(__aarch64__) &&             \
+ #if BUILDFLAG(IS_LINUX) && !defined(__arm__) && !defined(__aarch64__) && \
 -    !defined(PTRACE_GET_THREAD_AREA)
 +    !defined(PTRACE_GET_THREAD_AREA) && !defined(__loongarch__)
  // Also include asm/ptrace-abi.h since ptrace.h in older libc (for instance
  // the one in Ubuntu 16.04 LTS) is missing PTRACE_GET_THREAD_AREA.
  // asm/ptrace-abi.h doesn't exist on arm32 and PTRACE_GET_THREAD_AREA isn't
-@@ -346,7 +346,7 @@ ResultExpr RestrictFutex() {
+@@ -344,7 +344,7 @@ ResultExpr RestrictFutex() {
        .Cases({FUTEX_WAIT, FUTEX_WAKE, FUTEX_REQUEUE, FUTEX_CMP_REQUEUE,
  #if BUILDFLAG(ENABLE_MUTEX_PRIORITY_INHERITANCE)
                // Enable priority-inheritance operations.
@@ -458,7 +458,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
                FUTEX_WAIT_REQUEUE_PI, FUTEX_CMP_REQUEUE_PI,
  #endif  // BUILDFLAG(ENABLE_MUTEX_PRIORITY_INHERITANCE)
                FUTEX_WAKE_OP, FUTEX_WAIT_BITSET, FUTEX_WAKE_BITSET},
-@@ -462,8 +462,11 @@ ResultExpr RestrictPtrace() {
+@@ -460,8 +460,11 @@ ResultExpr RestrictPtrace() {
    return Switch(request)
        .Cases({
  #if !defined(__aarch64__)
@@ -2506,7 +2506,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_gpu_policy_linux.cc
 --- a/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -73,7 +73,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
+@@ -72,7 +72,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
      (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
      case __NR_ftruncate64:
  #endif
@@ -2542,7 +2542,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/sandbox_linux.cc b/sandbox/policy/linux/sandbox_linux.cc
 --- a/sandbox/policy/linux/sandbox_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/policy/linux/sandbox_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -584,6 +584,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+@@ -579,6 +579,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
    const bpf_dsl::ResultExpr handle_via_broker =
        bpf_dsl::Trap(syscall_broker::BrokerClient::SIGSYS_Handler,
                      broker_process_->GetBrokerClientSignalBased());
@@ -2550,7 +2550,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    if (sysno == __NR_fstatat_default) {
      // This may be an fstatat(fd, "", stat_buf, AT_EMPTY_PATH), which should be
      // rewritten as fstat(fd, stat_buf). This should be consistent with how the
-@@ -594,6 +595,18 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+@@ -589,6 +590,18 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
      return bpf_dsl::If((flags & AT_EMPTY_PATH) == AT_EMPTY_PATH,
                         RewriteFstatatSIGSYS(BPFBasePolicy::GetFSDeniedErrno()))
          .Else(handle_via_broker);
@@ -9793,7 +9793,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/ffmpeg_generated.gni b/third_party/ffmpeg/ffmpeg_generated.gni
 --- a/third_party/ffmpeg/ffmpeg_generated.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/ffmpeg_generated.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -253,6 +253,7 @@ if ((current_cpu == "arm64" && ffmpeg_br
+@@ -255,6 +255,7 @@ if ((current_cpu == "arm64" && ffmpeg_br
  
  if ((current_cpu == "arm64" && ffmpeg_branding == "Chrome") ||
      (current_cpu == "x64" && ffmpeg_branding == "Chrome") ||
@@ -9801,7 +9801,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      (is_android && current_cpu == "arm" && arm_use_neon &&
       ffmpeg_branding == "Chrome") ||
      (is_android && current_cpu == "x86" && ffmpeg_branding == "Chrome") ||
-@@ -382,6 +383,19 @@ if (current_cpu == "x64" || (is_android
+@@ -384,6 +385,19 @@ if (current_cpu == "x64" || (is_android
    ]
  }
  
@@ -9999,21 +9999,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #else
  #error "unknown architecture"
  #endif
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/AlignOf.h b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/AlignOf.h
---- a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/AlignOf.h	2000-01-01 00:00:00.000000000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/AlignOf.h	2000-01-01 00:00:00.000000000 +0800
-@@ -20,7 +20,10 @@ namespace llvm {
- /// A suitably aligned and sized character array member which can hold elements
- /// of any type.
- template <typename T, typename... Ts> struct AlignedCharArrayUnion {
--  alignas(Ts...) char buffer[std::max({sizeof(Ts)...})];
-+  // Work around "internal compiler error: Segmentation fault" with GCC 7.5,
-+  // apparently caused by alignas(Ts...).
-+  static constexpr std::size_t Align = std::max({alignof(T), alignof(Ts)...});
-+  alignas(Align) char buffer[std::max({sizeof(T), sizeof(Ts)...})];
- };
- 
- } // end namespace llvm
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/Error.h b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/Error.h
 --- a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/Error.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/Error.h	2000-01-01 00:00:00.000000000 +0800

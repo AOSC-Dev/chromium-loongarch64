@@ -1,18 +1,3 @@
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/AlignOf.h b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/AlignOf.h
---- a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/AlignOf.h	2000-01-01 00:00:00.000000000 +0800
-+++ b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/AlignOf.h	2000-01-01 00:00:00.000000000 +0800
-@@ -20,7 +20,10 @@ namespace llvm {
- /// A suitably aligned and sized character array member which can hold elements
- /// of any type.
- template <typename T, typename... Ts> struct AlignedCharArrayUnion {
--  alignas(Ts...) char buffer[std::max({sizeof(Ts)...})];
-+  // Work around "internal compiler error: Segmentation fault" with GCC 7.5,
-+  // apparently caused by alignas(Ts...).
-+  static constexpr std::size_t Align = std::max({alignof(T), alignof(Ts)...});
-+  alignas(Align) char buffer[std::max({sizeof(T), sizeof(Ts)...})];
- };
- 
- } // end namespace llvm
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/Error.h b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/Error.h
 --- a/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/Error.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/Error.h	2000-01-01 00:00:00.000000000 +0800

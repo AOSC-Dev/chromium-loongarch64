@@ -1,5 +1,5 @@
-export CC=/usr/lib/llvm-19/bin/clang
-export CXX=/usr/lib/llvm-19/bin/clang++
+export CC=/usr/lib/llvm-20/bin/clang
+export CXX=/usr/lib/llvm-20/bin/clang++
 export AR=ar
 export NM=nm
 export RUSTC_BOOTSTRAP=1
