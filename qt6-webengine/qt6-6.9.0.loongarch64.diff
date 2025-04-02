@@ -10,6 +10,18 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      else()
          message(FATAL_ERROR "Unknown architecture: ${arch}")
      endif()
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/base/process/launch.h b/qtwebengine/src/3rdparty/chromium/base/process/launch.h
+--- a/qtwebengine/src/3rdparty/chromium/base/process/launch.h	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/base/process/launch.h	2000-01-01 00:00:00.000000000 +0800
+@@ -51,7 +51,7 @@ namespace base {
+ // defined as a constant.
+ 
+ // These constants are borrowed from glibc’s (arch)/bits/pthread_stack_min.h.
+-#if defined(ARCH_CPU_ARM64)
++#if defined(ARCH_CPU_ARM64) || defined(ARCH_CPU_LOONGARCH64)
+ #define PTHREAD_STACK_MIN_CONST \
+   (__builtin_constant_p(PTHREAD_STACK_MIN) ? PTHREAD_STACK_MIN : 131072)
+ #else
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/build/toolchain/gcc_toolchain.gni b/qtwebengine/src/3rdparty/chromium/build/toolchain/gcc_toolchain.gni
 --- a/qtwebengine/src/3rdparty/chromium/build/toolchain/gcc_toolchain.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/build/toolchain/gcc_toolchain.gni	2000-01-01 00:00:00.000000000 +0800
@@ -26,6 +38,43 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      if (system_headers_in_deps) {
        md = "-MD"
      } else {
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/components/metrics/debug/metrics_internals_utils.cc b/qtwebengine/src/3rdparty/chromium/components/metrics/debug/metrics_internals_utils.cc
+--- a/qtwebengine/src/3rdparty/chromium/components/metrics/debug/metrics_internals_utils.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/components/metrics/debug/metrics_internals_utils.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -69,6 +69,8 @@ std::string CpuArchitectureToString(
+       return "arm32";
+     case variations::Study::TRANSLATED_X86_64:
+       return "translated_x86_64";
++    case variations::Study::LOONGARCH64:
++      return "loongarch64";
+   }
+   NOTREACHED_IN_MIGRATION();
+ }
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/components/variations/proto/study.proto b/qtwebengine/src/3rdparty/chromium/components/variations/proto/study.proto
+--- a/qtwebengine/src/3rdparty/chromium/components/variations/proto/study.proto	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/components/variations/proto/study.proto	2000-01-01 00:00:00.000000000 +0800
+@@ -262,6 +262,8 @@ message Study {
+     // A Mac-only value, indicating an x86-64 binary running on an arm64 host
+     // via "Rosetta 2" binary translation.
+     TRANSLATED_X86_64 = 4;
++
++    LOONGARCH64 = 5;
+   }
+ 
+   // Enum to pass as optional bool.
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/components/variations/service/variations_field_trial_creator_base.cc b/qtwebengine/src/3rdparty/chromium/components/variations/service/variations_field_trial_creator_base.cc
+--- a/qtwebengine/src/3rdparty/chromium/components/variations/service/variations_field_trial_creator_base.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/components/variations/service/variations_field_trial_creator_base.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -106,6 +106,9 @@ Study::CpuArchitecture GetCurrentCpuArch
+   if (process_arch == "ARM") {
+     return Study::ARM32;
+   }
++  if (process_arch == "LOONGARCH_64") {
++    return Study::LOONGARCH64;
++  }
+   if (process_arch == "x86") {
+     return Study::X86_32;
+   }
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn b/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn
 --- a/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
