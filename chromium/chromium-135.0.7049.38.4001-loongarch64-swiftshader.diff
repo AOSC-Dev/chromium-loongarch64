@@ -14,17 +14,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
      deps = [
        ":swiftshader_reactor_base",
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/src/Vulkan/BUILD.gn b/third_party/swiftshader/src/Vulkan/BUILD.gn
---- a/third_party/swiftshader/src/Vulkan/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-+++ b/third_party/swiftshader/src/Vulkan/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -229,6 +229,7 @@ swiftshader_shared_library("swiftshader_
-   }
- 
-   deps = [ ":_swiftshader_libvulkan" ]
-+  libs = [ "m" ]
- }
- 
- swiftshader_static_library("swiftshader_libvulkan_static") {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def
 --- a/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/swiftshader/third_party/llvm-16.0/configs/linux/include/llvm/Config/AsmParsers.def	2000-01-01 00:00:00.000000000 +0800
