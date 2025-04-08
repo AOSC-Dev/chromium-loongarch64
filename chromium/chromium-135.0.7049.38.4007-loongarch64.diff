@@ -100,18 +100,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
  #else
    return std::string();
  #endif
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
---- a/build/config/compiler/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-+++ b/build/config/compiler/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -631,7 +631,7 @@ config("compiler") {
-     # TODO(crbug.com/376278218): This causes segfault on Linux ARM builds.
-     if (is_linux && !llvm_android_mainline && current_cpu != "arm" &&
-         default_toolchain != "//build/toolchain/cros:target") {
--      cflags += [ "-Wa,--crel,--allow-experimental-crel" ]
-+      # cflags += [ "-Wa,--crel,--allow-experimental-crel" ]
-     }
-   }
- 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/loongarch64.gni b/build/config/loongarch64.gni
 --- a/build/config/loongarch64.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/loongarch64.gni	2000-01-01 00:00:00.000000000 +0800
