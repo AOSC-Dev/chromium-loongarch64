@@ -20,9 +20,6 @@ for patch in sorted(patches):
     if path in ["components/media_router/common/providers/cast/channel/enum_table.h"]:
         # https://src.fedoraproject.org/rpms/chromium/blob/rawhide/f/chromium-130-hardware_destructive_interference_size.patch
         clazz = "1000-Fedora-chromium-130-hardware_destructive_interference_size"
-    elif path in ["build/rust/std/BUILD.gn"]:
-        # https://bugs.gentoo.org/950040
-        clazz = "2000-Gentoo-fix-rust-libadler"
     elif path.startswith("third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/"):
         # https://salsa.debian.org/chromium-team/chromium/-/blob/d5eaa49a959d8fbaf5ba1fd6274636526efd9914/debian/patches/fixes/swiftshader-llvm.patch
         clazz = "2001-Debian-swiftshader-llvm"
