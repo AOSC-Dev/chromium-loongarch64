@@ -829,15 +829,15 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.cc b/sandbox/linux/syscall_broker/syscall_dispatcher.cc
 --- a/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -29,6 +29,8 @@ int SyscallDispatcher::DefaultStatForTes
-                                              default_stat_struct* sb) {
- #if defined(__NR_fstatat64)
+@@ -31,6 +31,8 @@ int SyscallDispatcher::DefaultStatForTes
    return Stat64(pathname, follow_links, sb);
-+#elif defined(__NR_statx)
-+  return Statx(pathname, follow_links, sb);
  #elif defined(__NR_newfstatat)
    return Stat(pathname, follow_links, sb);
++#elif defined(__NR_statx)
++  return Statx(pathname, follow_links, sb);
  #endif
+ }
+ 
 @@ -174,6 +176,19 @@ int SyscallDispatcher::DispatchSyscall(c
        return Stat64(reinterpret_cast<const char*>(args.args[0]), true,
                      reinterpret_cast<struct kernel_stat64*>(args.args[1]));
