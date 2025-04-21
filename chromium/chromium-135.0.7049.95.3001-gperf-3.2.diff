@@ -1,0 +1,15 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/build/scripts/gperf.py b/third_party/blink/renderer/build/scripts/gperf.py
+--- a/third_party/blink/renderer/build/scripts/gperf.py	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/blink/renderer/build/scripts/gperf.py	2000-01-01 00:00:00.000000000 +0800
+@@ -37,8 +37,9 @@ def generate_gperf(gperf_path, gperf_inp
+         # -Wimplicit-fallthrough needs an explicit fallthrough statement,
+         # so replace gperf's /*FALLTHROUGH*/ comment with the statement.
+         # https://savannah.gnu.org/bugs/index.php?53029
+-        gperf_output = gperf_output.replace('/*FALLTHROUGH*/',
+-                                            '  [[fallthrough]];')
++        # no longer works on gperf 3.2+
++        # gperf_output = gperf_output.replace('/*FALLTHROUGH*/',
++        #                                     '  [[fallthrough]];')
+         # -Wpointer-to-int-cast warns about casting pointers to smaller ints
+         # Replace {(int)(long)&(foo), bar} with
+         # {static_cast<int>(reinterpret_cast<uintptr_t>(&(foo)), bar}

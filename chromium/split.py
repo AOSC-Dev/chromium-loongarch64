@@ -19,16 +19,18 @@ for patch in sorted(patches):
     # https://src.fedoraproject.org/rpms/chromium/tree/rawhide
     if path in ["components/media_router/common/providers/cast/channel/enum_table.h"]:
         # https://src.fedoraproject.org/rpms/chromium/blob/rawhide/f/chromium-130-hardware_destructive_interference_size.patch
-        clazz = "1000-Fedora-chromium-130-hardware_destructive_interference_size"
+        clazz = "1001-Fedora-chromium-130-hardware_destructive_interference_size"
     elif path.startswith("third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/"):
         # https://salsa.debian.org/chromium-team/chromium/-/blob/d5eaa49a959d8fbaf5ba1fd6274636526efd9914/debian/patches/fixes/swiftshader-llvm.patch
         clazz = "2001-Debian-swiftshader-llvm"
+    elif path in ["third_party/blink/renderer/build/scripts/gperf.py"]:
+        clazz = "3001-gperf-3.2"
     elif path in ["build/nocompile.gni", "build/rust/rust_bindgen.gni"]:
-        clazz = "3003-fix-invalid-substition-type"
+        clazz = "3002-fix-invalid-substition-type"
     elif path in [
         "build/config/clang/BUILD.gn",
     ]:
-        clazz = "3004-fix-clang-builtins-path"
+        clazz = "3003-fix-clang-builtins-path"
     elif path.startswith("third_party/swiftshader/"):
         clazz = "4001-loongarch64-swiftshader"
     elif path.startswith("sandbox/"):
