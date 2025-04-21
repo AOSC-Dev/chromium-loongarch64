@@ -27,14 +27,3 @@ See also:
 
 - [Chromium port to riscv64](https://github.com/felixonmars/archriscv-packages/tree/master/chromium)
 - [Chromium port to ppc64le](https://gitlab.com/chromium-ppc64le/chromium-ppc64le) [Debian's patches for ppc64le](https://salsa.debian.org/chromium-team/chromium/-/tree/master/debian/patches/ppc64le?ref_type=heads)
-
-Note that gperf 3.2 introduces incompatibility due to duplicated `[[fallthrough]]` statements:
-
-> gen/third_party/blink/renderer/platform/color_data.cc: 170:7: error: fallthrough annotation does not directly precede switch label
-
-You should comment out the following line from `third_party/blink/renderer/build/scripts/gperf.py`:
-
-```py
-gperf_output = gperf_output.replace('/*FALLTHROUGH*/',
-                                    '[[fallthrough]];')
-```
