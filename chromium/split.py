@@ -46,8 +46,10 @@ for patch in sorted(patches):
         "build/rust/rust_target.gni",
     ]:
         clazz = "4006-loongarch64-medium-cmodel"
+    elif path.startswith("gpu/"):
+        clazz = "4007-loongarch64-gpu"
     else:
-        clazz = "4007-loongarch64"
+        clazz = "4008-loongarch64"
 
     if clazz not in classes:
         classes[clazz] = []
