@@ -1,7 +1,7 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/clang/BUILD.gn b/build/config/clang/BUILD.gn
 --- a/build/config/clang/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/clang/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -198,14 +198,15 @@ template("clang_lib") {
+@@ -199,14 +199,15 @@ template("clang_lib") {
            assert(false)  # Unhandled cpu type
          }
        } else if (is_linux || is_chromeos) {

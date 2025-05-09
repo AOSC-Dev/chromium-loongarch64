@@ -155,7 +155,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -35,7 +35,7 @@
+@@ -37,7 +37,7 @@
  #include "sandbox/linux/system_headers/linux_time.h"
  
  #if BUILDFLAG(IS_LINUX) && !defined(__arm__) && !defined(__aarch64__) && \
@@ -164,16 +164,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  // Also include asm/ptrace-abi.h since ptrace.h in older libc (for instance
  // the one in Ubuntu 16.04 LTS) is missing PTRACE_GET_THREAD_AREA.
  // asm/ptrace-abi.h doesn't exist on arm32 and PTRACE_GET_THREAD_AREA isn't
-@@ -344,7 +344,7 @@ ResultExpr RestrictFutex() {
-       .Cases({FUTEX_WAIT, FUTEX_WAKE, FUTEX_REQUEUE, FUTEX_CMP_REQUEUE,
- #if BUILDFLAG(ENABLE_MUTEX_PRIORITY_INHERITANCE)
-               // Enable priority-inheritance operations.
--              FUTEX_LOCK_PI, FUTEX_UNLOCK_PI, FUTEX_TRYLOCK_PI,
-+              FUTEX_LOCK_PI, FUTEX_LOCK_PI2, FUTEX_UNLOCK_PI, FUTEX_TRYLOCK_PI,
-               FUTEX_WAIT_REQUEUE_PI, FUTEX_CMP_REQUEUE_PI,
- #endif  // BUILDFLAG(ENABLE_MUTEX_PRIORITY_INHERITANCE)
-               FUTEX_WAKE_OP, FUTEX_WAIT_BITSET, FUTEX_WAKE_BITSET},
-@@ -460,8 +460,11 @@ ResultExpr RestrictPtrace() {
+@@ -471,8 +471,11 @@ ResultExpr RestrictPtrace() {
    return Switch(request)
        .Cases({
  #if !defined(__aarch64__)
@@ -753,7 +744,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/broker_process.cc b/sandbox/linux/syscall_broker/broker_process.cc
 --- a/sandbox/linux/syscall_broker/broker_process.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/syscall_broker/broker_process.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -121,44 +121,46 @@ bool BrokerProcess::IsSyscallBrokerable(
+@@ -120,44 +120,46 @@ bool BrokerProcess::IsSyscallBrokerable(
    // and are default disabled in Android. So, we should refuse to broker them
    // to be consistent with the platform's restrictions.
    switch (sysno) {
@@ -807,7 +798,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_stat:
      case __NR_lstat:
  #endif
-@@ -168,6 +170,9 @@ bool BrokerProcess::IsSyscallBrokerable(
+@@ -167,6 +169,9 @@ bool BrokerProcess::IsSyscallBrokerable(
  #if defined(__NR_fstatat64)
      case __NR_fstatat64:
  #endif
@@ -817,7 +808,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #if defined(__x86_64__) || defined(__aarch64__)
      case __NR_newfstatat:
  #endif
-@@ -183,7 +188,7 @@ bool BrokerProcess::IsSyscallBrokerable(
+@@ -182,7 +187,7 @@ bool BrokerProcess::IsSyscallBrokerable(
        return !fast_check || policy_->allowed_command_set.test(COMMAND_STAT);
  #endif
  
