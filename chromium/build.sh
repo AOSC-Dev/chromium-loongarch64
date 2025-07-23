@@ -35,7 +35,6 @@ GNFLAGS=(
     'use_vaapi=true'
     'use_cfi_icall=false'
     'use_ozone=true'
-    'use_qt=true'
     'use_system_libffi=true'
     'is_cfi=false'
     'ozone_platform_wayland=true'
