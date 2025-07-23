@@ -202,7 +202,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/gp
        ]
 +    },
 +    {
-+      "id": 184,
++      "id": 185,
 +      "description": "Corrupted webpage rendering on Loongson LG100/110 graphics with 2D acceleration enabled",
 +      "os": {
 +        "type" : "linux"
