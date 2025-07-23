@@ -12,6 +12,7 @@ Caveat:
 
 - you need to build compiler-rt and rustc with `-mcmodel=medium`, otherwise it may fail to link due to relocation truncation.
 - if you encountered error like `undefined reference to __rust_dealloc`, please update your GN version.
+- you may need to modify `NODE_VERSION` in `third_party/node/update_node_binaries` to your nodejs version
 
 Based on:
 
