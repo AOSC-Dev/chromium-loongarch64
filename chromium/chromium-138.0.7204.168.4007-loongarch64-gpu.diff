@@ -1,9 +1,9 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/gpu/config/software_rendering_list.json b/gpu/config/software_rendering_list.json
 --- a/gpu/config/software_rendering_list.json	2000-01-01 00:00:00.000000000 +0800
 +++ b/gpu/config/software_rendering_list.json	2000-01-01 00:00:00.000000000 +0800
-@@ -1447,6 +1447,18 @@
+@@ -1463,6 +1463,18 @@
        "features": [
-         "accelerated_2d_canvas"
+         "skia_graphite"
        ]
 +    },
 +    {
