@@ -391,6 +391,15 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #endif
  #if defined(__arm__)
                   PTRACE_GETVFPREGS,
+@@ -521,7 +524,7 @@ SANDBOX_EXPORT bpf_dsl::ResultExpr Restr
+       break;
+ #endif
+ #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
+-    defined(__mips__) || defined(__aarch64__)
++    defined(__mips__) || defined(__aarch64__) || defined(__loongarch__)
+     case __NR_sendto:  // Could specify destination.
+       argIndex = 3;
+       break;
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc	2000-01-01 00:00:00.000000000 +0800
@@ -548,6 +557,15 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
      case __NR_recvmsg:   // Could specify source.
  #endif
 @@ -639,7 +647,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
+     case __NR_send:
+ #endif
+ #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
+-    defined(__mips__) || defined(__aarch64__)
++    defined(__mips__) || defined(__aarch64__) || defined(__loongarch__)
+     case __NR_sendmsg:  // Could specify destination.
+     case __NR_sendto:   // Could specify destination.
+ #endif
+@@ -656,7 +664,7 @@ bool SyscallSets::IsSockSendOneMsg(int s
      case __NR_send:
  #endif
  #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
@@ -10203,7 +10221,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      configs += [ "//build/config/compiler:no_chromium_code" ]
      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
  
-Binary files a/third_party/xnnpack/.BUILD.gn.swp and b/third_party/xnnpack/.BUILD.gn.swp differ
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/xnnpack/src/src/xnnpack/common.h b/third_party/xnnpack/src/src/xnnpack/common.h
 --- a/third_party/xnnpack/src/src/xnnpack/common.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/xnnpack/src/src/xnnpack/common.h	2000-01-01 00:00:00.000000000 +0800

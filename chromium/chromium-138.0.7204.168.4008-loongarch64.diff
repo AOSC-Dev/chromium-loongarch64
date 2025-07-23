@@ -464,7 +464,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
      configs += [ "//build/config/compiler:no_chromium_code" ]
      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
  
-Binary files a/third_party/xnnpack/.BUILD.gn.swp and b/third_party/xnnpack/.BUILD.gn.swp differ
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/xnnpack/src/src/xnnpack/common.h b/third_party/xnnpack/src/src/xnnpack/common.h
 --- a/third_party/xnnpack/src/src/xnnpack/common.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/xnnpack/src/src/xnnpack/common.h	2000-01-01 00:00:00.000000000 +0800
