@@ -48,8 +48,10 @@ for patch in sorted(patches):
         clazz = "4006-loongarch64-medium-cmodel"
     elif path.startswith("gpu/"):
         clazz = "4007-loongarch64-gpu"
+    elif path.startswith("third_party/xnnpack/"):
+        clazz = "4008-loongarch64-xnnpack"
     else:
-        clazz = "4008-loongarch64"
+        clazz = "4009-loongarch64"
 
     if clazz not in classes:
         classes[clazz] = []
