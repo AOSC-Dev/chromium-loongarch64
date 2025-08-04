@@ -20,12 +20,6 @@ for patch in sorted(patches):
     if path in ["components/media_router/common/providers/cast/channel/enum_table.h"]:
         # https://src.fedoraproject.org/rpms/chromium/blob/rawhide/f/chromium-130-hardware_destructive_interference_size.patch
         clazz = "1001-Fedora-chromium-130-hardware_destructive_interference_size"
-    elif path.startswith("third_party/swiftshader/third_party/llvm-16.0/llvm/include/llvm/Support/"):
-        # https://salsa.debian.org/chromium-team/chromium/-/blob/d5eaa49a959d8fbaf5ba1fd6274636526efd9914/debian/patches/fixes/swiftshader-llvm.patch
-        clazz = "2001-Debian-swiftshader-llvm"
-    elif path in ["third_party/blink/renderer/build/scripts/gperf.py"]:
-        # https://salsa.debian.org/chromium-team/chromium/-/commit/b67bb761d36f82c531ecb95fd45b93210080a466
-        clazz = "2002-Debian-gperf-3.2"
     elif path in ["build/nocompile.gni", "build/rust/rust_bindgen.gni"]:
         clazz = "3001-fix-invalid-substition-type"
     elif path in [
