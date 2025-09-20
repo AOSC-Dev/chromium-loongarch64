@@ -81,7 +81,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
 --- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -193,7 +193,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+@@ -197,7 +197,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
      return RestrictFcntlCommands();
  #endif
  
@@ -90,7 +90,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    // fork() is never used as a system call (clone() is used instead), but we
    // have seen it in fallback code on Android.
    if (sysno == __NR_fork) {
-@@ -255,7 +255,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+@@ -259,7 +259,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
    }
  
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__) || \
@@ -99,7 +99,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    if (sysno == __NR_mmap)
      return RestrictMmapFlags();
  #endif
-@@ -276,7 +276,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+@@ -280,7 +280,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
      return RestrictPrctl();
  
  #if defined(__x86_64__) || defined(__arm__) || defined(__mips__) || \
@@ -108,7 +108,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    if (sysno == __NR_socketpair) {
      // Only allow AF_UNIX, PF_UNIX. Crash if anything else is seen.
      static_assert(AF_UNIX == PF_UNIX,
-@@ -302,6 +302,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+@@ -306,6 +306,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
      return Allow();
    }
  
@@ -116,7 +116,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    // The fstatat syscalls are file system syscalls, which will be denied below
    // with fs_denied_errno. However some allowed fstat syscalls are rewritten by
    // libc implementations to fstatat syscalls, and we need to rewrite them back.
-@@ -319,6 +320,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+@@ -323,6 +324,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
      return If(mask == STATX_BASIC_STATS, Error(ENOSYS))
          .Else(Error(fs_denied_errno));
    }
@@ -124,7 +124,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  
    if (SyscallSets::IsFileSystem(sysno) ||
        SyscallSets::IsCurrentDirectory(sysno)) {
-@@ -366,7 +368,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+@@ -370,7 +372,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
    // Allow creating pipes, but don't allow weird flags to pipe2().
    // O_NOTIFICATION_PIPE (== O_EXCL) can be used to create
    // "notification pipes", which are rarely used.
@@ -155,7 +155,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 --- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -37,7 +37,7 @@
+@@ -42,7 +42,7 @@
  
  #if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) && \
      !defined(__arm__) && !defined(__aarch64__) &&             \
@@ -164,7 +164,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  // Also include asm/ptrace-abi.h since ptrace.h in older libc (for instance
  // the one in Ubuntu 16.04 LTS) is missing PTRACE_GET_THREAD_AREA.
  // asm/ptrace-abi.h doesn't exist on arm32 and PTRACE_GET_THREAD_AREA isn't
-@@ -347,7 +347,7 @@ ResultExpr RestrictFutex() {
+@@ -352,7 +352,7 @@ ResultExpr RestrictFutex() {
        .Cases({FUTEX_WAIT, FUTEX_WAKE, FUTEX_REQUEUE, FUTEX_CMP_REQUEUE,
  #if BUILDFLAG(ENABLE_MUTEX_PRIORITY_INHERITANCE)
                // Enable priority-inheritance operations.
@@ -173,7 +173,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
                FUTEX_WAIT_REQUEUE_PI, FUTEX_CMP_REQUEUE_PI,
  #endif  // BUILDFLAG(ENABLE_MUTEX_PRIORITY_INHERITANCE)
                FUTEX_WAKE_OP, FUTEX_WAIT_BITSET, FUTEX_WAKE_BITSET},
-@@ -464,8 +464,11 @@ ResultExpr RestrictPtrace() {
+@@ -469,8 +469,11 @@ ResultExpr RestrictPtrace() {
    return Switch(request)
        .Cases({
  #if !defined(__aarch64__)
@@ -334,16 +334,25 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      case __NR_recvfrom:  // Could specify source.
      case __NR_recvmsg:   // Could specify source.
  #endif
-@@ -623,7 +629,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
+@@ -636,7 +642,7 @@ bool SyscallSets::IsAllowedGeneralIo(int
      case __NR_send:
  #endif
- #if defined(__x86_64__) || defined(__arm__) || defined(__mips__) || \
--    defined(__aarch64__)
-+    defined(__aarch64__) || defined(__loongarch__)
+ #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
+-    defined(__mips__) || defined(__aarch64__)
++    defined(__mips__) || defined(__aarch64__) || defined(__loongarch__)
      case __NR_sendmsg:  // Could specify destination.
      case __NR_sendto:   // Could specify destination.
  #endif
-@@ -672,7 +678,7 @@ bool SyscallSets::IsSeccomp(int sysno) {
+@@ -653,7 +659,7 @@ bool SyscallSets::IsSockSendOneMsg(int s
+     case __NR_send:
+ #endif
+ #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
+-    defined(__mips__) || defined(__aarch64__)
++    defined(__mips__) || defined(__aarch64__) || defined(__loongarch__)
+     case __NR_sendmsg:  // Could specify destination.
+     case __NR_sendto:   // Could specify destination.
+ #endif
+@@ -687,7 +693,7 @@ bool SyscallSets::IsSeccomp(int sysno) {
  bool SyscallSets::IsAllowedBasicScheduler(int sysno) {
    switch (sysno) {
      case __NR_sched_yield:
@@ -352,7 +361,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      case __NR_pause:
  #endif
      case __NR_nanosleep:
-@@ -756,7 +762,7 @@ bool SyscallSets::IsNuma(int sysno) {
+@@ -771,7 +777,7 @@ bool SyscallSets::IsNuma(int sysno) {
      case __NR_getcpu:
      case __NR_mbind:
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__) || \
@@ -361,7 +370,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      case __NR_migrate_pages:
  #endif
      case __NR_move_pages:
-@@ -804,7 +810,9 @@ bool SyscallSets::IsGlobalProcessEnviron
+@@ -819,7 +825,9 @@ bool SyscallSets::IsGlobalProcessEnviron
      case __NR_getrusage:
      case __NR_personality:  // Can change its personality as well.
      case __NR_prlimit64:    // Like setrlimit / getrlimit.
@@ -371,7 +380,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      case __NR_times:
        return true;
      default:
-@@ -826,7 +834,7 @@ bool SyscallSets::IsDebug(int sysno) {
+@@ -841,7 +849,7 @@ bool SyscallSets::IsDebug(int sysno) {
  
  bool SyscallSets::IsGlobalSystemStatus(int sysno) {
    switch (sysno) {
@@ -380,7 +389,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      case __NR__sysctl:
      case __NR_sysfs:
  #endif
-@@ -844,7 +852,7 @@ bool SyscallSets::IsGlobalSystemStatus(i
+@@ -859,7 +867,7 @@ bool SyscallSets::IsGlobalSystemStatus(i
  
  bool SyscallSets::IsEventFd(int sysno) {
    switch (sysno) {
@@ -389,7 +398,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      case __NR_eventfd:
  #endif
      case __NR_eventfd2:
-@@ -896,7 +904,7 @@ bool SyscallSets::IsKeyManagement(int sy
+@@ -911,7 +919,7 @@ bool SyscallSets::IsKeyManagement(int sy
  }
  
  #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
@@ -398,7 +407,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  bool SyscallSets::IsSystemVSemaphores(int sysno) {
    switch (sysno) {
      case __NR_semctl:
-@@ -916,7 +924,7 @@ bool SyscallSets::IsSystemVSemaphores(in
+@@ -931,7 +939,7 @@ bool SyscallSets::IsSystemVSemaphores(in
  
  #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
      defined(__aarch64__) ||                                         \
@@ -407,7 +416,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  // These give a lot of ambient authority and bypass the setuid sandbox.
  bool SyscallSets::IsSystemVSharedMemory(int sysno) {
    switch (sysno) {
-@@ -932,7 +940,7 @@ bool SyscallSets::IsSystemVSharedMemory(
+@@ -947,7 +955,7 @@ bool SyscallSets::IsSystemVSharedMemory(
  #endif
  
  #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
@@ -416,7 +425,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  bool SyscallSets::IsSystemVMessageQueue(int sysno) {
    switch (sysno) {
      case __NR_msgctl:
-@@ -963,7 +971,7 @@ bool SyscallSets::IsSystemVIpc(int sysno
+@@ -978,7 +986,7 @@ bool SyscallSets::IsSystemVIpc(int sysno
  
  bool SyscallSets::IsAnySystemV(int sysno) {
  #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
@@ -425,7 +434,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    return IsSystemVMessageQueue(sysno) || IsSystemVSemaphores(sysno) ||
           IsSystemVSharedMemory(sysno);
  #elif defined(__i386__) || \
-@@ -1000,7 +1008,7 @@ bool SyscallSets::IsAdvancedScheduler(in
+@@ -1015,7 +1023,7 @@ bool SyscallSets::IsAdvancedScheduler(in
  bool SyscallSets::IsInotify(int sysno) {
    switch (sysno) {
      case __NR_inotify_add_watch:
@@ -434,7 +443,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      case __NR_inotify_init:
  #endif
      case __NR_inotify_init1:
-@@ -1135,7 +1143,7 @@ bool SyscallSets::IsMisc(int sysno) {
+@@ -1150,7 +1158,7 @@ bool SyscallSets::IsMisc(int sysno) {
  #if defined(__x86_64__)
      case __NR_tuxcall:
  #endif
@@ -446,7 +455,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h
 --- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_sets.h	2000-01-01 00:00:00.000000000 +0800
-@@ -79,18 +79,18 @@ class SANDBOX_EXPORT SyscallSets {
+@@ -80,18 +80,18 @@ class SANDBOX_EXPORT SyscallSets {
    static bool IsAsyncIo(int sysno);
    static bool IsKeyManagement(int sysno);
  #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
