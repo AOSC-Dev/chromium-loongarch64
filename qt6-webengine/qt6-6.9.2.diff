@@ -6399,12 +6399,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/codec_list.c b/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/codec_list.c
 --- a/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/codec_list.c	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/codec_list.c	2000-01-01 00:00:00.000000000 +0800
-@@ -0,0 +1,20 @@
+@@ -0,0 +1,17 @@
 +static const FFCodec * const codec_list[] = {
 +    &ff_h264_decoder,
-+    &ff_theora_decoder,
-+    &ff_vp3_decoder,
-+    &ff_vp8_decoder,
 +    &ff_aac_decoder,
 +    &ff_flac_decoder,
 +    &ff_mp3_decoder,
@@ -6423,7 +6420,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/parser_list.c b/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/parser_list.c
 --- a/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/parser_list.c	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavcodec/parser_list.c	2000-01-01 00:00:00.000000000 +0800
-@@ -0,0 +1,11 @@
+@@ -0,0 +1,9 @@
 +static const AVCodecParser * const parser_list[] = {
 +    &ff_aac_parser,
 +    &ff_flac_parser,
@@ -6431,8 +6428,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 +    &ff_mpegaudio_parser,
 +    &ff_opus_parser,
 +    &ff_vorbis_parser,
-+    &ff_vp3_parser,
-+    &ff_vp8_parser,
 +    &ff_vp9_parser,
 +    NULL };
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/demuxer_list.c b/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/libavformat/demuxer_list.c
