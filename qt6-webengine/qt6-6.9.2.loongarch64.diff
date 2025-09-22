@@ -1,3 +1,15 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/cmake/QtToolchainHelpers.cmake b/qtwebengine/cmake/QtToolchainHelpers.cmake
+--- a/qtwebengine/cmake/QtToolchainHelpers.cmake	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/cmake/QtToolchainHelpers.cmake	2000-01-01 00:00:00.000000000 +0800
+@@ -55,6 +55,8 @@ function(get_gn_arch result arch)
+         set(${result} "mips64el" PARENT_SCOPE)
+     elseif(arch STREQUAL "riscv64")
+         set(${result} "riscv64" PARENT_SCOPE)
++    elseif(arch STREQUAL "loongarch64")
++        set(${result} "loong64" PARENT_SCOPE)
+     else()
+         message(FATAL_ERROR "Unknown architecture: ${arch}")
+     endif()
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/base/process/launch.h b/qtwebengine/src/3rdparty/chromium/base/process/launch.h
 --- a/qtwebengine/src/3rdparty/chromium/base/process/launch.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/base/process/launch.h	2000-01-01 00:00:00.000000000 +0800
