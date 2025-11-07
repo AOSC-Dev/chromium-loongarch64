@@ -1,0 +1,899 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtdoc/examples/demos/documentviewer/plugins/Q3DViewer/q3dviewer_de.ts b/qtdoc/examples/demos/documentviewer/plugins/Q3DViewer/q3dviewer_de.ts
+--- a/qtdoc/examples/demos/documentviewer/plugins/Q3DViewer/q3dviewer_de.ts	2000-01-01 00:00:00.000000000 +0800
++++ b/qtdoc/examples/demos/documentviewer/plugins/Q3DViewer/q3dviewer_de.ts	2000-01-01 00:00:00.000000000 +0800
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++Run the update_translations CMake target to populate the source strings in this file.
++-->
++<!DOCTYPE TS>
++<TS version="2.1" language="de" sourcelanguage="en"/>
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtdoc/examples/demos/documentviewer/plugins/Q3DViewer/q3dviewer_en.ts b/qtdoc/examples/demos/documentviewer/plugins/Q3DViewer/q3dviewer_en.ts
+--- a/qtdoc/examples/demos/documentviewer/plugins/Q3DViewer/q3dviewer_en.ts	2000-01-01 00:00:00.000000000 +0800
++++ b/qtdoc/examples/demos/documentviewer/plugins/Q3DViewer/q3dviewer_en.ts	2000-01-01 00:00:00.000000000 +0800
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++Run the update_translations CMake target to populate the source strings in this file.
++-->
++<!DOCTYPE TS>
++<TS version="2.1" language="en" sourcelanguage="en"/>
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/cmake/QtToolchainHelpers.cmake b/qtwebengine/cmake/QtToolchainHelpers.cmake
+--- a/qtwebengine/cmake/QtToolchainHelpers.cmake	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/cmake/QtToolchainHelpers.cmake	2000-01-01 00:00:00.000000000 +0800
+@@ -55,6 +55,8 @@ function(get_gn_arch result arch)
+         set(${result} "mips64el" PARENT_SCOPE)
+     elseif(arch STREQUAL "riscv64")
+         set(${result} "riscv64" PARENT_SCOPE)
++    elseif(arch STREQUAL "loongarch64")
++        set(${result} "loong64" PARENT_SCOPE)
+     else()
+         message(FATAL_ERROR "Unknown architecture: ${arch}")
+     endif()
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/config.redo b/qtwebengine/config.redo
+--- a/qtwebengine/config.redo	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/config.redo	2000-01-01 00:00:00.000000000 +0800
+@@ -0,0 +1,2 @@
++#!/bin/sh
++/root/rickliu/qt-6.10.0/b/configure  -redo "$@"
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/qtbase/lib/cmake/Qt6/qt.toolchain.cmake b/qtwebengine/qtbase/lib/cmake/Qt6/qt.toolchain.cmake
+--- a/qtwebengine/qtbase/lib/cmake/Qt6/qt.toolchain.cmake	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/qtbase/lib/cmake/Qt6/qt.toolchain.cmake	2000-01-01 00:00:00.000000000 +0800
+@@ -0,0 +1,235 @@
++set(__qt_toolchain_used_variables
++    QT_CHAINLOAD_TOOLCHAIN_FILE
++    QT_TOOLCHAIN_INCLUDE_FILE
++    QT_TOOLCHAIN_RELOCATABLE_CMAKE_DIR
++    QT_TOOLCHAIN_RELOCATABLE_PREFIX
++    QT_ADDITIONAL_PACKAGES_PREFIX_PATH
++)
++
++
++# Make cache variables used by this toolchain file available to the
++# try_compile command that operates on sources files.
++list(APPEND CMAKE_TRY_COMPILE_PLATFORM_VARIABLES ${__qt_toolchain_used_variables})
++list(REMOVE_DUPLICATES CMAKE_TRY_COMPILE_PLATFORM_VARIABLES)
++
++# Turn the environment variables that are created at the end of this
++# file into proper variables. This is needed for try_compile calls
++# that operate on whole projects.
++if($ENV{_QT_TOOLCHAIN_VARS_INITIALIZED})
++    foreach(var ${__qt_toolchain_used_variables})
++        set(${var} "$ENV{_QT_TOOLCHAIN_${var}}")
++    endforeach()
++endif()
++
++
++if(NOT QT_QMAKE_TARGET_MKSPEC)
++    set(QT_QMAKE_TARGET_MKSPEC linux-g++ CACHE STRING "")
++endif()
++
++set(__qt_initial_c_compiler "/usr/bin/cc")
++set(__qt_initial_cxx_compiler "/usr/bin/c++")
++if(QT_USE_ORIGINAL_COMPILER AND NOT DEFINED CMAKE_C_COMPILER
++        AND EXISTS "${__qt_initial_c_compiler}")
++    set(CMAKE_C_COMPILER "${__qt_initial_c_compiler}" CACHE STRING "")
++endif()
++if(QT_USE_ORIGINAL_COMPILER AND NOT DEFINED CMAKE_CXX_COMPILER
++        AND EXISTS "${__qt_initial_cxx_compiler}")
++    set(CMAKE_CXX_COMPILER "${__qt_initial_cxx_compiler}" CACHE STRING "")
++endif()
++
++if(NOT "${QT_CHAINLOAD_TOOLCHAIN_FILE}" STREQUAL "")
++    set(__qt_chainload_toolchain_file "${QT_CHAINLOAD_TOOLCHAIN_FILE}")
++endif()
++
++
++if(QT_USE_VCPKG OR (NOT DEFINED QT_USE_VCPKG AND __qt_initially_configured_use_vcpkg)
++    AND DEFINED ENV{VCPKG_ROOT})
++
++    # Ensure QT_USE_VCPKG value persists in cache
++    set(QT_USE_VCPKG TRUE CACHE BOOL "Enable the use of vcpkg")
++
++    # Extract the toolchain file path from the VCPKG_ROOT
++    set(__qt_vcpkg_toolchain_file "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
++    get_filename_component(__qt_vcpkg_toolchain_file "${__qt_vcpkg_toolchain_file}" REALPATH)
++
++    # If QT_CHAINLOAD_TOOLCHAIN_FILE is already set to the vcpkg one, nothing needs to be done.
++    # The vcpkg toolchain file will be chainloaded as part of QT_CHAINLOAD_TOOLCHAIN_FILE loading
++    # procedure.
++    get_filename_component(__qt_chainload_toolchain_file_real_path
++        "${__qt_chainload_toolchain_file}" REALPATH)
++    if(NOT __qt_chainload_toolchain_file_real_path STREQUAL __qt_vcpkg_toolchain_file)
++        if(QT_CHAINLOAD_TOOLCHAIN_FILE AND VCPKG_CHANLOAD_TOOLCHAIN_FILE)
++            message(FATAL_ERROR "Both QT_CHAINLOAD_TOOLCHAIN_FILE AND "
++                " VCPKG_CHAINLOAD_TOOLCHAIN_FILE are specified. This toolchain loading scenario is"
++                " not supported."
++            )
++        endif()
++
++        if(NOT VCPKG_CHAINLOAD_TOOLCHAIN_FILE AND __qt_chainload_toolchain_file)
++            set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE "${__qt_chainload_toolchain_file}" CACHE STRING "")
++        endif()
++
++        set(__qt_chainload_toolchain_file "${__qt_vcpkg_toolchain_file}")
++    endif()
++
++    unset(__qt_chainload_toolchain_file_real_path)
++    unset(__qt_vcpkg_toolchain_file)
++endif()
++
++if(NOT VCPKG_CHAINLOAD_TOOLCHAIN_FILE AND __qt_initially_configured_vcpkg_chainload_toolchain_file)
++    set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE
++        "${__qt_initially_configured_vcpkg_chainload_toolchain_file}" CACHE STRING "")
++endif()
++unset(__qt_initially_configured_vcpkg_chainload_toolchain_file)
++
++get_filename_component(__qt_vcpkg_chainload_toolchain_file_realpath
++    "${VCPKG_CHAINLOAD_TOOLCHAIN_FILE}" REALPATH)
++if(VCPKG_CHAINLOAD_TOOLCHAIN_FILE
++    AND NOT EXISTS "${__qt_vcpkg_chainload_toolchain_file_realpath}")
++    message(WARNING "The toolchain file to be chainloaded VCPKG_CHAINLOAD_TOOLCHAIN_FILE"
++        " ${VCPKG_CHAINLOAD_TOOLCHAIN_FILE} doesn't exists and"
++        " will be skipped.")
++    set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE "")
++endif()
++
++if(NOT VCPKG_TARGET_TRIPLET AND __qt_initially_configured_vcpkg_target_triplet)
++    set(VCPKG_TARGET_TRIPLET "${__qt_initially_configured_vcpkg_target_triplet}" CACHE STRING "")
++endif()
++unset(__qt_initially_configured_vcpkg_target_triplet)
++
++if(__qt_chainload_toolchain_file)
++    get_filename_component(__qt_chainload_toolchain_file_real_path
++                          "${__qt_chainload_toolchain_file}" REALPATH)
++    if(__qt_chainload_toolchain_file_real_path STREQUAL CMAKE_CURRENT_LIST_FILE)
++        message(FATAL_ERROR
++                "Woah, the Qt toolchain file tried to include itself recursively! '${__qt_chainload_toolchain_file}' "
++                "Make sure to remove qtbase/CMakeCache.txt and reconfigure qtbase with 'cmake' "
++                "rather than 'qt-cmake', and then you can reconfigure your own project."
++        )
++    elseif(NOT EXISTS "${__qt_chainload_toolchain_file_real_path}")
++        message(WARNING "The toolchain file to be chainloaded "
++            "'${__qt_chainload_toolchain_file}' does not exist.")
++    else()
++        include("${__qt_chainload_toolchain_file}")
++        set(__qt_chainload_toolchain_file_included TRUE)
++    endif()
++    unset(__qt_chainload_toolchain_file)
++endif()
++
++
++
++# Compute dynamically the Qt installation prefix from the location of this file. This allows
++# the usage of the toolchain file when the Qt installation is relocated.
++get_filename_component(QT_TOOLCHAIN_RELOCATABLE_INSTALL_PREFIX
++                       ${CMAKE_CURRENT_LIST_DIR}/../../../
++                       ABSOLUTE)
++
++# Compute the path to the installed Qt lib/cmake folder.
++# We assume that the Qt toolchain location is inside the CMake Qt6 package, and thus the directory
++# one level higher is what we're looking for.
++get_filename_component(QT_TOOLCHAIN_RELOCATABLE_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
++
++# REROOT_PATH_ISSUE_MARKER
++# There's a subdirectory check in cmake's cmFindCommon::RerootPaths() function, that doesn't handle
++# the case of CMAKE_PREFIX_PATH == CMAKE_FIND_ROOT_PATH for a particular pair of entries.
++# Instead of collapsing the search prefix (which is the case when one is a subdir of the other),
++# it concatenates them creating an invalid path. Workaround it by setting the root path to the
++# Qt install prefix, and the prefix path to the lib/cmake subdir.
++list(PREPEND CMAKE_PREFIX_PATH "${QT_TOOLCHAIN_RELOCATABLE_CMAKE_DIR}")
++list(PREPEND CMAKE_FIND_ROOT_PATH "${QT_TOOLCHAIN_RELOCATABLE_INSTALL_PREFIX}")
++
++# Let CMake load our custom platform modules.
++# CMake-provided platform modules take precedence.
++if(NOT QT_AVOID_CUSTOM_PLATFORM_MODULES)
++    list(PREPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/platforms")
++endif()
++
++# Handle packages located in QT_ADDITIONAL_PACKAGES_PREFIX_PATH when cross-compiling. Needed for
++# Conan.
++# We prepend to CMAKE_PREFIX_PATH so that a find_package(Qt6Foo) call works, without having to go
++# through the Qt6 umbrella package. The paths must end in lib/cmake to ensure the package is found.
++# See REROOT_PATH_ISSUE_MARKER.
++# We prepend to CMAKE_FIND_ROOT_PATH, due to the bug mentioned at REROOT_PATH_ISSUE_MARKER.
++#
++# Note that we don't handle QT_ADDITIONAL_HOST_PACKAGES_PREFIX_PATH here, because we would thwart
++# our efforts to not accidentally pick up host packages. For now, we say that
++# find_package(Qt6FooTools) is not supported, and people must use find_package(Qt6 COMPONENTS
++# FooTools) instead.
++set(__qt_toolchain_additional_packages_prefixes "")
++if(QT_ADDITIONAL_PACKAGES_PREFIX_PATH)
++    list(APPEND __qt_toolchain_additional_packages_prefixes
++         ${QT_ADDITIONAL_PACKAGES_PREFIX_PATH})
++endif()
++if(DEFINED ENV{QT_ADDITIONAL_PACKAGES_PREFIX_PATH}
++    AND NOT "$ENV{QT_ADDITIONAL_PACKAGES_PREFIX_PATH}" STREQUAL "")
++    set(__qt_env_additional_packages_prefixes $ENV{QT_ADDITIONAL_PACKAGES_PREFIX_PATH})
++    if(NOT CMAKE_HOST_WIN32)
++        string(REPLACE ":" ";" __qt_env_additional_packages_prefixes
++            "${__qt_env_additional_packages_prefixes}")
++    endif()
++    list(APPEND __qt_toolchain_additional_packages_prefixes
++        ${__qt_env_additional_packages_prefixes})
++    unset(__qt_env_additional_packages_prefixes)
++endif()
++
++if(__qt_toolchain_additional_packages_prefixes)
++    set(__qt_toolchain_additional_packages_root_paths "")
++    set(__qt_toolchain_additional_packages_prefix_paths "")
++
++    foreach(__qt_additional_path IN LISTS __qt_toolchain_additional_packages_prefixes)
++        file(TO_CMAKE_PATH "${__qt_additional_path}" __qt_additional_path)
++        get_filename_component(__qt_additional_path "${__qt_additional_path}" ABSOLUTE)
++        set(__qt_additional_path_lib_cmake "${__qt_additional_path}")
++        if(NOT __qt_additional_path_lib_cmake MATCHES "/lib/cmake$")
++            string(APPEND __qt_additional_path_lib_cmake "/lib/cmake")
++        endif()
++
++        list(APPEND __qt_toolchain_additional_packages_root_paths
++                    "${__qt_additional_path}")
++        list(APPEND __qt_toolchain_additional_packages_prefix_paths
++                    "${__qt_additional_path_lib_cmake}")
++    endforeach()
++    list(PREPEND CMAKE_PREFIX_PATH ${__qt_toolchain_additional_packages_prefix_paths})
++    list(PREPEND CMAKE_FIND_ROOT_PATH ${__qt_toolchain_additional_packages_root_paths})
++
++    unset(__qt_additional_path)
++    unset(__qt_additional_path_lib_cmake)
++    unset(__qt_toolchain_additional_packages_root_paths)
++    unset(__qt_toolchain_additional_packages_prefix_paths)
++endif()
++unset(__qt_toolchain_additional_packages_prefixes)
++
++# Allow customization of the toolchain file by placing an additional file next to it.
++set(__qt_toolchain_extra_file "${CMAKE_CURRENT_LIST_DIR}/qt.toolchain.extra.cmake")
++if(EXISTS "${__qt_toolchain_extra_file}")
++    include("${__qt_toolchain_extra_file}")
++endif()
++
++# Allow customization of the toolchain file by passing a path to an additional CMake file to be
++# included.
++if(QT_TOOLCHAIN_INCLUDE_FILE)
++    get_filename_component(__qt_toolchain_include_file_real_path
++                          "${QT_TOOLCHAIN_INCLUDE_FILE}" REALPATH)
++    if(EXISTS "${__qt_toolchain_include_file_real_path}")
++        include("${__qt_toolchain_include_file_real_path}")
++    else()
++        message(WARNING "The passed extra toolchain file to be included does not exist: "
++                "${__qt_toolchain_include_file_real_path}")
++    endif()
++endif()
++
++# Store initial build type (if any is specified) to be read by QtBuildInternals.cmake when building
++# a Qt repo, standalone tests or a single test.
++if(DEFINED CACHE{CMAKE_BUILD_TYPE})
++    set(__qt_toolchain_cmake_build_type_before_project_call "${CMAKE_BUILD_TYPE}")
++endif()
++
++# Compile tests only see a restricted set of variables.
++# All cache variables, this toolchain file uses, must be made available to project-based
++# try_compile tests because this toolchain file will be included there too.
++if(NOT "$ENV{_QT_TOOLCHAIN_VARS_INITIALIZED}")
++    set(ENV{_QT_TOOLCHAIN_VARS_INITIALIZED} ON)
++    foreach(var ${__qt_toolchain_used_variables})
++        set(ENV{_QT_TOOLCHAIN_${var}} "${${var}}")
++    endforeach()
++endif()
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/qtbase/libexec/qt-internal-strip b/qtwebengine/qtbase/libexec/qt-internal-strip
+--- a/qtwebengine/qtbase/libexec/qt-internal-strip	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/qtbase/libexec/qt-internal-strip	2000-01-01 00:00:00.000000000 +0800
+@@ -0,0 +1,4 @@
++#!/bin/sh
++# echo the invoked command
++set -x
++/usr/bin/strip --keep-section=.gnu_debuglink "$@"
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni b/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni
+--- a/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/partition_alloc.gni	2000-01-01 00:00:00.000000000 +0800
+@@ -362,7 +362,7 @@ declare_args() {
+ 
+ stack_scan_supported =
+     (current_cpu == "x64" || current_cpu == "x86" || current_cpu == "arm" ||
+-    current_cpu == "arm64" || current_cpu == "riscv64") && (is_clang || is_gcc || is_mingw)
++    current_cpu == "arm64" || current_cpu == "riscv64" || current_cpu == "loong64") && (is_clang || is_gcc || is_mingw)
+ 
+ # We want to provide assertions that guard against inconsistent build
+ # args, but there is no point in having them fire if we're not building
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn b/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn
+--- a/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/src/partition_alloc/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -504,6 +504,9 @@ if (is_clang_or_gcc || is_msvc || is_min
+     } else if (current_cpu == "riscv64") {
+       assert(stack_scan_supported)
+       sources += [ "stack/asm/riscv64/push_registers_asm.cc" ]
++    } else if (current_cpu == "loong64") {
++      assert(stack_scan_supported)
++      sources += [ "stack/asm/loong64/push_registers_asm.cc" ]
+     } else {
+       # To support a trampoline for another arch, please refer to v8/src/heap/base.
+       assert(!stack_scan_supported)
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/src/partition_alloc/stack/asm/loong64/push_registers_asm.cc b/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/src/partition_alloc/stack/asm/loong64/push_registers_asm.cc
+--- a/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/src/partition_alloc/stack/asm/loong64/push_registers_asm.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/base/allocator/partition_allocator/src/partition_alloc/stack/asm/loong64/push_registers_asm.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -0,0 +1,49 @@
++// Copyright 2023 The Chromium Authors
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++// Push all callee-saved registers to get them on the stack for conservative
++// stack scanning.
++//
++// See asm/x64/push_registers_asm.cc for why the function is not generated
++// using clang.
++//
++// Calling convention source:
++// https://loongson.github.io/LoongArch-Documentation/LoongArch-ELF-ABI-EN.html
++asm(".global PAPushAllRegistersAndIterateStack             \n"
++    ".type PAPushAllRegistersAndIterateStack, %function    \n"
++    ".hidden PAPushAllRegistersAndIterateStack             \n"
++    "PAPushAllRegistersAndIterateStack:                    \n"
++    // Push all callee-saved registers and save return address.
++    "  addi.d $sp, $sp, -96                              \n"
++    // Save return address.
++    "  st.d $ra, $sp, 88                                 \n"
++    // sp is callee-saved.
++    "  st.d $sp, $sp, 80                                 \n"
++    // s0-s9(fp) are callee-saved.
++    "  st.d $fp, $sp, 72                                 \n"
++    "  st.d $s8, $sp, 64                                 \n"
++    "  st.d $s7, $sp, 56                                 \n"
++    "  st.d $s6, $sp, 48                                 \n"
++    "  st.d $s5, $sp, 40                                 \n"
++    "  st.d $s4, $sp, 32                                 \n"
++    "  st.d $s3, $sp, 24                                 \n"
++    "  st.d $s2, $sp, 16                                 \n"
++    "  st.d $s1, $sp, 8                                  \n"
++    "  st.d $s0, $sp, 0                                  \n"
++    // Maintain frame pointer(fp is s9).
++    "  move $fp, $sp                                     \n"
++    // Pass 1st parameter (a0) unchanged (Stack*).
++    // Pass 2nd parameter (a1) unchanged (StackVisitor*).
++    // Save 3rd parameter (a2; IterateStackCallback) to a3.
++    "  move $a3, $a2                                     \n"
++    // Pass 3rd parameter as sp (stack pointer).
++    "  move $a2, $sp                                     \n"
++    // Call the callback.
++    "  jirl $ra, $a3, 0                                  \n"
++    // Load return address.
++    "  ld.d $ra, $sp, 88                                 \n"
++    // Restore frame pointer.
++    "  ld.d $fp, $sp, 72                                 \n"
++    "  addi.d $sp, $sp, 96                               \n"
++    "  jr $ra                                            \n");
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/base/process/launch.h b/qtwebengine/src/3rdparty/chromium/base/process/launch.h
+--- a/qtwebengine/src/3rdparty/chromium/base/process/launch.h	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/base/process/launch.h	2000-01-01 00:00:00.000000000 +0800
+@@ -55,7 +55,7 @@ namespace base {
+ // defined as a constant.
+ 
+ // These constants are borrowed from glibc’s (arch)/bits/pthread_stack_min.h.
+-#if defined(ARCH_CPU_ARM64)
++#if defined(ARCH_CPU_ARM64) || defined(ARCH_CPU_LOONGARCH64)
+ #define PTHREAD_STACK_MIN_CONST \
+   (__builtin_constant_p(PTHREAD_STACK_MIN) ? PTHREAD_STACK_MIN : 131072)
+ #else
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/base/system/sys_info.cc b/qtwebengine/src/3rdparty/chromium/base/system/sys_info.cc
+--- a/qtwebengine/src/3rdparty/chromium/base/system/sys_info.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/base/system/sys_info.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -256,6 +256,8 @@ std::string SysInfo::ProcessCPUArchitect
+   return "ARM_64";
+ #elif defined(ARCH_CPU_RISCV64)
+   return "RISCV_64";
++#elif defined(ARCH_CPU_LOONGARCH64)
++  return "LOONGARCH_64";
+ #else
+   return std::string();
+ #endif
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn b/qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn
+--- a/qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -688,7 +688,7 @@ config("compiler") {
+     # TODO(crbug.com/376278218): This causes segfault on Linux ARM builds.
+     if (is_linux && !llvm_android_mainline && current_cpu != "arm" &&
+         default_toolchain != "//build/toolchain/cros:target") {
+-      cflags += [ "-Wa,--crel,--allow-experimental-crel" ]
++      # cflags += [ "-Wa,--crel,--allow-experimental-crel" ]
+     }
+   }
+ 
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/build/config/loongarch64.gni b/qtwebengine/src/3rdparty/chromium/build/config/loongarch64.gni
+--- a/qtwebengine/src/3rdparty/chromium/build/config/loongarch64.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/build/config/loongarch64.gni	2000-01-01 00:00:00.000000000 +0800
+@@ -7,7 +7,7 @@ import("//build/config/v8_target_cpu.gni
+ if (current_cpu == "loong64") {
+   declare_args() {
+     # LOONGARCH64 SIMD Arch compilation flag.
+-    loongarch64_use_lsx = false
++    loongarch64_use_lsx = true
+     loongarch64_use_lasx = false
+   }
+ }
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/build/config/rust.gni b/qtwebengine/src/3rdparty/chromium/build/config/rust.gni
+--- a/qtwebengine/src/3rdparty/chromium/build/config/rust.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/build/config/rust.gni	2000-01-01 00:00:00.000000000 +0800
+@@ -199,6 +199,9 @@ if (is_linux || is_chromeos) {
+   } else if (current_cpu == "riscv64") {
+     rust_abi_target = "riscv64gc-unknown-linux-gnu"
+     cargo_target_abi = ""
++  } else if (current_cpu == "loong64") {
++    rust_abi_target = "loongarch64-unknown-linux-gnu"
++    cargo_target_abi = ""
+   } else {
+     # Best guess for other future platforms.
+     rust_abi_target = current_cpu + "-unknown-linux-gnu"
+@@ -319,6 +322,8 @@ if (current_cpu == "x86") {
+   rust_target_arch = "powerpc64"
+ } else if (current_cpu == "riscv64") {
+   rust_target_arch = "riscv64"
++} else if (current_cpu == "loong64") {
++  rust_target_arch = "loongarch64"
+ }
+ 
+ assert(!toolchain_has_rust || rust_target_arch != "")
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/build/rust/rust_target.gni b/qtwebengine/src/3rdparty/chromium/build/rust/rust_target.gni
+--- a/qtwebengine/src/3rdparty/chromium/build/rust/rust_target.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/build/rust/rust_target.gni	2000-01-01 00:00:00.000000000 +0800
+@@ -434,6 +434,9 @@ template("rust_target") {
+       if (_rustc_metadata != "") {
+         rustflags += [ "-Cmetadata=${_rustc_metadata}" ]
+       }
++      if (current_cpu == "loong64") {
++        rustflags += [ "-Ccode-model=medium" ]
++      }
+       rustenv = _rustenv
+ 
+       if (_generate_crate_root) {
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/build/toolchain/gcc_toolchain.gni b/qtwebengine/src/3rdparty/chromium/build/toolchain/gcc_toolchain.gni
+--- a/qtwebengine/src/3rdparty/chromium/build/toolchain/gcc_toolchain.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/build/toolchain/gcc_toolchain.gni	2000-01-01 00:00:00.000000000 +0800
+@@ -335,6 +335,12 @@ template("single_gcc_toolchain") {
+       extra_ldflags = ""
+     }
+ 
++    if (current_cpu == "loong64") {
++      extra_cflags += " -mcmodel=medium"
++      extra_cxxflags += " -mcmodel=medium"
++      extra_ldflags += " -mno-relax"
++    }
++
+     if (system_headers_in_deps) {
+       md = "-MD"
+     } else {
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/components/metrics/debug/metrics_internals_utils.cc b/qtwebengine/src/3rdparty/chromium/components/metrics/debug/metrics_internals_utils.cc
+--- a/qtwebengine/src/3rdparty/chromium/components/metrics/debug/metrics_internals_utils.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/components/metrics/debug/metrics_internals_utils.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -69,6 +69,8 @@ std::string CpuArchitectureToString(
+       return "arm32";
+     case variations::Study::TRANSLATED_X86_64:
+       return "translated_x86_64";
++    case variations::Study::LOONGARCH64:
++      return "loongarch64";
+   }
+   NOTREACHED();
+ }
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/components/variations/proto/study.proto b/qtwebengine/src/3rdparty/chromium/components/variations/proto/study.proto
+--- a/qtwebengine/src/3rdparty/chromium/components/variations/proto/study.proto	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/components/variations/proto/study.proto	2000-01-01 00:00:00.000000000 +0800
+@@ -262,6 +262,8 @@ message Study {
+     // A Mac-only value, indicating an x86-64 binary running on an arm64 host
+     // via "Rosetta 2" binary translation.
+     TRANSLATED_X86_64 = 4;
++
++    LOONGARCH64 = 5;
+   }
+ 
+   // Enum to pass as optional bool.
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/components/variations/service/variations_field_trial_creator_base.cc b/qtwebengine/src/3rdparty/chromium/components/variations/service/variations_field_trial_creator_base.cc
+--- a/qtwebengine/src/3rdparty/chromium/components/variations/service/variations_field_trial_creator_base.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/components/variations/service/variations_field_trial_creator_base.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -112,6 +112,9 @@ Study::CpuArchitecture GetCurrentCpuArch
+   if (process_arch == "ARM") {
+     return Study::ARM32;
+   }
++  if (process_arch == "LOONGARCH_64") {
++    return Study::LOONGARCH64;
++  }
+   if (process_arch == "x86") {
+     return Study::X86_32;
+   }
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/content/common/user_agent.cc b/qtwebengine/src/3rdparty/chromium/content/common/user_agent.cc
+--- a/qtwebengine/src/3rdparty/chromium/content/common/user_agent.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/content/common/user_agent.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -179,6 +179,8 @@ std::string GetCpuArchitecture() {
+               cpu_info.substr(2, 2) == "86") ||
+              base::StartsWith(cpu_info, "x86")) {
+     return "x86";
++  } else if (base::StartsWith(cpu_info, "loong")) {
++    return "loongarch";
+   }
+ #elif BUILDFLAG(IS_FUCHSIA)
+   std::string cpu_arch = base::SysInfo::ProcessCPUArchitecture();
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn b/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn
+--- a/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/skia/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -172,7 +172,7 @@ config("skia_config") {
+   if (current_cpu == "loong64") {
+     cflags = [
+       "-mlsx",
+-      "-flax-vector-conversions=all",
++      "-flax-vector-conversions",
+     ]
+   }
+ }
+@@ -777,7 +777,7 @@ if (current_cpu == "loong64") {
+     sources = skia_opts.lasx_sources
+     cflags = [
+       "-mlasx",
+-      "-flax-vector-conversions=all",
++      "-flax-vector-conversions",
+     ]
+     visibility = [ ":skia_opts" ]
+   }
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn
+--- a/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -1651,7 +1651,7 @@ jumbo_component("platform") {
+   if (current_cpu == "loong64") {
+     cflags = [
+       "-mlsx",
+-      "-flax-vector-conversions=all",
++      "-flax-vector-conversions",
+     ]
+   }
+ 
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h b/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/cpu/loongarch64/webgl_image_conversion_lsx.h	2000-01-01 00:00:00.000000000 +0800
+@@ -91,19 +91,19 @@ ALWAYS_INLINE void PackOneRowOfRGBA8Litt
+   v4f32 mask_falpha = __lsx_vffint_s_w(mask_lalpha);
+   v16u8 ra_index = {0,19, 4,23, 8,27, 12,31};
+   for (unsigned i = 0; i < pixels_per_row_trunc; i += 4) {
+-    v16u8 bgra = *((__m128i*)(source));
++    __m128i bgra = *((__m128i*)(source));
+     //if A !=0, A=0; else A=0xFF
+-    v4f32 alpha_factor = __lsx_vseq_b(bgra, mask_zero);
++    __m128i alpha_factor = __lsx_vseq_b(bgra, mask_zero);
+     //if A!=0, A=A; else A=0xFF
+     alpha_factor = __lsx_vor_v(bgra, alpha_factor);
+     alpha_factor = __lsx_vsrli_w(alpha_factor, 24);
+-    alpha_factor = __lsx_vffint_s_w(alpha_factor);
+-    alpha_factor = __lsx_vfdiv_s(mask_falpha, alpha_factor);
++    alpha_factor = (__m128i) __lsx_vffint_s_w(alpha_factor);
++    alpha_factor = (__m128i) __lsx_vfdiv_s((__m128) mask_falpha, (__m128) alpha_factor);
+ 
+-    v16u8 component_r = __lsx_vand_v(bgra, mask_lalpha);
+-    component_r = __lsx_vffint_s_w(component_r);
+-    component_r = __lsx_vfmul_s(component_r, alpha_factor);
+-    component_r = __lsx_vftintrz_w_s(component_r);
++    __m128i component_r = __lsx_vand_v(bgra, mask_lalpha);
++    component_r = (__m128i) __lsx_vffint_s_w(component_r);
++    component_r = (__m128i) __lsx_vfmul_s((__m128) component_r, (__m128) alpha_factor);
++    component_r = __lsx_vftintrz_w_s((__m128) component_r);
+ 
+     v2u64 ra = __lsx_vshuf_b(bgra, component_r, ra_index);
+     __lsx_vstelm_d(ra, destination, 0, 0);
+@@ -138,19 +138,19 @@ ALWAYS_INLINE void PackOneRowOfRGBA8Litt
+   v4u32 mask_lalpha = __lsx_vreplgr2vr_w(0x0ff);
+   v4f32 mask_falpha = __lsx_vffint_s_w(mask_lalpha);
+   for (unsigned i = 0; i < pixels_per_row_trunc; i += 4) {
+-    v16u8 bgra = *((__m128i*)(source));
++    __m128i bgra = *((__m128i*)(source));
+     //if A !=0, A=0; else A=0xFF
+-    v4f32 alpha_factor = __lsx_vseq_b(bgra, mask_zero);
++    __m128i alpha_factor = __lsx_vseq_b(bgra, mask_zero);
+     //if A!=0, A=A; else A=0xFF
+     alpha_factor = __lsx_vor_v(bgra, alpha_factor);
+     alpha_factor = __lsx_vsrli_w(alpha_factor, 24);
+-    alpha_factor = __lsx_vffint_s_w(alpha_factor);
+-    alpha_factor = __lsx_vfdiv_s(mask_falpha, alpha_factor);
++    alpha_factor = (__m128i) __lsx_vffint_s_w(alpha_factor);
++    alpha_factor = (__m128i) __lsx_vfdiv_s((__m128) mask_falpha, (__m128) alpha_factor);
+ 
+-    v16u8 component_r = __lsx_vand_v(bgra, mask_lalpha);
+-    component_r = __lsx_vffint_s_w(component_r);
+-    component_r = __lsx_vfmul_s(component_r, alpha_factor);
+-    component_r = __lsx_vftintrz_w_s(component_r);
++    __m128i component_r = __lsx_vand_v(bgra, mask_lalpha);
++    component_r = (__m128i) __lsx_vffint_s_w(component_r);
++    component_r = (__m128i) __lsx_vfmul_s((__m128) component_r, (__m128) alpha_factor);
++    component_r = __lsx_vftintrz_w_s((__m128) component_r);
+ 
+     component_r = __lsx_vpickev_b(component_r, component_r);
+     component_r = __lsx_vpickev_b(component_r, component_r);
+@@ -172,41 +172,41 @@ ALWAYS_INLINE void PackOneRowOfRGBA8Litt
+   v4f32 mask_falpha = __lsx_vffint_s_w(mask_lalpha);
+   v16u8 rgba_index = {0,1,2,19, 4,5,6,23, 8,9,10,27, 12,13,14,31};
+   for (unsigned i = 0; i < pixels_per_row_trunc; i += 4) {
+-    v16u8 bgra = *((__m128i*)(source));
++    __m128i bgra = *((__m128i*)(source));
+     //if A !=0, A=0; else A=0xFF
+-    v4f32 alpha_factor = __lsx_vseq_b(bgra, mask_zero);
++    __m128i alpha_factor = __lsx_vseq_b(bgra, mask_zero);
+     //if A!=0, A=A; else A=0xFF
+     alpha_factor = __lsx_vor_v(bgra, alpha_factor);
+     alpha_factor = __lsx_vsrli_w(alpha_factor, 24);
+-    alpha_factor = __lsx_vffint_s_w(alpha_factor);
+-    alpha_factor = __lsx_vfdiv_s(mask_falpha, alpha_factor);
++    alpha_factor = (__m128i) __lsx_vffint_s_w(alpha_factor);
++    alpha_factor = (__m128i) __lsx_vfdiv_s((__m128) mask_falpha, (__m128) alpha_factor);
+ 
+     v16u8 bgra_01 = __lsx_vilvl_b(mask_zero, bgra);
+     v16u8 bgra_23 = __lsx_vilvh_b(mask_zero, bgra);
+-    v16u8 bgra_0 = __lsx_vilvl_b(mask_zero, bgra_01);
+-    v16u8 bgra_1 = __lsx_vilvh_b(mask_zero, bgra_01);
+-    v16u8 bgra_2 = __lsx_vilvl_b(mask_zero, bgra_23);
+-    v16u8 bgra_3 = __lsx_vilvh_b(mask_zero, bgra_23);
+-
+-    bgra_0 = __lsx_vffint_s_w(bgra_0);
+-    bgra_1 = __lsx_vffint_s_w(bgra_1);
+-    bgra_2 = __lsx_vffint_s_w(bgra_2);
+-    bgra_3 = __lsx_vffint_s_w(bgra_3);
+-
+-    v4f32 alpha_factor_0 = __lsx_vreplvei_w(alpha_factor, 0);
+-    v4f32 alpha_factor_1 = __lsx_vreplvei_w(alpha_factor, 1);
+-    v4f32 alpha_factor_2 = __lsx_vreplvei_w(alpha_factor, 2);
+-    v4f32 alpha_factor_3 = __lsx_vreplvei_w(alpha_factor, 3);
+-
+-    bgra_0 = __lsx_vfmul_s(alpha_factor_0, bgra_0);
+-    bgra_1 = __lsx_vfmul_s(alpha_factor_1, bgra_1);
+-    bgra_2 = __lsx_vfmul_s(alpha_factor_2, bgra_2);
+-    bgra_3 = __lsx_vfmul_s(alpha_factor_3, bgra_3);
+-
+-    bgra_0 = __lsx_vftintrz_w_s(bgra_0);
+-    bgra_1 = __lsx_vftintrz_w_s(bgra_1);
+-    bgra_2 = __lsx_vftintrz_w_s(bgra_2);
+-    bgra_3 = __lsx_vftintrz_w_s(bgra_3);
++    __m128i bgra_0 = __lsx_vilvl_b(mask_zero, bgra_01);
++    __m128i bgra_1 = __lsx_vilvh_b(mask_zero, bgra_01);
++    __m128i bgra_2 = __lsx_vilvl_b(mask_zero, bgra_23);
++    __m128i bgra_3 = __lsx_vilvh_b(mask_zero, bgra_23);
++
++    bgra_0 = (__m128i) __lsx_vffint_s_w(bgra_0);
++    bgra_1 = (__m128i) __lsx_vffint_s_w(bgra_1);
++    bgra_2 = (__m128i) __lsx_vffint_s_w(bgra_2);
++    bgra_3 = (__m128i) __lsx_vffint_s_w(bgra_3);
++
++    __m128i alpha_factor_0 = __lsx_vreplvei_w(alpha_factor, 0);
++    __m128i alpha_factor_1 = __lsx_vreplvei_w(alpha_factor, 1);
++    __m128i alpha_factor_2 = __lsx_vreplvei_w(alpha_factor, 2);
++    __m128i alpha_factor_3 = __lsx_vreplvei_w(alpha_factor, 3);
++
++    bgra_0 = (__m128i) __lsx_vfmul_s((__m128) alpha_factor_0, (__m128) bgra_0);
++    bgra_1 = (__m128i) __lsx_vfmul_s((__m128) alpha_factor_1, (__m128) bgra_1);
++    bgra_2 = (__m128i) __lsx_vfmul_s((__m128) alpha_factor_2, (__m128) bgra_2);
++    bgra_3 = (__m128i) __lsx_vfmul_s((__m128) alpha_factor_3, (__m128) bgra_3);
++
++    bgra_0 = __lsx_vftintrz_w_s((__m128) bgra_0);
++    bgra_1 = __lsx_vftintrz_w_s((__m128) bgra_1);
++    bgra_2 = __lsx_vftintrz_w_s((__m128) bgra_2);
++    bgra_3 = __lsx_vftintrz_w_s((__m128) bgra_3);
+ 
+     bgra_01 = __lsx_vpickev_b(bgra_1, bgra_0);
+     bgra_23 = __lsx_vpickev_b(bgra_3, bgra_2);
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/boringssl/src/include/openssl/target.h b/qtwebengine/src/3rdparty/chromium/third_party/boringssl/src/include/openssl/target.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/boringssl/src/include/openssl/target.h	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/boringssl/src/include/openssl/target.h	2000-01-01 00:00:00.000000000 +0800
+@@ -54,6 +54,8 @@
+ #define OPENSSL_32_BIT
+ #elif defined(__myriad2__)
+ #define OPENSSL_32_BIT
++#elif defined(__loongarch__) && __SIZEOF_POINTER__ == 8
++#define OPENSSL_64_BIT
+ #else
+ // The list above enumerates the platforms that BoringSSL supports. For these
+ // platforms we keep a reasonable bar of not breaking them: automated test
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/dav1d/config/linux/loong64/config.h b/qtwebengine/src/3rdparty/chromium/third_party/dav1d/config/linux/loong64/config.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/dav1d/config/linux/loong64/config.h	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/dav1d/config/linux/loong64/config.h	2000-01-01 00:00:00.000000000 +0800
+@@ -0,0 +1,45 @@
++/*
++ * Autogenerated by the Meson build system.
++ * Do not edit, your changes will be lost.
++ */
++
++#pragma once
++
++#define ARCH_AARCH64 0
++
++#define ARCH_ARM 0
++
++#define ARCH_PPC64LE 0
++
++#define ARCH_X86 0
++
++#define ARCH_X86_32 0
++
++#define ARCH_X86_64 0
++
++#define CONFIG_16BPC 1
++
++#define CONFIG_8BPC 1
++
++// #define CONFIG_LOG 1 -- Logging is controlled by Chromium
++
++#define ENDIANNESS_BIG 0
++
++#define HAVE_ASM 0
++
++#define HAVE_C11_GENERIC 1
++
++#define HAVE_CLOCK_GETTIME 1
++
++#define HAVE_DLSYM 1
++
++#define HAVE_POSIX_MEMALIGN 1
++
++// #define HAVE_PTHREAD_GETAFFINITY_NP 1 -- Controlled by Chomium
++
++// #define HAVE_PTHREAD_SETAFFINITY_NP 1 -- Controlled by Chomium
++
++#define HAVE_UNISTD_H 1
++
++#define TRIM_DSP_FUNCTIONS 1
++
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/skia/gn/core.gni b/qtwebengine/src/3rdparty/chromium/third_party/skia/gn/core.gni
+--- a/qtwebengine/src/3rdparty/chromium/third_party/skia/gn/core.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/skia/gn/core.gni	2000-01-01 00:00:00.000000000 +0800
+@@ -276,7 +276,7 @@ skia_core_sources = [
+   "$_src/core/SkBitmapProcState.h",
+   "$_src/core/SkBitmapProcState_matrixProcs.cpp",
+   "$_src/core/SkBitmapProcState_opts.cpp",
+-  "$_src/core/SkBitmapProcState_opts_lasx.cpp",
++  #"$_src/core/SkBitmapProcState_opts_lasx.cpp",
+   "$_src/core/SkBitmapProcState_opts_ssse3.cpp",
+   "$_src/core/SkBlendMode.cpp",
+   "$_src/core/SkBlendModeBlender.cpp",
+@@ -291,7 +291,7 @@ skia_core_sources = [
+   "$_src/core/SkBlitRow_D32.cpp",
+   "$_src/core/SkBlitRow_opts.cpp",
+   "$_src/core/SkBlitRow_opts_hsw.cpp",
+-  "$_src/core/SkBlitRow_opts_lasx.cpp",
++  #"$_src/core/SkBlitRow_opts_lasx.cpp",
+   "$_src/core/SkBlitter.cpp",
+   "$_src/core/SkBlitter.h",
+   "$_src/core/SkBlitter_A8.cpp",
+@@ -574,7 +574,7 @@ skia_core_sources = [
+   "$_src/core/SkSwizzlePriv.h",
+   "$_src/core/SkSwizzler_opts.cpp",
+   "$_src/core/SkSwizzler_opts_hsw.cpp",
+-  "$_src/core/SkSwizzler_opts_lasx.cpp",
++  #"$_src/core/SkSwizzler_opts_lasx.cpp",
+   "$_src/core/SkSwizzler_opts_ssse3.cpp",
+   "$_src/core/SkTDynamicHash.h",
+   "$_src/core/SkTHash.h",
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/skia/include/private/base/SkFeatures.h b/qtwebengine/src/3rdparty/chromium/third_party/skia/include/private/base/SkFeatures.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/skia/include/private/base/SkFeatures.h	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/skia/include/private/base/SkFeatures.h	2000-01-01 00:00:00.000000000 +0800
+@@ -125,9 +125,9 @@
+ #endif
+ 
+ #ifndef SK_CPU_LSX_LEVEL
+-    #if defined(__loongarch_asx)
++    #if defined(__loongarch_asx) && 0
+         #define SK_CPU_LSX_LEVEL    SK_CPU_LSX_LEVEL_LASX
+-    #elif defined(__loongarch_sx)
++    #elif defined(__loongarch_sx) && 0
+         #define SK_CPU_LSX_LEVEL    SK_CPU_LSX_LEVEL_LSX
+     #endif
+ #endif
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBitmapProcState_opts.cpp b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBitmapProcState_opts.cpp
+--- a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBitmapProcState_opts.cpp	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBitmapProcState_opts.cpp	2000-01-01 00:00:00.000000000 +0800
+@@ -22,7 +22,6 @@ namespace SkOpts {
+     DEFINE_DEFAULT(S32_alpha_D32_filter_DXDY);
+ 
+     void Init_BitmapProcState_ssse3();
+-    void Init_BitmapProcState_lasx();
+ 
+     static bool init() {
+     #if defined(SK_ENABLE_OPTIMIZE_SIZE)
+@@ -31,10 +30,6 @@ namespace SkOpts {
+         #if SK_CPU_SSE_LEVEL < SK_CPU_SSE_LEVEL_SSSE3
+             if (SkCpu::Supports(SkCpu::SSSE3)) { Init_BitmapProcState_ssse3(); }
+         #endif
+-    #elif defined(SK_CPU_LOONGARCH)
+-        #if SK_CPU_LSX_LEVEL < SK_CPU_LSX_LEVEL_LASX
+-            if (SkCpu::Supports(SkCpu::LOONGARCH_ASX)) { Init_BitmapProcState_lasx(); }
+-        #endif
+     #endif
+       return true;
+     }
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBlitRow_opts.cpp b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBlitRow_opts.cpp
+--- a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBlitRow_opts.cpp	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkBlitRow_opts.cpp	2000-01-01 00:00:00.000000000 +0800
+@@ -22,7 +22,6 @@ namespace SkOpts {
+     DEFINE_DEFAULT(blit_row_s32a_opaque);
+ 
+     void Init_BlitRow_hsw();
+-    void Init_BlitRow_lasx();
+ 
+     static bool init() {
+     #if defined(SK_ENABLE_OPTIMIZE_SIZE)
+@@ -31,10 +30,6 @@ namespace SkOpts {
+         #if SK_CPU_SSE_LEVEL < SK_CPU_SSE_LEVEL_AVX2
+             if (SkCpu::Supports(SkCpu::HSW)) { Init_BlitRow_hsw(); }
+         #endif
+-    #elif defined(SK_CPU_LOONGARCH)
+-        #if SK_CPU_LSX_LEVEL < SK_CPU_LSX_LEVEL_LASX
+-            if (SkCpu::Supports(SkCpu::LOONGARCH_ASX)) { Init_BlitRow_lasx(); }
+-        #endif
+     #endif
+       return true;
+     }
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkSwizzler_opts.cpp b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkSwizzler_opts.cpp
+--- a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkSwizzler_opts.cpp	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/core/SkSwizzler_opts.cpp	2000-01-01 00:00:00.000000000 +0800
+@@ -33,7 +33,6 @@ namespace SkOpts {
+ 
+     void Init_Swizzler_ssse3();
+     void Init_Swizzler_hsw();
+-    void Init_Swizzler_lasx();
+ 
+     static bool init() {
+     #if defined(SK_ENABLE_OPTIMIZE_SIZE)
+@@ -46,10 +45,6 @@ namespace SkOpts {
+         #if SK_CPU_SSE_LEVEL < SK_CPU_SSE_LEVEL_AVX2
+             if (SkCpu::Supports(SkCpu::HSW)) { Init_Swizzler_hsw(); }
+         #endif
+-    #elif defined(SK_CPU_LOONGARCH)
+-        #if SK_CPU_LSX_LEVEL < SK_CPU_LSX_LEVEL_LASX
+-            if (SkCpu::Supports(SkCpu::LOONGARCH_ASX)) { Init_Swizzler_lasx(); }
+-        #endif
+     #endif
+       return true;
+     }
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/opts/SkOpts_SetTarget.h b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/opts/SkOpts_SetTarget.h
+--- a/qtwebengine/src/3rdparty/chromium/third_party/skia/src/opts/SkOpts_SetTarget.h	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/skia/src/opts/SkOpts_SetTarget.h	2000-01-01 00:00:00.000000000 +0800
+@@ -135,9 +135,10 @@
+         #define SK_OPTS_NS lasx
+         // The intrinsic from lasxintrin.h is wrapped by the __loongarch_asx macro, so we need to define it.
+         #define __loongarch_asx
++        #define __loongarch_sx
+ 
+         #if defined(__clang__)
+-          #pragma clang attribute push(__attribute__((target("lasx"))), apply_to=function)
++          #pragma clang attribute push(__attribute__((target("lsx,lasx"))), apply_to=function)
+         #endif
+ 
+     #else
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/src/Reactor/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/src/Reactor/BUILD.gn
+--- a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/src/Reactor/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/src/Reactor/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -307,7 +307,11 @@ if (supports_subzero) {
+ 
+ if (supports_llvm) {
+   swiftshader_source_set("swiftshader_llvm_reactor") {
+-    llvm_dir = "../../third_party/llvm-10.0"
++    if (current_cpu == "loong64") {
++      llvm_dir = "../../third_party/llvm-16.0"
++    } else {
++      llvm_dir = "../../third_party/llvm-10.0"
++    }
+ 
+     deps = [
+       ":swiftshader_reactor_base",
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/src/Vulkan/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/src/Vulkan/BUILD.gn
+--- a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/src/Vulkan/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/src/Vulkan/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -229,6 +229,7 @@ swiftshader_shared_library("swiftshader_
+   }
+ 
+   deps = [ ":_swiftshader_libvulkan" ]
++  libs = [ "m" ]
+ }
+ 
+ swiftshader_static_library("swiftshader_libvulkan_static") {
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn
+--- a/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/third_party/swiftshader/third_party/llvm-10.0/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -156,6 +156,8 @@ swiftshader_llvm_source_set("swiftshader
+     deps += [ ":swiftshader_llvm_ppc" ]
+   } else if (current_cpu == "riscv64") {
+     deps += [ ":swiftshader_llvm_riscv64" ]
++  } else if (current_cpu == "loong64") {
++    # swiftshader unused in qt6-webengine
+   } else if (current_cpu == "x86" || current_cpu == "x64") {
+     deps += [ ":swiftshader_llvm_x86" ]
+   } else {

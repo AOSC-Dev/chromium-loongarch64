@@ -1,2 +1,6 @@
 cmake-build
+CMakeFiles
+config.tests
+Qt6BuildInternals
+.orig
 __pycache__

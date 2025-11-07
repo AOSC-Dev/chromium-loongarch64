@@ -164,7 +164,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  // Also include asm/ptrace-abi.h since ptrace.h in older libc (for instance
  // the one in Ubuntu 16.04 LTS) is missing PTRACE_GET_THREAD_AREA.
  // asm/ptrace-abi.h doesn't exist on arm32 and PTRACE_GET_THREAD_AREA isn't
-@@ -352,7 +352,7 @@ ResultExpr RestrictFutex() {
+@@ -351,7 +351,7 @@ ResultExpr RestrictFutex() {
        .Cases({FUTEX_WAIT, FUTEX_WAKE, FUTEX_REQUEUE, FUTEX_CMP_REQUEUE,
  #if BUILDFLAG(ENABLE_MUTEX_PRIORITY_INHERITANCE)
                // Enable priority-inheritance operations.
@@ -173,7 +173,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
                FUTEX_WAIT_REQUEUE_PI, FUTEX_CMP_REQUEUE_PI,
  #endif  // BUILDFLAG(ENABLE_MUTEX_PRIORITY_INHERITANCE)
                FUTEX_WAKE_OP, FUTEX_WAIT_BITSET, FUTEX_WAKE_BITSET},
-@@ -469,8 +469,11 @@ ResultExpr RestrictPtrace() {
+@@ -467,8 +467,11 @@ ResultExpr RestrictPtrace() {
    return Switch(request)
        .Cases({
  #if !defined(__aarch64__)
@@ -551,7 +551,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.cc
 --- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/services/syscall_wrappers.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -5,6 +5,7 @@
+@@ -10,6 +10,7 @@
  #include "sandbox/linux/services/syscall_wrappers.h"
  
  #include <fcntl.h>
@@ -559,7 +559,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #include <pthread.h>
  #include <sched.h>
  #include <setjmp.h>
-@@ -58,7 +59,7 @@ long sys_clone(unsigned long flags,
+@@ -63,7 +64,7 @@ long sys_clone(unsigned long flags,
    if (ctid) MSAN_UNPOISON(ctid, sizeof(*ctid));
    // See kernel/fork.c in Linux. There is different ordering of sys_clone
    // parameters depending on CONFIG_CLONE_BACKWARDS* configuration options.
@@ -568,7 +568,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    return syscall(__NR_clone, flags, child_stack, ptid, ctid, tls);
  #elif defined(ARCH_CPU_X86) || defined(ARCH_CPU_ARM_FAMILY) || \
      defined(ARCH_CPU_MIPS_FAMILY)
-@@ -163,9 +164,53 @@ int sys_sigaction(int signum,
+@@ -168,9 +169,53 @@ int sys_sigaction(int signum,
    return sigaction(signum, act, oldact);
  }
  
@@ -623,7 +623,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    res = syscall(__NR_newfstatat, AT_FDCWD, path, stat_buf, 0);
  #else
    res = syscall(__NR_stat, path, stat_buf);
-@@ -177,7 +222,12 @@ int sys_stat(const char* path, struct ke
+@@ -182,7 +227,12 @@ int sys_stat(const char* path, struct ke
  
  int sys_lstat(const char* path, struct kernel_stat* stat_buf) {
    int res;
@@ -743,7 +743,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_process.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_process.cc
 --- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_process.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/syscall_broker/broker_process.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -122,44 +122,46 @@ bool BrokerProcess::IsSyscallBrokerable(
+@@ -121,44 +121,46 @@ bool BrokerProcess::IsSyscallBrokerable(
    // and are default disabled in Android. So, we should refuse to broker them
    // to be consistent with the platform's restrictions.
    switch (sysno) {
@@ -797,7 +797,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
      case __NR_stat:
      case __NR_lstat:
  #endif
-@@ -169,6 +171,9 @@ bool BrokerProcess::IsSyscallBrokerable(
+@@ -168,6 +170,9 @@ bool BrokerProcess::IsSyscallBrokerable(
  #if defined(__NR_fstatat64)
      case __NR_fstatat64:
  #endif
@@ -807,7 +807,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
  #if defined(__x86_64__) || defined(__aarch64__)
      case __NR_newfstatat:
  #endif
-@@ -184,7 +189,7 @@ bool BrokerProcess::IsSyscallBrokerable(
+@@ -183,7 +188,7 @@ bool BrokerProcess::IsSyscallBrokerable(
        return !fast_check || policy_->allowed_command_set.test(COMMAND_STAT);
  #endif
  
@@ -2246,7 +2246,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc
 --- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/bpf_screen_ai_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -37,7 +37,7 @@ ResultExpr ScreenAIProcessPolicy::Evalua
+@@ -47,7 +47,7 @@ ResultExpr ScreenAIProcessPolicy::Evalua
        const Arg<int> op(1);
        return Switch(op & FUTEX_CMD_MASK)
            .Cases(
@@ -2258,7 +2258,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
 diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/sandbox_linux.cc b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/sandbox_linux.cc
 --- a/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/sandbox_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/qtwebengine/src/3rdparty/chromium/sandbox/policy/linux/sandbox_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -596,6 +596,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+@@ -585,6 +585,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
    const bpf_dsl::ResultExpr handle_via_broker =
        bpf_dsl::Trap(syscall_broker::BrokerClient::SIGSYS_Handler,
                      broker_process_->GetBrokerClientSignalBased());
@@ -2266,7 +2266,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r
    if (sysno == __NR_fstatat_default) {
      // This may be an fstatat(fd, "", stat_buf, AT_EMPTY_PATH), which should be
      // rewritten as fstat(fd, stat_buf). This should be consistent with how the
-@@ -606,6 +607,15 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+@@ -595,6 +596,15 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
      return bpf_dsl::If((flags & AT_EMPTY_PATH) == AT_EMPTY_PATH,
                         RewriteFstatatSIGSYS(BPFBasePolicy::GetFSDeniedErrno()))
          .Else(handle_via_broker);
