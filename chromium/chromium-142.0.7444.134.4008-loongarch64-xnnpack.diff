@@ -1,0 +1,323 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/xnnpack/BUILD.gn b/third_party/xnnpack/BUILD.gn
+--- a/third_party/xnnpack/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/xnnpack/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -1534,6 +1534,22 @@ if (current_cpu == "x64" || current_cpu
+       ":xx-transposev_arm64_standalone",
+     ]
+   }
++} else if (current_cpu == "loong64") {
++  if (build_with_chromium) {
++    xnnpack_deps = [
++      ":configs_loong64",
++      ":enums_loong64",
++      ":operators_loong64",
++    ]
++  }
++
++  if (build_with_internal_optimization_guide) {
++    xnnpack_standalone_deps = [
++      ":configs_loong64_standalone",
++      ":enums_loong64_standalone",
++      ":operators_loong64_standalone",
++    ]
++  }
+ } else if (current_cpu == "riscv64") {
+   if (build_with_chromium) {
+     xnnpack_deps = [
+@@ -48112,6 +48128,267 @@ if (current_cpu == "arm64") {
+       ]
+ 
+       configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++}
++
++if (current_cpu == "loong64") {
++  if (build_with_chromium) {
++    source_set("configs_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/configs/argmaxpool-config.c",
++        "src/src/configs/avgpool-config.c",
++        "src/src/configs/binary-elementwise-config.c",
++        "src/src/configs/cmul-config.c",
++        "src/src/configs/conv-hwc2chw-config.c",
++        "src/src/configs/dwconv-config.c",
++        "src/src/configs/dwconv2d-chw-config.c",
++        "src/src/configs/gemm-config.c",
++        "src/src/configs/hardware-config.c",
++        "src/src/configs/ibilinear-chw-config.c",
++        "src/src/configs/ibilinear-config.c",
++        "src/src/configs/lut32norm-config.c",
++        "src/src/configs/maxpool-config.c",
++        "src/src/configs/pack-lh-config.c",
++        "src/src/configs/raddstoreexpminusmax-config.c",
++        "src/src/configs/reduce-config.c",
++        "src/src/configs/spmm-config.c",
++        "src/src/configs/transpose-config.c",
++        "src/src/configs/unary-elementwise-config.c",
++        "src/src/configs/unpool-config.c",
++        "src/src/configs/vmulcaddc-config.c",
++        "src/src/configs/x8-lut-config.c",
++        "src/src/configs/xx-fill-config.c",
++        "src/src/configs/xx-pad-config.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("configs_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/configs/argmaxpool-config.c",
++        "src/src/configs/avgpool-config.c",
++        "src/src/configs/binary-elementwise-config.c",
++        "src/src/configs/cmul-config.c",
++        "src/src/configs/conv-hwc2chw-config.c",
++        "src/src/configs/dwconv-config.c",
++        "src/src/configs/dwconv2d-chw-config.c",
++        "src/src/configs/gemm-config.c",
++        "src/src/configs/hardware-config.c",
++        "src/src/configs/ibilinear-chw-config.c",
++        "src/src/configs/ibilinear-config.c",
++        "src/src/configs/lut32norm-config.c",
++        "src/src/configs/maxpool-config.c",
++        "src/src/configs/pack-lh-config.c",
++        "src/src/configs/raddstoreexpminusmax-config.c",
++        "src/src/configs/reduce-config.c",
++        "src/src/configs/spmm-config.c",
++        "src/src/configs/transpose-config.c",
++        "src/src/configs/unary-elementwise-config.c",
++        "src/src/configs/unpool-config.c",
++        "src/src/configs/vmulcaddc-config.c",
++        "src/src/configs/x8-lut-config.c",
++        "src/src/configs/xx-fill-config.c",
++        "src/src/configs/xx-pad-config.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
++    source_set("operators_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/operators/argmax-pooling-nhwc.c",
++        "src/src/operators/average-pooling-nhwc.c",
++        "src/src/operators/batch-matrix-multiply-nc.c",
++        "src/src/operators/binary-elementwise-nd.c",
++        "src/src/operators/constant-pad-nd.c",
++        "src/src/operators/convolution-nchw.c",
++        "src/src/operators/convolution-nhwc.c",
++        "src/src/operators/deconvolution-nhwc.c",
++        "src/src/operators/dynamic-fully-connected-nc.c",
++        "src/src/operators/fully-connected-nc.c",
++        "src/src/operators/max-pooling-nhwc.c",
++        "src/src/operators/pack-lh.c",
++        "src/src/operators/reduce-nd.c",
++        "src/src/operators/resize-bilinear-nchw.c",
++        "src/src/operators/resize-bilinear-nhwc.c",
++        "src/src/operators/rope-nthc.c",
++        "src/src/operators/slice-nd.c",
++        "src/src/operators/softmax-nc.c",
++        "src/src/operators/transpose-nd.c",
++        "src/src/operators/unary-elementwise-nc.c",
++        "src/src/operators/unpooling-nhwc.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  if (build_with_chromium) {
++    source_set("enums_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/enums/allocation-type.c",
++        "src/src/enums/datatype-strings.c",
++        "src/src/enums/microkernel-type.c",
++        "src/src/enums/node-type.c",
++        "src/src/enums/operator-type.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("operators_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/operators/argmax-pooling-nhwc.c",
++        "src/src/operators/average-pooling-nhwc.c",
++        "src/src/operators/batch-matrix-multiply-nc.c",
++        "src/src/operators/binary-elementwise-nd.c",
++        "src/src/operators/constant-pad-nd.c",
++        "src/src/operators/convolution-nchw.c",
++        "src/src/operators/convolution-nhwc.c",
++        "src/src/operators/deconvolution-nhwc.c",
++        "src/src/operators/dynamic-fully-connected-nc.c",
++        "src/src/operators/fully-connected-nc.c",
++        "src/src/operators/max-pooling-nhwc.c",
++        "src/src/operators/pack-lh.c",
++        "src/src/operators/reduce-nd.c",
++        "src/src/operators/resize-bilinear-nchw.c",
++        "src/src/operators/resize-bilinear-nhwc.c",
++        "src/src/operators/rope-nthc.c",
++        "src/src/operators/slice-nd.c",
++        "src/src/operators/softmax-nc.c",
++        "src/src/operators/transpose-nd.c",
++        "src/src/operators/unary-elementwise-nc.c",
++        "src/src/operators/unpooling-nhwc.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("enums_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/enums/allocation-type.c",
++        "src/src/enums/datatype-strings.c",
++        "src/src/enums/microkernel-type.c",
++        "src/src/enums/node-type.c",
++        "src/src/enums/operator-type.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
+       configs += [ "//build/config/compiler:no_chromium_code" ]
+       configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
+       configs += [ ":xnnpack_private_config" ]
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/xnnpack/src/src/xnnpack/common.h b/third_party/xnnpack/src/src/xnnpack/common.h
+--- a/third_party/xnnpack/src/src/xnnpack/common.h	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/xnnpack/src/src/xnnpack/common.h	2000-01-01 00:00:00.000000000 +0800
+@@ -80,6 +80,12 @@
+ #define XNN_ARCH_WASMRELAXEDSIMD 0
+ #endif
+ 
++#if defined(__loongarch__)
++#define XNN_ARCH_LOONGARCH 1
++#else
++#define XNN_ARCH_LOONGARCH 0
++#endif
++
+ // Define platform identification macros
+ 
+ #if defined(__ANDROID__)
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/xnnpack/src/src/xnnpack/hardware-config.h b/third_party/xnnpack/src/src/xnnpack/hardware-config.h
+--- a/third_party/xnnpack/src/src/xnnpack/hardware-config.h	2000-01-01 00:00:00.000000000 +0800
++++ b/third_party/xnnpack/src/src/xnnpack/hardware-config.h	2000-01-01 00:00:00.000000000 +0800
+@@ -63,6 +63,9 @@ enum xnn_arch_flags {
+   xnn_arch_vsx = 1 << 0,
+   xnn_arch_vsx3 = 1 << 1,
+   xnn_arch_mma = 1 << 2,
++#elif XNN_ARCH_LOONGARCH
++  xnn_arch_lsx = 1 << 0,
++  xnn_arch_lasx = 1 << 1,
+ #elif XNN_ARCH_WASM || XNN_ARCH_WASMSIMD || XNN_ARCH_WASMRELAXEDSIMD
+   xnn_arch_wasm_is_x86 = 1 << 0,
+ #if XNN_ARCH_WASMRELAXEDSIMD

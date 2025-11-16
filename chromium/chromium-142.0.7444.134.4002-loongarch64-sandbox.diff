@@ -78,42 +78,24 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -197,7 +197,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
-     return RestrictFcntlCommands();
- #endif
- 
--#if !defined(__aarch64__)
-+#if !defined(__aarch64__) && !defined(__loongarch__)
-   // fork() is never used as a system call (clone() is used instead), but we
-   // have seen it in fallback code on Android.
-   if (sysno == __NR_fork) {
 @@ -259,7 +259,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
-   }
  
+   // TODO(crbug.com/40528912): should i386 really be in this list?
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__) || \
 -    defined(__aarch64__)
 +    defined(__aarch64__) || defined(__loongarch__)
    if (sysno == __NR_mmap)
      return RestrictMmapFlags();
  #endif
-@@ -280,7 +280,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
-     return RestrictPrctl();
- 
- #if defined(__x86_64__) || defined(__arm__) || defined(__mips__) || \
--    defined(__aarch64__)
-+    defined(__aarch64__) || defined(__loongarch__)
-   if (sysno == __NR_socketpair) {
-     // Only allow AF_UNIX, PF_UNIX. Crash if anything else is seen.
-     static_assert(AF_UNIX == PF_UNIX,
-@@ -306,6 +306,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
-     return Allow();
+@@ -304,6 +304,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+     return RestrictMemfdCreate();
    }
  
 +#if !defined(__loongarch__)
    // The fstatat syscalls are file system syscalls, which will be denied below
    // with fs_denied_errno. However some allowed fstat syscalls are rewritten by
    // libc implementations to fstatat syscalls, and we need to rewrite them back.
-@@ -323,6 +324,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
+@@ -321,6 +322,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
      return If(mask == STATX_BASIC_STATS, Error(ENOSYS))
          .Else(Error(fs_denied_errno));
    }
@@ -121,19 +103,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  
    if (SyscallSets::IsFileSystem(sysno) ||
        SyscallSets::IsCurrentDirectory(sysno)) {
-@@ -370,7 +372,7 @@ ResultExpr EvaluateSyscallImpl(int fs_de
-   // Allow creating pipes, but don't allow weird flags to pipe2().
-   // O_NOTIFICATION_PIPE (== O_EXCL) can be used to create
-   // "notification pipes", which are rarely used.
--#if !defined(__aarch64__)
-+#if !defined(__aarch64__) && !defined(__loongarch__)
-   if (sysno == __NR_pipe) {
-     return Allow();
-   }
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -359,6 +359,7 @@ intptr_t SIGSYSSchedHandler(const struct
+@@ -386,6 +386,7 @@ intptr_t SIGSYSSchedHandler(const struct
  
  intptr_t SIGSYSFstatatHandler(const struct arch_seccomp_data& args,
                                void* fs_denied_errno) {
@@ -141,7 +114,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    if (args.nr == __NR_fstatat_default) {
      if (*reinterpret_cast<const char*>(args.args[1]) == '\0' &&
          args.args[3] == static_cast<uint64_t>(AT_EMPTY_PATH)) {
-@@ -367,6 +368,7 @@ intptr_t SIGSYSFstatatHandler(const stru
+@@ -394,6 +395,7 @@ intptr_t SIGSYSFstatatHandler(const stru
      }
      return -reinterpret_cast<intptr_t>(fs_denied_errno);
    }
@@ -152,8 +125,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -39,7 +39,7 @@
- #include "sandbox/linux/system_headers/linux_time.h"
+@@ -45,7 +45,7 @@
+ #endif
  
  #if BUILDFLAG(IS_LINUX) && !defined(__arm__) && !defined(__aarch64__) && \
 -    !defined(PTRACE_GET_THREAD_AREA)
@@ -161,7 +134,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  // Also include asm/ptrace-abi.h since ptrace.h in older libc (for instance
  // the one in Ubuntu 16.04 LTS) is missing PTRACE_GET_THREAD_AREA.
  // asm/ptrace-abi.h doesn't exist on arm32 and PTRACE_GET_THREAD_AREA isn't
-@@ -476,8 +476,11 @@ ResultExpr RestrictPtrace() {
+@@ -490,8 +490,11 @@ ResultExpr RestrictPtrace() {
    return Switch(request)
        .Cases({
  #if !defined(__aarch64__)
@@ -174,7 +147,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #endif
  #if defined(__arm__)
                   PTRACE_GETVFPREGS,
-@@ -521,7 +524,7 @@ SANDBOX_EXPORT bpf_dsl::ResultExpr Restr
+@@ -535,7 +538,7 @@ SANDBOX_EXPORT bpf_dsl::ResultExpr Restr
        break;
  #endif
  #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
@@ -544,15 +517,15 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/services/credentials.cc b/sandbox/linux/services/credentials.cc
 --- a/sandbox/linux/services/credentials.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/services/credentials.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -90,7 +90,7 @@ bool ChrootToSafeEmptyDir() {
-   alignas(16) char stack_buf[PTHREAD_STACK_MIN_CONST];
+@@ -85,7 +85,7 @@ bool ChrootToSafeEmptyDir() {
+   alignas(16) std::array<char, PTHREAD_STACK_MIN_CONST> stack_buf;
  
  #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM_FAMILY) || \
 -    defined(ARCH_CPU_MIPS_FAMILY)
 +    defined(ARCH_CPU_MIPS_FAMILY) || defined(ARCH_CPU_LOONGARCH_FAMILY)
-   // The stack grows downward.
-   void* stack = stack_buf + sizeof(stack_buf);
- #else
+   // SAFETY: This is the `stack` argument of `clone(2)`. Because the stack grows
+   // downward on these architectures, this is the topmost address of the memory
+   // space for the stack, and the address will not be dereferenced.
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/services/syscall_wrappers.cc b/sandbox/linux/services/syscall_wrappers.cc
 --- a/sandbox/linux/services/syscall_wrappers.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/services/syscall_wrappers.cc	2000-01-01 00:00:00.000000000 +0800
@@ -564,7 +537,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #include <pthread.h>
  #include <sched.h>
  #include <setjmp.h>
-@@ -63,7 +64,7 @@ long sys_clone(unsigned long flags,
+@@ -65,7 +66,7 @@ long sys_clone(unsigned long flags,
    if (ctid) MSAN_UNPOISON(ctid, sizeof(*ctid));
    // See kernel/fork.c in Linux. There is different ordering of sys_clone
    // parameters depending on CONFIG_CLONE_BACKWARDS* configuration options.
@@ -573,7 +546,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    return syscall(__NR_clone, flags, child_stack, ptid, ctid, tls);
  #elif defined(ARCH_CPU_X86) || defined(ARCH_CPU_ARM_FAMILY) || \
      defined(ARCH_CPU_MIPS_FAMILY)
-@@ -168,9 +169,53 @@ int sys_sigaction(int signum,
+@@ -170,9 +171,53 @@ int sys_sigaction(int signum,
    return sigaction(signum, act, oldact);
  }
  
@@ -628,7 +601,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    res = syscall(__NR_newfstatat, AT_FDCWD, path, stat_buf, 0);
  #else
    res = syscall(__NR_stat, path, stat_buf);
-@@ -182,7 +227,12 @@ int sys_stat(const char* path, struct ke
+@@ -184,7 +229,12 @@ int sys_stat(const char* path, struct ke
  
  int sys_lstat(const char* path, struct kernel_stat* stat_buf) {
    int res;
@@ -835,7 +808,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/syscall_broker/syscall_dispatcher.cc b/sandbox/linux/syscall_broker/syscall_dispatcher.cc
 --- a/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/syscall_broker/syscall_dispatcher.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -27,6 +27,8 @@ int SyscallDispatcher::DefaultStatForTes
+@@ -29,6 +29,8 @@ int SyscallDispatcher::DefaultStatForTes
    return Stat64(pathname, follow_links, sb);
  #elif defined(__NR_newfstatat)
    return Stat(pathname, follow_links, sb);
@@ -844,7 +817,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #endif
  }
  
-@@ -170,6 +172,19 @@ int SyscallDispatcher::DispatchSyscall(c
+@@ -172,6 +174,19 @@ int SyscallDispatcher::DispatchSyscall(c
        return Stat64(reinterpret_cast<const char*>(args.args[0]), true,
                      reinterpret_cast<struct kernel_stat64*>(args.args[1]));
  #endif
@@ -986,7 +959,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/linux_syscalls.h b/sandbox/linux/system_headers/linux_syscalls.h
 --- a/sandbox/linux/system_headers/linux_syscalls.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/system_headers/linux_syscalls.h	2000-01-01 00:00:00.000000000 +0800
-@@ -35,5 +35,9 @@
+@@ -44,4 +44,8 @@
  #include "sandbox/linux/system_headers/arm64_linux_syscalls.h"
  #endif
  
@@ -995,7 +968,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 +#endif
 +
  #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LINUX_SYSCALLS_H_
- 
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/linux/system_headers/loong64_linux_syscalls.h b/sandbox/linux/system_headers/loong64_linux_syscalls.h
 --- a/sandbox/linux/system_headers/loong64_linux_syscalls.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/linux/system_headers/loong64_linux_syscalls.h	2000-01-01 00:00:00.000000000 +0800
@@ -2224,7 +2196,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc
 --- a/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/policy/linux/bpf_cros_amd_gpu_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -38,7 +38,7 @@ ResultExpr CrosAmdGpuProcessPolicy::Eval
+@@ -39,7 +39,7 @@ ResultExpr CrosAmdGpuProcessPolicy::Eval
      case __NR_sched_setscheduler:
      case __NR_sysinfo:
      case __NR_uname:
@@ -2236,7 +2208,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_gpu_policy_linux.cc b/sandbox/policy/linux/bpf_gpu_policy_linux.cc
 --- a/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/policy/linux/bpf_gpu_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -72,7 +72,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
+@@ -73,7 +73,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
      (defined(ARCH_CPU_MIPS_FAMILY) && defined(ARCH_CPU_32_BITS))
      case __NR_ftruncate64:
  #endif
@@ -2248,7 +2220,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/bpf_network_policy_linux.cc b/sandbox/policy/linux/bpf_network_policy_linux.cc
 --- a/sandbox/policy/linux/bpf_network_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/policy/linux/bpf_network_policy_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -260,7 +260,7 @@ ResultExpr NetworkProcessPolicy::Evaluat
+@@ -259,7 +259,7 @@ ResultExpr NetworkProcessPolicy::Evaluat
      case __NR_fdatasync:
      case __NR_fsync:
      case __NR_mremap:
@@ -2272,7 +2244,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/sandbox_linux.cc b/sandbox/policy/linux/sandbox_linux.cc
 --- a/sandbox/policy/linux/sandbox_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/policy/linux/sandbox_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -579,6 +579,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+@@ -571,6 +571,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
    const bpf_dsl::ResultExpr handle_via_broker =
        bpf_dsl::Trap(syscall_broker::BrokerClient::SIGSYS_Handler,
                      broker_process_->GetBrokerClientSignalBased());
@@ -2280,7 +2252,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    if (sysno == __NR_fstatat_default) {
      // This may be an fstatat(fd, "", stat_buf, AT_EMPTY_PATH), which should be
      // rewritten as fstat(fd, stat_buf). This should be consistent with how the
-@@ -589,6 +590,18 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+@@ -581,6 +582,18 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
      return bpf_dsl::If((flags & AT_EMPTY_PATH) == AT_EMPTY_PATH,
                         RewriteFstatatSIGSYS(BPFBasePolicy::GetFSDeniedErrno()))
          .Else(handle_via_broker);
