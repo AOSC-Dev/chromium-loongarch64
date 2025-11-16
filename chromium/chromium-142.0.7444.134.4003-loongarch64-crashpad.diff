@@ -566,7 +566,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc
 --- a/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/crashpad/crashpad/snapshot/linux/system_snapshot_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -208,6 +208,8 @@ CPUArchitecture SystemSnapshotLinux::Get
+@@ -229,6 +229,8 @@ CPUArchitecture SystemSnapshotLinux::Get
                                      : kCPUArchitectureMIPSEL;
  #elif defined(ARCH_CPU_RISCV64)
    return kCPUArchitectureRISCV64;
@@ -575,7 +575,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #else
  #error port to your architecture
  #endif
-@@ -226,6 +228,9 @@ uint32_t SystemSnapshotLinux::CPURevisio
+@@ -247,6 +249,9 @@ uint32_t SystemSnapshotLinux::CPURevisio
  #elif defined(ARCH_CPU_RISCV64)
    // Not implemented
    return 0;
@@ -585,7 +585,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #else
  #error port to your architecture
  #endif
-@@ -249,6 +254,9 @@ std::string SystemSnapshotLinux::CPUVend
+@@ -270,6 +275,9 @@ std::string SystemSnapshotLinux::CPUVend
  #elif defined(ARCH_CPU_RISCV64)
    // Not implemented
    return std::string();
@@ -595,7 +595,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #else
  #error port to your architecture
  #endif
-@@ -380,6 +388,9 @@ bool SystemSnapshotLinux::NXEnabled() co
+@@ -401,6 +409,9 @@ bool SystemSnapshotLinux::NXEnabled() co
  #elif defined(ARCH_CPU_RISCV64)
    // Not implemented
    return false;

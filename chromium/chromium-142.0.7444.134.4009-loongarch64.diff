@@ -1,7 +1,7 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/base/system/sys_info.cc b/base/system/sys_info.cc
 --- a/base/system/sys_info.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/base/system/sys_info.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -256,6 +256,8 @@ std::string SysInfo::ProcessCPUArchitect
+@@ -254,6 +254,8 @@ std::string SysInfo::ProcessCPUArchitect
    return "ARM_64";
  #elif defined(ARCH_CPU_RISCV64)
    return "RISCV_64";
@@ -22,31 +22,44 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
      loongarch64_use_lasx = false
    }
  }
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/gni_impl/rust_target.gni b/build/rust/gni_impl/rust_target.gni
+--- a/build/rust/gni_impl/rust_target.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/build/rust/gni_impl/rust_target.gni	2000-01-01 00:00:00.000000000 +0800
+@@ -445,6 +445,9 @@ template("rust_target") {
+       if (_rustc_metadata != "") {
+         rustflags += [ "-Cmetadata=${_rustc_metadata}" ]
+       }
++      if (current_cpu == "loong64") {
++        rustflags += [ "-Ccode-model=medium" ]
++      }
+       rustenv = _rustenv
+ 
+       if (_generate_crate_root) {
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/extensions/api/runtime/chrome_runtime_api_delegate.cc b/chrome/browser/extensions/api/runtime/chrome_runtime_api_delegate.cc
 --- a/chrome/browser/extensions/api/runtime/chrome_runtime_api_delegate.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/chrome/browser/extensions/api/runtime/chrome_runtime_api_delegate.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -346,6 +346,8 @@ bool ChromeRuntimeAPIDelegate::GetPlatfo
-     info->arch = extensions::api::runtime::PlatformArch::kMips;
-   } else if (strcmp(arch, "mips64el") == 0) {
+@@ -342,6 +342,8 @@ extensions::api::runtime::PlatformNaclAr
+   return extensions::api::runtime::PlatformNaclArch::kMips;
+ #elif defined(ARCH_CPU_MIPS64EL)
+   return extensions::api::runtime::PlatformNaclArch::kMips64;
++#elif defined(ARCH_CPU_LOONGARCH64)
++  return extensions::api::runtime::PlatformNaclArch::kLoongarch64;
+ #else
+   // NOTE: Other architectures did not support extensions at the time
+   // of NaCl removal.
+@@ -383,6 +385,8 @@ bool ChromeRuntimeAPIDelegate::GetPlatfo
      info->arch = extensions::api::runtime::PlatformArch::kMips64;
-+  } else if (strcmp(arch, "loongarch64") == 0) {
+   } else if (arch == "riscv64") {
+     info->arch = extensions::api::runtime::PlatformArch::kRiscv64;
++  } else if (arch == "loongarch64") {
 +    info->arch = extensions::api::runtime::PlatformArch::kLoongarch64;
-   } else {
-     NOTREACHED();
-   }
-@@ -361,6 +363,8 @@ bool ChromeRuntimeAPIDelegate::GetPlatfo
-     info->nacl_arch = extensions::api::runtime::PlatformNaclArch::kMips;
-   } else if (strcmp(nacl_arch, "mips64") == 0) {
-     info->nacl_arch = extensions::api::runtime::PlatformNaclArch::kMips64;
-+  } else if (strcmp(nacl_arch, "loongarch64") == 0) {
-+    info->nacl_arch = extensions::api::runtime::PlatformNaclArch::kLoongarch64;
    } else {
      NOTREACHED();
    }
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/embedder_support/user_agent_utils.cc b/components/embedder_support/user_agent_utils.cc
 --- a/components/embedder_support/user_agent_utils.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/embedder_support/user_agent_utils.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -757,6 +757,8 @@ std::string GetCpuArchitecture() {
+@@ -805,6 +805,8 @@ std::string GetCpuArchitecture() {
                cpu_info.substr(2, 2) == "86") ||
               base::StartsWith(cpu_info, "x86")) {
      return "x86";
@@ -58,7 +71,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/metrics/debug/metrics_internals_utils.cc b/components/metrics/debug/metrics_internals_utils.cc
 --- a/components/metrics/debug/metrics_internals_utils.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/metrics/debug/metrics_internals_utils.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -72,6 +72,8 @@ std::string CpuArchitectureToString(
+@@ -73,6 +73,8 @@ std::string CpuArchitectureToString(
        return "arm32";
      case variations::Study::TRANSLATED_X86_64:
        return "translated_x86_64";
@@ -70,7 +83,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/variations/proto/study.proto b/components/variations/proto/study.proto
 --- a/components/variations/proto/study.proto	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/variations/proto/study.proto	2000-01-01 00:00:00.000000000 +0800
-@@ -262,6 +262,8 @@ message Study {
+@@ -293,6 +293,8 @@ message Study {
      // A Mac-only value, indicating an x86-64 binary running on an arm64 host
      // via "Rosetta 2" binary translation.
      TRANSLATED_X86_64 = 4;
@@ -79,28 +92,28 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
    }
  
    // Enum to pass as optional bool.
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/variations/service/variations_field_trial_creator_base.cc b/components/variations/service/variations_field_trial_creator_base.cc
---- a/components/variations/service/variations_field_trial_creator_base.cc	2000-01-01 00:00:00.000000000 +0800
-+++ b/components/variations/service/variations_field_trial_creator_base.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -114,6 +114,9 @@ Study::CpuArchitecture GetCurrentCpuArch
-   if (process_arch == "ARM") {
-     return Study::ARM32;
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/variations/service/variations_field_trial_creator.cc b/components/variations/service/variations_field_trial_creator.cc
+--- a/components/variations/service/variations_field_trial_creator.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/components/variations/service/variations_field_trial_creator.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -104,6 +104,9 @@ Study::CpuArchitecture GetCurrentCpuArch
+   if (process_arch == "x86") {
+     return Study::X86_32;
    }
 +  if (process_arch == "LOONGARCH_64") {
 +    return Study::LOONGARCH64;
 +  }
-   if (process_arch == "x86") {
-     return Study::X86_32;
-   }
+   if (process_arch == "x86_64") {
+     std::string os_arch = base::SysInfo::OperatingSystemArchitecture();
+     if (base::StartsWith(os_arch, "arm",
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/extensions/common/api/runtime.json b/extensions/common/api/runtime.json
 --- a/extensions/common/api/runtime.json	2000-01-01 00:00:00.000000000 +0800
 +++ b/extensions/common/api/runtime.json	2000-01-01 00:00:00.000000000 +0800
 @@ -98,7 +98,8 @@
-             {"name": "x86-32", "description": "Specifies the processer architecture as x86-32."},
              {"name": "x86-64", "description": "Specifies the processer architecture as x86-64."},
              {"name": "mips", "description": "Specifies the processer architecture as mips."},
--            {"name": "mips64", "description": "Specifies the processer architecture as mips64."}
-+            {"name": "mips64", "description": "Specifies the processer architecture as mips64."},
+             {"name": "mips64", "description": "Specifies the processer architecture as mips64."},
+-            {"name": "riscv64", "description": "Specifies the processer architecture as riscv64."}
++            {"name": "riscv64", "description": "Specifies the processer architecture as riscv64."},
 +            {"name": "loongarch64", "description": "Specifies the processer architecture as loongarch64."}
           ],
          "description": "The machine's processor architecture."
