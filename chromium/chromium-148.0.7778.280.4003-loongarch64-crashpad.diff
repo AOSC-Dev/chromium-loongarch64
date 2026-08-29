@@ -401,7 +401,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  
  #include "base/logging.h"
  #include "snapshot/linux/capture_memory_delegate_linux.h"
-@@ -367,6 +368,78 @@ bool ExceptionSnapshotLinux::ReadContext
+@@ -367,6 +368,131 @@ bool ExceptionSnapshotLinux::ReadContext
    return internal::ReadContext(reader, context_address, context_.riscv64);
  }
  
@@ -446,7 +446,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +    }
 +    reserved_address += sizeof(head);
 +    switch (head.magic) {
-+      case FPU_CTX_MAGIC:
++      case FPU_CTX_MAGIC: {
 +        if (head.size != sizeof(struct fpu_context) + sizeof(head)) {
 +          LOG(ERROR) << "unexpected fpu context size " << head.size;
 +          return false;
@@ -458,6 +458,59 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +        }
 +        InitializeCPUContextLOONG64_OnlyFPU(fpucontext, dest_context);
 +        return true;
++      }
++      case LSX_CTX_MAGIC: {
++        // On LSX-capable CPUs the kernel saves an LSX context instead of a
++        // plain FPU context; the FP registers are embedded in its even
++        // 64-bit lanes, followed by fcc and fcsr.
++        if (head.size < sizeof(struct lsx_context) + sizeof(head)) {
++          LOG(ERROR) << "unexpected lsx context size " << head.size;
++          return false;
++        }
++        struct lsx_context lsxcontext;
++        if (!range.Read(reserved_address, sizeof(lsxcontext), &lsxcontext)) {
++          LOG(ERROR) << "Couldn't read lsx context " << head.size;
++          return false;
++        }
++        FloatContext::f64_t fpucontext;
++        for (int i = 0; i < 32; ++i) {
++          fpucontext.fpregs[i] = lsxcontext.regs[2 * i];
++        }
++        fpucontext.fcc = lsxcontext.fcc;
++        fpucontext.fcsr = lsxcontext.fcsr;
++        InitializeCPUContextLOONG64_OnlyFPU(fpucontext, dest_context);
++        return true;
++      }
++      case LASX_CTX_MAGIC: {
++        // Same as LSX, but each FP register occupies the lowest of four
++        // 64-bit lanes.
++        if (head.size < sizeof(struct lasx_context) + sizeof(head)) {
++          LOG(ERROR) << "unexpected lasx context size " << head.size;
++          return false;
++        }
++        struct lasx_context lasxcontext;
++        if (!range.Read(reserved_address, sizeof(lasxcontext), &lasxcontext)) {
++          LOG(ERROR) << "Couldn't read lasx context " << head.size;
++          return false;
++        }
++        FloatContext::f64_t fpucontext;
++        for (int i = 0; i < 32; ++i) {
++          fpucontext.fpregs[i] = lasxcontext.regs[4 * i];
++        }
++        fpucontext.fcc = lasxcontext.fcc;
++        fpucontext.fcsr = lasxcontext.fcsr;
++        InitializeCPUContextLOONG64_OnlyFPU(fpucontext, dest_context);
++        return true;
++      }
++      case LBT_CTX_MAGIC:
++        // LBT state is not recorded in CPUContextLOONG64; skip to the next
++        // extended context block.
++        if (head.size < sizeof(head) + sizeof(struct lbt_context)) {
++          LOG(ERROR) << "unexpected lbt context size " << head.size;
++          return false;
++        }
++        reserved_address += head.size - sizeof(head);
++        break;
 +      case 0:
 +        return true;
 +      default:
@@ -480,7 +533,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  #endif  // ARCH_CPU_X86_FAMILY
  
  bool ExceptionSnapshotLinux::Initialize(
-@@ -397,7 +470,7 @@ bool ExceptionSnapshotLinux::Initialize(
+@@ -397,7 +523,7 @@ bool ExceptionSnapshotLinux::Initialize(
        return false;
      }
    } else {
