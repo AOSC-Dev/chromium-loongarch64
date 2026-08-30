@@ -28,8 +28,9 @@
 
 # Regenerating XNNPACK’s BUILD.gn
 
-1. Start a container with Bazel 8.5.0, e.g.
-   `docker run -it --rm -v $(pwd):/src gcr.io/bazel-public/bazel:8.5.0 bash`
+1. Start a container with Bazel 8.5.0 on an x86_64 host (the image is amd64-only
+   and does not run reliably under qemu-user on LoongArch), e.g.
+   `docker run -it --rm --entrypoint bash -v $(pwd):/src gcr.io/bazel-public/bazel:8.5.0`
 
 2. Inside the container
 
@@ -38,7 +39,7 @@
    BAZEL_PATH_OVERRIDE=/usr/local/bin/bazel python3 generate_build_gn.py
    ```
 
-3. If `git cl format` fails, format the file manually:
+3. `git cl format` is expected to fail in the container; format the file manually:
 
    `../../buildtools/linux64/gn format BUILD.gn`
 
