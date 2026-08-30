@@ -1,13 +1,16 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/xnnpack/BUILD.gn b/third_party/xnnpack/BUILD.gn
 --- a/third_party/xnnpack/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/xnnpack/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -1992,6 +1992,268 @@ if (current_cpu == "x64" || current_cpu
+@@ -2112,6 +2112,282 @@ if (current_cpu == "x64" || current_cpu
        ":xx-transposev_riscv64_standalone",
      ]
    }
 +} else if (current_cpu == "loong64") {
 +  if (build_with_chromium) {
 +    xnnpack_deps = [
++      ":bf16-f32-vcvt_loong64",
++      ":bf16-qs8-vcvt_loong64",
++      ":bf16-rminmax_loong64",
 +      ":configs_loong64",
 +      ":enums_loong64",
 +      ":f16-f32-vcvt_loong64",
@@ -19,9 +22,13 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      ":f16-vcos_loong64",
 +      ":f16-vexp_loong64",
 +      ":f16-vgelu_loong64",
++      ":f16-vlog_loong64",
 +      ":f16-vsin_loong64",
++      ":f16-vsqrt_loong64",
++      ":f16-vtanh_loong64",
 +      ":f32-argmaxpool_loong64",
 +      ":f32-avgpool_loong64",
++      ":f32-bf16-vcvt_loong64",
 +      ":f32-conv-hwc2chw_loong64",
 +      ":f32-dwconv2d-chw_loong64",
 +      ":f32-dwconv_loong64",
@@ -139,6 +146,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +
 +  if (build_with_internal_optimization_guide) {
 +    xnnpack_standalone_deps = [
++      ":bf16-f32-vcvt_loong64_standalone",
++      ":bf16-qs8-vcvt_loong64_standalone",
++      ":bf16-rminmax_loong64_standalone",
 +      ":configs_loong64_standalone",
 +      ":enums_loong64_standalone",
 +      ":f16-f32-vcvt_loong64_standalone",
@@ -150,9 +160,13 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      ":f16-vcos_loong64_standalone",
 +      ":f16-vexp_loong64_standalone",
 +      ":f16-vgelu_loong64_standalone",
++      ":f16-vlog_loong64_standalone",
 +      ":f16-vsin_loong64_standalone",
++      ":f16-vsqrt_loong64_standalone",
++      ":f16-vtanh_loong64_standalone",
 +      ":f32-argmaxpool_loong64_standalone",
 +      ":f32-avgpool_loong64_standalone",
++      ":f32-bf16-vcvt_loong64_standalone",
 +      ":f32-conv-hwc2chw_loong64_standalone",
 +      ":f32-dwconv2d-chw_loong64_standalone",
 +      ":f32-dwconv_loong64_standalone",
@@ -270,7 +284,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  } else {
    xnnpack_deps = []
    if (build_with_internal_optimization_guide) {
-@@ -61787,6 +62049,7342 @@ if (current_cpu == "riscv64") {
+@@ -65520,6 +65796,7725 @@ if (current_cpu == "riscv64") {
        cflags = []
  
        sources = [
@@ -300,6 +314,175 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +}
 +
 +if (current_cpu == "loong64") {
++  if (build_with_chromium) {
++    source_set("bf16-f32-vcvt_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/bf16-f32-vcvt/gen/bf16-f32-vcvt-scalar-u2.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("bf16-f32-vcvt_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/bf16-f32-vcvt/gen/bf16-f32-vcvt-scalar-u2.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
++    source_set("bf16-qs8-vcvt_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/bf16-qs8-vcvt/gen/bf16-qs8-vcvt-scalar-imagic-u4.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("bf16-qs8-vcvt_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/bf16-qs8-vcvt/gen/bf16-qs8-vcvt-scalar-imagic-u4.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
++    source_set("bf16-rminmax_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/bf16-rminmax/gen/bf16-rmax-scalar-u2-acc2.c",
++        "src/src/bf16-rminmax/gen/bf16-rmin-scalar-u2-acc2.c",
++        "src/src/bf16-rminmax/gen/bf16-rminmax-scalar-u2-acc2.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("bf16-rminmax_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/bf16-rminmax/gen/bf16-rmax-scalar-u2-acc2.c",
++        "src/src/bf16-rminmax/gen/bf16-rmin-scalar-u2-acc2.c",
++        "src/src/bf16-rminmax/gen/bf16-rminmax-scalar-u2-acc2.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
 +  if (build_with_chromium) {
 +    source_set("configs_loong64") {
 +      cflags = []
@@ -966,6 +1149,61 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +  }
 +
 +  if (build_with_chromium) {
++    source_set("f16-vlog_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f16-vlog/gen/f16-vlog-scalar-rational-3-3-div.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("f16-vlog_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f16-vlog/gen/f16-vlog-scalar-rational-3-3-div.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
 +    source_set("f16-vsin_loong64") {
 +      cflags = []
 +
@@ -998,6 +1236,116 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      sources = [
 +        "src/include/xnnpack.h",
 +        "src/src/f16-vsin/gen/f16-vsin-scalar-rational-3-2-div.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
++    source_set("f16-vsqrt_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f16-vsqrt/gen/f16-vsqrt-scalar-sqrt.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("f16-vsqrt_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f16-vsqrt/gen/f16-vsqrt-scalar-sqrt.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
++    source_set("f16-vtanh_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f16-vtanh/gen/f16-vtanh-scalar-expm1minus-rr1-p3h2ts-div.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("f16-vtanh_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f16-vtanh/gen/f16-vtanh-scalar-expm1minus-rr1-p3h2ts-div.c",
 +      ]
 +
 +      configs -= [ "//build/config/compiler:chromium_code" ]
@@ -1108,6 +1456,61 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      sources = [
 +        "src/include/xnnpack.h",
 +        "src/src/f32-avgpool/gen/f32-avgpool-9p-minmax-scalar-u1.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
++    source_set("f32-bf16-vcvt_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f32-bf16-vcvt/gen/f32-bf16-vcvt-scalar-u2.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("f32-bf16-vcvt_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f32-bf16-vcvt/gen/f32-bf16-vcvt-scalar-u2.c",
 +      ]
 +
 +      configs -= [ "//build/config/compiler:chromium_code" ]
@@ -1389,12 +1792,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      sources = [
 +        "src/include/xnnpack.h",
 +        "src/src/f32-gemm/gen/f32-gemm-1x4-minmax-scalar.c",
-+        "src/src/f32-gemm/gen/f32-gemm-1x4-relu-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-1x4-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x2-minmax-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x2-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x4-minmax-scalar.c",
-+        "src/src/f32-gemm/gen/f32-gemm-4x4-relu-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x4-scalar.c",
 +      ]
 +
@@ -1422,12 +1823,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      sources = [
 +        "src/include/xnnpack.h",
 +        "src/src/f32-gemm/gen/f32-gemm-1x4-minmax-scalar.c",
-+        "src/src/f32-gemm/gen/f32-gemm-1x4-relu-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-1x4-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x2-minmax-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x2-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x4-minmax-scalar.c",
-+        "src/src/f32-gemm/gen/f32-gemm-4x4-relu-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x4-scalar.c",
 +      ]
 +
@@ -1568,12 +1967,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      sources = [
 +        "src/include/xnnpack.h",
 +        "src/src/f32-igemm/gen/f32-igemm-1x4-minmax-scalar.c",
-+        "src/src/f32-igemm/gen/f32-igemm-1x4-relu-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-1x4-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x2-minmax-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x2-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x4-minmax-scalar.c",
-+        "src/src/f32-igemm/gen/f32-igemm-4x4-relu-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x4-scalar.c",
 +      ]
 +
@@ -1601,12 +1998,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      sources = [
 +        "src/include/xnnpack.h",
 +        "src/src/f32-igemm/gen/f32-igemm-1x4-minmax-scalar.c",
-+        "src/src/f32-igemm/gen/f32-igemm-1x4-relu-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-1x4-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x2-minmax-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x2-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x4-minmax-scalar.c",
-+        "src/src/f32-igemm/gen/f32-igemm-4x4-relu-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x4-scalar.c",
 +      ]
 +
@@ -6296,6 +6691,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +        "src/src/subgraph/max-pooling-2d.c",
 +        "src/src/subgraph/pack-lh.c",
 +        "src/src/subgraph/reshape-helpers.c",
++        "src/src/subgraph/rewrites/fp16_to_fp32.cc",
 +        "src/src/subgraph/rope.c",
 +        "src/src/subgraph/softmax.c",
 +        "src/src/subgraph/space-to-depth-2d.c",
@@ -6350,6 +6746,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +        "src/src/subgraph/max-pooling-2d.c",
 +        "src/src/subgraph/pack-lh.c",
 +        "src/src/subgraph/reshape-helpers.c",
++        "src/src/subgraph/rewrites/fp16_to_fp32.cc",
 +        "src/src/subgraph/rope.c",
 +        "src/src/subgraph/softmax.c",
 +        "src/src/subgraph/space-to-depth-2d.c",
@@ -7664,8 +8061,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/xnnpack/src/src/xnnpack/common.h b/third_party/xnnpack/src/src/xnnpack/common.h
 --- a/third_party/xnnpack/src/src/xnnpack/common.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/xnnpack/src/src/xnnpack/common.h	2000-01-01 00:00:00.000000000 +0800
-@@ -89,6 +89,12 @@
- #define XNN_ARCH_WASMRELAXEDSIMD 0
+@@ -100,6 +100,12 @@
+ #define XNN_ARCH_WASMRELAXEDSIMDFP16 0
  #endif
  
 +#if defined(__loongarch__)
