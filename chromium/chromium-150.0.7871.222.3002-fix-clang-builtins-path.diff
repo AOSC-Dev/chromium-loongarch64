@@ -1,7 +1,7 @@
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/clang/BUILD.gn b/build/config/clang/BUILD.gn
 --- a/build/config/clang/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/clang/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -185,24 +185,47 @@ template("clang_lib") {
+@@ -188,24 +188,47 @@ template("clang_lib") {
        } else if (is_apple) {
          _dir = "darwin"
        } else if (is_linux || is_chromeos) {
@@ -69,7 +69,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/clang/clang.gni b/build/config/clang/clang.gni
 --- a/build/config/clang/clang.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/clang/clang.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -77,6 +77,10 @@ declare_args() {
+@@ -80,6 +80,10 @@ declare_args() {
  
    clang_base_path = default_clang_base_path
  
@@ -77,6 +77,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
 +  # as lib/<os>/libclang_rt.<name>-<arch>.a instead of per-target dirs.
 +  clang_use_per_target_runtime_dir = true
 +
-   # Specifies whether or not bitcode should be embedded during compilation.
-   # This is used for creating a MLGO corpus from Chromium in the non-ThinLTO case.
+   # Specifies whether or not bitcode should be embedded during compilation. This
+   # is used for creating a MLGO corpus from Chromium in the non-ThinLTO case.
    clang_embed_bitcode = false
