@@ -1,0 +1,13 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/qt6-webengine/exclude -N -u -r a/qtwebengine/src/3rdparty/chromium/v8/src/codegen/loong64/assembler-loong64.h b/qtwebengine/src/3rdparty/chromium/v8/src/codegen/loong64/assembler-loong64.h
+--- a/qtwebengine/src/3rdparty/chromium/v8/src/codegen/loong64/assembler-loong64.h	2026-08-11 20:42:19.000000000 +0800
++++ b/qtwebengine/src/3rdparty/chromium/v8/src/codegen/loong64/assembler-loong64.h	2026-09-25 22:06:03.890960845 +0800
+@@ -932,9 +932,6 @@ class V8_EXPORT_PRIVATE Assembler : publ
+   void set_pc_for_safepoint() { pc_for_safepoint_ = pc_; }
+ 
+  private:
+-  // Avoid overflows for displacements etc.
+-  static const int kMaximalBufferSize = 512 * MB;
+-
+   // Buffer size and constant pool distance are checked together at regular
+   // intervals of kBufferCheckInterval emitted bytes.
+   static constexpr int kBufferCheckInterval = 1 * KB / 2;
