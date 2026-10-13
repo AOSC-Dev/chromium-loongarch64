@@ -13,17 +13,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
 --- a/build/config/compiler/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/compiler/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -31,6 +31,9 @@ if (current_cpu == "mipsel" || current_c
-     current_cpu == "mips" || current_cpu == "mips64") {
-   import("//build/config/mips.gni")
- }
-+if (current_cpu == "loong64") {
-+  import("//build/config/loongarch64.gni")
-+}
- if (is_mac) {
-   import("//build/config/apple/symbols.gni")
- }
-@@ -627,8 +630,8 @@ config("compiler") {
+@@ -614,8 +614,8 @@ config("compiler") {
  
      # The performance improvement does not seem worth the risk. See
      # https://crbug.com/484082200 for background and https://crrev.com/c/7593035
@@ -34,66 +24,30 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
        cflags += [ "-fno-lifetime-dse" ]
      }
  
-@@ -1645,6 +1648,10 @@ config("compiler_cpu_abi") {
-         "-mabi=lp64d",
-         "-mcmodel=medium",
-       ]
-+      if (loongarch64_use_lsx) {
-+        cflags += [ "-march=la64v1.0" ]
-+        ldflags += [ "-march=la64v1.0" ]
-+      }
-     } else if (current_cpu == "s390x") {
-       if (is_clang) {
-         cflags += [ "--target=s390x-unknown-linux-gnu" ]
-@@ -1901,42 +1908,18 @@ config("clang_warning_suppression") {
- #
- # See also: https://crbug.com/40891132#comment10
- config("sanitize_c_array_bounds") {
--  if (!is_ubsan && is_clang && !(is_asan && target_cpu == "x86")) {
--    cflags = [
--      "-fsanitize=array-bounds",
--      "-fsanitize-trap=array-bounds",
--
--      # Some code users feature detection to determine if UBSAN (or any
--      # sanitizer) is enabled, they then do expensive debug like operations. We
--      # want to suppress this behaviour since we want to keep performance costs
--      # as low as possible while having these checks.
--      "-fsanitize-ignore-for-ubsan-feature=array-bounds",
--
--      # Because we've enabled array-bounds sanitizing we also want to suppress
--      # the related warning about "unsafe-buffer-usage-in-static-sized-array",
--      # since we know that the array bounds sanitizing will catch any out-of-
--      # bounds accesses.
--      "-Wno-unsafe-buffer-usage-in-static-sized-array",
--    ]
--  }
-+  # Disabled for LoongArch64 native LLVM builds. Without Chromium's patched
-+  # -fsanitize-ignore-for-ubsan-feature flag, trap-only UBSan features make V8
-+  # believe a full sanitizer runtime is linked and break mksnapshot.
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/compiler_cpu_abi.gn b/build/config/compiler_cpu_abi.gn
+--- a/build/config/compiler_cpu_abi.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/build/config/compiler_cpu_abi.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -12,6 +12,9 @@ if (current_cpu == "mipsel" || current_c
+     current_cpu == "mips" || current_cpu == "mips64") {
+   import("//build/config/mips.gni")
  }
++if (current_cpu == "loong64") {
++  import("//build/config/loongarch64.gni")
++}
  
- # Enable UBSan subset to ensure we always hit `return` statement in non-void
- # functions (https://crbug.com/489565636). This is equivalent to inserting
- # `NOTREACHED()` at the end of such functions.
- config("sanitize_return") {
--  if (!is_ubsan && is_clang) {
--    cflags = [
--      "-fsanitize=return",
--      "-fsanitize-trap=return",
--
--      # Some code users feature detection to determine if UBSAN (or any
--      # sanitizer) is enabled, they then do expensive debug like operations. We
--      # want to suppress this behaviour since we want to keep performance costs
--      # as low as possible while having these checks.
--      "-fsanitize-ignore-for-ubsan-feature=return",
--    ]
--  }
-+  # Disabled for LoongArch64 native LLVM builds. Without Chromium's patched
-+  # -fsanitize-ignore-for-ubsan-feature flag, trap-only UBSan features make V8
-+  # believe a full sanitizer runtime is linked and break mksnapshot.
- }
- 
- config("rustc_revision") {
+ if (target_os == "chromeos") {
+   declare_args() {
+@@ -355,6 +358,10 @@ if ((is_posix && !is_apple) || is_fuchsi
+       "-mabi=lp64d",
+       "-mcmodel=medium",
+     ]
++    if (loongarch64_use_lsx) {
++      cpu_abi_cflags += [ "-march=la64v1.0" ]
++      cpu_abi_ldflags += [ "-march=la64v1.0" ]
++    }
+   } else if (current_cpu == "s390x") {
+     if (is_clang && current_os != "zos") {
+       cpu_abi_cflags += [ "--target=s390x-unknown-linux-gnu" ]
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/loongarch64.gni b/build/config/loongarch64.gni
 --- a/build/config/loongarch64.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/loongarch64.gni	2000-01-01 00:00:00.000000000 +0800
@@ -117,10 +71,35 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
      loongarch64_use_lasx = false
    }
  }
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/sanitizers/sanitizers.gni b/build/config/sanitizers/sanitizers.gni
+--- a/build/config/sanitizers/sanitizers.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/build/config/sanitizers/sanitizers.gni	2000-01-01 00:00:00.000000000 +0800
+@@ -6,6 +6,7 @@ import("//build/config/cast.gni")
+ import("//build/config/chrome_build.gni")
+ import("//build/config/chromeos/args.gni")
+ import("//build/config/chromeos/ui_mode.gni")
++import("//build/config/clang/clang.gni")
+ import("//build/config/profiling/profiling.gni")
+ import("//build/toolchain/toolchain.gni")
+ 
+@@ -531,7 +532,12 @@ template("ubsan_hardening") {
+       _condition = invoker.condition
+     }
+ 
+-    if (_condition && !is_ubsan && is_clang) {
++    # The trap-only UBSan flags below rely on Chromium's patched clang flag
++    # -fsanitize-ignore-for-ubsan-feature to keep __has_feature() off. Native
++    # LLVM builds lack that flag and would make V8 believe a full sanitizer
++    # runtime is linked, which breaks mksnapshot.
++    if (_condition && !is_ubsan && is_clang &&
++        clang_base_path == default_clang_base_path) {
+       cflags = [
+         "-fsanitize=${invoker.sanitizer}",
+         "-fsanitize-trap=${invoker.sanitizer}",
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/extensions/api/runtime/chrome_runtime_api_delegate.cc b/chrome/browser/extensions/api/runtime/chrome_runtime_api_delegate.cc
 --- a/chrome/browser/extensions/api/runtime/chrome_runtime_api_delegate.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/chrome/browser/extensions/api/runtime/chrome_runtime_api_delegate.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -347,6 +347,8 @@ extensions::api::runtime::PlatformNaclAr
+@@ -349,6 +349,8 @@ extensions::api::runtime::PlatformNaclAr
    return extensions::api::runtime::PlatformNaclArch::kMips;
  #elif defined(ARCH_CPU_MIPS64EL)
    return extensions::api::runtime::PlatformNaclArch::kMips64;
@@ -129,7 +108,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
  #else
    // NOTE: Other architectures did not support extensions at the time
    // of NaCl removal.
-@@ -388,6 +390,8 @@ bool ChromeRuntimeAPIDelegate::GetPlatfo
+@@ -390,6 +392,8 @@ bool ChromeRuntimeAPIDelegate::GetPlatfo
      info->arch = extensions::api::runtime::PlatformArch::kMips64;
    } else if (arch == "riscv64") {
      info->arch = extensions::api::runtime::PlatformArch::kRiscv64;
@@ -141,7 +120,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/embedder_support/user_agent_utils.cc b/components/embedder_support/user_agent_utils.cc
 --- a/components/embedder_support/user_agent_utils.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/embedder_support/user_agent_utils.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -744,6 +744,8 @@ std::string GetCpuArchitecture() {
+@@ -743,6 +743,8 @@ std::string GetCpuArchitecture() {
                cpu_info.substr(2, 2) == "86") ||
               base::StartsWith(cpu_info, "x86")) {
      return "x86";
@@ -153,7 +132,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/metrics/debug/metrics_internals_utils.cc b/components/metrics/debug/metrics_internals_utils.cc
 --- a/components/metrics/debug/metrics_internals_utils.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/metrics/debug/metrics_internals_utils.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -76,6 +76,8 @@ std::string CpuArchitectureToString(
+@@ -74,6 +74,8 @@ std::string CpuArchitectureToString(
        return "arm32";
      case variations::Study::TRANSLATED_X86_64:
        return "translated_x86_64";
@@ -165,7 +144,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/variations/proto/study.proto b/components/variations/proto/study.proto
 --- a/components/variations/proto/study.proto	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/variations/proto/study.proto	2000-01-01 00:00:00.000000000 +0800
-@@ -294,6 +294,8 @@ message Study {
+@@ -297,6 +297,8 @@ message Study {
      // A Mac-only value, indicating an x86-64 binary running on an arm64 host
      // via "Rosetta 2" binary translation.
      TRANSLATED_X86_64 = 4;
@@ -177,7 +156,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/variations/service/variations_field_trial_creator.cc b/components/variations/service/variations_field_trial_creator.cc
 --- a/components/variations/service/variations_field_trial_creator.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/variations/service/variations_field_trial_creator.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -101,6 +101,9 @@ Study::CpuArchitecture GetCurrentCpuArch
+@@ -107,6 +107,9 @@ Study::CpuArchitecture GetCurrentCpuArch
    if (process_arch == "x86") {
      return Study::X86_32;
    }
@@ -200,7 +179,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ex
           ],
          "description": "The machine's processor architecture."
        },
-@@ -111,7 +112,8 @@
+@@ -112,7 +113,8 @@
            {"name": "x86-32", "description": "Specifies the native client architecture as x86-32."},
            {"name": "x86-64", "description": "Specifies the native client architecture as x86-64."},
            {"name": "mips", "description": "Specifies the native client architecture as mips."},
@@ -236,7 +215,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/core/BUILD.gn b/third_party/blink/renderer/core/BUILD.gn
 --- a/third_party/blink/renderer/core/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/blink/renderer/core/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -865,9 +865,8 @@ code_generator("make_core_generated_atru
+@@ -864,9 +864,8 @@ code_generator("make_core_generated_atru
    ]
    other_args = [
      "--gperf",
@@ -247,7 +226,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  }
  
  code_generator("make_core_generated_media_features") {
-@@ -925,9 +924,8 @@ code_generator("make_core_generated_css_
+@@ -924,9 +923,8 @@ code_generator("make_core_generated_css_
    ]
    other_args = [
      "--gperf",
@@ -503,7 +482,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +   defined(__loongarch_lp64)
  
    struct kernel_stat st;
-   if (sys_fstat(fd, &st) == -1 || st.st_size < 0) {
+   __builtin_memset(&st, 0, sizeof(st));
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/libvpx/source/config/linux/loongarch/vpx_config.h b/third_party/libvpx/source/config/linux/loongarch/vpx_config.h
 --- a/third_party/libvpx/source/config/linux/loongarch/vpx_config.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/libvpx/source/config/linux/loongarch/vpx_config.h	2000-01-01 00:00:00.000000000 +0800

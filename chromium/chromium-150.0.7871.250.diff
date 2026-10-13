@@ -13,7 +13,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ba
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/clang/BUILD.gn b/build/config/clang/BUILD.gn
 --- a/build/config/clang/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/clang/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -185,24 +185,47 @@ template("clang_lib") {
+@@ -188,24 +188,47 @@ template("clang_lib") {
        } else if (is_apple) {
          _dir = "darwin"
        } else if (is_linux || is_chromeos) {
@@ -81,7 +81,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/clang/clang.gni b/build/config/clang/clang.gni
 --- a/build/config/clang/clang.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/clang/clang.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -77,6 +77,10 @@ declare_args() {
+@@ -80,6 +80,10 @@ declare_args() {
  
    clang_base_path = default_clang_base_path
  
@@ -89,23 +89,13 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
 +  # as lib/<os>/libclang_rt.<name>-<arch>.a instead of per-target dirs.
 +  clang_use_per_target_runtime_dir = true
 +
-   # Specifies whether or not bitcode should be embedded during compilation.
-   # This is used for creating a MLGO corpus from Chromium in the non-ThinLTO case.
+   # Specifies whether or not bitcode should be embedded during compilation. This
+   # is used for creating a MLGO corpus from Chromium in the non-ThinLTO case.
    clang_embed_bitcode = false
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
 --- a/build/config/compiler/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/compiler/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -31,6 +31,9 @@ if (current_cpu == "mipsel" || current_c
-     current_cpu == "mips" || current_cpu == "mips64") {
-   import("//build/config/mips.gni")
- }
-+if (current_cpu == "loong64") {
-+  import("//build/config/loongarch64.gni")
-+}
- if (is_mac) {
-   import("//build/config/apple/symbols.gni")
- }
-@@ -627,8 +630,8 @@ config("compiler") {
+@@ -614,8 +614,8 @@ config("compiler") {
  
      # The performance improvement does not seem worth the risk. See
      # https://crbug.com/484082200 for background and https://crrev.com/c/7593035
@@ -116,66 +106,30 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
        cflags += [ "-fno-lifetime-dse" ]
      }
  
-@@ -1645,6 +1648,10 @@ config("compiler_cpu_abi") {
-         "-mabi=lp64d",
-         "-mcmodel=medium",
-       ]
-+      if (loongarch64_use_lsx) {
-+        cflags += [ "-march=la64v1.0" ]
-+        ldflags += [ "-march=la64v1.0" ]
-+      }
-     } else if (current_cpu == "s390x") {
-       if (is_clang) {
-         cflags += [ "--target=s390x-unknown-linux-gnu" ]
-@@ -1901,42 +1908,18 @@ config("clang_warning_suppression") {
- #
- # See also: https://crbug.com/40891132#comment10
- config("sanitize_c_array_bounds") {
--  if (!is_ubsan && is_clang && !(is_asan && target_cpu == "x86")) {
--    cflags = [
--      "-fsanitize=array-bounds",
--      "-fsanitize-trap=array-bounds",
--
--      # Some code users feature detection to determine if UBSAN (or any
--      # sanitizer) is enabled, they then do expensive debug like operations. We
--      # want to suppress this behaviour since we want to keep performance costs
--      # as low as possible while having these checks.
--      "-fsanitize-ignore-for-ubsan-feature=array-bounds",
--
--      # Because we've enabled array-bounds sanitizing we also want to suppress
--      # the related warning about "unsafe-buffer-usage-in-static-sized-array",
--      # since we know that the array bounds sanitizing will catch any out-of-
--      # bounds accesses.
--      "-Wno-unsafe-buffer-usage-in-static-sized-array",
--    ]
--  }
-+  # Disabled for LoongArch64 native LLVM builds. Without Chromium's patched
-+  # -fsanitize-ignore-for-ubsan-feature flag, trap-only UBSan features make V8
-+  # believe a full sanitizer runtime is linked and break mksnapshot.
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/compiler_cpu_abi.gn b/build/config/compiler_cpu_abi.gn
+--- a/build/config/compiler_cpu_abi.gn	2000-01-01 00:00:00.000000000 +0800
++++ b/build/config/compiler_cpu_abi.gn	2000-01-01 00:00:00.000000000 +0800
+@@ -12,6 +12,9 @@ if (current_cpu == "mipsel" || current_c
+     current_cpu == "mips" || current_cpu == "mips64") {
+   import("//build/config/mips.gni")
  }
++if (current_cpu == "loong64") {
++  import("//build/config/loongarch64.gni")
++}
  
- # Enable UBSan subset to ensure we always hit `return` statement in non-void
- # functions (https://crbug.com/489565636). This is equivalent to inserting
- # `NOTREACHED()` at the end of such functions.
- config("sanitize_return") {
--  if (!is_ubsan && is_clang) {
--    cflags = [
--      "-fsanitize=return",
--      "-fsanitize-trap=return",
--
--      # Some code users feature detection to determine if UBSAN (or any
--      # sanitizer) is enabled, they then do expensive debug like operations. We
--      # want to suppress this behaviour since we want to keep performance costs
--      # as low as possible while having these checks.
--      "-fsanitize-ignore-for-ubsan-feature=return",
--    ]
--  }
-+  # Disabled for LoongArch64 native LLVM builds. Without Chromium's patched
-+  # -fsanitize-ignore-for-ubsan-feature flag, trap-only UBSan features make V8
-+  # believe a full sanitizer runtime is linked and break mksnapshot.
- }
- 
- config("rustc_revision") {
+ if (target_os == "chromeos") {
+   declare_args() {
+@@ -355,6 +358,10 @@ if ((is_posix && !is_apple) || is_fuchsi
+       "-mabi=lp64d",
+       "-mcmodel=medium",
+     ]
++    if (loongarch64_use_lsx) {
++      cpu_abi_cflags += [ "-march=la64v1.0" ]
++      cpu_abi_ldflags += [ "-march=la64v1.0" ]
++    }
+   } else if (current_cpu == "s390x") {
+     if (is_clang && current_os != "zos") {
+       cpu_abi_cflags += [ "--target=s390x-unknown-linux-gnu" ]
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/loongarch64.gni b/build/config/loongarch64.gni
 --- a/build/config/loongarch64.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/config/loongarch64.gni	2000-01-01 00:00:00.000000000 +0800
@@ -199,6 +153,31 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
      loongarch64_use_lasx = false
    }
  }
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/config/sanitizers/sanitizers.gni b/build/config/sanitizers/sanitizers.gni
+--- a/build/config/sanitizers/sanitizers.gni	2000-01-01 00:00:00.000000000 +0800
++++ b/build/config/sanitizers/sanitizers.gni	2000-01-01 00:00:00.000000000 +0800
+@@ -6,6 +6,7 @@ import("//build/config/cast.gni")
+ import("//build/config/chrome_build.gni")
+ import("//build/config/chromeos/args.gni")
+ import("//build/config/chromeos/ui_mode.gni")
++import("//build/config/clang/clang.gni")
+ import("//build/config/profiling/profiling.gni")
+ import("//build/toolchain/toolchain.gni")
+ 
+@@ -531,7 +532,12 @@ template("ubsan_hardening") {
+       _condition = invoker.condition
+     }
+ 
+-    if (_condition && !is_ubsan && is_clang) {
++    # The trap-only UBSan flags below rely on Chromium's patched clang flag
++    # -fsanitize-ignore-for-ubsan-feature to keep __has_feature() off. Native
++    # LLVM builds lack that flag and would make V8 believe a full sanitizer
++    # runtime is linked, which breaks mksnapshot.
++    if (_condition && !is_ubsan && is_clang &&
++        clang_base_path == default_clang_base_path) {
+       cflags = [
+         "-fsanitize=${invoker.sanitizer}",
+         "-fsanitize-trap=${invoker.sanitizer}",
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/nocompile.gni b/build/nocompile.gni
 --- a/build/nocompile.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/nocompile.gni	2000-01-01 00:00:00.000000000 +0800
@@ -220,7 +199,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/build/rust/gni_impl/rust_target.gni b/build/rust/gni_impl/rust_target.gni
 --- a/build/rust/gni_impl/rust_target.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/build/rust/gni_impl/rust_target.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -501,6 +501,9 @@ template("rust_target") {
+@@ -610,6 +610,9 @@ template("rust_target") {
        if (_rustc_metadata != "") {
          rustflags += [ "-Cmetadata=${_rustc_metadata}" ]
        }
@@ -233,7 +212,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/bu
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/chrome/browser/extensions/api/runtime/chrome_runtime_api_delegate.cc b/chrome/browser/extensions/api/runtime/chrome_runtime_api_delegate.cc
 --- a/chrome/browser/extensions/api/runtime/chrome_runtime_api_delegate.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/chrome/browser/extensions/api/runtime/chrome_runtime_api_delegate.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -347,6 +347,8 @@ extensions::api::runtime::PlatformNaclAr
+@@ -349,6 +349,8 @@ extensions::api::runtime::PlatformNaclAr
    return extensions::api::runtime::PlatformNaclArch::kMips;
  #elif defined(ARCH_CPU_MIPS64EL)
    return extensions::api::runtime::PlatformNaclArch::kMips64;
@@ -242,7 +221,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
  #else
    // NOTE: Other architectures did not support extensions at the time
    // of NaCl removal.
-@@ -388,6 +390,8 @@ bool ChromeRuntimeAPIDelegate::GetPlatfo
+@@ -390,6 +392,8 @@ bool ChromeRuntimeAPIDelegate::GetPlatfo
      info->arch = extensions::api::runtime::PlatformArch::kMips64;
    } else if (arch == "riscv64") {
      info->arch = extensions::api::runtime::PlatformArch::kRiscv64;
@@ -254,7 +233,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ch
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/embedder_support/user_agent_utils.cc b/components/embedder_support/user_agent_utils.cc
 --- a/components/embedder_support/user_agent_utils.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/embedder_support/user_agent_utils.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -744,6 +744,8 @@ std::string GetCpuArchitecture() {
+@@ -743,6 +743,8 @@ std::string GetCpuArchitecture() {
                cpu_info.substr(2, 2) == "86") ||
               base::StartsWith(cpu_info, "x86")) {
      return "x86";
@@ -287,7 +266,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/metrics/debug/metrics_internals_utils.cc b/components/metrics/debug/metrics_internals_utils.cc
 --- a/components/metrics/debug/metrics_internals_utils.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/metrics/debug/metrics_internals_utils.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -76,6 +76,8 @@ std::string CpuArchitectureToString(
+@@ -74,6 +74,8 @@ std::string CpuArchitectureToString(
        return "arm32";
      case variations::Study::TRANSLATED_X86_64:
        return "translated_x86_64";
@@ -299,7 +278,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/variations/proto/study.proto b/components/variations/proto/study.proto
 --- a/components/variations/proto/study.proto	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/variations/proto/study.proto	2000-01-01 00:00:00.000000000 +0800
-@@ -294,6 +294,8 @@ message Study {
+@@ -297,6 +297,8 @@ message Study {
      // A Mac-only value, indicating an x86-64 binary running on an arm64 host
      // via "Rosetta 2" binary translation.
      TRANSLATED_X86_64 = 4;
@@ -311,7 +290,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/co
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/components/variations/service/variations_field_trial_creator.cc b/components/variations/service/variations_field_trial_creator.cc
 --- a/components/variations/service/variations_field_trial_creator.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/components/variations/service/variations_field_trial_creator.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -101,6 +101,9 @@ Study::CpuArchitecture GetCurrentCpuArch
+@@ -107,6 +107,9 @@ Study::CpuArchitecture GetCurrentCpuArch
    if (process_arch == "x86") {
      return Study::X86_32;
    }
@@ -334,7 +313,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/ex
           ],
          "description": "The machine's processor architecture."
        },
-@@ -111,7 +112,8 @@
+@@ -112,7 +113,8 @@
            {"name": "x86-32", "description": "Specifies the native client architecture as x86-32."},
            {"name": "x86-64", "description": "Specifies the native client architecture as x86-64."},
            {"name": "mips", "description": "Specifies the native client architecture as mips."},
@@ -576,7 +555,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  // Also include asm/ptrace-abi.h since ptrace.h in older libc (for instance
  // the one in Ubuntu 16.04 LTS) is missing PTRACE_GET_THREAD_AREA.
  // asm/ptrace-abi.h doesn't exist on arm32 and PTRACE_GET_THREAD_AREA isn't
-@@ -490,8 +490,11 @@ ResultExpr RestrictPtrace() {
+@@ -484,8 +484,11 @@ ResultExpr RestrictPtrace() {
    return Switch(request)
        .Cases({
  #if !defined(__aarch64__)
@@ -589,7 +568,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
  #endif
  #if defined(__arm__)
                   PTRACE_GETVFPREGS,
-@@ -535,7 +538,7 @@ SANDBOX_EXPORT bpf_dsl::ResultExpr Restr
+@@ -529,7 +532,7 @@ SANDBOX_EXPORT bpf_dsl::ResultExpr Restr
        break;
  #endif
  #if defined(__i386__) || defined(__x86_64__) || defined(__arm__) || \
@@ -2684,7 +2663,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sandbox/policy/linux/sandbox_linux.cc b/sandbox/policy/linux/sandbox_linux.cc
 --- a/sandbox/policy/linux/sandbox_linux.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/sandbox/policy/linux/sandbox_linux.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -571,6 +571,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+@@ -572,6 +572,7 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
    const bpf_dsl::ResultExpr handle_via_broker =
        bpf_dsl::Trap(syscall_broker::BrokerClient::SIGSYS_Handler,
                      broker_process_->GetBrokerClientSignalBased());
@@ -2692,7 +2671,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/sa
    if (sysno == __NR_fstatat_default) {
      // This may be an fstatat(fd, "", stat_buf, AT_EMPTY_PATH), which should be
      // rewritten as fstat(fd, stat_buf). This should be consistent with how the
-@@ -581,6 +582,18 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
+@@ -582,6 +583,18 @@ bpf_dsl::ResultExpr SandboxLinux::Handle
      return bpf_dsl::If((flags & AT_EMPTY_PATH) == AT_EMPTY_PATH,
                         RewriteFstatatSIGSYS(BPFBasePolicy::GetFSDeniedErrno()))
          .Else(handle_via_broker);
@@ -2737,7 +2716,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/blink/renderer/core/BUILD.gn b/third_party/blink/renderer/core/BUILD.gn
 --- a/third_party/blink/renderer/core/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/blink/renderer/core/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -865,9 +865,8 @@ code_generator("make_core_generated_atru
+@@ -864,9 +864,8 @@ code_generator("make_core_generated_atru
    ]
    other_args = [
      "--gperf",
@@ -2748,7 +2727,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  }
  
  code_generator("make_core_generated_media_features") {
-@@ -925,9 +924,8 @@ code_generator("make_core_generated_css_
+@@ -924,9 +923,8 @@ code_generator("make_core_generated_css_
    ]
    other_args = [
      "--gperf",
@@ -3004,7 +2983,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +   defined(__loongarch_lp64)
  
    struct kernel_stat st;
-   if (sys_fstat(fd, &st) == -1 || st.st_size < 0) {
+   __builtin_memset(&st, 0, sizeof(st));
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/crashpad/crashpad/minidump/minidump_context.h b/third_party/crashpad/crashpad/minidump/minidump_context.h
 --- a/third_party/crashpad/crashpad/minidump/minidump_context.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/crashpad/crashpad/minidump/minidump_context.h	2000-01-01 00:00:00.000000000 +0800
@@ -3970,7 +3949,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h
 --- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config.h	2000-01-01 00:00:00.000000000 +0800
-@@ -0,0 +1,841 @@
+@@ -0,0 +1,844 @@
 +/* Automatically generated by configure - do not modify! */
 +#ifndef FFMPEG_CONFIG_H
 +#define FFMPEG_CONFIG_H
@@ -4250,6 +4229,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define HAVE_VALGRIND_VALGRIND_H 0 /* #define HAVE_VALGRIND_VALGRIND_H 0 -- forced to 0. See https://crbug.com/590440 */
 +#define HAVE_WINDOWS_H 0
 +#define HAVE_WINSOCK2_H 0
++#define HAVE_SPIRV_HEADERS_SPIRV_H 0
++#define HAVE_SPIRV_UNIFIED1_SPIRV_H 0
 +#define HAVE_INTRINSICS_NEON 0
 +#define HAVE_INTRINSICS_SSE2 0
 +#define HAVE_ATANF 1
@@ -4431,7 +4412,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define HAVE_GZIP 1
 +#define HAVE_IOCTL_POSIX 0
 +#define HAVE_LIBDRM_GETFB2 0
-+#define HAVE_MAKEINFO 0
 +#define HAVE_MAKEINFO_HTML 0
 +#define HAVE_OPENCL_D3D11 0
 +#define HAVE_OPENCL_DRM_ARM 0
@@ -4706,7 +4686,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_CABAC 1
 +#define CONFIG_CBS 0
 +#define CONFIG_CBS_APV 0
++#define CONFIG_CBS_APV_LAVF 0
 +#define CONFIG_CBS_AV1 0
++#define CONFIG_CBS_AV1_LAVF 0
 +#define CONFIG_CBS_H264 0
 +#define CONFIG_CBS_H265 0
 +#define CONFIG_CBS_H266 0
@@ -4815,7 +4797,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config_components.h b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config_components.h
 --- a/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config_components.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/chromium/config/Chrome/linux/loong64/config_components.h	2000-01-01 00:00:00.000000000 +0800
-@@ -0,0 +1,2308 @@
+@@ -0,0 +1,2314 @@
 +/* Automatically generated by configure - do not modify! */
 +#ifndef FFMPEG_CONFIG_COMPONENTS_H
 +#define FFMPEG_CONFIG_COMPONENTS_H
@@ -5527,6 +5509,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_PAM_ENCODER 0
 +#define CONFIG_PBM_ENCODER 0
 +#define CONFIG_PCX_ENCODER 0
++#define CONFIG_PDV_ENCODER 0
 +#define CONFIG_PFM_ENCODER 0
 +#define CONFIG_PGM_ENCODER 0
 +#define CONFIG_PGMYUV_ENCODER 0
@@ -5801,6 +5784,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_MPEG4_VIDEOTOOLBOX_HWACCEL 0
 +#define CONFIG_PRORES_VIDEOTOOLBOX_HWACCEL 0
 +#define CONFIG_PRORES_VULKAN_HWACCEL 0
++#define CONFIG_PRORES_RAW_VIDEOTOOLBOX_HWACCEL 0
 +#define CONFIG_PRORES_RAW_VULKAN_HWACCEL 0
 +#define CONFIG_VC1_D3D11VA_HWACCEL 0
 +#define CONFIG_VC1_D3D11VA2_HWACCEL 0
@@ -6344,6 +6328,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_SCALE_FILTER 0
 +#define CONFIG_VPP_AMF_FILTER 0
 +#define CONFIG_SR_AMF_FILTER 0
++#define CONFIG_FRC_AMF_FILTER 0
 +#define CONFIG_SCALE_CUDA_FILTER 0
 +#define CONFIG_SCALE_D3D11_FILTER 0
 +#define CONFIG_SCALE_D3D12_FILTER 0
@@ -6414,6 +6399,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_TONEMAP_VAAPI_FILTER 0
 +#define CONFIG_TPAD_FILTER 0
 +#define CONFIG_TRANSPOSE_FILTER 0
++#define CONFIG_TRANSPOSE_CUDA_FILTER 0
 +#define CONFIG_TRANSPOSE_NPP_FILTER 0
 +#define CONFIG_TRANSPOSE_OPENCL_FILTER 0
 +#define CONFIG_TRANSPOSE_VAAPI_FILTER 0
@@ -6426,6 +6412,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_UNTILE_FILTER 0
 +#define CONFIG_USPP_FILTER 0
 +#define CONFIG_V360_FILTER 0
++#define CONFIG_V360_VULKAN_FILTER 0
 +#define CONFIG_VAGUEDENOISER_FILTER 0
 +#define CONFIG_VARBLUR_FILTER 0
 +#define CONFIG_VECTORSCOPE_FILTER 0
@@ -7020,6 +7007,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_PCM_U16BE_MUXER 0
 +#define CONFIG_PCM_U16LE_MUXER 0
 +#define CONFIG_PCM_U8_MUXER 0
++#define CONFIG_PDV_MUXER 0
 +#define CONFIG_PSP_MUXER 0
 +#define CONFIG_RAWVIDEO_MUXER 0
 +#define CONFIG_RCWT_MUXER 0
@@ -7206,12 +7194,12 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +/* Automatically generated by version.sh, do not manually edit! */
 +#ifndef AVUTIL_FFVERSION_H
 +#define AVUTIL_FFVERSION_H
-+#define FFMPEG_VERSION "git-2026-03-16-f550b3be13"
++#define FFMPEG_VERSION "git-2026-05-18-f9a9429269"
 +#endif /* AVUTIL_FFVERSION_H */
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config.h b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config.h
 --- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config.h	2000-01-01 00:00:00.000000000 +0800
-@@ -0,0 +1,841 @@
+@@ -0,0 +1,844 @@
 +/* Automatically generated by configure - do not modify! */
 +#ifndef FFMPEG_CONFIG_H
 +#define FFMPEG_CONFIG_H
@@ -7491,6 +7479,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define HAVE_VALGRIND_VALGRIND_H 0 /* #define HAVE_VALGRIND_VALGRIND_H 0 -- forced to 0. See https://crbug.com/590440 */
 +#define HAVE_WINDOWS_H 0
 +#define HAVE_WINSOCK2_H 0
++#define HAVE_SPIRV_HEADERS_SPIRV_H 0
++#define HAVE_SPIRV_UNIFIED1_SPIRV_H 0
 +#define HAVE_INTRINSICS_NEON 0
 +#define HAVE_INTRINSICS_SSE2 0
 +#define HAVE_ATANF 1
@@ -7672,7 +7662,6 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define HAVE_GZIP 1
 +#define HAVE_IOCTL_POSIX 0
 +#define HAVE_LIBDRM_GETFB2 0
-+#define HAVE_MAKEINFO 0
 +#define HAVE_MAKEINFO_HTML 0
 +#define HAVE_OPENCL_D3D11 0
 +#define HAVE_OPENCL_DRM_ARM 0
@@ -7947,7 +7936,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_CABAC 0
 +#define CONFIG_CBS 0
 +#define CONFIG_CBS_APV 0
++#define CONFIG_CBS_APV_LAVF 0
 +#define CONFIG_CBS_AV1 0
++#define CONFIG_CBS_AV1_LAVF 0
 +#define CONFIG_CBS_H264 0
 +#define CONFIG_CBS_H265 0
 +#define CONFIG_CBS_H266 0
@@ -8056,7 +8047,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config_components.h b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config_components.h
 --- a/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config_components.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/chromium/config/Chromium/linux/loong64/config_components.h	2000-01-01 00:00:00.000000000 +0800
-@@ -0,0 +1,2308 @@
+@@ -0,0 +1,2314 @@
 +/* Automatically generated by configure - do not modify! */
 +#ifndef FFMPEG_CONFIG_COMPONENTS_H
 +#define FFMPEG_CONFIG_COMPONENTS_H
@@ -8768,6 +8759,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_PAM_ENCODER 0
 +#define CONFIG_PBM_ENCODER 0
 +#define CONFIG_PCX_ENCODER 0
++#define CONFIG_PDV_ENCODER 0
 +#define CONFIG_PFM_ENCODER 0
 +#define CONFIG_PGM_ENCODER 0
 +#define CONFIG_PGMYUV_ENCODER 0
@@ -9042,6 +9034,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_MPEG4_VIDEOTOOLBOX_HWACCEL 0
 +#define CONFIG_PRORES_VIDEOTOOLBOX_HWACCEL 0
 +#define CONFIG_PRORES_VULKAN_HWACCEL 0
++#define CONFIG_PRORES_RAW_VIDEOTOOLBOX_HWACCEL 0
 +#define CONFIG_PRORES_RAW_VULKAN_HWACCEL 0
 +#define CONFIG_VC1_D3D11VA_HWACCEL 0
 +#define CONFIG_VC1_D3D11VA2_HWACCEL 0
@@ -9585,6 +9578,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_SCALE_FILTER 0
 +#define CONFIG_VPP_AMF_FILTER 0
 +#define CONFIG_SR_AMF_FILTER 0
++#define CONFIG_FRC_AMF_FILTER 0
 +#define CONFIG_SCALE_CUDA_FILTER 0
 +#define CONFIG_SCALE_D3D11_FILTER 0
 +#define CONFIG_SCALE_D3D12_FILTER 0
@@ -9655,6 +9649,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_TONEMAP_VAAPI_FILTER 0
 +#define CONFIG_TPAD_FILTER 0
 +#define CONFIG_TRANSPOSE_FILTER 0
++#define CONFIG_TRANSPOSE_CUDA_FILTER 0
 +#define CONFIG_TRANSPOSE_NPP_FILTER 0
 +#define CONFIG_TRANSPOSE_OPENCL_FILTER 0
 +#define CONFIG_TRANSPOSE_VAAPI_FILTER 0
@@ -9667,6 +9662,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_UNTILE_FILTER 0
 +#define CONFIG_USPP_FILTER 0
 +#define CONFIG_V360_FILTER 0
++#define CONFIG_V360_VULKAN_FILTER 0
 +#define CONFIG_VAGUEDENOISER_FILTER 0
 +#define CONFIG_VARBLUR_FILTER 0
 +#define CONFIG_VECTORSCOPE_FILTER 0
@@ -10261,6 +10257,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +#define CONFIG_PCM_U16BE_MUXER 0
 +#define CONFIG_PCM_U16LE_MUXER 0
 +#define CONFIG_PCM_U8_MUXER 0
++#define CONFIG_PDV_MUXER 0
 +#define CONFIG_PSP_MUXER 0
 +#define CONFIG_RAWVIDEO_MUXER 0
 +#define CONFIG_RCWT_MUXER 0
@@ -10442,7 +10439,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +/* Automatically generated by version.sh, do not manually edit! */
 +#ifndef AVUTIL_FFVERSION_H
 +#define AVUTIL_FFVERSION_H
-+#define FFMPEG_VERSION "git-2026-03-16-f550b3be13"
++#define FFMPEG_VERSION "git-2026-05-18-f9a9429269"
 +#endif /* AVUTIL_FFVERSION_H */
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/chromium/scripts/copy_config.sh b/third_party/ffmpeg/chromium/scripts/copy_config.sh
 --- a/third_party/ffmpeg/chromium/scripts/copy_config.sh	2000-01-01 00:00:00.000000000 +0800
@@ -10459,32 +10456,26 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/ffmpeg_generated.gni b/third_party/ffmpeg/ffmpeg_generated.gni
 --- a/third_party/ffmpeg/ffmpeg_generated.gni	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/ffmpeg_generated.gni	2000-01-01 00:00:00.000000000 +0800
-@@ -34,6 +34,10 @@ ffmpeg_c_deps += [
-   "libavcodec/aarch64/sbrdsp_neon.S",
-   "libavcodec/aarch64/vorbisdsp_neon.S",
-   "libavcodec/flacdsp.c",
+@@ -71,6 +71,11 @@ ffmpeg_c_deps += [
+   "libavutil/x86/float_dsp_init.c",
+   "libavutil/x86/lls_init.c",
+   "libavutil/x86/tx_float_init.c",
 +  "libavcodec/loongarch/h264chroma.S",
 +  "libavcodec/loongarch/h264dsp.S",
 +  "libavcodec/loongarch/h264idct.S",
 +  "libavcodec/loongarch/h264qpel.S",
-   "libavcodec/mpegaudiodsp.c",
-   "libavcodec/parser.c",
-   "libavcodec/riscv/videodsp.S",
-@@ -62,6 +66,7 @@ ffmpeg_c_deps += [
-   "libavutil/fixed_dsp.c",
-   "libavutil/float_dsp.c",
-   "libavutil/imgutils.c",
 +  "libavutil/loongarch/cpu.c",
-   "libavutil/riscv/cpu.c",
-   "libavutil/riscv/float_dsp_init.c",
-   "libavutil/tx_float.c",
-@@ -424,6 +429,35 @@ if (current_cpu == "x64" || (is_win && c
+ ]
+ 
+ ffmpeg_asm_include_dirs += [
+@@ -425,6 +430,36 @@ if (current_cpu == "x64" || (is_win && c
    ]
  }
  
 +if (use_linux_config && current_cpu == "loong64") {
-+  ffmpeg_c_sources +=
-+      [ "libavutil/loongarch/autorename_libavutil_loongarch_cpu.c" ]
++  ffmpeg_c_sources += [
++    "libavutil/loongarch/autorename_libavutil_loongarch_cpu.c",
++  ]
 +}
 +
 +if (use_linux_config && current_cpu == "loong64" &&
@@ -10518,31 +10509,31 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 --- a/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264chroma.S	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264chroma.S	2000-01-01 00:00:00.000000000 +0800
 @@ -0,0 +1,2 @@
-+// Automatically generated on Fri Jul  3 14:38:49 2026. See crbug.com/495833.
++// Automatically generated on Sat Aug 29 15:00:06 2026. See crbug.com/495833.
 +#include "../../third_party/ffmpeg/libavcodec/loongarch/h264chroma.S"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264dsp.S b/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264dsp.S
 --- a/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264dsp.S	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264dsp.S	2000-01-01 00:00:00.000000000 +0800
 @@ -0,0 +1,2 @@
-+// Automatically generated on Fri Jul  3 14:38:49 2026. See crbug.com/495833.
++// Automatically generated on Sat Aug 29 15:00:06 2026. See crbug.com/495833.
 +#include "../../third_party/ffmpeg/libavcodec/loongarch/h264dsp.S"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264idct.S b/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264idct.S
 --- a/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264idct.S	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264idct.S	2000-01-01 00:00:00.000000000 +0800
 @@ -0,0 +1,2 @@
-+// Automatically generated on Fri Jul  3 14:38:49 2026. See crbug.com/495833.
++// Automatically generated on Sat Aug 29 15:00:06 2026. See crbug.com/495833.
 +#include "../../third_party/ffmpeg/libavcodec/loongarch/h264idct.S"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264qpel.S b/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264qpel.S
 --- a/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264qpel.S	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/libavcodec/loongarch/autorename_libavcodec_loongarch_h264qpel.S	2000-01-01 00:00:00.000000000 +0800
 @@ -0,0 +1,2 @@
-+// Automatically generated on Fri Jul  3 14:38:49 2026. See crbug.com/495833.
++// Automatically generated on Sat Aug 29 15:00:06 2026. See crbug.com/495833.
 +#include "../../third_party/ffmpeg/libavcodec/loongarch/h264qpel.S"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/ffmpeg/libavutil/loongarch/autorename_libavutil_loongarch_cpu.c b/third_party/ffmpeg/libavutil/loongarch/autorename_libavutil_loongarch_cpu.c
 --- a/third_party/ffmpeg/libavutil/loongarch/autorename_libavutil_loongarch_cpu.c	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/ffmpeg/libavutil/loongarch/autorename_libavutil_loongarch_cpu.c	2000-01-01 00:00:00.000000000 +0800
 @@ -0,0 +1,2 @@
-+// Automatically generated on Fri Jul  3 14:38:49 2026. See crbug.com/495833.
++// Automatically generated on Sat Aug 29 15:00:06 2026. See crbug.com/495833.
 +#include "../../third_party/ffmpeg/libavutil/loongarch/cpu.c"
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/libvpx/source/config/linux/loongarch/vpx_config.h b/third_party/libvpx/source/config/linux/loongarch/vpx_config.h
 --- a/third_party/libvpx/source/config/linux/loongarch/vpx_config.h	2000-01-01 00:00:00.000000000 +0800
@@ -10726,13 +10717,16 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/xnnpack/BUILD.gn b/third_party/xnnpack/BUILD.gn
 --- a/third_party/xnnpack/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/xnnpack/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -1992,6 +1992,268 @@ if (current_cpu == "x64" || current_cpu
+@@ -2112,6 +2112,282 @@ if (current_cpu == "x64" || current_cpu
        ":xx-transposev_riscv64_standalone",
      ]
    }
 +} else if (current_cpu == "loong64") {
 +  if (build_with_chromium) {
 +    xnnpack_deps = [
++      ":bf16-f32-vcvt_loong64",
++      ":bf16-qs8-vcvt_loong64",
++      ":bf16-rminmax_loong64",
 +      ":configs_loong64",
 +      ":enums_loong64",
 +      ":f16-f32-vcvt_loong64",
@@ -10744,9 +10738,13 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      ":f16-vcos_loong64",
 +      ":f16-vexp_loong64",
 +      ":f16-vgelu_loong64",
++      ":f16-vlog_loong64",
 +      ":f16-vsin_loong64",
++      ":f16-vsqrt_loong64",
++      ":f16-vtanh_loong64",
 +      ":f32-argmaxpool_loong64",
 +      ":f32-avgpool_loong64",
++      ":f32-bf16-vcvt_loong64",
 +      ":f32-conv-hwc2chw_loong64",
 +      ":f32-dwconv2d-chw_loong64",
 +      ":f32-dwconv_loong64",
@@ -10864,6 +10862,9 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +
 +  if (build_with_internal_optimization_guide) {
 +    xnnpack_standalone_deps = [
++      ":bf16-f32-vcvt_loong64_standalone",
++      ":bf16-qs8-vcvt_loong64_standalone",
++      ":bf16-rminmax_loong64_standalone",
 +      ":configs_loong64_standalone",
 +      ":enums_loong64_standalone",
 +      ":f16-f32-vcvt_loong64_standalone",
@@ -10875,9 +10876,13 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      ":f16-vcos_loong64_standalone",
 +      ":f16-vexp_loong64_standalone",
 +      ":f16-vgelu_loong64_standalone",
++      ":f16-vlog_loong64_standalone",
 +      ":f16-vsin_loong64_standalone",
++      ":f16-vsqrt_loong64_standalone",
++      ":f16-vtanh_loong64_standalone",
 +      ":f32-argmaxpool_loong64_standalone",
 +      ":f32-avgpool_loong64_standalone",
++      ":f32-bf16-vcvt_loong64_standalone",
 +      ":f32-conv-hwc2chw_loong64_standalone",
 +      ":f32-dwconv2d-chw_loong64_standalone",
 +      ":f32-dwconv_loong64_standalone",
@@ -10995,7 +11000,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
  } else {
    xnnpack_deps = []
    if (build_with_internal_optimization_guide) {
-@@ -61787,6 +62049,7342 @@ if (current_cpu == "riscv64") {
+@@ -65520,6 +65796,7725 @@ if (current_cpu == "riscv64") {
        cflags = []
  
        sources = [
@@ -11025,6 +11030,175 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +}
 +
 +if (current_cpu == "loong64") {
++  if (build_with_chromium) {
++    source_set("bf16-f32-vcvt_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/bf16-f32-vcvt/gen/bf16-f32-vcvt-scalar-u2.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("bf16-f32-vcvt_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/bf16-f32-vcvt/gen/bf16-f32-vcvt-scalar-u2.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
++    source_set("bf16-qs8-vcvt_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/bf16-qs8-vcvt/gen/bf16-qs8-vcvt-scalar-imagic-u4.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("bf16-qs8-vcvt_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/bf16-qs8-vcvt/gen/bf16-qs8-vcvt-scalar-imagic-u4.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
++    source_set("bf16-rminmax_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/bf16-rminmax/gen/bf16-rmax-scalar-u2-acc2.c",
++        "src/src/bf16-rminmax/gen/bf16-rmin-scalar-u2-acc2.c",
++        "src/src/bf16-rminmax/gen/bf16-rminmax-scalar-u2-acc2.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("bf16-rminmax_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/bf16-rminmax/gen/bf16-rmax-scalar-u2-acc2.c",
++        "src/src/bf16-rminmax/gen/bf16-rmin-scalar-u2-acc2.c",
++        "src/src/bf16-rminmax/gen/bf16-rminmax-scalar-u2-acc2.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
 +  if (build_with_chromium) {
 +    source_set("configs_loong64") {
 +      cflags = []
@@ -11691,6 +11865,61 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +  }
 +
 +  if (build_with_chromium) {
++    source_set("f16-vlog_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f16-vlog/gen/f16-vlog-scalar-rational-3-3-div.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("f16-vlog_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f16-vlog/gen/f16-vlog-scalar-rational-3-3-div.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
 +    source_set("f16-vsin_loong64") {
 +      cflags = []
 +
@@ -11723,6 +11952,116 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      sources = [
 +        "src/include/xnnpack.h",
 +        "src/src/f16-vsin/gen/f16-vsin-scalar-rational-3-2-div.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
++    source_set("f16-vsqrt_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f16-vsqrt/gen/f16-vsqrt-scalar-sqrt.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("f16-vsqrt_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f16-vsqrt/gen/f16-vsqrt-scalar-sqrt.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
++    source_set("f16-vtanh_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f16-vtanh/gen/f16-vtanh-scalar-expm1minus-rr1-p3h2ts-div.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("f16-vtanh_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f16-vtanh/gen/f16-vtanh-scalar-expm1minus-rr1-p3h2ts-div.c",
 +      ]
 +
 +      configs -= [ "//build/config/compiler:chromium_code" ]
@@ -11833,6 +12172,61 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      sources = [
 +        "src/include/xnnpack.h",
 +        "src/src/f32-avgpool/gen/f32-avgpool-9p-minmax-scalar-u1.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool:pthreadpool_standalone",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++
++      if (!(is_android && use_order_profiling)) {
++        assert_no_deps = [ "//base" ]
++      }
++    }
++  }
++
++  if (build_with_chromium) {
++    source_set("f32-bf16-vcvt_loong64") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f32-bf16-vcvt/gen/f32-bf16-vcvt-scalar-u2.c",
++      ]
++
++      configs -= [ "//build/config/compiler:chromium_code" ]
++      configs += [ "//build/config/compiler:no_chromium_code" ]
++      configs += [ "//build/config/sanitizers:cfi_icall_generalize_pointers" ]
++      configs += [ ":xnnpack_private_config" ]
++
++      deps = [
++        "//third_party/cpuinfo",
++        "//third_party/fp16",
++        "//third_party/fxdiv",
++        "//third_party/pthreadpool",
++      ]
++
++      public_configs = [ ":xnnpack_public_config" ]
++    }
++  }
++
++  # This is a target that cannot depend on //base.
++  if (build_with_internal_optimization_guide) {
++    source_set("f32-bf16-vcvt_loong64_standalone") {
++      cflags = []
++
++      sources = [
++        "src/include/xnnpack.h",
++        "src/src/f32-bf16-vcvt/gen/f32-bf16-vcvt-scalar-u2.c",
 +      ]
 +
 +      configs -= [ "//build/config/compiler:chromium_code" ]
@@ -12114,12 +12508,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      sources = [
 +        "src/include/xnnpack.h",
 +        "src/src/f32-gemm/gen/f32-gemm-1x4-minmax-scalar.c",
-+        "src/src/f32-gemm/gen/f32-gemm-1x4-relu-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-1x4-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x2-minmax-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x2-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x4-minmax-scalar.c",
-+        "src/src/f32-gemm/gen/f32-gemm-4x4-relu-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x4-scalar.c",
 +      ]
 +
@@ -12147,12 +12539,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      sources = [
 +        "src/include/xnnpack.h",
 +        "src/src/f32-gemm/gen/f32-gemm-1x4-minmax-scalar.c",
-+        "src/src/f32-gemm/gen/f32-gemm-1x4-relu-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-1x4-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x2-minmax-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x2-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x4-minmax-scalar.c",
-+        "src/src/f32-gemm/gen/f32-gemm-4x4-relu-scalar.c",
 +        "src/src/f32-gemm/gen/f32-gemm-4x4-scalar.c",
 +      ]
 +
@@ -12293,12 +12683,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      sources = [
 +        "src/include/xnnpack.h",
 +        "src/src/f32-igemm/gen/f32-igemm-1x4-minmax-scalar.c",
-+        "src/src/f32-igemm/gen/f32-igemm-1x4-relu-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-1x4-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x2-minmax-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x2-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x4-minmax-scalar.c",
-+        "src/src/f32-igemm/gen/f32-igemm-4x4-relu-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x4-scalar.c",
 +      ]
 +
@@ -12326,12 +12714,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +      sources = [
 +        "src/include/xnnpack.h",
 +        "src/src/f32-igemm/gen/f32-igemm-1x4-minmax-scalar.c",
-+        "src/src/f32-igemm/gen/f32-igemm-1x4-relu-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-1x4-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x2-minmax-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x2-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x4-minmax-scalar.c",
-+        "src/src/f32-igemm/gen/f32-igemm-4x4-relu-scalar.c",
 +        "src/src/f32-igemm/gen/f32-igemm-4x4-scalar.c",
 +      ]
 +
@@ -17021,6 +17407,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +        "src/src/subgraph/max-pooling-2d.c",
 +        "src/src/subgraph/pack-lh.c",
 +        "src/src/subgraph/reshape-helpers.c",
++        "src/src/subgraph/rewrites/fp16_to_fp32.cc",
 +        "src/src/subgraph/rope.c",
 +        "src/src/subgraph/softmax.c",
 +        "src/src/subgraph/space-to-depth-2d.c",
@@ -17075,6 +17462,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 +        "src/src/subgraph/max-pooling-2d.c",
 +        "src/src/subgraph/pack-lh.c",
 +        "src/src/subgraph/reshape-helpers.c",
++        "src/src/subgraph/rewrites/fp16_to_fp32.cc",
 +        "src/src/subgraph/rope.c",
 +        "src/src/subgraph/softmax.c",
 +        "src/src/subgraph/space-to-depth-2d.c",
@@ -18389,8 +18777,8 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/third_party/xnnpack/src/src/xnnpack/common.h b/third_party/xnnpack/src/src/xnnpack/common.h
 --- a/third_party/xnnpack/src/src/xnnpack/common.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/third_party/xnnpack/src/src/xnnpack/common.h	2000-01-01 00:00:00.000000000 +0800
-@@ -89,6 +89,12 @@
- #define XNN_ARCH_WASMRELAXEDSIMD 0
+@@ -100,6 +100,12 @@
+ #define XNN_ARCH_WASMRELAXEDSIMDFP16 0
  #endif
  
 +#if defined(__loongarch__)
@@ -18418,7 +18806,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/th
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/builtins/loong64/builtins-loong64.cc b/v8/src/builtins/loong64/builtins-loong64.cc
 --- a/v8/src/builtins/loong64/builtins-loong64.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/v8/src/builtins/loong64/builtins-loong64.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -2381,6 +2381,10 @@ void Builtins::Generate_CallOrConstructV
+@@ -2442,6 +2442,10 @@ void Builtins::Generate_CallOrConstructV
    Label stack_overflow;
    __ StackOverflowCheck(len, kScratchReg, a5, &stack_overflow);
  
@@ -18429,7 +18817,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
    // Move the arguments already in the stack,
    // including the receiver and the return address.
    // a4: Number of arguments to make room for.
-@@ -2390,12 +2394,11 @@ void Builtins::Generate_CallOrConstructV
+@@ -2451,12 +2455,11 @@ void Builtins::Generate_CallOrConstructV
  
    // Push arguments onto the stack (thisArgument is already on the stack).
    {
@@ -18443,7 +18831,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
      __ slli_d(scratch, len, kSystemPointerSizeLog2);
      __ Sub_d(scratch, sp, Operand(scratch));
  #if !V8_STATIC_ROOTS_BOOL
-@@ -2418,8 +2421,8 @@ void Builtins::Generate_CallOrConstructV
+@@ -2479,8 +2482,8 @@ void Builtins::Generate_CallOrConstructV
      __ Add_d(a7, a7, Operand(kSystemPointerSize));
      __ Add_d(scratch, scratch, Operand(kSystemPointerSize));
      __ Branch(&loop, ne, scratch, Operand(sp));
@@ -18456,50 +18844,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/codegen/loong64/macro-assembler-loong64.cc b/v8/src/codegen/loong64/macro-assembler-loong64.cc
 --- a/v8/src/codegen/loong64/macro-assembler-loong64.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/v8/src/codegen/loong64/macro-assembler-loong64.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -434,7 +434,7 @@ void MacroAssembler::LoadExternalPointer
-   if (tag_range.Size() == 1) {
-     // The common and simple case: we expect exactly one tag.
-     static_assert(kExternalPointerShiftedTagMask == 0x7f);
--    bstrpick_d(scratch, destination, kExternalPointerTagShift + 7,
-+    bstrpick_d(scratch, destination, kExternalPointerTagShift + 6,
-                kExternalPointerTagShift);
-     SbxCheck(eq, AbortReason::kExternalPointerTagMismatch, scratch,
-              Operand(tag_range.first));
-@@ -3214,6 +3214,21 @@ void MacroAssembler::Float64Mod(DoubleRe
-   bind(&done_mod);
- }
- 
-+void MacroAssembler::SelectWord(Register result, Register cond, Register v_true,
-+                                Register v_false) {
-+  if (v_false == zero_reg) {
-+    maskeqz(result, v_true, cond);
-+  } else if (v_true == zero_reg) {
-+    masknez(result, v_false, cond);
-+  } else {
-+    UseScratchRegisterScope temps(this);
-+    Register scratch = temps.Acquire();
-+    maskeqz(scratch, v_true, cond);
-+    masknez(result, v_false, cond);
-+    or_(result, scratch, result);
-+  }
-+}
-+
- void MacroAssembler::CompareWord(Condition cond, Register dst, Register lhs,
-                                  const Operand& rhs) {
-   switch (cond) {
-@@ -3515,9 +3530,9 @@ bool MacroAssembler::BranchShortOrFallba
-         if (rk.is_reg() && rj.code() == rk.rm().code()) {
-           // No code needs to be emitted.
-         } else if (IsZero(rk)) {
--          if (L->is_bound() && !is_near(L, OffsetSize::kOffset26)) return false;
-+          if (L->is_bound() && !is_near(L, OffsetSize::kOffset21)) return false;
-           if (need_link) pcaddi(ra, 2);
--          offset = GetOffset(L, OffsetSize::kOffset26);
-+          offset = GetOffset(L, OffsetSize::kOffset21);
-           bnez(rj, offset);
-         } else {
-           if (L->is_bound() && !is_near(L, OffsetSize::kOffset16)) return false;
-@@ -4273,12 +4288,15 @@ void MacroAssembler::StackOverflowCheck(
+@@ -4275,12 +4275,15 @@ void MacroAssembler::StackOverflowCheck(
    // interruptions (e.g. debug break and preemption) here, so the "real stack
    // limit" is checked.
  
@@ -18516,40 +18861,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
    // Signed comparison.
    Branch(stack_overflow, le, scratch1, Operand(scratch2));
  }
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/codegen/loong64/macro-assembler-loong64.h b/v8/src/codegen/loong64/macro-assembler-loong64.h
---- a/v8/src/codegen/loong64/macro-assembler-loong64.h	2000-01-01 00:00:00.000000000 +0800
-+++ b/v8/src/codegen/loong64/macro-assembler-loong64.h	2000-01-01 00:00:00.000000000 +0800
-@@ -142,6 +142,10 @@ class V8_EXPORT_PRIVATE MacroAssembler :
-   // Print a message to stdout and abort execution.
-   void Abort(AbortReason msg);
- 
-+  // Select v_true if cond is non-zero, otherwise select v_false.
-+  void SelectWord(Register result, Register cond, Register v_true,
-+                  Register v_false);
-+
-   void CompareWord(Condition cond, Register dst, Register lhs,
-                    const Operand& rhs);
-   void Branch(Label* label, bool need_link = false);
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/compiler/backend/loong64/code-generator-loong64.cc b/v8/src/compiler/backend/loong64/code-generator-loong64.cc
 --- a/v8/src/compiler/backend/loong64/code-generator-loong64.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/v8/src/compiler/backend/loong64/code-generator-loong64.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -1366,10 +1366,14 @@ CodeGenerator::CodeGenResult CodeGenerat
-     case kLoong64Sub_d:
-       __ Sub_d(i.OutputRegister(), i.InputRegister(0), i.InputOperand(1));
-       break;
--    case kLoong64SubOvf_d:
-+    case kLoong64SubOvf_d: {
-+      UseScratchRegisterScope temps(masm());
-+      DCHECK(temps.hasAvailable());
-+      temps.Exclude(t8);
-       __ SubOverflow_d(i.OutputRegister(), i.InputRegister(0),
-                        i.InputOperand(1), t8);
-       break;
-+    }
-     case kLoong64Mul_w:
-       __ Mul_w(i.OutputRegister(), i.InputRegister(0), i.InputOperand(1));
-       break;
-@@ -1503,10 +1507,10 @@ CodeGenerator::CodeGenResult CodeGenerat
+@@ -1551,10 +1551,10 @@ CodeGenerator::CodeGenResult CodeGenerat
      case kLoong64Bstrins_w:
        if (instr->InputAt(1)->IsImmediate() && i.InputInt8(1) == 0) {
          __ bstrins_w(i.OutputRegister(), zero_reg,
@@ -18563,7 +18878,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
        }
        break;
      case kLoong64Bstrpick_d: {
-@@ -1517,10 +1521,10 @@ CodeGenerator::CodeGenResult CodeGenerat
+@@ -1565,10 +1565,10 @@ CodeGenerator::CodeGenResult CodeGenerat
      case kLoong64Bstrins_d:
        if (instr->InputAt(1)->IsImmediate() && i.InputInt8(1) == 0) {
          __ bstrins_d(i.OutputRegister(), zero_reg,
@@ -18577,7 +18892,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
        }
        break;
      case kLoong64Sll_d:
-@@ -1901,10 +1905,6 @@ CodeGenerator::CodeGenResult CodeGenerat
+@@ -1958,10 +1958,6 @@ CodeGenerator::CodeGenResult CodeGenerat
      case kLoong64Float64ExtractHighWord32:
        __ movfrh2gr_s(i.OutputRegister(), i.InputDoubleRegister(0));
        break;
@@ -18588,218 +18903,10 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
      case kLoong64Float64InsertLowWord32:
        __ FmoveLow(i.OutputDoubleRegister(), i.InputRegister(1));
        break;
-@@ -4572,7 +4572,7 @@ void CodeGenerator::AssembleArchBoolean(
-     }
-     return;
-   } else {
--    PrintF("AssembleArchBranch Unimplemented arch_opcode is : %d\n",
-+    PrintF("AssembleArchBoolean Unimplemented arch_opcode is : %d\n",
-            instr->arch_opcode());
-     TRACE("UNIMPLEMENTED code_generator_loong64: %s at line %d\n", __FUNCTION__,
-           __LINE__);
-@@ -4627,56 +4627,49 @@ void CodeGenerator::AssembleArchSelect(I
-   size_t output_index = instr->OutputCount() - 1;
-   // We don't know how many inputs were consumed by the condition, so we have to
-   // calculate the indices of the last two inputs.
--  DCHECK_GE(instr->InputCount(), 4);
-   size_t true_value_index = instr->InputCount() - 2;
-   size_t false_value_index = instr->InputCount() - 1;
-+  Register result = i.OutputRegister(output_index);
-+  Register v_true = i.InputOrZeroRegister(true_value_index);
-+  Register v_false = i.InputOrZeroRegister(false_value_index);
-+
-+  DCHECK(
-+      LocationOperand::cast(instr->OutputAt(output_index))->representation() ==
-+      MachineRepresentation::kWord64);
- 
-   if (instr->arch_opcode() == kLoong64Tst) {
-+    DCHECK_GE(instr->InputCount(), 4);
-     Condition cc = FlagsConditionToConditionTst(condition);
--    Register result = i.OutputRegister(output_index);
--    Register v_true = i.InputOrZeroRegister(true_value_index);
--    Register v_false = i.InputOrZeroRegister(false_value_index);
--    if (v_true == zero_reg || v_false == zero_reg) {
--      if (v_true == zero_reg) {
--        v_true = v_false;
--        cc = NegateCondition(cc);
--      }
--      if (cc == eq)
--        __ masknez(result, v_true, t8);
--      else
--        __ maskeqz(result, v_true, t8);
--    } else if (result == v_true || result == v_false) {
--      if (result == v_false) {
--        v_false = v_true;
--        cc = NegateCondition(cc);
--      }
--      Label done;
--      __ Branch(&done, cc, t8, Operand(0));
--      __ Move(result, v_false);
--      __ bind(&done);
--    } else {
--      UseScratchRegisterScope temps(masm());
--      Register scratch = temps.Acquire();
--      if (cc == eq) {
--        Register temp = v_true;
--        v_true = v_false;
--        v_false = temp;
--      }
--      __ maskeqz(scratch, v_true, t8);
--      __ masknez(result, v_false, t8);
--      __ or_(result, scratch, result);
-+    if (cc == eq) {
-+      Register temp = v_true;
-+      v_true = v_false;
-+      v_false = temp;
-     }
-+    __ SelectWord(result, t8, v_true, v_false);
-     UseScratchRegisterScope temps(masm());
-     temps.Include(t8);
-     return;
-   } else if (instr->arch_opcode() == kLoong64Cmp64 ||
--             instr->arch_opcode() == kLoong64Cmp32) {
-+             instr->arch_opcode() == kLoong64Cmp32 ||
-+             instr->arch_opcode() == kArchStackPointerGreaterThan) {
-     Condition cc = FlagsConditionToConditionCmp(condition);
--    Register left = i.InputRegister(0);
--    Operand right = i.InputOperand(1);
--    Register result = i.OutputRegister(output_index);
--    Register v_true = i.InputOrZeroRegister(true_value_index);
--    Register v_false = i.InputOrZeroRegister(false_value_index);
-+    Register left = no_reg;
-+    Operand right = Operand(0);
-+    if (instr->arch_opcode() == kArchStackPointerGreaterThan) {
-+      DCHECK_GE(instr->InputCount(), 3);
-+      DCHECK((cc == ls) || (cc == hi));
-+      left = sp;
-+      right = i.InputOperand(0);
-+      uint32_t offset;
-+      if (ShouldApplyOffsetToStackCheck(instr, &offset)) {
-+        left = i.TempRegister(1);
-+        __ Sub_d(left, sp, offset);
-+      }
-+    } else {
-+      DCHECK_GE(instr->InputCount(), 4);
-+      left = i.InputRegister(0);
-+      right = i.InputOperand(1);
-+    }
-     if (v_true == zero_reg || v_false == zero_reg) {
-       if (v_true == zero_reg) {
-         v_true = v_false;
-@@ -4706,6 +4699,109 @@ void CodeGenerator::AssembleArchSelect(I
-       __ bind(&done);
-     }
-     return;
-+  } else if (instr->arch_opcode() == kLoong64Add_d ||
-+             instr->arch_opcode() == kLoong64Sub_d) {
-+    DCHECK_GE(instr->InputCount(), 4);
-+    Condition cc = FlagsConditionToConditionOvf(condition);
-+    if (cc == eq) {
-+      Register temp = v_true;
-+      v_true = v_false;
-+      v_false = temp;
-+      cc = ne;
-+    }
-+    UseScratchRegisterScope temps(masm());
-+    Register scratch1 = temps.Acquire();
-+    Register scratch2 = temps.Acquire();
-+    __ srai_d(scratch1, i.OutputRegister(), 32);
-+    __ srai_w(scratch2, i.OutputRegister(), 31);
-+    if (v_false == zero_reg) {
-+      __ xor_(scratch1, scratch1, scratch2);
-+      __ maskeqz(result, v_true, scratch1);
-+    } else if (v_true == zero_reg) {
-+      __ xor_(scratch1, scratch1, scratch2);
-+      __ masknez(result, v_false, scratch1);
-+    } else if (result == v_true || result == v_false) {
-+      if (result == v_false) {
-+        v_false = v_true;
-+        cc = NegateCondition(cc);
-+      }
-+      Label done;
-+      __ Branch(&done, cc, scratch2, Operand(scratch1));
-+      __ Move(result, v_false);
-+      __ bind(&done);
-+    } else {
-+      Label true_label, done;
-+      __ Branch(&true_label, cc, scratch2, Operand(scratch1));
-+      __ Move(result, v_false);
-+      __ Branch(&done);
-+      __ bind(&true_label);
-+      __ Move(result, v_true);
-+      __ bind(&done);
-+    }
-+    return;
-+  } else if (instr->arch_opcode() == kLoong64AddOvf_d ||
-+             instr->arch_opcode() == kLoong64SubOvf_d) {
-+    DCHECK_GE(instr->InputCount(), 4);
-+    // Overflow occurs if overflow register is negative
-+    Condition cc = lt;
-+    if (condition == kNotOverflow) {
-+      Register temp = v_true;
-+      v_true = v_false;
-+      v_false = temp;
-+    }
-+    if (v_false == zero_reg) {
-+      __ slt(t8, t8, zero_reg);
-+      __ maskeqz(result, v_true, t8);
-+    } else if (v_true == zero_reg) {
-+      __ slt(t8, t8, zero_reg);
-+      __ masknez(result, v_false, t8);
-+    } else if (result == v_true || result == v_false) {
-+      if (result == v_false) {
-+        v_false = v_true;
-+        cc = NegateCondition(cc);
-+      }
-+      Label done;
-+      __ Branch(&done, cc, t8, Operand(zero_reg));
-+      __ Move(result, v_false);
-+      __ bind(&done);
-+    } else {
-+      Label true_label, done;
-+      __ Branch(&true_label, cc, t8, Operand(zero_reg));
-+      __ Move(result, v_false);
-+      __ Branch(&done);
-+      __ bind(&true_label);
-+      __ Move(result, v_true);
-+      __ bind(&done);
-+    }
-+    UseScratchRegisterScope temps(masm());
-+    temps.Include(t8);
-+  } else if (instr->arch_opcode() == kLoong64MulOvf_w ||
-+             instr->arch_opcode() == kLoong64MulOvf_d) {
-+    DCHECK_GE(instr->InputCount(), 4);
-+    Condition cc = FlagsConditionToConditionOvf(condition);
-+    if (cc == eq) {
-+      Register temp = v_true;
-+      v_true = v_false;
-+      v_false = temp;
-+    }
-+    __ SelectWord(result, t8, v_true, v_false);
-+    UseScratchRegisterScope temps(masm());
-+    temps.Include(t8);
-+    return;
-+  } else if (instr->arch_opcode() == kLoong64Float32Cmp ||
-+             instr->arch_opcode() == kLoong64Float64Cmp) {
-+    bool predicate;
-+    FlagsConditionToConditionCmpFPU(&predicate, condition);
-+    UseScratchRegisterScope temps(masm());
-+    Register scratch = temps.Acquire();
-+    if (!predicate) {
-+      Register temp = v_true;
-+      v_true = v_false;
-+      v_false = temp;
-+    }
-+    __ movcf2gr(scratch, FCC0);
-+    __ SelectWord(result, scratch, v_true, v_false);
-+    return;
-   } else {
-     PrintF("AssembleArchSelect Unimplemented arch_opcode is : %d\n",
-            instr->arch_opcode());
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/compiler/backend/loong64/instruction-codes-loong64.h b/v8/src/compiler/backend/loong64/instruction-codes-loong64.h
 --- a/v8/src/compiler/backend/loong64/instruction-codes-loong64.h	2000-01-01 00:00:00.000000000 +0800
 +++ b/v8/src/compiler/backend/loong64/instruction-codes-loong64.h	2000-01-01 00:00:00.000000000 +0800
-@@ -151,7 +151,6 @@ namespace compiler {
+@@ -153,7 +153,6 @@ namespace compiler {
    V(Loong64Uint64ToFloat64)                          \
    V(Loong64Float64ExtractLowWord32)                  \
    V(Loong64Float64ExtractHighWord32)                 \
@@ -18810,51 +18917,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/compiler/backend/loong64/instruction-selector-loong64.cc b/v8/src/compiler/backend/loong64/instruction-selector-loong64.cc
 --- a/v8/src/compiler/backend/loong64/instruction-selector-loong64.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/v8/src/compiler/backend/loong64/instruction-selector-loong64.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -48,6 +48,20 @@ class Loong64OperandGenerator final : pu
-     return UseRegister(node);
-   }
- 
-+  InstructionOperand UseRegisterAtEndOrImmediateZero(OpIndex node) {
-+    if (const ConstantOp* constant =
-+            selector()->Get(node).TryCast<ConstantOp>()) {
-+      if ((constant->IsIntegral() && constant->integral() == 0) ||
-+          (constant->kind == ConstantOp::Kind::kFloat32 &&
-+           constant->float32().get_bits() == 0) ||
-+          (constant->kind == ConstantOp::Kind::kFloat64 &&
-+           constant->float64().get_bits() == 0)) {
-+        return UseImmediate(node);
-+      }
-+    }
-+    return UseRegisterAtEnd(node);
-+  }
-+
-   bool IsIntegerConstant(OpIndex node) {
-     int64_t unused;
-     return selector()->MatchSignedIntegralConstant(node, &unused);
-@@ -307,7 +321,7 @@ static void VisitBinop(InstructionSelect
-                        InstructionCode reverse_opcode,
-                        FlagsContinuation* cont) {
-   Loong64OperandGenerator g(selector);
--  InstructionOperand inputs[2];
-+  InstructionOperand inputs[4];
-   size_t input_count = 0;
-   InstructionOperand outputs[1];
-   size_t output_count = 0;
-@@ -331,6 +345,13 @@ static void VisitBinop(InstructionSelect
-     inputs[input_count++] = g.UseOperand(right_node, opcode);
-   }
- 
-+  if (cont->IsSelect()) {
-+    inputs[input_count++] =
-+        g.UseRegisterAtEndOrImmediateZero(cont->true_value());
-+    inputs[input_count++] =
-+        g.UseRegisterAtEndOrImmediateZero(cont->false_value());
-+  }
-+
-   outputs[output_count++] = g.DefineAsRegister(node);
- 
-   DCHECK_NE(0u, input_count);
-@@ -627,16 +648,18 @@ ArchOpcode GetLoadOpcode(turboshaft::Mem
+@@ -625,16 +625,18 @@ ArchOpcode GetLoadOpcode(turboshaft::Mem
        DCHECK_EQ(result_rep, RegisterRepresentation::Float64());
        return kLoong64Fld_d;
  #ifdef V8_COMPRESS_POINTERS
@@ -18875,7 +18938,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
        }
        DCHECK_EQ(result_rep, RegisterRepresentation::Tagged());
        return kLoong64LoadDecompressTaggedSigned;
-@@ -1910,7 +1933,7 @@ void VisitAtomicLoad(InstructionSelector
+@@ -1989,7 +1991,7 @@ void VisitAtomicLoad(InstructionSelector
      case MachineRepresentation::kCompressedPointer:  // Fall through.
      case MachineRepresentation::kCompressed:
        DCHECK(COMPRESS_POINTERS_BOOL);
@@ -18884,57 +18947,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
        break;
      default:
        UNREACHABLE();
-@@ -2061,7 +2084,7 @@ void VisitAtomicExchange(InstructionSele
-     inputs[2] = g.UseUniqueRegister(value);
-   }
-   InstructionOperand outputs[1];
--  outputs[0] = g.UseUniqueRegister(node);
-+  outputs[0] = g.DefineAsRegister(node);
-   InstructionOperand temps[3];
-   temps[0] = g.TempRegister();
-   temps[1] = g.TempRegister();
-@@ -2093,7 +2116,7 @@ void VisitAtomicCompareExchange(Instruct
-       has_write_barrier ? g.UseUniqueRegister(index) : g.UseRegister(index),
-       g.UseUniqueRegister(old_value), g.UseUniqueRegister(new_value)};
-   InstructionOperand outputs[1];
--  outputs[0] = g.UseUniqueRegister(node);
-+  outputs[0] = g.DefineAsRegister(node);
-   InstructionOperand temps[3];
-   temps[0] = g.TempRegister();
-   temps[1] = g.TempRegister();
-@@ -2120,11 +2143,11 @@ void VisitAtomicBinop(InstructionSelecto
-   AddressingMode addressing_mode = kMode_MRI;
-   InstructionOperand inputs[3];
-   size_t input_count = 0;
--  inputs[input_count++] = g.UseUniqueRegister(base);
--  inputs[input_count++] = g.UseUniqueRegister(index);
-+  inputs[input_count++] = g.UseRegister(base);
-+  inputs[input_count++] = g.UseRegister(index);
-   inputs[input_count++] = g.UseUniqueRegister(value);
-   InstructionOperand outputs[1];
--  outputs[0] = g.UseUniqueRegister(node);
-+  outputs[0] = g.DefineAsRegister(node);
-   InstructionOperand temps[4];
-   temps[0] = g.TempRegister();
-   temps[1] = g.TempRegister();
-@@ -2169,9 +2192,14 @@ void InstructionSelector::VisitStackPoin
-                                  ? OperandGenerator::kUniqueRegister
-                                  : OperandGenerator::kRegister;
- 
--  InstructionOperand inputs[] = {g.UseRegisterWithMode(value, register_mode)};
--  static constexpr int input_count = arraysize(inputs);
-+  InstructionOperand inputs[3];
-+  int input_count = 0;
-+  inputs[input_count++] = g.UseRegisterWithMode(value, register_mode);
- 
-+  if (cont->IsSelect()) {
-+    inputs[input_count++] = g.UseRegisterOrImmediateZero(cont->true_value());
-+    inputs[input_count++] = g.UseRegisterOrImmediateZero(cont->false_value());
-+  }
-   EmitWithContinuation(opcode, output_count, outputs, input_count, inputs,
-                        temp_count, temps, cont);
- }
-@@ -2516,9 +2544,10 @@ void InstructionSelector::VisitBitcastWo
+@@ -2600,9 +2602,10 @@ void InstructionSelector::VisitBitcastWo
    OpIndex hi = bitcast.high_word32();
    OpIndex lo = bitcast.low_word32();
  
@@ -18951,7 +18964,7 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
 diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/deoptimizer/translated-state.cc b/v8/src/deoptimizer/translated-state.cc
 --- a/v8/src/deoptimizer/translated-state.cc	2000-01-01 00:00:00.000000000 +0800
 +++ b/v8/src/deoptimizer/translated-state.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -1883,7 +1883,10 @@ Address TranslatedState::DecompressIfNee
+@@ -1840,7 +1840,10 @@ Address TranslatedState::DecompressIfNee
  #ifdef V8_TARGET_ARCH_LOONG64
        // The 32-bit compressed values are supposed to be sign-extended on
        // loongarch64.
@@ -19056,424 +19069,3 @@ diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8
    MacroAssembler::StoreTaggedField(
        value, FieldMemOperand(scratch, OFFSET_OF_DATA_START(FixedArray)));
  }
-@@ -1491,7 +1508,7 @@ inline void MaglevAssembler::ShiftRightL
- 
- inline void MaglevAssembler::LoadBitsFromWord32(Register dst, Register src,
-                                                 int width, int shift) {
--  Bstrpick_w(dst, src, shift + width, shift);
-+  Bstrpick_w(dst, src, shift + width - 1, shift);
- }
- 
- inline void MaglevAssembler::CompareInt32AndJumpIf(Register r1, Register r2,
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/test/cctest/BUILD.gn b/v8/test/cctest/BUILD.gn
---- a/v8/test/cctest/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-+++ b/v8/test/cctest/BUILD.gn	2000-01-01 00:00:00.000000000 +0800
-@@ -246,6 +246,10 @@ v8_cluster_source_set("cctest_sources")
-     if (is_win) {
-       sources += [ "test-stack-unwinding-win64.cc" ]
-     }
-+  } else if (v8_current_cpu == "loong64") {
-+    if (v8_enable_turbofan) {
-+      sources += [ "compiler/test-run-machops-select-loong64.cc" ]
-+    }
-   }
- 
-   if (v8_use_perfetto) {
-diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/test/cctest/compiler/test-run-machops-select-loong64.cc b/v8/test/cctest/compiler/test-run-machops-select-loong64.cc
---- a/v8/test/cctest/compiler/test-run-machops-select-loong64.cc	2000-01-01 00:00:00.000000000 +0800
-+++ b/v8/test/cctest/compiler/test-run-machops-select-loong64.cc	2000-01-01 00:00:00.000000000 +0800
-@@ -0,0 +1,394 @@
-+// Copyright 2026 the V8 project authors. All rights reserved. Use of this
-+// source code is governed by a BSD-style license that can be found in the
-+// LICENSE file.
-+
-+#include <cmath>
-+#include <functional>
-+#include <limits>
-+
-+#include "src/base/bits.h"
-+#include "src/base/ieee754.h"
-+#include "src/base/numerics/safe_conversions.h"
-+#include "src/base/overflowing-math.h"
-+#include "src/base/utils/random-number-generator.h"
-+#include "src/builtins/builtins.h"
-+#include "src/common/ptr-compr-inl.h"
-+#include "src/objects/objects-inl.h"
-+#include "src/utils/boxed-float.h"
-+#include "src/utils/utils.h"
-+#include "test/cctest/cctest.h"
-+#include "test/cctest/compiler/codegen-tester.h"
-+#include "test/common/flag-utils.h"
-+#include "test/common/value-helper.h"
-+
-+namespace v8 {
-+namespace internal {
-+namespace compiler {
-+
-+#define WORD_COMPARE(Cond, Type, TYPE, SIGN, v_true, v_false)          \
-+  {                                                                    \
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Type(),  \
-+                                                 MachineType::Type()); \
-+    if (!m.machine()->Word64Select().IsSupported()) {                  \
-+      return;                                                          \
-+    }                                                                  \
-+    Node* cmp = m.Cond(m.Parameter(0), m.Parameter(1));                \
-+    m.Return(m.Word64Select(cmp, m.Int64Constant(v_true),              \
-+                            m.Int64Constant(v_false)));                \
-+    FOR_##TYPE##_INPUTS(i) {                                           \
-+      FOR_##TYPE##_INPUTS(j) {                                         \
-+        CHECK_EQ(m.Call(i, j), (i SIGN j) ? v_true : v_false);         \
-+      }                                                                \
-+    }                                                                  \
-+  }
-+
-+TEST(RunSelectWord32Compare) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    WORD_COMPARE(Word32Equal, Int32, INT32, ==, v_true, v_false)
-+    WORD_COMPARE(Int32LessThan, Int32, INT32, <, v_true, v_false)
-+    WORD_COMPARE(Int32LessThanOrEqual, Int32, INT32, <=, v_true, v_false)
-+    WORD_COMPARE(Uint32LessThan, Uint32, UINT32, <, v_true, v_false)
-+    WORD_COMPARE(Uint32LessThanOrEqual, Uint32, UINT32, <=, v_true, v_false)
-+  }
-+}
-+
-+TEST(RunSelectWord64Compare) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    WORD_COMPARE(Word64Equal, Int64, INT64, ==, v_true, v_false)
-+    WORD_COMPARE(Int64LessThan, Int64, INT64, <, v_true, v_false)
-+    WORD_COMPARE(Int64LessThanOrEqual, Int64, INT64, <=, v_true, v_false)
-+    WORD_COMPARE(Uint64LessThan, Uint64, UINT64, <, v_true, v_false)
-+    WORD_COMPARE(Uint64LessThanOrEqual, Uint64, UINT64, <=, v_true, v_false)
-+  }
-+}
-+
-+TEST(RunSelectFloat32Compare) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    WORD_COMPARE(Float32Equal, Float32, FLOAT32, ==, v_true, v_false)
-+    WORD_COMPARE(Float32LessThan, Float32, FLOAT32, <, v_true, v_false)
-+    WORD_COMPARE(Float32LessThanOrEqual, Float32, FLOAT32, <=, v_true, v_false)
-+  }
-+}
-+
-+TEST(RunSelectFloat64Compare) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    WORD_COMPARE(Float64Equal, Float64, FLOAT64, ==, v_true, v_false)
-+    WORD_COMPARE(Float64LessThan, Float64, FLOAT64, <, v_true, v_false)
-+    WORD_COMPARE(Float64LessThanOrEqual, Float64, FLOAT64, <=, v_true, v_false)
-+  }
-+}
-+
-+#undef WORD_COMPARE
-+
-+TEST(RunSelectStackPointerGreaterThan) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Uint64());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    v8::RegisterState state;
-+#if defined(USE_SIMULATOR)
-+    SimulatorHelper simulator_helper;
-+    if (!simulator_helper.Init(CcTest::isolate())) return;
-+    simulator_helper.FillRegisters(&state);
-+    uint64_t sp = reinterpret_cast<uint64_t>(state.sp);
-+#else
-+    uint64_t sp = reinterpret_cast<uint64_t>(&state);
-+#endif
-+    Node* cmp = m.StackPointerGreaterThan(m.Parameter(0));
-+    m.Return(
-+        m.Word64Select(cmp, m.Int64Constant(v_true), m.Int64Constant(v_false)));
-+    FOR_UINT64_INPUTS(i) { CHECK_EQ(m.Call(i), sp > i ? v_true : v_false); }
-+  }
-+}
-+
-+TEST(RunSelectWord32AddOvf) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Int32(),
-+                                                 MachineType::Int32());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    Node* cal = m.Int32AddWithOverflow(m.Parameter(0), m.Parameter(1));
-+    Node* ovf = m.Projection(1, cal);
-+    m.Return(
-+        m.Word64Select(ovf, m.Int64Constant(v_true), m.Int64Constant(v_false)));
-+    int result;
-+    FOR_INT32_INPUTS(i) {
-+      FOR_INT32_INPUTS(j) {
-+        CHECK_EQ(m.Call(i, j), base::bits::SignedAddOverflow32(i, j, &result)
-+                                   ? v_true
-+                                   : v_false);
-+      }
-+    }
-+  }
-+}
-+
-+TEST(RunSelectWord32AddNotOvf) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Int32(),
-+                                                 MachineType::Int32());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    Node* cal = m.Int32AddWithOverflow(m.Parameter(0), m.Parameter(1));
-+    Node* ovf = m.Projection(1, cal);
-+    Node* not_ovf = m.Word32Equal(ovf, m.Int32Constant(0));
-+    m.Return(m.Word64Select(not_ovf, m.Int64Constant(v_true),
-+                            m.Int64Constant(v_false)));
-+    int result;
-+    FOR_INT32_INPUTS(i) {
-+      FOR_INT32_INPUTS(j) {
-+        CHECK_EQ(m.Call(i, j), base::bits::SignedAddOverflow32(i, j, &result)
-+                                   ? v_false
-+                                   : v_true);
-+      }
-+    }
-+  }
-+}
-+
-+TEST(RunSelectWord32SubOvf) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Int32(),
-+                                                 MachineType::Int32());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    Node* cal = m.Int32SubWithOverflow(m.Parameter(0), m.Parameter(1));
-+    Node* ovf = m.Projection(1, cal);
-+    m.Return(
-+        m.Word64Select(ovf, m.Int64Constant(v_true), m.Int64Constant(v_false)));
-+    int result;
-+    FOR_INT32_INPUTS(i) {
-+      FOR_INT32_INPUTS(j) {
-+        CHECK_EQ(m.Call(i, j), base::bits::SignedSubOverflow32(i, j, &result)
-+                                   ? v_true
-+                                   : v_false);
-+      }
-+    }
-+  }
-+}
-+
-+TEST(RunSelectWord32SubNotOvf) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Int32(),
-+                                                 MachineType::Int32());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    Node* cal = m.Int32SubWithOverflow(m.Parameter(0), m.Parameter(1));
-+    Node* ovf = m.Projection(1, cal);
-+    Node* not_ovf = m.Word32Equal(ovf, m.Int32Constant(0));
-+    m.Return(m.Word64Select(not_ovf, m.Int64Constant(v_true),
-+                            m.Int64Constant(v_false)));
-+    int result;
-+    FOR_INT32_INPUTS(i) {
-+      FOR_INT32_INPUTS(j) {
-+        CHECK_EQ(m.Call(i, j), base::bits::SignedSubOverflow32(i, j, &result)
-+                                   ? v_false
-+                                   : v_true);
-+      }
-+    }
-+  }
-+}
-+
-+TEST(RunSelectWord32MulOvf) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Int32(),
-+                                                 MachineType::Int32());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    Node* cal = m.Int32MulWithOverflow(m.Parameter(0), m.Parameter(1));
-+    Node* ovf = m.Projection(1, cal);
-+    m.Return(
-+        m.Word64Select(ovf, m.Int64Constant(v_true), m.Int64Constant(v_false)));
-+    int result;
-+    FOR_INT32_INPUTS(i) {
-+      FOR_INT32_INPUTS(j) {
-+        CHECK_EQ(m.Call(i, j), base::bits::SignedMulOverflow32(i, j, &result)
-+                                   ? v_true
-+                                   : v_false);
-+      }
-+    }
-+  }
-+}
-+
-+TEST(RunSelectWord32MulNotOvf) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Int32(),
-+                                                 MachineType::Int32());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    Node* cal = m.Int32MulWithOverflow(m.Parameter(0), m.Parameter(1));
-+    Node* ovf = m.Projection(1, cal);
-+    Node* not_ovf = m.Word32Equal(ovf, m.Int32Constant(0));
-+    m.Return(m.Word64Select(not_ovf, m.Int64Constant(v_true),
-+                            m.Int64Constant(v_false)));
-+    int result;
-+    FOR_INT32_INPUTS(i) {
-+      FOR_INT32_INPUTS(j) {
-+        CHECK_EQ(m.Call(i, j), base::bits::SignedMulOverflow32(i, j, &result)
-+                                   ? v_false
-+                                   : v_true);
-+      }
-+    }
-+  }
-+}
-+
-+TEST(RunSelectWord64AddOvf) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Int64(),
-+                                                 MachineType::Int64());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    Node* cal = m.Int64AddWithOverflow(m.Parameter(0), m.Parameter(1));
-+    Node* ovf = m.Projection(1, cal);
-+    m.Return(
-+        m.Word64Select(ovf, m.Int64Constant(v_true), m.Int64Constant(v_false)));
-+    int64_t result;
-+    FOR_INT64_INPUTS(i) {
-+      FOR_INT64_INPUTS(j) {
-+        CHECK_EQ(m.Call(i, j), base::bits::SignedAddOverflow64(i, j, &result)
-+                                   ? v_true
-+                                   : v_false);
-+      }
-+    }
-+  }
-+}
-+
-+TEST(RunSelectWord64AddNotOvf) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Int64(),
-+                                                 MachineType::Int64());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    Node* cal = m.Int64AddWithOverflow(m.Parameter(0), m.Parameter(1));
-+    Node* ovf = m.Projection(1, cal);
-+    Node* not_ovf = m.Word32Equal(ovf, m.Int32Constant(0));
-+    m.Return(m.Word64Select(not_ovf, m.Int64Constant(v_true),
-+                            m.Int64Constant(v_false)));
-+    int64_t result;
-+    FOR_INT64_INPUTS(i) {
-+      FOR_INT64_INPUTS(j) {
-+        CHECK_EQ(m.Call(i, j), base::bits::SignedAddOverflow64(i, j, &result)
-+                                   ? v_false
-+                                   : v_true);
-+      }
-+    }
-+  }
-+}
-+
-+TEST(RunSelectWord64SubOvf) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Int64(),
-+                                                 MachineType::Int64());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    Node* cal = m.Int64SubWithOverflow(m.Parameter(0), m.Parameter(1));
-+    Node* ovf = m.Projection(1, cal);
-+    m.Return(
-+        m.Word64Select(ovf, m.Int64Constant(v_true), m.Int64Constant(v_false)));
-+    int64_t result;
-+    FOR_INT64_INPUTS(i) {
-+      FOR_INT64_INPUTS(j) {
-+        CHECK_EQ(m.Call(i, j), base::bits::SignedSubOverflow64(i, j, &result)
-+                                   ? v_true
-+                                   : v_false);
-+      }
-+    }
-+  }
-+}
-+
-+TEST(RunSelectWord64SubNotOvf) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Int64(),
-+                                                 MachineType::Int64());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    Node* cal = m.Int64SubWithOverflow(m.Parameter(0), m.Parameter(1));
-+    Node* ovf = m.Projection(1, cal);
-+    Node* not_ovf = m.Word32Equal(ovf, m.Int32Constant(0));
-+    m.Return(m.Word64Select(not_ovf, m.Int64Constant(v_true),
-+                            m.Int64Constant(v_false)));
-+    int64_t result;
-+    FOR_INT64_INPUTS(i) {
-+      FOR_INT64_INPUTS(j) {
-+        CHECK_EQ(m.Call(i, j), base::bits::SignedSubOverflow64(i, j, &result)
-+                                   ? v_false
-+                                   : v_true);
-+      }
-+    }
-+  }
-+}
-+
-+TEST(RunSelectWord64MulOvf) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Int64(),
-+                                                 MachineType::Int64());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    Node* cal = m.Int64MulWithOverflow(m.Parameter(0), m.Parameter(1));
-+    Node* ovf = m.Projection(1, cal);
-+    m.Return(
-+        m.Word64Select(ovf, m.Int64Constant(v_true), m.Int64Constant(v_false)));
-+    int64_t result;
-+    FOR_INT64_INPUTS(i) {
-+      FOR_INT64_INPUTS(j) {
-+        CHECK_EQ(m.Call(i, j), base::bits::SignedMulOverflow64(i, j, &result)
-+                                   ? v_true
-+                                   : v_false);
-+      }
-+    }
-+  }
-+}
-+
-+TEST(RunSelectWord64MulNotOvf) {
-+  for (int64_t k = -50; k < 50; k++) {
-+    int64_t v_true = k % 5, v_false = k % 11;
-+    BufferedRawMachineAssemblerTester<int64_t> m(MachineType::Int64(),
-+                                                 MachineType::Int64());
-+    if (!m.machine()->Word64Select().IsSupported()) {
-+      return;
-+    }
-+    Node* cal = m.Int64MulWithOverflow(m.Parameter(0), m.Parameter(1));
-+    Node* ovf = m.Projection(1, cal);
-+    Node* not_ovf = m.Word32Equal(ovf, m.Int32Constant(0));
-+    m.Return(m.Word64Select(not_ovf, m.Int64Constant(v_true),
-+                            m.Int64Constant(v_false)));
-+    int64_t result;
-+    FOR_INT64_INPUTS(i) {
-+      FOR_INT64_INPUTS(j) {
-+        CHECK_EQ(m.Call(i, j), base::bits::SignedMulOverflow64(i, j, &result)
-+                                   ? v_false
-+                                   : v_true);
-+      }
-+    }
-+  }
-+}
-+
-+}  // namespace compiler
-+}  // namespace internal
-+}  // namespace v8

@@ -56,6 +56,8 @@ def classify(path):
         return "4007-loongarch64-gpu"
     if path.startswith("third_party/xnnpack/"):
         return "4008-loongarch64-xnnpack"
+    if path.startswith("v8/"):
+        return "4010-loongarch64-v8-backports"
     return "4009-loongarch64"
 
 

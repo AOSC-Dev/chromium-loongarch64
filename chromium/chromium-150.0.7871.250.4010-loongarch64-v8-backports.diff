@@ -1,0 +1,266 @@
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/builtins/loong64/builtins-loong64.cc b/v8/src/builtins/loong64/builtins-loong64.cc
+--- a/v8/src/builtins/loong64/builtins-loong64.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/v8/src/builtins/loong64/builtins-loong64.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -2442,6 +2442,10 @@ void Builtins::Generate_CallOrConstructV
+   Label stack_overflow;
+   __ StackOverflowCheck(len, kScratchReg, a5, &stack_overflow);
+ 
++  // Skip argument setup if we don't need to push any varargs.
++  Label done;
++  __ Branch(&done, eq, len, Operand(zero_reg));
++
+   // Move the arguments already in the stack,
+   // including the receiver and the return address.
+   // a4: Number of arguments to make room for.
+@@ -2451,12 +2455,11 @@ void Builtins::Generate_CallOrConstructV
+ 
+   // Push arguments onto the stack (thisArgument is already on the stack).
+   {
+-    Label done, push, loop;
++    Label push, loop;
+     Register src = a6;
+     Register scratch = t0;
+ 
+     __ addi_d(src, args, OFFSET_OF_DATA_START(FixedArray) - kHeapObjectTag);
+-    __ Branch(&done, eq, len, Operand(zero_reg));
+     __ slli_d(scratch, len, kSystemPointerSizeLog2);
+     __ Sub_d(scratch, sp, Operand(scratch));
+ #if !V8_STATIC_ROOTS_BOOL
+@@ -2479,8 +2482,8 @@ void Builtins::Generate_CallOrConstructV
+     __ Add_d(a7, a7, Operand(kSystemPointerSize));
+     __ Add_d(scratch, scratch, Operand(kSystemPointerSize));
+     __ Branch(&loop, ne, scratch, Operand(sp));
+-    __ bind(&done);
+   }
++  __ bind(&done);
+ 
+   // Tail-call to the actual Call or Construct builtin.
+   __ TailCallBuiltin(target_builtin);
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/codegen/loong64/macro-assembler-loong64.cc b/v8/src/codegen/loong64/macro-assembler-loong64.cc
+--- a/v8/src/codegen/loong64/macro-assembler-loong64.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/v8/src/codegen/loong64/macro-assembler-loong64.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -4275,12 +4275,15 @@ void MacroAssembler::StackOverflowCheck(
+   // interruptions (e.g. debug break and preemption) here, so the "real stack
+   // limit" is checked.
+ 
++  // Check if the arguments is negative.
++  slli_d(scratch2, num_args, kSystemPointerSizeLog2);
++  Branch(stack_overflow, lt, scratch2, Operand(zero_reg));
++
+   LoadStackLimit(scratch1, StackLimitKind::kRealStackLimit);
+   // Make scratch1 the space we have left. The stack might already be overflowed
+   // here which will cause scratch1 to become negative.
+   sub_d(scratch1, sp, scratch1);
+   // Check if the arguments will overflow the stack.
+-  slli_d(scratch2, num_args, kSystemPointerSizeLog2);
+   // Signed comparison.
+   Branch(stack_overflow, le, scratch1, Operand(scratch2));
+ }
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/compiler/backend/loong64/code-generator-loong64.cc b/v8/src/compiler/backend/loong64/code-generator-loong64.cc
+--- a/v8/src/compiler/backend/loong64/code-generator-loong64.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/v8/src/compiler/backend/loong64/code-generator-loong64.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -1551,10 +1551,10 @@ CodeGenerator::CodeGenResult CodeGenerat
+     case kLoong64Bstrins_w:
+       if (instr->InputAt(1)->IsImmediate() && i.InputInt8(1) == 0) {
+         __ bstrins_w(i.OutputRegister(), zero_reg,
+-                     i.InputInt8(1) + i.InputInt8(2) - 1, i.InputInt8(1));
++                     i.InputInt8(2) + i.InputInt8(3) - 1, i.InputInt8(2));
+       } else {
+-        __ bstrins_w(i.OutputRegister(), i.InputRegister(0),
+-                     i.InputInt8(1) + i.InputInt8(2) - 1, i.InputInt8(1));
++        __ bstrins_w(i.OutputRegister(), i.InputRegister(1),
++                     i.InputInt8(2) + i.InputInt8(3) - 1, i.InputInt8(2));
+       }
+       break;
+     case kLoong64Bstrpick_d: {
+@@ -1565,10 +1565,10 @@ CodeGenerator::CodeGenResult CodeGenerat
+     case kLoong64Bstrins_d:
+       if (instr->InputAt(1)->IsImmediate() && i.InputInt8(1) == 0) {
+         __ bstrins_d(i.OutputRegister(), zero_reg,
+-                     i.InputInt8(1) + i.InputInt8(2) - 1, i.InputInt8(1));
++                     i.InputInt8(2) + i.InputInt8(3) - 1, i.InputInt8(2));
+       } else {
+-        __ bstrins_d(i.OutputRegister(), i.InputRegister(0),
+-                     i.InputInt8(1) + i.InputInt8(2) - 1, i.InputInt8(1));
++        __ bstrins_d(i.OutputRegister(), i.InputRegister(1),
++                     i.InputInt8(2) + i.InputInt8(3) - 1, i.InputInt8(2));
+       }
+       break;
+     case kLoong64Sll_d:
+@@ -1958,10 +1958,6 @@ CodeGenerator::CodeGenResult CodeGenerat
+     case kLoong64Float64ExtractHighWord32:
+       __ movfrh2gr_s(i.OutputRegister(), i.InputDoubleRegister(0));
+       break;
+-    case kLoong64Float64FromWord32Pair:
+-      __ movgr2fr_w(i.OutputDoubleRegister(), i.InputRegister(1));
+-      __ movgr2frh_w(i.OutputDoubleRegister(), i.InputRegister(0));
+-      break;
+     case kLoong64Float64InsertLowWord32:
+       __ FmoveLow(i.OutputDoubleRegister(), i.InputRegister(1));
+       break;
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/compiler/backend/loong64/instruction-codes-loong64.h b/v8/src/compiler/backend/loong64/instruction-codes-loong64.h
+--- a/v8/src/compiler/backend/loong64/instruction-codes-loong64.h	2000-01-01 00:00:00.000000000 +0800
++++ b/v8/src/compiler/backend/loong64/instruction-codes-loong64.h	2000-01-01 00:00:00.000000000 +0800
+@@ -153,7 +153,6 @@ namespace compiler {
+   V(Loong64Uint64ToFloat64)                          \
+   V(Loong64Float64ExtractLowWord32)                  \
+   V(Loong64Float64ExtractHighWord32)                 \
+-  V(Loong64Float64FromWord32Pair)                    \
+   V(Loong64Float64InsertLowWord32)                   \
+   V(Loong64Float64InsertHighWord32)                  \
+   V(Loong64BitcastDL)                                \
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/compiler/backend/loong64/instruction-selector-loong64.cc b/v8/src/compiler/backend/loong64/instruction-selector-loong64.cc
+--- a/v8/src/compiler/backend/loong64/instruction-selector-loong64.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/v8/src/compiler/backend/loong64/instruction-selector-loong64.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -625,16 +625,18 @@ ArchOpcode GetLoadOpcode(turboshaft::Mem
+       DCHECK_EQ(result_rep, RegisterRepresentation::Float64());
+       return kLoong64Fld_d;
+ #ifdef V8_COMPRESS_POINTERS
++    // 32-bit compressed values should be sign-extended on loong64, so 'ld.w'
++    // is used here.
+     case MemoryRepresentation::AnyTagged():
+     case MemoryRepresentation::TaggedPointer():
+       if (result_rep == RegisterRepresentation::Compressed()) {
+-        return kLoong64Ld_wu;
++        return kLoong64Ld_w;
+       }
+       DCHECK_EQ(result_rep, RegisterRepresentation::Tagged());
+       return kLoong64LoadDecompressTagged;
+     case MemoryRepresentation::TaggedSigned():
+       if (result_rep == RegisterRepresentation::Compressed()) {
+-        return kLoong64Ld_wu;
++        return kLoong64Ld_w;
+       }
+       DCHECK_EQ(result_rep, RegisterRepresentation::Tagged());
+       return kLoong64LoadDecompressTaggedSigned;
+@@ -1989,7 +1991,7 @@ void VisitAtomicLoad(InstructionSelector
+     case MachineRepresentation::kCompressedPointer:  // Fall through.
+     case MachineRepresentation::kCompressed:
+       DCHECK(COMPRESS_POINTERS_BOOL);
+-      code = kLoong64Word64AtomicLoadUint32;
++      code = kAtomicLoadWord32;
+       break;
+     default:
+       UNREACHABLE();
+@@ -2600,9 +2602,10 @@ void InstructionSelector::VisitBitcastWo
+   OpIndex hi = bitcast.high_word32();
+   OpIndex lo = bitcast.low_word32();
+ 
+-  InstructionOperand temps[] = {g.TempRegister()};
+-  Emit(kLoong64Float64FromWord32Pair, g.DefineAsRegister(node), g.Use(hi),
+-       g.Use(lo), arraysize(temps), temps);
++  int vreg = g.AllocateVirtualRegister();
++  Emit(kLoong64Bstrins_d, g.DefineSameAsFirstForVreg(vreg), g.UseRegister(lo),
++       g.UseRegister(hi), g.TempImmediate(32), g.TempImmediate(32));
++  Emit(kLoong64BitcastLD, g.DefineAsRegister(node), g.UseRegisterForVreg(vreg));
+ }
+ 
+ void InstructionSelector::VisitFloat64SilenceNaN(OpIndex node) {
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/deoptimizer/translated-state.cc b/v8/src/deoptimizer/translated-state.cc
+--- a/v8/src/deoptimizer/translated-state.cc	2000-01-01 00:00:00.000000000 +0800
++++ b/v8/src/deoptimizer/translated-state.cc	2000-01-01 00:00:00.000000000 +0800
+@@ -1840,7 +1840,10 @@ Address TranslatedState::DecompressIfNee
+ #ifdef V8_TARGET_ARCH_LOONG64
+       // The 32-bit compressed values are supposed to be sign-extended on
+       // loongarch64.
+-      is_int32(value)) {
++      // Retain the validation logic to handle potentially zero-extended
++      // compressed values.
++      (is_int32(value) ||
++       static_cast<uintptr_t>(value) <= std::numeric_limits<uint32_t>::max())) {
+ #else
+       static_cast<uintptr_t>(value) <= std::numeric_limits<uint32_t>::max()) {
+ #endif
+diff '--color=auto' -p -X ../chromium-loongarch64/chromium/exclude -N -u -r a/v8/src/maglev/loong64/maglev-assembler-loong64-inl.h b/v8/src/maglev/loong64/maglev-assembler-loong64-inl.h
+--- a/v8/src/maglev/loong64/maglev-assembler-loong64-inl.h	2000-01-01 00:00:00.000000000 +0800
++++ b/v8/src/maglev/loong64/maglev-assembler-loong64-inl.h	2000-01-01 00:00:00.000000000 +0800
+@@ -532,10 +532,13 @@ inline void MaglevAssembler::BuildTypedA
+ inline MemOperand MaglevAssembler::TypedArrayElementOperand(
+     Register data_pointer, Register index, int element_size) {
+   const int shift = ShiftFromScale(element_size);
++  MaglevAssembler::TemporaryRegisterScope temps(this);
++  Register scratch = temps.AcquireScratch();
++  Bstrpick_d(scratch, index, 31, 0);
+   if (shift == 0) {
+-    Add_d(data_pointer, data_pointer, index);
++    Add_d(data_pointer, data_pointer, scratch);
+   } else {
+-    Alsl_d(data_pointer, index, data_pointer, shift);
++    Alsl_d(data_pointer, scratch, data_pointer, shift);
+   }
+   return MemOperand(data_pointer, 0);
+ }
+@@ -560,11 +563,16 @@ inline void MaglevAssembler::LoadTaggedF
+                                                     Register object,
+                                                     Register index, int scale,
+                                                     int offset) {
++  MaglevAssembler::TemporaryRegisterScope temps(this);
++  Register scratch = temps.AcquireScratch();
++  // Int32 inputs are sign-extended on loong64; ensure the index contributes a
++  // non-negative offset to the 64-bit element address.
++  Bstrpick_d(scratch, index, 31, 0);
+   const int shift = ShiftFromScale(scale);
+   if (shift == 0) {
+-    Add_d(result, object, index);
++    Add_d(result, object, scratch);
+   } else {
+-    Alsl_d(result, index, object, shift);
++    Alsl_d(result, scratch, object, shift);
+   }
+   LoadTaggedField(result, FieldMemOperand(result, offset));
+ }
+@@ -611,7 +619,10 @@ void MaglevAssembler::LoadFixedArrayElem
+     CompareInt32AndAssert(index, 0, kUnsignedGreaterThanEqual,
+                           AbortReason::kUnexpectedNegativeValue);
+   }
+-  Alsl_d(result, index, array, kTaggedSizeLog2);
++  MaglevAssembler::TemporaryRegisterScope temps(this);
++  Register scratch = temps.AcquireScratch();
++  Bstrpick_d(scratch, index, 31, 0);
++  Alsl_d(result, scratch, array, kTaggedSizeLog2);
+   MacroAssembler::LoadTaggedFieldWithoutDecompressing(
+       result, FieldMemOperand(result, OFFSET_OF_DATA_START(FixedArray)));
+ }
+@@ -627,7 +638,8 @@ void MaglevAssembler::LoadFixedDoubleArr
+   }
+   MaglevAssembler::TemporaryRegisterScope temps(this);
+   Register scratch = temps.AcquireScratch();
+-  Alsl_d(scratch, index, array, kDoubleSizeLog2);
++  Bstrpick_d(scratch, index, 31, 0);
++  Alsl_d(scratch, scratch, array, kDoubleSizeLog2);
+   Fld_d(result, FieldMemOperand(scratch, OFFSET_OF_DATA_START(FixedArray)));
+ }
+ 
+@@ -635,7 +647,8 @@ inline void MaglevAssembler::StoreFixedD
+     Register array, Register index, DoubleRegister value) {
+   MaglevAssembler::TemporaryRegisterScope temps(this);
+   Register scratch = temps.AcquireScratch();
+-  Alsl_d(scratch, index, array, kDoubleSizeLog2);
++  Bstrpick_d(scratch, index, 31, 0);
++  Alsl_d(scratch, scratch, array, kDoubleSizeLog2);
+   Fst_d(value, FieldMemOperand(scratch, OFFSET_OF_DATA_START(FixedArray)));
+ }
+ 
+@@ -672,8 +685,11 @@ inline void MaglevAssembler::SetSlotAddr
+ inline void MaglevAssembler::SetSlotAddressForFixedArrayElement(
+     Register slot_reg, Register object, Register index) {
+   DCHECK(!AreAliased(slot_reg, index));
++  MaglevAssembler::TemporaryRegisterScope temps(this);
++  Register scratch = temps.AcquireScratch();
+   Add_d(slot_reg, object, OFFSET_OF_DATA_START(FixedArray) - kHeapObjectTag);
+-  Alsl_d(slot_reg, index, slot_reg, kTaggedSizeLog2);
++  Bstrpick_d(scratch, index, 31, 0);
++  Alsl_d(slot_reg, scratch, slot_reg, kTaggedSizeLog2);
+ }
+ 
+ inline void MaglevAssembler::StoreTaggedFieldNoWriteBarrier(Register object,
+@@ -686,7 +702,8 @@ inline void MaglevAssembler::StoreFixedA
+     Register array, Register index, Register value) {
+   MaglevAssembler::TemporaryRegisterScope temps(this);
+   Register scratch = temps.AcquireScratch();
+-  Alsl_d(scratch, index, array, kTaggedSizeLog2);
++  Bstrpick_d(scratch, index, 31, 0);
++  Alsl_d(scratch, scratch, array, kTaggedSizeLog2);
+   MacroAssembler::StoreTaggedField(
+       value, FieldMemOperand(scratch, OFFSET_OF_DATA_START(FixedArray)));
+ }
